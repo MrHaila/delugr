@@ -1,11 +1,4 @@
 <template lang="pug">
-//- TODO:
-  - Dedicated component per four types of sections -> pass data as props
-  - Reusable list card? (stripes, hover, linking, ..., sorting, searching)
-  - Favicon
-  - Song modal (rename, delete, song length?, used instruments, broken instruments?, something else?)
-  - Netlify deploy
-
 div.min-h-full
   div.sticky.top-0.space-x-1.border-b.border-neutral-400.border-opacity-40.flex.items-stretch.items-center.h-10.shadow-lg.bg-gradient-to-b.from-neutral-200.to-neutral-300(class="dark:bg-neutral-700 dark:from-neutral-600 dark:to-neutral-700 dark:border-neutral-600 dark:border-opacity-40 z-50 md:px-5 justify-center md:justify-start")
     div.fill-current(class="hidden md:flex items-center")
