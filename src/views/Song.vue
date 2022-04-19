@@ -25,6 +25,9 @@ div.p-5(v-else).space-y-3
     h3.font-bold INSTRUMENTS
     div {{ collectionToArray(xmlInstruments) }}
 
+  h2.font-bold.text-xl Technical Details
+  p The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's an interactive tree view of the file so you can see how it all works!
+
   pre.rounded.bg-gray-300.p-3.text-xs.font-mono
     h3.font-bold RAW SONG
     div {{ xmlSong?.getAttributeNames().join('\n') }}
