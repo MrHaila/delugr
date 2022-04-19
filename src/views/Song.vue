@@ -9,15 +9,21 @@ div.p-5(v-else).space-y-3
     p Type: {{ file.type }}
     p Firmware: {{ xmlSong?.getAttribute('firmwareVersion') }} #[span.text-sm.font-light.text-gray-400 (compatible with {{ xmlSong?.getAttribute('earliestCompatibleFirmware') }})]
 
-  //- div
-  //-   p.font-bold(v-if="instruments") Instruments
-  //-   p {{ instruments }}
-  //-   //div(v-for="" :key="")
+  div
+    p.font-bold(v-if="instruments") Instruments
+    //p {{ instruments }}
+    div(v-for="(i, index) in instruments" :key="index")
+      p {{ i.tag }}: {{ i.preset }}
+      //p Polyphonic: {{ i.polyphonic }}
+      //p {{ i.attributes}}
 
+  div
+    p.font-bold Actions
+    HButton(variant="primary") Rename Song
 
-  pre.rounded.bg-gray-300.p-3.text-xs.font-mono(v-if="xmlInstruments")
+  //pre.rounded.bg-gray-300.p-3.text-xs.font-mono(v-if="xmlInstruments")
     h3.font-bold INSTRUMENTS
-    div {{ nodeListToArray(xmlInstruments).map(i => i.nodeName).join('\n') }}
+    div {{ collectionToArray(xmlInstruments) }}
 
   pre.rounded.bg-gray-300.p-3.text-xs.font-mono
     h3.font-bold RAW SONG
@@ -30,7 +36,7 @@ import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router'
 import { useStore } from '../store'
 import { DateTime } from 'luxon'
-import { indexedAccessType } from '@babel/types';
+import HButton from '../components/HButton.vue'
 
 const route = useRoute()
 const store = useStore()
@@ -49,18 +55,20 @@ const xmlSong = computed(() => {
 })
 
 const xmlInstruments = computed(() => {
-  return xmlSong.value?.getElementsByTagName('instruments').item(0)?.childNodes
+  return xmlSong.value?.getElementsByTagName('instruments').item(0)?.children
 })
 
-// const instruments = computed(() => {
-//   if (!xmlInstruments.value) return []
-//   return nodeListToArray(xmlInstruments.value).map(i => {
-//     return {
-//       name: i.nodeName,
-//       //nodeType: i.nodeType,
-//     }
-//   })
-// })
+const instruments = computed(() => {
+  if (!xmlInstruments.value) return []
+  return collectionToArray(xmlInstruments.value).map(i => {
+    return {
+      tag: i.tagName,
+      preset: i.hasAttribute('presetSlot') ? i.getAttribute('presetSlot') : i.getAttribute('presetName'),
+      //polyphonic: i.getAttribute('polyphonic'),
+      //attributes: Array.from(i.attributes).map(a => `${a.name}: ${a.value}`)
+    }
+  })
+})
 
 const parser = new DOMParser()
 
@@ -78,10 +86,11 @@ async function refreshFile () {
   //   store.songs.files[key].content = document
   // }
 }
+
 refreshFile()
 
-function nodeListToArray (list: NodeList) {
-  return Array.from(list).filter(i => i.nodeType === Node.ELEMENT_NODE)
+function collectionToArray (list: HTMLCollection) {
+  return Array.from(list)
 }
 
 </script>
