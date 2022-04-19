@@ -6,22 +6,15 @@ div.min-h-full
         logo
     div.font-semibold.px-3.flex.items-center(class="hidden md:flex")
       div Delugr
-    div(class="pt-2") {{ folderName }}
+    div(class="pt-2") {{ store.folderName }}
 
   div.container.mx-auto.px-4.my-8
-    div(v-if="folderName === undefined")
+    div(v-if="!store.folderName")
       h1 Select the Deluge memory card root folder to get started.
       h-button(@click="getFolder") Select folder
 
     div(v-else)
-      h-card
-        template(#title) Songs
-        dl(v-if="dFolders.songs" class="sm:divide-y sm:divide-gray-200")
-          div(v-for="file in dFolders.songs.files" :key="file.name" class="py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6")
-            dt(class="text-sm font-medium text-gray-900") {{ file.name.slice(0, -4) }}
-            dd(class="mt-1 text-sm text-gray-500 sm:mt-0 sm:col-span-2") {{ DateTime.fromMillis(file.lastModified).toFormat('yyyy-MM-dd') }}
-        div(v-else) No content
-
+      router-view
 </template>
 
 <script lang="ts" setup>
@@ -29,28 +22,19 @@ import Logo from './components/Logo.vue'
 import HButton from './components/HButton.vue'
 import HCard from './components/HCard.vue'
 import { ref, computed, reactive } from 'vue'
-import { DateTime } from 'luxon'
+import { useStore } from './store'
 
-interface DelugeFolders {
-  songs: {
-    handle: FileSystemDirectoryHandle,
-    files: File[]
-  } | null
-}
-
-const folderName = ref<string>()
-const dFolders: DelugeFolders = reactive({
-  songs: null
-})
+const store = useStore()
 
 async function getFolder() {
   // Ask for a folder
   const root = await window.showDirectoryPicker()
 
-  folderName.value = root.name
+  store.folderName = root.name
 
   // Check for content
   for await (const entry of root.values()) {
+    // Skip evaluating files
     if (entry.kind === 'file') return
 
     switch (entry.name.toUpperCase()) {
@@ -63,7 +47,12 @@ async function getFolder() {
             files.push(file)
           }
         }
-        dFolders.songs = { handle: entry as FileSystemDirectoryHandle, files }
+
+        // Save to store
+        store.songs = {
+          fsHandle: entry as FileSystemDirectoryHandle,
+          files
+        }
         break
     
       default:
