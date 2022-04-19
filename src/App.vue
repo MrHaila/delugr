@@ -1,40 +1,40 @@
 <template lang="pug">
-div.h-full.flex.flex-col
-  header.space-x-1.border-b.border-neutral-400.border-opacity-40.flex.items-stretch.items-center.h-10.shadow-lg.bg-gradient-to-b.from-neutral-200.to-neutral-300(class="dark:bg-neutral-700 dark:from-neutral-600 dark:to-neutral-700 dark:border-neutral-600 dark:border-opacity-40 md:px-5 justify-center md:justify-start")
-    div.fill-current(class="hidden md:flex items-center")
-      a(href="https://haila.fi" target="_blank").h-4
-        logo
-    div.font-semibold.px-3.flex.items-center(class="hidden md:flex")
-      div Delugr
-    div(class="pt-2") {{ store.folderName }}
+header.space-x-1.border-b.border-neutral-400.border-opacity-40.flex.items-stretch.items-center.h-10.shadow-lg.bg-gradient-to-b.from-neutral-200.to-neutral-300(class="dark:bg-neutral-700 dark:from-neutral-600 dark:to-neutral-700 dark:border-neutral-600 dark:border-opacity-40 md:px-5 justify-center md:justify-start")
+  div.fill-current(class="hidden md:flex items-center")
+    a(href="https://haila.fi" target="_blank").h-4
+      logo
+  div.font-semibold.px-3.flex.items-center(class="hidden md:flex")
+    div Delugr
+  div(class="pt-2") {{ store.folderName }}
 
-  div(v-if="!store.folderName").text-center.mt-20.space-y-3
-    h1 Select the Deluge memory card root folder to get started.
-    h-button(@click="getFolder") Select folder
+div(v-if="!store.folderName").text-center.mt-20.space-y-3
+  h1 Select the Deluge memory card root folder to get started.
+  h-button(@click="getFolder") Select folder
 
-  div(v-else).min-h-0.flex-1.flex.overflow-hidden
-    nav(aria-label="Sidebar").flex-shrink-0.bg-gray-800.overflow-y-auto
-      div.relative.w-20.flex.flex-col.p-3.space-y-3
-        sidebar-link(variant="songs")
-        sidebar-link(variant="synths")
-        sidebar-link(variant="kits")
-        sidebar-link(variant="samples")
+div(v-else).flex
+  nav(aria-label="Sidebar").flex-shrink-0.bg-gray-800
+    div.w-20.p-3.space-y-3
+      sidebar-link(variant="songs")
+      sidebar-link(variant="synths")
+      sidebar-link(variant="kits")
+      sidebar-link(variant="samples")
 
-    main.min-w-0.flex-1.border-t.border-gray-200.flex
-      aside.flex-shrink-0
-        div.h-full.relative.flex.flex-col.w-72.border-r.border-gray-200.bg-gray-100.overflow-y-auto
-          //- List bar
-          h1.pl-3.py-2.font-bold.border-b Songs
-          div.divide-y.divide-gray-200(v-if="store.songs")
-            router-link(:to="'/songs/' + file.name.slice(0, -4)" v-for="file in store.songs.files" :key="file.name")
-              div(:class="['flex justify-between p-3 cursor-pointer hover:bg-gray-300 text-sm', route.path.includes(file.name.slice(0, -4)) ? 'bg-gray-200' : '']")
-                dt(class="font-medium text-gray-900") {{ file.name.slice(0, -4) }}
-                dd(class="text-gray-500 mt-0 col-span-2") {{ DateTime.fromMillis(file.lastModified).toFormat('yyyy-MM-dd') }}
-          
-
-      section(aria-labelledby="primary-heading").min-w-0.flex-1.h-full.flex.flex-col.overflow-y-auto
-        router-view
-    
+  main.min-w-0.flex-1.flex
+    aside.shrink-0.border-r.border-gray-200.bg-gray-100.w-72.divide-y.divide-gray-200
+      //- List bar
+      h1.pl-3.py-2.font-bold Songs #[span.text-gray-600.font-normal.text-xs.bg-gray-400.text-white.rounded(class="py-0.5 px-1 ml-0.5") {{ store.songs ? Object.keys(store.songs.files).length : 0 }}]
+      router-link(
+        v-if="store.songs" :to="'/songs/' + key"
+        v-for="(file, key) in store.songs.files"
+        :key="key"
+        :class="['flex justify-between p-3 cursor-pointer text-sm', route.path.includes(String(key)) ? 'bg-amber-400' : 'hover:bg-gray-300']"
+      )
+        dt(class="font-medium text-gray-900") {{ key }}
+        dd(class="text-gray-500 mt-0 col-span-2") {{ DateTime.fromMillis(file.file.lastModified).toFormat('yyyy-MM-dd') }}
+        
+    section(aria-labelledby="primary-heading").min-w-0.flex-1.h-full.flex.flex-col.overflow-y-auto
+      router-view
+  
 </template>
 
 <script lang="ts" setup>
@@ -50,10 +50,6 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const store = useStore()
 
-function isRouteActive(test: string) {
-  return route.path.includes(test)
-}
-
 async function getFolder() {
   // Ask for a folder
   const root = await window.showDirectoryPicker()
@@ -68,11 +64,12 @@ async function getFolder() {
     switch (entry.name.toUpperCase()) {
       case 'SONGS':
         // List all song files
-        let files = []
+        const files = {} as any
         for await (const song of entry.values()) {
           if (song.kind === 'file') {
             const file = await song.getFile()
-            files.push(file)
+            const name = file.name.slice(0, -4)
+            files[name] = { file, content: null }
           }
         }
 

@@ -4,13 +4,13 @@ interface DelugrState {
   folderName: string | null,
   songs: {
     fsHandle: FileSystemDirectoryHandle,
-    files: File[]
+    files: {
+      [key: string]: {
+        file: File,
+        content: any,
+      }
+    }
   } | null
-}
-
-interface SongsFolder {
-  fsHandle: FileSystemDirectoryHandle,
-  files: File[]
 }
 
 export const useStore = defineStore('main', {

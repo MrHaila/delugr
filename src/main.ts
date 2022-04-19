@@ -13,6 +13,10 @@ const router = createRouter({
   routes: [
     { path: '/', component: Home },
     { path: '/songs/:name', component: Song },
+    { path: '/songs', component: Home },
+    { path: '/synths', component: Home },
+    { path: '/kits', component: Home },
+    { path: '/samples', component: Home },
   ],
 })
 
