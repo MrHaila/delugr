@@ -30,7 +30,7 @@ div(v-else).flex
         :class="['flex justify-between p-3 cursor-pointer text-sm', route.path.includes(String(key)) ? 'bg-amber-400' : 'hover:bg-gray-300']"
       )
         dt(class="font-medium text-gray-900") {{ key }}
-        dd(class="text-gray-500 mt-0 col-span-2") {{ DateTime.fromMillis(file.file.lastModified).toFormat('yyyy-MM-dd') }}
+        dd(class="text-gray-500 mt-0 col-span-2") {{ DateTime.fromMillis(file.fsFile.lastModified).toFormat('yyyy-MM-dd') }}
         
     section(aria-labelledby="primary-heading").min-w-0.flex-1.h-full.flex.flex-col.overflow-y-auto
       router-view
@@ -39,8 +39,6 @@ div(v-else).flex
 
 <script lang="ts" setup>
 import Logo from './components/Logo.vue'
-import HButton from './components/HButton.vue'
-import HCard from './components/HCard.vue'
 import SidebarLink from './components/SidebarLink.vue'
 import { ref, computed, reactive } from 'vue'
 import { useStore } from './store'
@@ -49,6 +47,25 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const store = useStore()
+
+const parser = new DOMParser()
+
+interface Instrument {
+  tag: string,
+  presetSlot: number,
+  presetName: string
+}
+
+interface Song {
+  fsFile: File,
+  document: Document,
+  parsedSong: {
+    name: string,
+    firmwareVersion: string,
+    earliestCompatibleFirmware: string,
+    instruments: Instrument[],
+  }
+}
 
 async function getFolder() {
   // Ask for a folder
@@ -64,12 +81,41 @@ async function getFolder() {
     switch (entry.name.toUpperCase()) {
       case 'SONGS':
         // List all song files
-        const files = {} as any
+        const files: { [key: string]: Song } = {}
         for await (const song of entry.values()) {
           if (song.kind === 'file') {
-            const file = await song.getFile()
-            const name = file.name.slice(0, -4)
-            files[name] = { file, content: null }
+            // Parse song file
+            const fsFile = await song.getFile()
+            if (!fsFile || fsFile.type !== 'text/xml') return
+
+            const name = fsFile.name.slice(0, -4)
+            const xml = await fsFile.text()
+            const document = parser.parseFromString(xml, "text/xml")
+            const xmlInstruments = document.querySelector('song > instuments')?.children
+            let instruments: Instrument[] = []
+
+            if (xmlInstruments) {
+              instruments = Array.from(xmlInstruments).map(i => {
+                return {
+                  tag: i.tagName,
+                  presetSlot: Number(i.hasAttribute('presetSlot')),
+                  presetName: String(i.getAttribute('presetName')),
+                  //polyphonic: i.getAttribute('polyphonic'),
+                  //attributes: Array.from(i.attributes).map(a => `${a.name}: ${a.value}`)
+                }
+              })
+            }
+
+            files[name] = {
+              fsFile,
+              document,
+              parsedSong: {
+                name,
+                firmwareVersion: String(document.querySelector('song')?.getAttribute('firmwareVersion')),
+                earliestCompatibleFirmware: String(document.querySelector('song')?.getAttribute('earliestCompatibleFirmware')),
+                instruments
+              }
+            }
           }
         }
 
@@ -79,7 +125,7 @@ async function getFolder() {
           files
         }
         break
-    
+
       default:
         console.log('Unknown folder: ' + entry.name)
         break

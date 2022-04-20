@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
@@ -7,6 +7,9 @@ import './index.css'
 
 import Home from './views/Home.vue'
 import Song from './views/Song.vue'
+
+import HCard from './components/HCard.vue'
+import HButton from './components/HButton.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -23,4 +26,6 @@ const router = createRouter({
 createApp(App)
   .use(createPinia())
   .use(router)
+  .component('HCard', HCard)
+  .component('HButton', HButton)
   .mount('#app')
