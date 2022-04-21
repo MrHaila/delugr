@@ -1,10 +1,11 @@
 <template lang="pug">
-h1.font-bold.text-4xl Songs
+page-base
+  h1.font-bold.text-4xl THE DELUGR
 
-h-card
-  template(#title) Songs
+  h-card
+    template(#title) Songs
 
-  span No content
+    span No content
 </template>
 
 <script lang="ts" setup>

@@ -1,40 +1,25 @@
 <template lang="pug">
-header.space-x-1.border-b.border-neutral-400.border-opacity-40.flex.items-stretch.items-center.h-10.shadow-lg.bg-gradient-to-b.from-neutral-200.to-neutral-300(class="dark:bg-neutral-700 dark:from-neutral-600 dark:to-neutral-700 dark:border-neutral-600 dark:border-opacity-40 md:px-5 justify-center md:justify-start")
-  div.fill-current(class="hidden md:flex items-center")
-    a(href="https://haila.fi" target="_blank").h-4
-      logo
-  div.font-semibold.px-3.flex.items-center(class="hidden md:flex")
-    div Delugr
-  div(class="pt-2") {{ store.folderName }}
-
 div(v-if="!store.folderName").text-center.mt-20.space-y-3
   h1 Select the Deluge memory card root folder to get started.
   h-button(@click="getFolder") Select folder
 
-div(v-else).flex
-  nav(aria-label="Sidebar").flex-shrink-0.bg-gray-800
-    div.w-20.p-3.space-y-3
-      sidebar-link(variant="songs")
-      sidebar-link(variant="synths")
-      sidebar-link(variant="kits")
-      sidebar-link(variant="samples")
+div(v-else class="flex h-screen overflow-hidden")
+  nav(aria-label="Sidebar" class="flex-shrink-0 bg-gray-800 flex flex-col justify-between text-gray-400")
+    div(class="space-y-3 py-3")
+      div(class="flex justify-center font-bold") Delugr
 
-  main.min-w-0.flex-1.flex
-    aside.shrink-0.border-r.border-gray-200.bg-gray-100.w-72.divide-y.divide-gray-200
-      //- List bar
-      h1.pl-3.py-2.font-bold Songs #[span.text-gray-600.font-normal.text-xs.bg-gray-400.text-white.rounded(class="py-0.5 px-1 ml-0.5") {{ store.songs ? Object.keys(store.songs.files).length : 0 }}]
-      router-link(
-        v-if="store.songs" :to="'/songs/' + key"
-        v-for="(file, key) in store.songs.files"
-        :key="key"
-        :class="['flex justify-between p-3 cursor-pointer text-sm', route.path.includes(String(key)) ? 'bg-amber-400' : 'hover:bg-gray-300']"
-      )
-        dt(class="font-medium text-gray-900") {{ key }}
-        dd(class="text-gray-500 mt-0 col-span-2") {{ DateTime.fromMillis(file.fsFile.lastModified).toFormat('yyyy-MM-dd') }}
-        
-    section(aria-labelledby="primary-heading").min-w-0.flex-1.h-full.flex.flex-col.overflow-y-auto
-      router-view
-  
+      div.w-20.p-3.space-y-3
+        sidebar-link(variant="songs")
+        sidebar-link(variant="synths")
+        sidebar-link(variant="kits")
+        sidebar-link(variant="samples")
+
+    div(class="fill-current flex justify-center")
+      a(href="https://haila.fi" target="_blank" class="h-4 mb-4")
+        logo
+
+  router-view
+
 </template>
 
 <script lang="ts" setup>
@@ -52,8 +37,8 @@ const parser = new DOMParser()
 
 interface Instrument {
   tag: string,
-  presetSlot: number,
-  presetName: string
+  presetSlot: number | null,
+  presetName: string | null,
 }
 
 interface Song {
@@ -91,15 +76,15 @@ async function getFolder() {
             const name = fsFile.name.slice(0, -4)
             const xml = await fsFile.text()
             const document = parser.parseFromString(xml, "text/xml")
-            const xmlInstruments = document.querySelector('song > instuments')?.children
+            const xmlInstruments = document.querySelector('song > instruments')?.children
             let instruments: Instrument[] = []
 
             if (xmlInstruments) {
               instruments = Array.from(xmlInstruments).map(i => {
                 return {
                   tag: i.tagName,
-                  presetSlot: Number(i.hasAttribute('presetSlot')),
-                  presetName: String(i.getAttribute('presetName')),
+                  presetSlot: i.hasAttribute('presetSlot') ? Number(i.getAttribute('presetSlot')) : null,
+                  presetName: i.getAttribute('presetName'),
                   //polyphonic: i.getAttribute('polyphonic'),
                   //attributes: Array.from(i.attributes).map(a => `${a.name}: ${a.value}`)
                 }
