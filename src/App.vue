@@ -14,6 +14,9 @@ div(v-else class="flex h-screen overflow-hidden")
         sidebar-link(variant="kits")
         sidebar-link(variant="samples")
 
+      div(class="flex justify-center")
+        RefreshIcon(aria-hidden="true" @click="refreshFolder" class="border border-gray-700 h-7 w-7 p-1 text-gray-400 hover:bg-gray-700 rounded")
+
     div(class="fill-current flex justify-center")
       a(href="https://haila.fi" target="_blank" class="h-4 mb-4")
         logo
@@ -29,92 +32,22 @@ import { ref, computed, reactive } from 'vue'
 import { useStore } from './store'
 import { DateTime } from 'luxon'
 import { useRoute } from 'vue-router'
+import { RefreshIcon } from '@heroicons/vue/solid'
+import { parseRootFolder } from './magic'
 
 const route = useRoute()
 const store = useStore()
 
-const parser = new DOMParser()
-
-interface Instrument {
-  tag: string,
-  presetSlot: number | null,
-  presetName: string | null,
-}
-
-interface Song {
-  fsFile: File,
-  document: Document,
-  parsedSong: {
-    name: string,
-    firmwareVersion: string,
-    earliestCompatibleFirmware: string,
-    instruments: Instrument[],
-  }
-}
+let rootFolder: FileSystemDirectoryHandle | null = null
 
 async function getFolder() {
   // Ask for a folder
-  const root = await window.showDirectoryPicker()
+  rootFolder = await window.showDirectoryPicker()
+  store.folderName = rootFolder.name
+  refreshFolder()
+}
 
-  store.folderName = root.name
-
-  // Check for content
-  for await (const entry of root.values()) {
-    // Skip evaluating files
-    if (entry.kind === 'file') return
-
-    switch (entry.name.toUpperCase()) {
-      case 'SONGS':
-        // List all song files
-        const files: { [key: string]: Song } = {}
-        for await (const song of entry.values()) {
-          if (song.kind === 'file') {
-            // Parse song file
-            const fsFile = await song.getFile()
-            if (!fsFile || fsFile.type !== 'text/xml') return
-
-            const name = fsFile.name.slice(0, -4)
-            const xml = await fsFile.text()
-            const document = parser.parseFromString(xml, "text/xml")
-            const xmlInstruments = document.querySelector('song > instruments')?.children
-            let instruments: Instrument[] = []
-
-            if (xmlInstruments) {
-              instruments = Array.from(xmlInstruments).map(i => {
-                return {
-                  tag: i.tagName,
-                  presetSlot: i.hasAttribute('presetSlot') ? Number(i.getAttribute('presetSlot')) : null,
-                  presetName: i.getAttribute('presetName'),
-                  //polyphonic: i.getAttribute('polyphonic'),
-                  //attributes: Array.from(i.attributes).map(a => `${a.name}: ${a.value}`)
-                }
-              })
-            }
-
-            files[name] = {
-              fsFile,
-              document,
-              parsedSong: {
-                name,
-                firmwareVersion: String(document.querySelector('song')?.getAttribute('firmwareVersion')),
-                earliestCompatibleFirmware: String(document.querySelector('song')?.getAttribute('earliestCompatibleFirmware')),
-                instruments
-              }
-            }
-          }
-        }
-
-        // Save to store
-        store.songs = {
-          fsHandle: entry as FileSystemDirectoryHandle,
-          files
-        }
-        break
-
-      default:
-        console.log('Unknown folder: ' + entry.name)
-        break
-    }
-  }
+function refreshFolder() {
+  if (rootFolder) parseRootFolder(store, rootFolder)
 }
 </script>
