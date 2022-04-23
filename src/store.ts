@@ -148,7 +148,8 @@ export interface DelugrState {
     navigationList: ListItem[],
     files: {
       [key: string]: Synth
-    }
+    },
+    usage: { [key: string]: number }
   } | null,
   kits: {
     fsHandle: FileSystemDirectoryHandle,

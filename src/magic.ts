@@ -19,10 +19,29 @@ export async function parseRootFolder(s: Store<"main", DelugrState, {}, {}>, fol
 
   if (Object.hasOwn(folders, 'SYNTHS')) await parseSynthsFolder(folders['SYNTHS'])
   if (Object.hasOwn(folders, 'SONGS')) await parseSongFolder(folders['SONGS'])
+  //if (Object.hasOwn(folders, 'KITS')) await parseKitsFolder(folders['KITS'])
+  //if (Object.hasOwn(folders, 'SAMPLES')) await parseSamplesFolder(folders['SAMPLES'])
+
+  computeSynthUsage()
+}
+
+function computeSynthUsage () {
+  if (store.synths && store.songs) {
+    for (const song of Object.values(store.songs.files)) {
+      for (const instrument of song.parsedSong.instruments) {
+        if (instrument.tag === 'sound' && instrument.presetName) {
+          const synth = store.synths.files[instrument.presetName]
+          if (synth) {
+            if (!store.synths.usage[instrument.presetName]) store.synths.usage[instrument.presetName] = 0
+            store.synths.usage[instrument.presetName]++
+          }
+        }
+      }
+    }
+  }
 }
 
 async function parseSongFolder (folder: FileSystemDirectoryHandle) {
-  console.log('Starting to parse the songs folder')
   const files: { [key: string]: Song } = {}
   const navigationList: ListItem[] = []
 
@@ -92,7 +111,6 @@ async function parseSongFolder (folder: FileSystemDirectoryHandle) {
     navigationList,
     files
   }
-  console.log('Finished parsing the songs folder')
 }
 
 function getAttributesAsObject(element: Element | null) {
@@ -107,7 +125,6 @@ function getAttributesAsObject(element: Element | null) {
 }
 
 async function parseSynthsFolder(folder: FileSystemDirectoryHandle) {
-  console.log('Starting to parse the synths folder')
   const files: { [key: string]: Synth } = {}
   const navigationList: ListItem[] = []
 
@@ -236,7 +253,7 @@ async function parseSynthsFolder(folder: FileSystemDirectoryHandle) {
   store.synths = {
     fsHandle: folder as FileSystemDirectoryHandle,
     navigationList,
-    files
+    files,
+    usage: {}
   }
-  console.log('Finished parsing the synths folder')
 }

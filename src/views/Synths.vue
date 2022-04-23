@@ -4,8 +4,17 @@ page-base(
   :listItems="store.synths?.navigationList ? store.synths.navigationList : []"
   :active="props.name || ''"
 )
-  div(v-if="!file" class="flex justify-center my-auto")
-    h1(class="font-bold text-xl text-gray-400") ⬅ Select a synth to get started
+  div(v-if="!file" class="space-y-3")
+    h1.font-bold.text-2xl You have {{ store.synths?.navigationList.length }} synths
+    p {{ usedSynths }} of them are currently in use in a song. That means {{ store.synths?.navigationList.length - usedSynths }} are not used at all.
+
+    div(class="flex")
+      h-card(class="max-w-md md:flex-1")
+        template(#title) Leaderboard #[badge {{ usedSynths }}]
+        div(class="divide-y divide-gray-200")
+          div(v-for="entry in Object.entries(store.synths?.usage).sort((a, b) => b[1] - a[1])" :key="entry[0]" class="py-2")
+            span {{ entry[1] }} - 
+            router-link(:to="'/synths/' + entry[0]" class="text-blue-500 hover:text-blue-600 hover:underline") {{ entry[0] }}
 
   div(v-else).space-y-3
     h1.font-bold.text-2xl Synth: {{ props.name }}
@@ -18,18 +27,27 @@ page-base(
         span(v-if="synth") Firmware: {{ synth?.firmwareVersion }} #[span.text-sm.font-light.text-gray-400 (compatible with {{ synth?.firmwareVersion }})]
         span(v-else) Firmware: Unknown
 
-    h-card(v-if="synth" class="max-w-md")
-      template(#title) Synth Settings
-      div(class="divide-y divide-gray-200")
-        div(class="py-2 flex flex-row")
-          div(class="basis-40") Synthesis mode
-          div {{ synth.mode }}
-        div(class="py-2 flex flex-row")
-          div(class="basis-40") Voice priority
-          div {{ synth.voicePriority }}
-        div(class="py-2 flex flex-row")
-          div(class="basis-40") Polyphonic
-          div {{ synth.polyphonic }}
+    div(class="flex space-x-3")
+      h-card(class="max-w-md md:flex-1")
+        template(#title) Song usage #[badge TBD]
+        div(class="divide-y divide-gray-200")
+          div(v-for="entry in store.synths?.usage[props.name]" :key="entry" class="py-2")
+            span {{ entry }} 
+            //router-link(:to="'/synths/' + entry[0]" class="text-blue-500 hover:text-blue-600 hover:underline") {{ entry[0] }}
+
+      h-card(v-if="synth" class="max-w-md md:flex-1")
+        template(#title) Synth Settings
+        div(class="divide-y divide-gray-200")
+          div(class="py-2 flex flex-row")
+            div(class="basis-40") Synthesis mode
+            div {{ synth.mode }}
+          div(class="py-2 flex flex-row")
+            div(class="basis-40") Voice priority
+            div {{ synth.voicePriority }}
+          div(class="py-2 flex flex-row")
+            div(class="basis-40") Polyphonic
+            div {{ synth.polyphonic }}
+
 
     p.font-bold Actions
     HButton(variant="primary") Rename Synth
@@ -57,4 +75,5 @@ const props = defineProps([
 
 const file = computed(() => props.name ? store.synths?.files[props.name]?.fsFile : null)
 const synth = computed(() => props.name ? store.synths?.files[props.name]?.parsedSynth : null)
+const usedSynths = computed(() => store.synths?.usage ? Object.keys(store.synths.usage).length : 0)
 </script>
