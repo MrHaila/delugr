@@ -7,6 +7,7 @@ import './index.css'
 
 import Home from './views/Home.vue'
 import Songs from './views/Songs.vue'
+import Synths from './views/Synths.vue'
 
 import HCard from './components/HCard.vue'
 import HButton from './components/HButton.vue'
@@ -19,7 +20,8 @@ const router = createRouter({
     { path: '/', component: Home },
     { path: '/songs/:name', component: Songs, props: true },
     { path: '/songs', component: Songs },
-    { path: '/synths', component: Home },
+    { path: '/synths/:name', component: Synths, props: true },
+    { path: '/synths', component: Synths },
     { path: '/kits', component: Home },
     { path: '/samples', component: Home },
   ],

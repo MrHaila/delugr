@@ -9,8 +9,8 @@ main(class="min-w-0 flex-1 flex")
       :to="item.url"
       :class="['flex justify-between p-3 cursor-pointer text-sm', item.active ? 'bg-amber-400' : 'hover:bg-gray-300']"
     )
-      dt(class="font-medium text-gray-900") {{ item.name }}
-      dd(class="text-gray-500 mt-0 col-span-2") {{ item.date.toFormat('yyyy-MM-dd') }}
+      dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name }}
+      dd(class="text-gray-500 mt-0 col-span-2") {{ item.date?.toFormat('yyyy-MM-dd') }}
 
     div(v-else)
       h1.text-center.text-gray-500.font-bold.p-4 No items
