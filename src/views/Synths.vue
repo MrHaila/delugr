@@ -34,8 +34,8 @@ page-base(
     p.font-bold Actions
     HButton(variant="primary") Rename Synth
 
-    h2.font-bold.text-xl Technical Details
-    p The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's an interactive tree view of the file so you can see how it all works!
+    //- h2.font-bold.text-xl Technical Details
+    //- p The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's an interactive tree view of the file so you can see how it all works!
 
     div(class="rounded bg-gray-200 border text-sm font-mono p-3")
       pre(v-if="synth")

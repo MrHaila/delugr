@@ -90,6 +90,7 @@ export interface Instrument {
   tag: string,
   presetSlot: number | null,
   presetName: string | null,
+  problem: boolean
 }
 
 export interface PatchCable {

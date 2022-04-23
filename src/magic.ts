@@ -7,17 +7,22 @@ const parser = new DOMParser()
 
 export async function parseRootFolder(s: Store<"main", DelugrState, {}, {}>, folder: FileSystemDirectoryHandle) {
   store = s
+
+  const folders: { [key: string]: FileSystemDirectoryHandle } = {}
+
   for await (const entry of folder.values()) {
     // Skip evaluating files instead of folders
     if (entry.kind === 'directory') {
-      if (entry.name.toUpperCase() === 'SONGS') parseSongFolder(entry)
-      else if (entry.name.toUpperCase() === 'SYNTHS') parseSynthsFolder(entry)
-      else console.log('Unknown folder: ' + entry.name)
+      folders[entry.name] = entry as FileSystemDirectoryHandle
     }
   }
+
+  if (Object.hasOwn(folders, 'SYNTHS')) await parseSynthsFolder(folders['SYNTHS'])
+  if (Object.hasOwn(folders, 'SONGS')) await parseSongFolder(folders['SONGS'])
 }
 
 async function parseSongFolder (folder: FileSystemDirectoryHandle) {
+  console.log('Starting to parse the songs folder')
   const files: { [key: string]: Song } = {}
   const navigationList: ListItem[] = []
 
@@ -34,21 +39,35 @@ async function parseSongFolder (folder: FileSystemDirectoryHandle) {
       let instruments: Instrument[] = []
 
       if (xmlInstruments) {
+        let problem = false
+
+        instruments = Array.from(xmlInstruments).map(i => {
+          let instrumentProblem = false
+          const presetSlot = i.hasAttribute('presetSlot') ? Number(i.getAttribute('presetSlot')) : null
+          const presetName = i.getAttribute('presetName')
+          
+          if (i.tagName === 'sound' && presetName && !store.synths?.navigationList.find(n => n.name.includes(presetName))) {
+            problem = true
+            instrumentProblem = true
+
+            console.log(`Synth ${presetName} not found in synths folder`)
+          }
+
+          return {
+            tag: i.tagName,
+            presetSlot,
+            presetName,
+            problem: instrumentProblem
+            //polyphonic: i.getAttribute('polyphonic'),
+            //attributes: Array.from(i.attributes).map(a => `${a.name}: ${a.value}`)
+          }
+        })
+
         navigationList.push({
           name: fsFile.name.slice(0, -4),
           date: DateTime.fromMillis(fsFile.lastModified),
           url: `/songs/${fsFile.name.slice(0, -4)}`,
-          problem: false
-        })
-
-        instruments = Array.from(xmlInstruments).map(i => {
-          return {
-            tag: i.tagName,
-            presetSlot: i.hasAttribute('presetSlot') ? Number(i.getAttribute('presetSlot')) : null,
-            presetName: i.getAttribute('presetName'),
-            //polyphonic: i.getAttribute('polyphonic'),
-            //attributes: Array.from(i.attributes).map(a => `${a.name}: ${a.value}`)
-          }
+          problem
         })
       }
 
@@ -65,12 +84,15 @@ async function parseSongFolder (folder: FileSystemDirectoryHandle) {
     }
   }
 
+  navigationList.sort((a, b) => a.name.localeCompare(b.name))
+
   // Save to store
   store.songs = {
     fsHandle: folder as FileSystemDirectoryHandle,
     navigationList,
     files
   }
+  console.log('Finished parsing the songs folder')
 }
 
 function getAttributesAsObject(element: Element | null) {
@@ -85,6 +107,7 @@ function getAttributesAsObject(element: Element | null) {
 }
 
 async function parseSynthsFolder(folder: FileSystemDirectoryHandle) {
+  console.log('Starting to parse the synths folder')
   const files: { [key: string]: Synth } = {}
   const navigationList: ListItem[] = []
 
@@ -207,10 +230,13 @@ async function parseSynthsFolder(folder: FileSystemDirectoryHandle) {
     }
   }
 
+  navigationList.sort((a, b) => a.name.localeCompare(b.name))
+
   // Save to store
   store.synths = {
     fsHandle: folder as FileSystemDirectoryHandle,
     navigationList,
     files
   }
+  console.log('Finished parsing the synths folder')
 }

@@ -9,7 +9,7 @@ main(class="min-w-0 flex-1 flex")
       :to="item.url"
       :class="['flex justify-between p-3 cursor-pointer text-sm', props.active === item.name ? 'bg-amber-400' : 'hover:bg-gray-300']"
     )
-      dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name }}
+      dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name }} #[exclamation-circle-icon(v-if="item.problem" class="h-4 inline text-red-400 align-text-top")]
       dd(class="text-gray-500 mt-0 col-span-2") {{ item.date.toFormat('yyyy-MM-dd') }}
 
     div(v-else)
@@ -20,7 +20,8 @@ main(class="min-w-0 flex-1 flex")
 </template>
 
 <script lang="ts" setup>
-import { DateTime } from 'luxon';
+import { DateTime } from 'luxon'
+import { ExclamationCircleIcon } from '@heroicons/vue/solid'
 
 interface Props {
   title: string,
