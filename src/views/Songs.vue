@@ -1,6 +1,8 @@
 <template lang="pug">
 page-base(
-  :list="{ title: 'Songs', listItems: store.songs ? Object.keys(store.songs.files).map(key => ({ url: `/songs/${key}`, name: key, active: props?.name === key, date: DateTime.fromMillis(store.songs?.files[key].fsFile.lastModified) })).sort((a, b) => a.name.localeCompare(b.name)) : [] }"
+  title="Songs"
+  :listItems="store.songs?.navigationList ? store.songs.navigationList : []"
+  :active="props.name || ''"
 )
   div(v-if="!file" class="flex justify-center my-auto")
     h1(class="font-bold text-xl text-gray-400") ⬅ Select a song to get started
@@ -45,8 +47,8 @@ const props = defineProps([
   'name'
 ])
 
-const file = computed(() => props.name ? store.songs?.files[props.name].fsFile : null)
-const parsedSong = computed(() => props.name ? store.songs?.files[props.name].parsedSong : null)
+const file = computed(() => props.name ? store.songs?.files[props.name]?.fsFile : null)
+const parsedSong = computed(() => props.name ? store.songs?.files[props.name]?.parsedSong : null)
 
 function tagToName(tag: string) {
   switch (tag) {

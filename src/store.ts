@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon'
 import { defineStore } from 'pinia'
 
 // XML format: https://docs.google.com/document/d/11DUuuE1LBYOVlluPA9McT1_dT4AofZ5jnUD5eHvj7Vs/edit
@@ -109,7 +110,7 @@ export class FixPos50 {
 
   constructor(value: string) {
     this._fixh = value
-    this._decimal = mapNumber(Number(value), 0, 50, -2147483648, 2147483647)
+    this._decimal = mapNumber(Number(value), -2147483648, 2147483647, 0, 50)
   }
 
   public get decimal() {
@@ -125,19 +126,35 @@ function mapNumber (num: number, in_min: number, in_max: number, out_min: number
   return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 }
 
+export interface ListItem {
+  name: string,
+  date: DateTime,
+  url: string,
+  problem: boolean,
+}
+
 export interface DelugrState {
   folderName: string | null,
   songs: {
     fsHandle: FileSystemDirectoryHandle,
+    navigationList: ListItem[],
     files: {
       [key: string]: Song
     }
   } | null,
   synths: {
     fsHandle: FileSystemDirectoryHandle,
+    navigationList: ListItem[],
     files: {
       [key: string]: Synth
     }
+  } | null,
+  kits: {
+    fsHandle: FileSystemDirectoryHandle,
+    navigationList: ListItem[],
+    // files: {
+    //   [key: string]: Synth
+    // }
   } | null
 }
 
@@ -146,7 +163,8 @@ export const useStore = defineStore('main', {
     return {
       folderName: null,
       songs: null,
-      synths: null
+      synths: null,
+      kits: null
     }
   }
 })

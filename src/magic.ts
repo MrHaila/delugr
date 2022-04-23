@@ -1,5 +1,6 @@
+import { DateTime } from 'luxon'
 import { Store } from 'pinia'
-import { Song, Instrument, DelugrState, Synth, Oscillator, FixPos50, Lfo, PatchCable, ModKnob } from './store'
+import { Song, Instrument, DelugrState, Synth, Oscillator, FixPos50, Lfo, PatchCable, ModKnob, ListItem } from './store'
 
 let store: Store<"main", DelugrState, {}, {}>
 const parser = new DOMParser()
@@ -18,6 +19,7 @@ export async function parseRootFolder(s: Store<"main", DelugrState, {}, {}>, fol
 
 async function parseSongFolder (folder: FileSystemDirectoryHandle) {
   const files: { [key: string]: Song } = {}
+  const navigationList: ListItem[] = []
 
   for await (const song of folder.values()) {
     if (song.kind === 'file') {
@@ -32,6 +34,13 @@ async function parseSongFolder (folder: FileSystemDirectoryHandle) {
       let instruments: Instrument[] = []
 
       if (xmlInstruments) {
+        navigationList.push({
+          name: fsFile.name.slice(0, -4),
+          date: DateTime.fromMillis(fsFile.lastModified),
+          url: `/songs/${fsFile.name.slice(0, -4)}`,
+          problem: false
+        })
+
         instruments = Array.from(xmlInstruments).map(i => {
           return {
             tag: i.tagName,
@@ -59,6 +68,7 @@ async function parseSongFolder (folder: FileSystemDirectoryHandle) {
   // Save to store
   store.songs = {
     fsHandle: folder as FileSystemDirectoryHandle,
+    navigationList,
     files
   }
 }
@@ -76,6 +86,7 @@ function getAttributesAsObject(element: Element | null) {
 
 async function parseSynthsFolder(folder: FileSystemDirectoryHandle) {
   const files: { [key: string]: Synth } = {}
+  const navigationList: ListItem[] = []
 
   for await (const file of folder.values()) {
     if (file.kind === 'file') {
@@ -89,6 +100,13 @@ async function parseSynthsFolder(folder: FileSystemDirectoryHandle) {
       const xmlSound = document.querySelector('sound')
 
       if (xmlSound) {
+        navigationList.push({
+          name: fsFile.name.slice(0, -4),
+          date: DateTime.fromMillis(fsFile.lastModified),
+          url: `/synths/${fsFile.name.slice(0, -4)}`,
+          problem: false
+        })
+
         if (String(xmlSound.getAttribute('earliestCompatibleFirmware'))[0] === '3') {
           files[name] = {
             fsFile,
@@ -192,6 +210,7 @@ async function parseSynthsFolder(folder: FileSystemDirectoryHandle) {
   // Save to store
   store.synths = {
     fsHandle: folder as FileSystemDirectoryHandle,
+    navigationList,
     files
   }
 }
