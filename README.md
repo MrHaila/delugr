@@ -1,14 +1,21 @@
-# Delugr
+# Delugr (WIP)
 
-The missing file manager for the Synthstrom Deluge.
+The missing file manager for the Synthstrom Deluge. Maybe. Some day.
 
-## Backlog
+Huge credit to Jamie Fenton for open-sourcing [Downrush](github.com/jamiefaye/downrush) and Rohan for making his [file format documentation](https://docs.google.com/document/d/11DUuuE1LBYOVlluPA9McT1_dT4AofZ5jnUD5eHvj7Vs/edit) available. Probably would have already stopped trying to parse the Deluge file format otherwise.
 
-- Song details (rename, delete, song length?, used instruments, broken instruments?, something else?)
-- Re-open same folder as last time to speed up HMR development
-- Reusable list card? (stripes, hover, linking, ..., sorting, searching)
-- Netlify deploy
-- Pass on colors
+## Future things that would make sense (backlog)
+
+- List kits
+- Kit song usage stats
+- Kit details page
+- List samples... somehow. Making a file browser would suck.
+- Actions to rename stuff (needs a bit of RnD on the web apis and how to surgically edit the original files without breaking anything)
+- List recordings?
+- Prettier everything
+- Responsive layout
+- Parsing synth data (of various firmwares and binary types) to reliably show the synth settings
+- Fancy-ass visualisations of synth settings to better understand them
 
 ## Technical Stuff
 
