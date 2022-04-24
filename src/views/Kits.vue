@@ -1,6 +1,6 @@
 <template lang="pug">
 page-base
-  h1.font-bold.text-4xl Home Page TBD
+  h1.font-bold.text-4xl Kits TBD
 </template>
 
 <script lang="ts" setup>

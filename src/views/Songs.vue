@@ -26,7 +26,7 @@ page-base(
             exclamation-circle-icon(v-if="i.problem" class="h-4 text-red-400")
       h-card(class="max-w-md md:flex-1")
         template(#title) Actions
-        HButton(variant="primary") Rename Song
+        h-button(variant="primary") Rename Song
 
     //- h2.font-bold.text-xl Technical Details
     //- p The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's an interactive tree view of the file so you can see how it all works!

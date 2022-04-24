@@ -2,7 +2,7 @@
 main(class="min-w-0 flex-1 flex")
   aside(v-if="props.listItems" class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-gray-200 overflow-y-auto")
     //- List bar
-    h1.pl-3.py-2.font-bold {{ props.title }} #[badge {{ props.listItems.length }}]
+    h1(v-if="props.title" class="pl-3 py-2 font-bold") {{ props.title }} #[badge {{ props.listItems.length }}]
     router-link(
       v-if="props.listItems.length > 0"
       v-for="item in props.listItems"
@@ -13,7 +13,7 @@ main(class="min-w-0 flex-1 flex")
       dd(class="text-gray-500 mt-0 col-span-2") {{ item.date.toFormat('yyyy-MM-dd') }}
 
     div(v-else)
-      h1.text-center.text-gray-500.font-bold.p-4 No items
+      h1(class="text-center text-gray-500 font-bold p-4") No items
       
   section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-slate-50")
     slot
@@ -24,8 +24,8 @@ import { DateTime } from 'luxon'
 import { ExclamationCircleIcon } from '@heroicons/vue/solid'
 
 interface Props {
-  title: string,
-  listItems: {
+  title?: string,
+  listItems?: {
     name: string,
     date: DateTime,
     url: string,

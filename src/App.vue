@@ -19,18 +19,16 @@ div(v-else class="flex h-screen overflow-hidden")
 
     div(class="fill-current flex justify-center")
       a(href="https://haila.fi" target="_blank" class="h-4 mb-4")
-        logo
+        h-logo
 
   router-view
 
 </template>
 
 <script lang="ts" setup>
-import Logo from './components/Logo.vue'
+import HLogo from './components/HLogo.vue'
 import SidebarLink from './components/SidebarLink.vue'
-import { ref, computed, reactive } from 'vue'
 import { useStore } from './store'
-import { DateTime } from 'luxon'
 import { useRoute } from 'vue-router'
 import { RefreshIcon } from '@heroicons/vue/solid'
 import { parseRootFolder } from './magic'

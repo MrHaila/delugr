@@ -8,11 +8,13 @@ import './index.css'
 import Home from './views/Home.vue'
 import Songs from './views/Songs.vue'
 import Synths from './views/Synths.vue'
+import Kits from './views/Kits.vue'
+import Samples from './views/Samples.vue'
 
 import HCard from './components/HCard.vue'
 import HButton from './components/HButton.vue'
 import PageBase from './components/PageBase.vue'
-import Badge from './components/Badge.vue'
+import HBadge from './components/HBadge.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -22,8 +24,10 @@ const router = createRouter({
     { path: '/songs', component: Songs },
     { path: '/synths/:name', component: Synths, props: true },
     { path: '/synths', component: Synths },
-    { path: '/kits', component: Home },
-    { path: '/samples', component: Home },
+    { path: '/kits/:name', component: Kits, props: true },
+    { path: '/kits', component: Kits },
+    { path: '/samples/:name', component: Samples, props: true },
+    { path: '/samples', component: Samples },
   ],
 })
 
@@ -33,5 +37,5 @@ createApp(App)
   .component('HCard', HCard)
   .component('HButton', HButton)
   .component('PageBase', PageBase)
-  .component('Badge', Badge)
+  .component('HBadge', HBadge)
   .mount('#app')
