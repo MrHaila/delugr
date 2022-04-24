@@ -10,7 +10,7 @@ page-base(
 
     div(class="flex")
       h-card(class="max-w-md md:flex-1")
-        template(#title) Leaderboard #[badge {{ usedSynths }}]
+        template(#title) Leaderboard #[h-badge {{ usedSynths }}]
         div(class="divide-y divide-gray-200")
           div(v-for="entry in Object.entries(store.synths?.usage).sort((a, b) => b[1] - a[1])" :key="entry[0]" class="py-2")
             span {{ entry[1] }} - 
@@ -29,7 +29,7 @@ page-base(
 
     div(class="flex space-x-3")
       h-card(class="max-w-md md:flex-1")
-        template(#title) Song usage #[badge TBD]
+        template(#title) Song usage #[h-badge TBD]
         div(class="divide-y divide-gray-200")
           div(v-for="entry in store.synths?.usage[props.name]" :key="entry" class="py-2")
             span {{ entry }} 

@@ -2,7 +2,7 @@
 main(class="min-w-0 flex-1 flex")
   aside(v-if="props.listItems" class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-gray-200 overflow-y-auto")
     //- List bar
-    h1(v-if="props.title" class="pl-3 py-2 font-bold") {{ props.title }} #[badge {{ props.listItems.length }}]
+    h1(v-if="props.title" class="pl-3 py-2 font-bold") {{ props.title }} #[h-badge {{ props.listItems.length }}]
     router-link(
       v-if="props.listItems.length > 0"
       v-for="item in props.listItems"

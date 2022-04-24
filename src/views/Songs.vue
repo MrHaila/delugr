@@ -17,7 +17,7 @@ page-base(
 
     div(class="flex space-x-3")
       h-card(v-if="parsedSong.instruments" class="max-w-md md:flex-1")
-        template(#title) Instruments #[badge {{ parsedSong.instruments.length }}]
+        template(#title) Instruments #[h-badge {{ parsedSong.instruments.length }}]
         div(class="divide-y divide-gray-200")
           div(v-for="(i, index) in parsedSong.instruments" :key="index" class="py-2 flex flex-row items-center space-x-1")
             div(class="basis-20") {{ tagToName(i.tag) }}
