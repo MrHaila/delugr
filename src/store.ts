@@ -88,7 +88,6 @@ export interface Envelope {
 
 export interface Instrument {
   tag: string,
-  presetSlot: number | null,
   presetName: string | null,
   problem: boolean
 }
@@ -105,13 +104,16 @@ export interface ModKnob {
   patchAmountFromSource?: string
 }
 
+/**
+ * A number between 0 and 50. Doesn't seem to work right 😢
+ */
 export class FixPos50 {
   private _fixh: string
   private _decimal: number
 
   constructor(value: string) {
     this._fixh = value
-    this._decimal = mapNumber(Number(value), -2147483648, 2147483647, 0, 50)
+    this._decimal = Math.round(mapNumber(Number(value), -2147483648, 2147483647, 0, 50))
   }
 
   public get decimal() {
@@ -149,7 +151,7 @@ export interface DelugrState {
     files: {
       [key: string]: Synth
     },
-    usage: { [key: string]: number }
+    usage: { [key: string]: string[] }
   } | null,
   kits: {
     fsHandle: FileSystemDirectoryHandle,

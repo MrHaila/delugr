@@ -21,8 +21,7 @@ page-base(
         div(class="divide-y divide-gray-200")
           div(v-for="(i, index) in parsedSong.instruments" :key="index" class="py-2 flex flex-row items-center space-x-1")
             div(class="basis-20") {{ tagToName(i.tag) }}
-            div(v-if="i.presetSlot") Slot {{ i.presetSlot }}
-            div(v-else): router-link(:to="'/synths/' + i.presetName" class="text-blue-500 hover:text-blue-600 hover:underline") {{ i.presetName }}
+            div: router-link(:to="'/synths/' + i.presetName" class="text-blue-500 hover:text-blue-600 hover:underline") {{ i.presetName }}
             exclamation-circle-icon(v-if="i.problem" class="h-4 text-red-400")
       h-card(class="max-w-md md:flex-1")
         template(#title) Actions

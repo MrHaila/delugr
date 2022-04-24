@@ -27,17 +27,21 @@ export async function parseRootFolder(s: Store<"main", DelugrState, {}, {}>, fol
 
 function computeSynthUsage () {
   if (store.synths && store.songs) {
+    const usage: { [key: string]: string[] } = {}
+
     for (const song of Object.values(store.songs.files)) {
       for (const instrument of song.parsedSong.instruments) {
         if (instrument.tag === 'sound' && instrument.presetName) {
           const synth = store.synths.files[instrument.presetName]
           if (synth) {
-            if (!store.synths.usage[instrument.presetName]) store.synths.usage[instrument.presetName] = 0
-            store.synths.usage[instrument.presetName]++
+            if (!usage[instrument.presetName]) usage[instrument.presetName] = [song.parsedSong.name]
+            else usage[instrument.presetName].push(song.parsedSong.name)
           }
         }
       }
     }
+
+    store.synths.usage = usage
   }
 }
 
@@ -62,8 +66,15 @@ async function parseSongFolder (folder: FileSystemDirectoryHandle) {
 
         instruments = Array.from(xmlInstruments).map(i => {
           let instrumentProblem = false
-          const presetSlot = i.hasAttribute('presetSlot') ? Number(i.getAttribute('presetSlot')) : null
-          const presetName = i.getAttribute('presetName')
+
+          // Old patches had slot numbers instead of names
+          // const presetSlot = i.hasAttribute('presetSlot') ? Number(i.getAttribute('presetSlot')) : null
+          let presetName = i.getAttribute('presetName') || ''
+          if (i.hasAttribute('presetSlot')) {
+            const slot = Number(i.getAttribute('presetSlot'))
+            if (slot < 99) presetName = `SYNT0${slot}`
+            else presetName = `SYNT${slot}`
+          }
           
           if (i.tagName === 'sound' && presetName && !store.synths?.navigationList.find(n => n.name.includes(presetName))) {
             problem = true
@@ -74,7 +85,6 @@ async function parseSongFolder (folder: FileSystemDirectoryHandle) {
 
           return {
             tag: i.tagName,
-            presetSlot,
             presetName,
             problem: instrumentProblem
             //polyphonic: i.getAttribute('polyphonic'),
@@ -134,16 +144,23 @@ async function parseSynthsFolder(folder: FileSystemDirectoryHandle) {
       if (!fsFile || fsFile.type !== 'text/xml') return
 
       const name = fsFile.name.slice(0, -4)
-      const xml = await fsFile.text()
-      const document = parser.parseFromString(xml, "text/xml")
+      let xml = await fsFile.text()
 
+      // 2.x synths are not valid XML (multiple root nodes)
+      if (xml.includes('<firmwareVersion>2')) {
+        const start = xml.indexOf('<firmwareVersion>2')
+        const end = xml.lastIndexOf('</earliestCompatibleFirmware>')
+        xml = xml.slice(0, start) + xml.slice(end + '</earliestCompatibleFirmware>'.length)
+      }
+
+      const document = parser.parseFromString(xml, "text/xml")
       const xmlSound = document.querySelector('sound')
 
       if (xmlSound) {
         navigationList.push({
-          name: fsFile.name.slice(0, -4),
+          name,
           date: DateTime.fromMillis(fsFile.lastModified),
-          url: `/synths/${fsFile.name.slice(0, -4)}`,
+          url: `/synths/${name}`,
           problem: false
         })
 
@@ -152,7 +169,7 @@ async function parseSynthsFolder(folder: FileSystemDirectoryHandle) {
             fsFile,
             document,
             parsedSynth: {
-              name: fsFile.name.slice(0, -4),
+              name,
               firmwareVersion: String(xmlSound.getAttribute('firmwareVersion')),
               earliestCompatibleFirmware: String(xmlSound.getAttribute('earliestCompatibleFirmware')),
               polyphonic: String(xmlSound.getAttribute('polyphonic')),
@@ -243,6 +260,11 @@ async function parseSynthsFolder(folder: FileSystemDirectoryHandle) {
             document
           }
         }
+      } else {
+        console.warn('Unable to parse synth: ', name)
+        console.log(xml)
+        console.log(document)
+        console.log(xmlSound)
       }
     }
   }
