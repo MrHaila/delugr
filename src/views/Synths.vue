@@ -66,8 +66,11 @@ page-base(
           div(class="basis-40") Release
           div {{ synth.env1.release.decimal }} - {{ synth.env1.release.fixh }}
 
-    p.font-bold Actions
-    h-button(variant="primary") Rename Synth
+    // h-card(class="max-w-md md:flex-1")
+      template(#title) Actions (TBD)
+      div(class="space-x-3")
+        h-button(variant="primary") Rename Synth
+        h-button(variant="primary") Delete Synth
 
     //- h2.font-bold.text-xl Technical Details
     //- p The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's an interactive tree view of the file so you can see how it all works!

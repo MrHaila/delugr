@@ -6,7 +6,8 @@ div(v-if="!store.folderName").text-center.mt-20.space-y-3
 div(v-else class="flex h-screen overflow-hidden")
   nav(aria-label="Sidebar" class="flex-shrink-0 bg-gray-800 flex flex-col justify-between text-gray-400")
     div(class="space-y-3 py-3")
-      div(class="flex justify-center font-bold") Delugr
+      div(class="flex justify-center font-bold")
+        router-link(to="/" class="hover:text-gray-50") Delugr
 
       div.w-20.p-3.space-y-3
         sidebar-link(variant="songs")
@@ -14,11 +15,11 @@ div(v-else class="flex h-screen overflow-hidden")
         sidebar-link(variant="kits")
         sidebar-link(variant="samples")
 
-      div(class="flex justify-center")
+      // div(class="flex justify-center")
         RefreshIcon(aria-hidden="true" @click="refreshFolder" class="border border-gray-700 h-7 w-7 p-1 text-gray-400 hover:bg-gray-700 rounded")
 
-    div(class="fill-current flex justify-center")
-      a(href="https://haila.fi" target="_blank" class="h-4 mb-4")
+    div(class="flex justify-center")
+      a(href="https://haila.fi" target="_blank" class="h-4 mb-4 fill-current text-gray-400 hover:text-gray-50")
         h-logo
 
   router-view

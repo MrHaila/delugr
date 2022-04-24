@@ -1,6 +1,8 @@
 import { DateTime } from 'luxon'
 import { Store } from 'pinia'
-import { Song, Instrument, DelugrState, Synth, Oscillator, FixPos50, Lfo, PatchCable, ModKnob, ListItem } from './store'
+import { FixPos50 } from './delugeUtils'
+import { DelugrState } from './store'
+import { Song, ListItem, Instrument, Synth, Oscillator, Lfo, PatchCable, ModKnob } from './types'
 
 let store: Store<"main", DelugrState, {}, {}>
 const parser = new DOMParser()
@@ -68,11 +70,11 @@ async function parseSongFolder (folder: FileSystemDirectoryHandle) {
           let instrumentProblem = false
 
           // Old patches had slot numbers instead of names
-          // const presetSlot = i.hasAttribute('presetSlot') ? Number(i.getAttribute('presetSlot')) : null
           let presetName = i.getAttribute('presetName') || ''
           if (i.hasAttribute('presetSlot')) {
             const slot = Number(i.getAttribute('presetSlot'))
-            if (slot < 99) presetName = `SYNT0${slot}`
+            if (slot < 10) presetName = `SYNT00${slot}`
+            else if (slot < 99) presetName = `SYNT0${slot}`
             else presetName = `SYNT${slot}`
           }
           
