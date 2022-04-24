@@ -1,8 +1,19 @@
-# Delugr (WIP)
+# Delugr (super wip alpha preview etc)
 
-The missing file manager for the Synthstrom Deluge. Maybe. Some day.
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4bc18d98-eeba-4601-857c-632ebe0d373a/deploy-status)](https://app.netlify.com/sites/delugr/deploys)
+
+The missing asset manager for the Synthstrom Deluge. Maybe. Some day.
 
 Huge credit to Jamie Fenton for open-sourcing [Downrush](github.com/jamiefaye/downrush) and Rohan for making his [file format documentation](https://docs.google.com/document/d/11DUuuE1LBYOVlluPA9McT1_dT4AofZ5jnUD5eHvj7Vs/edit) available. Probably would have already stopped trying to parse the Deluge file format otherwise.
+
+Main branch automatically builds to <https://delugr.haila.fi/>
+
+## Features
+
+- 100% browser based. Nothing to install!
+- Browse your songs and what instruments are used in them.
+- Browse synths and see what songs they are used in.
+- Detect songs with instruments that don't currently exist.
 
 ## Future things that would make sense (backlog)
 
