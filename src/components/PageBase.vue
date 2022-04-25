@@ -7,9 +7,10 @@ main(class="min-w-0 flex-1 flex")
       v-if="props.listItems.length > 0"
       v-for="item in props.listItems"
       :to="item.url"
-      :class="['flex justify-between p-3 cursor-pointer text-sm', props.active === item.name ? 'bg-amber-400' : 'hover:bg-gray-300']"
+      :class="['flex justify-between p-3 cursor-pointer text-sm', props.active === item.name ? 'bg-amber-400' : 'hover:bg-gray-300', (props.usage && !Object.hasOwn(props.usage, item.name)) ? 'bg-gray-200' : '']"
     )
-      dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name }} #[exclamation-circle-icon(v-if="item.problem" class="h-4 inline text-red-400 align-text-top")]
+      // dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name }} #[exclamation-circle-icon(v-if="item.problem" class="h-4 inline text-red-400 align-text-top")]
+      dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name }} #[span(v-if="props.usage && !Object.hasOwn(props.usage, item.name)" class="text-xs font-light text-gray-500") un-used]
       dd(class="text-gray-500 mt-0 col-span-2") {{ item.date.toFormat('yyyy-MM-dd') }}
 
     div(v-else)
@@ -31,7 +32,8 @@ interface Props {
     url: string,
     problem: boolean,
   }[],
-  active?: string
+  active?: string,
+  usage?: { [key: string]: string[] }
 }
 
 const props = defineProps<Props>()

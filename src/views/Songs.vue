@@ -12,22 +12,21 @@ page-base(
       div
         h1.font-bold.text-2xl Song: {{ props.name }}
         p Last modified: {{ DateTime.fromMillis(file.lastModified).toFormat('yyyy-MM-dd') }}
-      div(class="text-right origin-bottom flex flex-col-reverse")
+      div(v-if="parsedSong?.firmwareVersion !== 'null'" class="text-right origin-bottom flex flex-col-reverse")
         p.text-sm.font-light.text-gray-400 Compatible back to {{ parsedSong?.firmwareVersion }}
         p Firmware: {{ parsedSong?.firmwareVersion }}
-      // p Size: {{ file.size }} bytes
-      // p Type: {{ file.type }}
 
     div(class="flex space-x-3")
-      h-card(v-if="parsedSong.instruments" class="max-w-md md:flex-1")
+      h-card(v-if="parsedSong?.instruments" class="max-w-md md:flex-1")
         template(#title) Instruments #[h-badge {{ parsedSong.instruments.length }}]
         div(class="divide-y divide-gray-200")
           div(v-for="(i, index) in parsedSong.instruments" :key="index" class="py-2 flex flex-row items-center space-x-1")
             div(class="basis-20") {{ tagToName(i.tag) }}
             div
-              router-link(v-if="!i.problem" :to="'/synths/' + i.presetName" class="text-blue-500 hover:text-blue-600 hover:underline") {{ i.presetName }}
+              router-link(v-if="!i.problem && i.tag === 'sound'" :to="'/synths/' + i.presetName" class="text-blue-500 hover:text-blue-600 hover:underline") {{ i.presetName }}
+              router-link(v-else-if="!i.problem && i.tag === 'kit'" :to="'/kits/' + i.presetName" class="text-blue-500 hover:text-blue-600 hover:underline") {{ i.presetName }}
               span(v-else class="text-gray-400") {{ i.presetName }}
-            exclamation-circle-icon(v-if="i.problem" class="h-4 text-red-400")
+            // exclamation-circle-icon(v-if="i.problem" class="h-4 text-red-400")
       
       // h-card(class="max-w-md md:flex-1")
         template(#title) Actions (TBD)
@@ -45,7 +44,7 @@ page-base(
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useStore } from '../store'
 import { DateTime } from 'luxon'
 import { ExclamationCircleIcon } from '@heroicons/vue/solid'

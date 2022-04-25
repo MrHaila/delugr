@@ -12,8 +12,8 @@ Main branch automatically builds to <https://delugr.haila.fi/>
 
 - 100% browser based. Nothing to install!
 - Browse your songs and what instruments are used in them.
+- Easy navigation between songs and instruments via deep links when possible.
 - Browse synths and see what songs they are used in.
-- Detect songs with instruments that don't currently exist.
 
 ## Future things that would make sense (backlog)
 
