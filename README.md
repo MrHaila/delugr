@@ -11,15 +11,11 @@ Main branch automatically builds to <https://delugr.haila.fi/>
 ## Features
 
 - 100% browser based. Nothing to install!
-- Browse your songs and what instruments are used in them.
+- Browse your songs, synths and kits and see what instruments are used in them.
 - Easy navigation between songs and instruments via deep links when possible.
-- Browse synths and see what songs they are used in.
 
 ## Future things that would make sense (backlog)
 
-- List kits
-- Kit song usage stats
-- Kit details page
 - List samples... somehow. Making a file browser would suck.
 - Actions to rename stuff (needs a bit of RnD on the web apis and how to surgically edit the original files without breaking anything)
 - List recordings?
