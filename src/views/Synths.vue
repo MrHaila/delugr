@@ -3,6 +3,7 @@ page-base(
   title="Synths"
   :listItems="store.synths?.navigationList ? store.synths.navigationList : []"
   :active="props.name || ''"
+  :usage="store.synths?.usage"
 )
   //- Synth home page (nothing selected) ----------------
   div(v-if="!file && usedSynths" class="space-y-3")
@@ -19,7 +20,14 @@ page-base(
 
   //- Synth details page --------------------------------
   div(v-else-if="file && synth && usedSynths").space-y-3
-    h1.font-bold.text-2xl Synth: {{ props.name }}
+    div(class="flex flex-row justify-between")
+      div
+        h1.font-bold.text-2xl Synth: {{ props.name }}
+        p Last modified: {{ DateTime.fromMillis(file.lastModified).toFormat('yyyy-MM-dd') }}
+      div(v-if="synth?.firmwareVersion !== 'null'" class="text-right origin-bottom flex flex-col-reverse")
+        p.text-sm.font-light.text-gray-400 Compatible back to {{ synth?.firmwareVersion }}
+        p Firmware: {{ synth?.firmwareVersion }}
+
     div
       p.font-bold Details
       p Last modified: {{ DateTime.fromMillis(file.lastModified).toFormat('yyyy-MM-dd') }}

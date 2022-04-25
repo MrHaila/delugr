@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ListItem, Song, Synth } from './types'
+import { Kit, ListItem, Song, Synth } from './types'
 
 export interface DelugrState {
   folderName: string | null,
@@ -21,9 +21,10 @@ export interface DelugrState {
   kits: {
     fsHandle: FileSystemDirectoryHandle,
     navigationList: ListItem[],
-    // files: {
-    //   [key: string]: Synth
-    // }
+    files: {
+      [key: string]: Kit
+    },
+    usage: { [key: string]: string[] }
   } | null
 }
 
