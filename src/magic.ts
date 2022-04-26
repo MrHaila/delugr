@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 import { Store } from 'pinia'
 import { FixPos50 } from './delugeUtils'
 import { DelugrState } from './store'
-import { Song, ListItem, Instrument, Synth, Oscillator, Lfo, PatchCable, ModKnob, Kit, Delay, Envelope, Compressor, Equalizer, Arpeggiator, Sound } from './types'
+import { Song, ListItem, Instrument, Synth, Oscillator, Lfo, PatchCable, ModKnob, Kit, Delay, Envelope, Compressor, Equalizer, Arpeggiator, Sound, Sample } from './types'
 
 let store: Store<"main", DelugrState, {}, {}>
 const parser = new DOMParser()
@@ -22,12 +22,39 @@ export async function parseRootFolder(s: Store<"main", DelugrState, {}, {}>, fol
   if (Object.hasOwn(folders, 'SYNTHS')) await parseSynthsFolder(folders['SYNTHS'])
   if (Object.hasOwn(folders, 'KITS')) await parseKitsFolder(folders['KITS'])
   if (Object.hasOwn(folders, 'SONGS')) await parseSongsFolder(folders['SONGS'])
-  //if (Object.hasOwn(folders, 'SAMPLES')) await parseSamplesFolder(folders['SAMPLES'])
+  if (Object.hasOwn(folders, 'SAMPLES')) await parseSamplesFolder(folders['SAMPLES'])
 
   computeSynthUsage()
   computeKitsUsage()
 }
 
+async function parseSamplesFolder(folder: FileSystemDirectoryHandle) {
+  const allSamples: { [key: string]: Sample } = {}
+  
+  async function scanSampleFolder(folder: FileSystemDirectoryHandle, path: string) {
+    for await (const entry of folder.values()) {
+      if (entry.kind === 'file') {
+        const fsFile = await entry.getFile()
+        if (!fsFile || fsFile.type !== 'audio/wav') return
+  
+        const sample: Sample = {
+          name: fsFile.name.slice(0, -4),
+          path: `${path}/${fsFile.name}`,
+          usage: [],
+          fsFile
+        }
+        allSamples[`${path}/${fsFile.name}`.slice(0, -4)] = sample
+      } else if (entry.kind === 'directory') {
+        await scanSampleFolder(entry, `${path}/${entry.name}`)
+      }
+    }
+  }
+
+  await scanSampleFolder(folder, folder.name)
+  store.samples = allSamples
+}
+
+  
 async function parseKitsFolder(folder: FileSystemDirectoryHandle) {
   const files: { [key: string]: Kit } = {}
   const navigationList: ListItem[] = []

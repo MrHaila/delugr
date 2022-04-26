@@ -103,6 +103,13 @@ export interface Synth {
   parsedSynth?: Sound
 }
 
+export interface Sample {
+  name: string,
+  path: string,
+  usage: string[],
+  fsFile: File
+}
+
 export interface Oscillator {
   type?: 'square' | 'saw' | 'sine' | 'sample',
   transpose?: Number,

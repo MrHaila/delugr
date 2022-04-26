@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { Kit, ListItem, Song, Synth } from './types'
+import { Kit, ListItem, Song, Synth, Sample } from './types'
 
 export interface DelugrState {
   folderName: string | null,
@@ -25,7 +25,8 @@ export interface DelugrState {
       [key: string]: Kit
     },
     usage: { [key: string]: string[] }
-  } | null
+  } | null,
+  samples: { [key: string]: Sample } | null,
 }
 
 export const useStore = defineStore('main', {
@@ -34,7 +35,8 @@ export const useStore = defineStore('main', {
       folderName: null,
       songs: null,
       synths: null,
-      kits: null
+      kits: null,
+      samples: null
     }
   }
 })
