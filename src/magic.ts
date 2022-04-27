@@ -24,26 +24,25 @@ export async function parseRootFolder(s: Store<"main", DelugrState, {}, {}>, fol
   if (Object.hasOwn(folders, 'SONGS')) await parseSongsFolder(folders['SONGS'])
   if (Object.hasOwn(folders, 'SAMPLES')) await parseSamplesFolder(folders['SAMPLES'])
 
-  computeSynthUsage()
-  computeKitsUsage()
+  computeUsage()
 }
 
 async function parseSamplesFolder(folder: FileSystemDirectoryHandle) {
   const allSamples: { [key: string]: Sample } = {}
   
-  async function scanSampleFolder(folder: FileSystemDirectoryHandle, path: string) {
+  const scanSampleFolder = async (folder: FileSystemDirectoryHandle, path: string) => {
     for await (const entry of folder.values()) {
       if (entry.kind === 'file') {
         const fsFile = await entry.getFile()
-        if (!fsFile || fsFile.type !== 'audio/wav') return
-  
-        const sample: Sample = {
-          name: fsFile.name.slice(0, -4),
-          path: `${path}/${fsFile.name}`,
-          usage: [],
-          fsFile
+        if (fsFile && fsFile.type === 'audio/wav') {
+          const sample: Sample = {
+            name: fsFile.name.slice(0, -4),
+            path: `${path}/${fsFile.name}`,
+            usage: [],
+            fsFile
+          }
+          allSamples[`${path}/${fsFile.name}`] = sample
         }
-        allSamples[`${path}/${fsFile.name}`.slice(0, -4)] = sample
       } else if (entry.kind === 'directory') {
         await scanSampleFolder(entry, `${path}/${entry.name}`)
       }
@@ -51,10 +50,66 @@ async function parseSamplesFolder(folder: FileSystemDirectoryHandle) {
   }
 
   await scanSampleFolder(folder, folder.name)
-  store.samples = allSamples
+  store.samples = {
+    files: allSamples,
+    missing: []
+  }
 }
 
-  
+function computeUsage() {
+  if (store.synths && store.songs && store.kits && store.samples) {
+    const synthUsage: { [key: string]: string[] } = {}
+    const kitUsage: { [key: string]: string[] } = {}
+    const sampleUsage: { [key: string]: string[] } = {}
+
+    // For each instrument in each song...
+    for (const song of Object.values(store.songs.files)) {
+      for (const instrument of song.parsedSong.instruments) {
+        // Only handle instruments with valid names
+        if (instrument.presetName) {
+          // Synths and kits
+          if (instrument.tag === 'sound' && Object.hasOwn(store.synths.files, instrument.presetName)) {
+            if (!synthUsage[instrument.presetName]) synthUsage[instrument.presetName] = [song.parsedSong.name]
+            else synthUsage[instrument.presetName].push(song.parsedSong.name)
+
+            // Samples in synths
+            if (store.synths.files[instrument.presetName].parsedSynth?.osc1.fileName) checkSampleUsage(store.synths.files[instrument.presetName].parsedSynth?.osc1.fileName, instrument.presetName, 'synth')
+            if (store.synths.files[instrument.presetName].parsedSynth?.osc2.fileName) checkSampleUsage(store.synths.files[instrument.presetName].parsedSynth?.osc2.fileName, instrument.presetName, 'synth')
+          } else if (instrument.tag === 'kit' && Object.hasOwn(store.kits.files, instrument.presetName)) {
+            if (!kitUsage[instrument.presetName]) kitUsage[instrument.presetName] = [song.parsedSong.name]
+            else kitUsage[instrument.presetName].push(song.parsedSong.name)
+            // Samples in kits
+            for (const sample of Object.values(store.kits.files[instrument.presetName].parsedKit.soundSources)) {
+              if (sample.osc1.fileName) checkSampleUsage(sample.osc1.fileName, instrument.presetName, 'kit')
+              if (sample.osc2.fileName) checkSampleUsage(sample.osc2.fileName, instrument.presetName, 'kit')
+            }
+          }
+        }
+      }
+    }
+
+    store.synths.usage = synthUsage
+    store.kits.usage = kitUsage
+  }
+}
+
+function checkSampleUsage(sampleName: string | undefined, instrumentName: string, instrumentType: 'synth' | 'kit') {
+  if (!sampleName) return
+
+  // If sample doesn't exist, list it
+  if (!store.samples?.files[sampleName]) {
+    console.warn(`Sample ${sampleName} is missing form ${instrumentType} ${instrumentName}!`)
+    store.samples?.missing.push({ name: sampleName, sourceName: instrumentName, sourceType: instrumentType })
+  }
+  // If sample exists...
+  else {
+    // If current source is not already listed, add it
+    if (!store.samples?.files[sampleName].usage.find(usage => usage.sourceName === instrumentName && usage.sourceType === instrumentType)) {
+      store.samples?.files[sampleName].usage.push({ sourceName: instrumentName, sourceType: instrumentType })
+    }
+  }
+}
+
 async function parseKitsFolder(folder: FileSystemDirectoryHandle) {
   const files: { [key: string]: Kit } = {}
   const navigationList: ListItem[] = []
@@ -78,6 +133,9 @@ async function parseKitsFolder(folder: FileSystemDirectoryHandle) {
           problem: false
         })
 
+        console.log(xmlKit)
+
+        // This is the v3 format... TODO: older ones!
         files[name] = {
           fsFile,
           document,
@@ -94,11 +152,14 @@ async function parseKitsFolder(folder: FileSystemDirectoryHandle) {
             defaultParams: parseAllAttributes(xmlKit.querySelector('defaultParams')),
             equalizer: parseEqualizer(xmlKit.querySelector('defaultParams > equalizer')),
             soundSources: (() => {
-              const sounds: Sound[] = []
+              const sounds: { [key: string]: Sound } = {}
               const soundNodes = xmlKit.querySelectorAll('sound')
               for (let i = 0; i < soundNodes.length; i++) {
                 const xmlSound = soundNodes.item(i)
-                if (xmlSound) sounds.push(parseSound(xmlSound))
+                if (xmlSound) {
+                  const song = parseSound(xmlSound)
+                  sounds[song.name] = song
+                }
               }
               return sounds
             })()
@@ -117,40 +178,6 @@ async function parseKitsFolder(folder: FileSystemDirectoryHandle) {
     navigationList,
     files,
     usage: {}
-  }
-}
-
-function computeSynthUsage() {
-  if (store.synths && store.songs) {
-    const usage: { [key: string]: string[] } = {}
-
-    for (const song of Object.values(store.songs.files)) {
-      for (const instrument of song.parsedSong.instruments) {
-        if (instrument.tag === 'sound' && instrument.presetName && Object.hasOwn(store.synths.files, instrument.presetName)) {
-          if (!usage[instrument.presetName]) usage[instrument.presetName] = [song.parsedSong.name]
-          else usage[instrument.presetName].push(song.parsedSong.name)
-        }
-      }
-    }
-
-    store.synths.usage = usage
-  }
-}
-
-function computeKitsUsage() {
-  if (store.kits && store.songs) {
-    const usage: { [key: string]: string[] } = {}
-
-    for (const song of Object.values(store.songs.files)) {
-      for (const instrument of song.parsedSong.instruments) {
-        if (instrument.tag === 'kit' && instrument.presetName && Object.hasOwn(store.kits.files, instrument.presetName)) {
-          if (!usage[instrument.presetName]) usage[instrument.presetName] = [song.parsedSong.name]
-          else usage[instrument.presetName].push(song.parsedSong.name)
-        }
-      }
-    }
-
-    store.kits.usage = usage
   }
 }
 
@@ -194,8 +221,6 @@ async function parseSongsFolder (folder: FileSystemDirectoryHandle) {
           } else if (i.tagName === 'kit' && presetName && !store.kits?.navigationList.find(n => n.name.includes(presetName))) {
             problem = true
             instrumentProblem = true
-
-            console.log(`Kit ${presetName} not found in kits folder`)
           }
 
           return {
@@ -426,12 +451,13 @@ function parseSound(xml: Element, fileName?: string): Sound {
     env2: parseEnvelope(xml.querySelector('defaultParams > envelope2')),
     patchCables: parsePatchCables(xml.querySelector('defaultParams > patchCables')),
     equalizer: parseEqualizer(xml.querySelector('defaultParams > equalizer')),
+    name: 'Unknown 🤔'
   }
 
   if (xml.hasAttribute('name')) sound.name = String(xml.getAttribute('name'))
   else if (xml.querySelector('name')?.textContent) sound.name = String(xml.querySelector('name')?.textContent)
   else if (fileName) sound.name = fileName
-  else sound.name = 'Unknown 🤔'
+
   if (xml.hasAttribute('firmwareVersion')) sound.firmwareVersion = String(xml.getAttribute('firmwareVersion'))
   if (xml.hasAttribute('earliestCompatibleFirmware')) sound.earliestCompatibleFirmware = String(xml.getAttribute('earliestCompatibleFirmware'))
   if (xml.hasAttribute('polyphonic')) sound.polyphonic = String(xml.getAttribute('polyphonic'))

@@ -18,7 +18,7 @@ export interface Kit {
       [key: string]: FixPos50,
     },
     equalizer: Equalizer,
-    soundSources: Sound[]
+    soundSources: { [key: string]: Sound },
   }
 }
 
@@ -86,7 +86,7 @@ export interface Sound {
   modKnobs?: ModKnob[]
 
   // Not part of the spec
-  name?: string,
+  name: string,
   problem?: boolean
 }
 
@@ -106,7 +106,10 @@ export interface Synth {
 export interface Sample {
   name: string,
   path: string,
-  usage: string[],
+  usage: {
+    sourceName: string,
+    sourceType: 'kit' | 'synth' | 'song',
+   }[],
   fsFile: File
 }
 

@@ -26,7 +26,15 @@ export interface DelugrState {
     },
     usage: { [key: string]: string[] }
   } | null,
-  samples: { [key: string]: Sample } | null,
+  samples: {
+    files: {
+      [key: string]: Sample },
+    missing: { 
+      name: string,
+      sourceType: 'kit' | 'synth' | 'song',
+      sourceName: string,
+    }[]
+  } | null,
 }
 
 export const useStore = defineStore('main', {
