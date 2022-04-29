@@ -28,15 +28,6 @@ page-base(
         p.text-sm.font-light.text-gray-400 Compatible back to {{ synth?.firmwareVersion }}
         p Firmware: {{ synth?.firmwareVersion }}
 
-    div
-      p.font-bold Details
-      p Last modified: {{ DateTime.fromMillis(file.lastModified).toFormat('yyyy-MM-dd') }}
-      p Size: {{ file.size }} bytes
-      p Type: {{ file.type }}
-      p
-        span(v-if="synth") Firmware: {{ synth?.firmwareVersion }} #[span.text-sm.font-light.text-gray-400 (compatible with {{ synth?.firmwareVersion }})]
-        span(v-else) Firmware: Unknown
-
     div(class="flex space-x-3")
       h-card(class="max-w-md md:flex-1")
         template(#title) Song usage #[h-badge {{ synthSongUsageCount }}]
@@ -85,7 +76,7 @@ page-base(
 
     div(class="rounded bg-gray-200 border text-sm font-mono p-3")
       pre(v-if="synth")
-        h3.font-bold RAW SYNTH DATA
+        h3.font-bold RAW SYNTH DATA (not all values have been parsed yet. Help much appreciated!)
         code {{ synth }}
       div(v-else) I don't know how to parse this synth file 😢
 

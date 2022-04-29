@@ -15,7 +15,7 @@ page-base(
         div(class="divide-y divide-gray-200")
           div(v-for="entry in Object.entries(store.kits?.usage).sort((a, b) => b[1].length - a[1].length)" :key="entry[0]" class="py-2")
             span {{ entry[1].length }} - 
-            router-link(:to="'/synths/' + entry[0]" class="text-blue-500 hover:text-blue-600 hover:underline") {{ entry[0] }}
+            router-link(:to="'/kits/' + entry[0]" class="text-blue-500 hover:text-blue-600 hover:underline") {{ entry[0] }}
 
   div(v-else-if="file && parsedKit && usedKits").space-y-3
     div(class="flex flex-row justify-between")
@@ -35,11 +35,14 @@ page-base(
         div(v-else class="italic text-gray-400") Not used in any songs.
 
       h-card(v-if="parsedKit?.soundSources" class="max-w-md md:flex-1")
-        template(#title) Sounds #[h-badge {{ parsedKit.soundSources.length }}]
+        template(#title) Sounds #[h-badge {{ Object.keys(parsedKit.soundSources).length }}]
         div(class="divide-y divide-gray-200")
-          div(v-for="(i, index) in parsedKit.soundSources" :key="index" class="py-2 flex flex-row items-center space-x-1")
-            span {{ index + 1 }} - {{ i.name }}
-            exclamation-circle-icon(v-if="i.problem" class="h-4 text-red-400")
+          div(v-for="(i, index) in Object.values(parsedKit.soundSources)" :key="index" class="py-2")
+            div(class="flex flex-row items-center space-x-1")
+              span {{ index + 1 }} - {{ i.name }}
+              exclamation-circle-icon(v-if="i.problem" class="h-4 text-red-400")
+            div(class="text-xs text-gray-400") {{ i.osc1.fileName}}
+            div(class="text-xs text-gray-400") {{ i.osc2.fileName}}
 
 </template>
 
