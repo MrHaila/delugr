@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { FixPos50 } from './delugeUtils'
+import { FixPos50 } from './dataTypes'
 
 export interface Kit {
   fsFile: File,

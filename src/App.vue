@@ -15,8 +15,8 @@ div(v-else class="flex h-screen overflow-hidden")
         sidebar-link(variant="kits")
         sidebar-link(variant="samples")
 
-      // div(class="flex justify-center")
-        RefreshIcon(aria-hidden="true" @click="refreshFolder" class="border border-gray-700 h-7 w-7 p-1 text-gray-400 hover:bg-gray-700 rounded")
+      div(class="flex justify-center")
+        RefreshIcon(aria-hidden="true" @click="parseFolder(store.folderHandle, store.folderName)" class="border border-gray-700 h-7 w-7 p-1 text-gray-400 hover:bg-gray-700 rounded")
 
     div(class="flex justify-center")
       a(href="https://haila.fi" target="_blank" class="h-4 mb-4 fill-current text-gray-400 hover:text-gray-50")
@@ -29,10 +29,9 @@ div(v-else class="flex h-screen overflow-hidden")
 <script lang="ts" setup>
 import HLogo from './components/HLogo.vue'
 import SidebarLink from './components/SidebarLink.vue'
-import { useStore } from './store'
 import { useRoute } from 'vue-router'
 import { RefreshIcon } from '@heroicons/vue/solid'
-import { parseRootFolder } from './magic'
+import { parseFolder, useStore } from './deluge/files'
 
 const route = useRoute()
 const store = useStore()
@@ -43,10 +42,7 @@ async function getFolder() {
   // Ask for a folder
   rootFolder = await window.showDirectoryPicker()
   store.folderName = rootFolder.name
-  refreshFolder()
-}
-
-function refreshFolder() {
-  if (rootFolder) parseRootFolder(store, rootFolder)
+  store.folderHandle = rootFolder
+  parseFolder(rootFolder, rootFolder.name)
 }
 </script>

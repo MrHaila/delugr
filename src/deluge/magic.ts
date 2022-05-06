@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { Store } from 'pinia'
-import { FixPos50 } from './delugeUtils'
-import { DelugrState } from './store'
+import { FixPos50 } from './dataTypes'
+import { DelugrState } from '../store'
 import { Song, ListItem, Instrument, Synth, Oscillator, Lfo, PatchCable, ModKnob, Kit, Delay, Envelope, Compressor, Equalizer, Arpeggiator, Sound, Sample } from './types'
 
 let store: Store<"main", DelugrState, {}, {}>
@@ -383,30 +383,6 @@ function parseModKnobs(xml: Element | null): ModKnob[] {
     }
     return obj
   })
-}
-
-function parseCompressor(xml: Element | null): Compressor {
-  return {
-    syncLevel: Number(xml?.getAttribute('syncLevel')),
-    attack: Number(xml?.getAttribute('attack')),
-    release: Number(xml?.getAttribute('release')),
-  }
-}
-
-function parseArpeggiator(xml: Element | null): Arpeggiator {
-  return {
-    mode: String(xml?.getAttribute('mode')),
-    numOctaves: Number(xml?.getAttribute('numOctaves')),
-    syncLevel: Number(xml?.getAttribute('syncLevel')),
-  }
-}
-
-function parseLfo(xml: Element | null): Lfo {
-  const lfo: Lfo = {
-    type: String(xml?.getAttribute('type')),
-  }
-  if (xml?.hasAttribute('syncLevel')) lfo.syncLevel = Number(xml.getAttribute('syncLevel'))
-  return lfo
 }
 
 function getAttributesAsObject(element: Element | null) {

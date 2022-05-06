@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { Kit, ListItem, Song, Synth, Sample } from './types'
+import { Kit, ListItem, Song, Synth, Sample } from './deluge/types'
 
 export interface DelugrState {
   folderName: string | null,
