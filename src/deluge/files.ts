@@ -1,5 +1,6 @@
 import { defineStore } from "pinia"
 import { getFirmwareVersion, Kit, Song, Sound } from "./core"
+import { parseSoundv1 } from "./v1"
 import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3"
 
 export interface ParsedFile {
@@ -37,15 +38,15 @@ export async function parseFolder(folder: FileSystemDirectoryHandle, path: strin
       const fileHandle = entry as FileSystemFileHandle
       // Parse XML and WAV files
       if (fileHandle.name.toLowerCase().endsWith('.xml')) {
-        console.log('Parsing XML file', fileHandle.name)
+        // console.log('Parsing XML file', fileHandle.name)
         const file = await fileHandle.getFile()
         const parsedFile = await parseFile(file)
         
         // Store results into arrays
-        if (parsedFile.type === 'song') songs.push(parsedFile)
-        else if (parsedFile.type === 'sound') sounds.push(parsedFile)
-        else if (parsedFile.type === 'kit') kits.push(parsedFile)
-        else throw new Error('Unknown file type: ' + parsedFile.type)
+        if (parsedFile?.type === 'song') songs.push(parsedFile)
+        else if (parsedFile?.type === 'sound') sounds.push(parsedFile)
+        else if (parsedFile?.type === 'kit') kits.push(parsedFile)
+        //else console.warn(`Skipped ${fileHandle.name}`)
       } else if (fileHandle.name.toLowerCase().endsWith('.wav')) {
         const file = await fileHandle.getFile()
         samples.push({
@@ -71,7 +72,7 @@ export async function parseFolder(folder: FileSystemDirectoryHandle, path: strin
 
 const parser = new DOMParser()
 
-export async function parseFile(file: File): Promise<ParsedFile | SampleFile> {
+export async function parseFile(file: File): Promise<ParsedFile | SampleFile | void> {
   let xml = await file.text()
   let firmware
 
@@ -107,23 +108,30 @@ export async function parseFile(file: File): Promise<ParsedFile | SampleFile> {
   if (['song', 'sound', 'kit'].includes(root.nodeName)) {
     let data
     if (root.nodeName === 'song') {
-      if (firmware.startsWith('1')) throw Error(`Firmware version ${firmware} is not supported for song file ${name}`)
-      else if (firmware.startsWith('2')) throw Error(`Firmware version ${firmware} is not supported for song file ${name}`)
-      else if (firmware.startsWith('3')) data = parseSongv3(root)
+      if (firmware.startsWith('1') || firmware.startsWith('2')) {
+        console.warn(`Firmware version ${firmware} is not supported for song file ${name} -> skipping`)
+        return
+      }
+      else if (firmware.startsWith('3')) data = parseSongv3(root, name)
       else if (firmware.startsWith('4')) throw Error(`Firmware version ${firmware} is not supported for song file ${name}`)
       else throw Error(`Firmware version ${firmware} is not supported for song file ${name}`)
     }
     else if (root.nodeName === 'sound') {
-      if (firmware.startsWith('1')) throw Error(`Firmware version ${firmware} is not supported for sound file ${name}`)
-      else if (firmware.startsWith('2')) throw Error(`Firmware version ${firmware} is not supported for sound file ${name}`)
-      else if (firmware.startsWith('3')) data = parseSoundv3(root)
+      if (firmware.startsWith('1')) data = parseSoundv1(root, name)
+      else if (firmware.startsWith('2')) {
+        console.warn(`Firmware version ${firmware} is not supported for sound file ${name} -> skipping`)
+        return
+      }
+      else if (firmware.startsWith('3')) data = parseSoundv3(root, name)
       else if (firmware.startsWith('4')) throw Error(`Firmware version ${firmware} is not supported for sound file ${name}`)
       else throw Error(`Firmware version ${firmware} is not supported for sound file ${name}`)
     }
     else if (root.nodeName === 'kit') {
-      if (firmware.startsWith('1')) throw Error(`Firmware version ${firmware} is not supported for kit file ${name}`)
-      else if (firmware.startsWith('2')) throw Error(`Firmware version ${firmware} is not supported for kit file ${name}`)
-      else if (firmware.startsWith('3')) data = parseKitv3(root)
+      if (firmware.startsWith('1') || firmware.startsWith('2')) {
+        console.warn(`Firmware version ${firmware} is not supported for kit file ${name} -> skipping`)
+        return
+      }
+      else if (firmware.startsWith('3')) data = parseKitv3(root, name)
       else if (firmware.startsWith('4')) throw Error(`Firmware version ${firmware} is not supported for kit file ${name}`)
       else throw Error(`Firmware version ${firmware} is not supported for kit file ${name}`)
     }
