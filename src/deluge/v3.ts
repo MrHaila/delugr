@@ -122,15 +122,15 @@ export function parseSoundv3 (xml: Element, fileName?: string, songName?: string
   const arpeggiator = findDirectChildNodeByTagName(xml, 'arpeggiator')
   const modKnobs = findDirectChildNodeByTagName(xml, 'modKnobs')
 
-  if (!mode) throw new Error('Missing mode attribute on sound ' + presetName)
-  if (!lpfMode) throw new Error('Missing lpfMode attribute on sound ' + presetName)
-  if (!modFXType) throw new Error('Missing modFXType attribute on sound ' + presetName)
-  if (!osc1) throw new Error('Missing osc1 element on sound ' + presetName)
-  if (!osc2) throw new Error('Missing osc2 element on sound ' + presetName)
-  if (!lfo1) throw new Error('Missing lfo1 element on sound ' + presetName)
-  if (!lfo2) throw new Error('Missing lfo2 element on sound ' + presetName)
-  if (!unison) throw new Error('Missing unison element on sound ' + presetName)
-  if (!delay) throw new Error('Missing delay element on sound ' + presetName)
+  if (!mode) throw new Error('Missing mode attribute on sound ' + presetName + ' of ' + fileName)
+  if (!lpfMode) throw new Error('Missing lpfMode attribute on sound ' + presetName + ' of ' + fileName)
+  if (!modFXType) throw new Error('Missing modFXType attribute on sound ' + presetName + ' of ' + fileName)
+  if (!osc1) throw new Error('Missing osc1 element on sound ' + presetName + ' of ' + fileName)
+  if (!osc2) throw new Error('Missing osc2 element on sound ' + presetName + ' of ' + fileName)
+  if (!lfo1) throw new Error('Missing lfo1 element on sound ' + presetName + ' of ' + fileName)
+  if (!lfo2) throw new Error('Missing lfo2 element on sound ' + presetName + ' of ' + fileName)
+  if (!unison) throw new Error('Missing unison element on sound ' + presetName + ' of ' + fileName)
+  if (!delay) throw new Error('Missing delay element on sound ' + presetName + ' of ' + fileName)
 
   const sound: Sound = {
     presetName,

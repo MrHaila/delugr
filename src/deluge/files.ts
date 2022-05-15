@@ -1,6 +1,6 @@
-import { defineStore, storeToRefs } from "pinia"
-import { getFirmwareVersion, Kit, Song, Sound } from "./core"
-import { parseKitv1, parseSoundv1 } from "./v1"
+import { defineStore } from "pinia"
+import type { Kit, Song, Sound } from "./core"
+import { parseKitv1, parseSoundv1 } from "./v1-2"
 import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3"
 
 export interface ParsedFile {
@@ -188,7 +188,7 @@ export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoun
     }
     else if (root.nodeName === 'sound') {
       if (firmware.startsWith('1')) data = parseSoundv1(root, name)
-      //else if (firmware.startsWith('2')) return `Firmware version ${firmware} is not supported for sounds.`
+      else if (firmware.startsWith('2')) data = parseSoundv1(root, name)
       else if (firmware.startsWith('3')) data = parseSoundv3(root, name)
       //else if (firmware.startsWith('4')) throw Error(`Firmware version ${firmware} is not supported for sound file ${name}`)
       else return `Firmware version ${firmware} is not supported for sounds.`
@@ -200,7 +200,7 @@ export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoun
     }
     else if (root.nodeName === 'kit') {
       if (firmware.startsWith('1')) data = parseKitv1(root, name)
-      //else if (firmware.startsWith('2')) return `Firmware version ${firmware} is not supported for kits.`
+      else if (firmware.startsWith('2')) data = parseKitv1(root, name)
       else if (firmware.startsWith('3')) data = parseKitv3(root, name)
       //else if (firmware.startsWith('4')) return `Firmware version ${firmware} is not supported for kits.`
       else return `Firmware version ${firmware} is not supported for kits.`
