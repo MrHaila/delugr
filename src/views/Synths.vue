@@ -1,20 +1,19 @@
 <template lang="pug">
 page-base(
   title="Synths"
-  :listItems="store.synths?.navigationList ? store.synths.navigationList : []"
+  :listItems="store.sounds"
   :active="props.name || ''"
-  :usage="store.synths?.usage"
 )
   //- Synth home page (nothing selected) ----------------
   div(v-if="!file && usedSynths" class="space-y-3")
-    h1.font-bold.text-2xl You have {{ store.synths?.navigationList.length }} synths
-    p {{ usedSynths }} of them are currently in use in a song. That means {{ store.synths?.navigationList.length - usedSynths }} are not used at all.
+    h1.font-bold.text-2xl You have {{ store.sounds.length }} synths
+    p {{ usedSynths }} of them are currently in use in a song. That means {{ store.sounds.length - usedSynths }} are not used at all.
 
-    div(class="flex")
+    //div(class="flex")
       h-card(class="max-w-md md:flex-1")
         template(#title) Leaderboard #[h-badge {{ usedSynths }}]
         div(class="divide-y divide-gray-200")
-          div(v-for="entry in Object.entries(store.synths?.usage).sort((a, b) => b[1].length - a[1].length)" :key="entry[0]" class="py-2")
+          div(v-for="entry in Object.entries(store.sounds).sort((a, b) => b[1].length - a[1].length)" :key="entry[0]" class="py-2")
             span {{ entry[1].length }} - 
             router-link(:to="'/synths/' + entry[0]" class="text-blue-500 hover:text-blue-600 hover:underline") {{ entry[0] }}
 
@@ -23,13 +22,13 @@ page-base(
     div(class="flex flex-row justify-between")
       div
         h1.font-bold.text-2xl Synth: {{ props.name }}
-        p Last modified: {{ DateTime.fromMillis(file.lastModified).toFormat('yyyy-MM-dd') }}
-      div(v-if="synth?.firmwareVersion !== 'null'" class="text-right origin-bottom flex flex-col-reverse")
-        p.text-sm.font-light.text-gray-400 Compatible back to {{ synth?.firmwareVersion }}
-        p Firmware: {{ synth?.firmwareVersion }}
+        // p Last modified: {{ DateTime.fromMillis(file.lastModified).toFormat('yyyy-MM-dd') }}
+      div(class="text-right origin-bottom flex flex-col-reverse")
+        //p.text-sm.font-light.text-gray-400 Compatible back to {{ synth?.firmwareVersion }}
+        p Firmware: {{ file.firmware }}
 
     div(class="flex space-x-3")
-      h-card(class="max-w-md md:flex-1")
+      //h-card(class="max-w-md md:flex-1")
         template(#title) Song usage #[h-badge {{ synthSongUsageCount }}]
         div(v-if="synthSongUsageCount > 0" class="divide-y divide-gray-200")
           div(v-for="entry in store.synths?.usage[props.name]" :key="entry" class="py-2")
@@ -84,7 +83,7 @@ page-base(
     h1.font-bold.text-2xl Synth: {{ props.name }}
     p.text-gray-500 I don't know how to parse this synth file 😢
 
-    h-card(class="max-w-md md:flex-1")
+    //h-card(class="max-w-md md:flex-1")
       template(#title) Song usage #[h-badge {{ synthSongUsageCount }}]
       div(v-if="synthSongUsageCount > 0" class="divide-y divide-gray-200")
         div(v-for="entry in store.synths?.usage[props.name]" :key="entry" class="py-2")
@@ -94,7 +93,7 @@ page-base(
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { useStore } from '../store'
+import { useStore } from '../deluge/files'
 import { DateTime } from 'luxon'
 
 const store = useStore()
@@ -103,8 +102,8 @@ const props = defineProps([
   'name'
 ])
 
-const file = computed(() => props.name ? store.synths?.files[props.name]?.fsFile : null)
-const synth = computed(() => props.name ? store.synths?.files[props.name]?.parsedSynth : null)
-const usedSynths = computed(() => store.synths?.usage ? Object.keys(store.synths.usage).length : 0)
-const synthSongUsageCount = computed(() => store.synths?.usage[props.name] ? store.synths?.usage[props.name].length : 0)
+const file = computed(() => props.name ? store.sounds[props.name] : null)
+const synth = computed(() => props.name ? store.sounds[props.name]?.data : null)
+const usedSynths = computed(() => Object.keys(store.sounds[props.name]?.usage.songs).length + Object.keys(store.sounds[props.name].usage.kits).length)
+const synthSongUsageCount = computed(() => Object.keys(store.sounds[props.name]?.usage.songs).length)
 </script>

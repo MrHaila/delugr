@@ -8,7 +8,7 @@ page-base
 
 <script lang="ts" setup>
 import { DateTime } from 'luxon'
-import { useStore } from '../store'
+import { useStore } from '../deluge/files'
 
 const store = useStore()
 </script>

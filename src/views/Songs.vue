@@ -1,7 +1,7 @@
 <template lang="pug">
 page-base(
   title="Songs"
-  :listItems="store.songs?.navigationList ? store.songs.navigationList : []"
+  :listItems="store.songs"
   :active="props.name || ''"
 )
   div(v-if="!file" class="flex justify-center my-auto")
@@ -12,12 +12,12 @@ page-base(
       div
         h1.font-bold.text-2xl Song: {{ props.name }}
         p Last modified: {{ DateTime.fromMillis(file.lastModified).toFormat('yyyy-MM-dd') }}
-      div(v-if="parsedSong?.firmwareVersion !== 'null'" class="text-right origin-bottom flex flex-col-reverse")
+      //div(v-if="parsedSong?.firmwareVersion !== 'null'" class="text-right origin-bottom flex flex-col-reverse")
         p.text-sm.font-light.text-gray-400 Compatible back to {{ parsedSong?.firmwareVersion }}
         p Firmware: {{ parsedSong?.firmwareVersion }}
 
     div(class="flex space-x-3")
-      h-card(v-if="parsedSong?.instruments" class="max-w-md md:flex-1")
+      //h-card(v-if="parsedSong?.instruments" class="max-w-md md:flex-1")
         template(#title) Instruments #[h-badge {{ parsedSong.instruments.length }}]
         div(class="divide-y divide-gray-200")
           div(v-for="(i, index) in parsedSong.instruments" :key="index" class="py-2 flex flex-row items-center space-x-1")
@@ -45,9 +45,10 @@ page-base(
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useStore } from '../store'
+import { useStore } from '../deluge/files'
 import { DateTime } from 'luxon'
 import { ExclamationCircleIcon } from '@heroicons/vue/solid'
+import type { Song } from '../deluge/core';
 
 const store = useStore()
 
@@ -55,8 +56,8 @@ const props = defineProps([
   'name'
 ])
 
-const file = computed(() => props.name ? store.songs?.files[props.name]?.fsFile : null)
-const parsedSong = computed(() => props.name ? store.songs?.files[props.name]?.parsedSong : null)
+const file = computed(() => props.name ? store.songs[props.name]?.file : null)
+const parsedSong = computed(() => props.name ? store.songs[props.name]?.data as Song : null)
 
 function tagToName(tag: string) {
   switch (tag) {

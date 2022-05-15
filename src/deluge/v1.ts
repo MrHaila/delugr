@@ -1,31 +1,77 @@
-import { Delay, Lfo, Oscillator, Sound, Unison } from "./core"
+import { Delay, findDirectChildNodeByTagName, Kit, Lfo, Oscillator, Sound, Unison } from "./core"
+
+export function parseKitv1 (xml: Element, fileName?: string): Kit {
+  let presetName = 'Unknown v1 kit 🤔'
+
+  // TODO: evaluate if there should be multi-fw support in this function?
+  if (findDirectChildNodeByTagName(xml, 'name')?.textContent) presetName = String(findDirectChildNodeByTagName(xml, 'name')?.textContent)
+  else if (fileName) presetName = fileName
+
+  // Child elements
+  const lpfMode = findDirectChildNodeByTagName(xml, 'lpfMode')?.textContent
+  const modFXType = findDirectChildNodeByTagName(xml, 'modFXType')?.textContent
+  const modFXCurrentParam = findDirectChildNodeByTagName(xml, 'modFXCurrentParam')?.textContent
+  const currentFilterType = findDirectChildNodeByTagName(xml, 'currentFilterType')?.textContent
+  const delay = findDirectChildNodeByTagName(xml, 'delay')
+  
+  const soundSources = (() => {
+    const sounds: { [key: string]: Sound } = {}
+    const soundNodes = xml.querySelectorAll('sound')
+    for (let i = 0; i < soundNodes.length; i++) {
+      const xmlSound = soundNodes.item(i)
+      if (xmlSound) {
+        const song = parseSoundv1(xmlSound, `${fileName}/${xmlSound.children.namedItem('name')?.textContent}`)
+        sounds[song.presetName] = song
+      }
+    }
+    return sounds
+  })()
+
+  if (!lpfMode) throw new Error(`Missing lpfMode attribute on kit '${presetName}'`)
+  if (!modFXType) throw new Error('Missing modFXType attribute on kit ' + presetName)
+  if (!modFXCurrentParam) throw new Error('Missing modFXCurrentParam attribute on kit ' + presetName)
+  if (!currentFilterType) throw new Error('Missing currentFilterType attribute on kit ' + presetName)
+
+  const kit: Kit = {
+    presetName,
+    lpfMode,
+    modFXType,
+    modFXCurrentParam,
+    currentFilterType,
+    soundSources
+  }
+
+  if (delay) kit.delay = parseDelay(delay, fileName)
+
+  return kit
+}
 
 export function parseSoundv1 (xml: Element, fileName?: string, songName?: string): Sound {
   let presetName = 'Unknown v1 Song 🤔'
 
   // TODO: evaluate if there should be multi-fw support in this function?
-  if (xml.querySelector('name')?.textContent) presetName = String(xml.querySelector('name')?.textContent)
+  if (findDirectChildNodeByTagName(xml, 'name')?.textContent) presetName = String(findDirectChildNodeByTagName(xml, 'name')?.textContent)
   else if (fileName) presetName = fileName
 
   // Child elements
-  const mode = xml.querySelector('mode')?.textContent
-  const lpfMode = xml.querySelector('lpfMode')?.textContent
-  const modFXType = xml.querySelector('modFXType')?.textContent
-  const polyphonic = xml.querySelector('polyphonic')?.textContent
-  const voicePriority = xml.querySelector('voicePriority')?.textContent
-  const clippingAmount = xml.querySelector('clippingAmount')?.textContent
-  const osc1 = xml.querySelector('osc1')
-  const osc2 = xml.querySelector('osc2')
-  const lfo1 = xml.querySelector('lfo1')
-  const lfo2 = xml.querySelector('lfo2')
-  const unison = xml.querySelector('unison')
-  const delay = xml.querySelector('delay')
-  const defaultParams = xml.querySelector('defaultParams')
-  const compressor = xml.querySelector('compressor')
-  const arpeggiator = xml.querySelector('arpeggiator')
-  const modKnobs = xml.querySelector('modKnobs')
-  const modulator1 = xml.querySelector('modulator1')
-  const modulator2 = xml.querySelector('modulator2')
+  const mode = findDirectChildNodeByTagName(xml, 'mode')?.textContent
+  const lpfMode = findDirectChildNodeByTagName(xml, 'lpfMode')?.textContent
+  const modFXType = findDirectChildNodeByTagName(xml, 'modFXType')?.textContent
+  const polyphonic = findDirectChildNodeByTagName(xml, 'polyphonic')?.textContent
+  const voicePriority = findDirectChildNodeByTagName(xml, 'voicePriority')?.textContent
+  const clippingAmount = findDirectChildNodeByTagName(xml, 'clippingAmount')?.textContent
+  const osc1 = findDirectChildNodeByTagName(xml, 'osc1')
+  const osc2 = findDirectChildNodeByTagName(xml, 'osc2')
+  const lfo1 = findDirectChildNodeByTagName(xml, 'lfo1')
+  const lfo2 = findDirectChildNodeByTagName(xml, 'lfo2')
+  const unison = findDirectChildNodeByTagName(xml, 'unison')
+  const delay = findDirectChildNodeByTagName(xml, 'delay')
+  const defaultParams = findDirectChildNodeByTagName(xml, 'defaultParams')
+  const compressor = findDirectChildNodeByTagName(xml, 'compressor')
+  const arpeggiator = findDirectChildNodeByTagName(xml, 'arpeggiator')
+  const modKnobs = findDirectChildNodeByTagName(xml, 'modKnobs')
+  const modulator1 = findDirectChildNodeByTagName(xml, 'modulator1')
+  const modulator2 = findDirectChildNodeByTagName(xml, 'modulator2')
 
   if (!mode) throw new Error('Missing mode attribute on sound ' + presetName)
   if (!lpfMode) throw new Error('Missing lpfMode attribute on sound ' + presetName)
@@ -47,7 +93,7 @@ export function parseSoundv1 (xml: Element, fileName?: string, songName?: string
     lfo1: parseLfo(lfo1),
     lfo2: parseLfo(lfo2),
     unison: parseUnison(unison),
-    delay: parseDelay(delay),
+    delay: parseDelay(delay, fileName),
   }
 
   if (polyphonic) sound.polyphonic = polyphonic
@@ -64,9 +110,9 @@ export function parseSoundv1 (xml: Element, fileName?: string, songName?: string
 }
 
 function parseOscillator (xml: Element): Oscillator {
-  const type = xml.querySelector('type')?.textContent
-  const transpose = xml.querySelector('transpose')?.textContent
-  const cents = xml.querySelector('cents')?.textContent
+  const type = findDirectChildNodeByTagName(xml, 'type')?.textContent
+  const transpose = findDirectChildNodeByTagName(xml, 'transpose')?.textContent
+  const cents = findDirectChildNodeByTagName(xml, 'cents')?.textContent
 
   const oscillator: Oscillator = {}
 
@@ -78,8 +124,8 @@ function parseOscillator (xml: Element): Oscillator {
 }
 
 function parseLfo (xml: Element): Lfo {
-  const type = xml.querySelector('type')?.textContent
-  const syncLevel = xml.querySelector('syncLevel')?.textContent
+  const type = findDirectChildNodeByTagName(xml, 'type')?.textContent
+  const syncLevel = findDirectChildNodeByTagName(xml, 'syncLevel')?.textContent
 
   if (!type) throw new Error('Missing type attribute on lfo')
 
@@ -93,8 +139,8 @@ function parseLfo (xml: Element): Lfo {
 }
 
 function parseUnison (xml: Element): Unison {
-  const num = xml.querySelector('num')?.textContent
-  const detune = xml.querySelector('detune')?.textContent
+  const num = findDirectChildNodeByTagName(xml, 'num')?.textContent
+  const detune = findDirectChildNodeByTagName(xml, 'detune')?.textContent
 
   if (!num) throw new Error('Missing num attribute on unison')
   if (!detune) throw new Error('Missing detune attribute on unison')
@@ -107,19 +153,17 @@ function parseUnison (xml: Element): Unison {
   return unison
 }
 
-function parseDelay (xml: Element): Delay {
-  const pingPong = xml.querySelector('pingPong')?.textContent
-  const analog = xml.querySelector('analog')?.textContent
-  const syncLevel = xml.querySelector('syncLevel')?.textContent
+function parseDelay (xml: Element, fileName: string | undefined): Delay {
+  const syncLevel = findDirectChildNodeByTagName(xml, 'syncLevel')?.textContent
+  const pingPong = findDirectChildNodeByTagName(xml, 'pingPong')?.textContent
+  const analog = findDirectChildNodeByTagName(xml, 'analog')?.textContent
 
-  if (!pingPong) throw new Error('Missing pingPong attribute on delay')
-  if (!analog) throw new Error('Missing analog attribute on delay')
-  if (!syncLevel) throw new Error('Missing syncLevel attribute on delay')
+  if (!syncLevel) throw new Error(`Missing 'syncLevel' attribute on delay in file '${fileName}': ${xml.textContent}`)
 
   const delay: Delay = {
+    syncLevel: Number(syncLevel),
     pingPong: Number(pingPong),
     analog: Number(analog),
-    syncLevel: Number(syncLevel),
   }
 
   return delay

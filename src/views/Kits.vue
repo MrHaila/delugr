@@ -1,15 +1,14 @@
 <template lang="pug">
 page-base(
   title="Kits"
-  :listItems="store.kits?.navigationList ? store.kits.navigationList : []"
+  :listItems="store.kits"
   :active="props.name || ''"
-  :usage="store.kits?.usage"
 )
-  div(v-if="!file && usedKits" class="space-y-3")
-    h1.font-bold.text-2xl You have {{ store.kits?.navigationList.length }} kits
-    p {{ usedKits }} of them are currently in use in a song. That means {{ store.kits?.navigationList.length - usedKits }} are not used at all.
+  div(v-if="!file" class="space-y-3")
+    h1.font-bold.text-2xl You have {{ store.kits.length }} kits
+    //p {{ usedKits }} of them are currently in use in a song. That means {{ store.kits?.navigationList.length - usedKits }} are not used at all.
 
-    div(class="flex")
+    //div(class="flex")
       h-card(class="max-w-md md:flex-1")
         template(#title) Leaderboard #[h-badge {{ usedKits }}]
         div(class="divide-y divide-gray-200")
@@ -17,7 +16,7 @@ page-base(
             span {{ entry[1].length }} - 
             router-link(:to="'/kits/' + entry[0]" class="text-blue-500 hover:text-blue-600 hover:underline") {{ entry[0] }}
 
-  div(v-else-if="file && parsedKit && usedKits").space-y-3
+  //div(v-else-if="file && parsedKit && usedKits").space-y-3
     div(class="flex flex-row justify-between")
       div
         h1.font-bold.text-2xl Kit: {{ props.name }}
@@ -26,7 +25,7 @@ page-base(
         p.text-sm.font-light.text-gray-400 Compatible back to {{ parsedKit?.firmwareVersion }}
         p Firmware: {{ parsedKit?.firmwareVersion }}
 
-    div(class="flex space-x-3")
+    //div(class="flex space-x-3")
       h-card(class="max-w-md md:flex-1")
         template(#title) Song usage #[h-badge {{ kitSongUsageCount }}]
         div(v-if="kitSongUsageCount > 0" class="divide-y divide-gray-200")
@@ -48,7 +47,7 @@ page-base(
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { useStore } from '../store'
+import { useStore } from '../deluge/files'
 import { DateTime } from 'luxon'
 import { ExclamationCircleIcon } from '@heroicons/vue/solid'
 
@@ -58,8 +57,8 @@ const props = defineProps([
   'name'
 ])
 
-const file = computed(() => props.name ? store.kits?.files[props.name]?.fsFile : null)
-const parsedKit = computed(() => props.name ? store.kits?.files[props.name]?.parsedKit : null)
-const usedKits = computed(() => store.kits?.usage ? Object.keys(store.kits.usage).length : 0)
-const kitSongUsageCount = computed(() => store.kits?.usage[props.name] ? store.kits?.usage[props.name].length : 0)
+const file = computed(() => props.name ? store.kits[props.name]?.file : null)
+const parsedKit = computed(() => props.name ? store.kits[props.name]?.data : null)
+//const usedKits = computed(() => store.kits?.usage ? Object.keys(store.kits.usage).length : 0)
+//const kitSongUsageCount = computed(() => store.kits?.usage[props.name] ? store.kits?.usage[props.name].length : 0)
 </script>

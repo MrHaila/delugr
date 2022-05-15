@@ -1,9 +1,9 @@
-import { Arpeggiator, AudioTrack, Compressor, Delay, Envelope, Equalizer, getInstrumentName, Kit, Lfo, ModKnob, Oscillator, PatchCable, Song, Sound, Unison } from "./core";
+import { Arpeggiator, AudioTrack, Compressor, Delay, Envelope, Equalizer, findDirectChildNodeByTagName, getInstrumentName, Kit, Lfo, ModKnob, Oscillator, PatchCable, Song, Sound, Unison } from "./core";
 import { FixPos50 } from "./dataTypes";
 
 export function parseSongv3(xml: Element, songName: string): Song {
   // Only parse the instruments node for now. Could do more later.
-  const xmlInstruments = xml.querySelector('instruments')?.children
+  const xmlInstruments = findDirectChildNodeByTagName(xml, 'instruments')?.children
   
   if (!xmlInstruments) throw new Error(`No instruments node found in '${xml.tagName}'`)
   
@@ -40,7 +40,7 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
 
   // TODO: evaluate if there should be multi-fw support in this function?
   if (xml.hasAttribute('name')) presetName = String(xml.getAttribute('name'))
-  else if (xml.querySelector('name')?.textContent) presetName = String(xml.querySelector('name')?.textContent)
+  else if (findDirectChildNodeByTagName(xml, 'name')?.textContent) presetName = String(findDirectChildNodeByTagName(xml, 'name')?.textContent)
   else if (xml.hasAttribute('presetSlot')) {
     presetName = 'KIT' + String(xml.getAttribute('presetSlot'))
     if (xml.hasAttribute('presetSubSlot')) {
@@ -57,9 +57,9 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
   const currentFilterType = xml.getAttribute('currentFilterType')
   
   // Child elements
-  const xmlDelay = xml.querySelector('delay')
-  const xmlCompressor = xml.querySelector('compressor')
-  const xmlDefaultParams = xml.querySelector('defaultParams')
+  const xmlDelay = findDirectChildNodeByTagName(xml, 'delay')
+  const xmlCompressor = findDirectChildNodeByTagName(xml, 'compressor')
+  const xmlDefaultParams = findDirectChildNodeByTagName(xml, 'defaultParams')
   const soundSources = (() => {
     const sounds: { [key: string]: Sound } = {}
     const soundNodes = xml.querySelectorAll('sound')
@@ -77,8 +77,6 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
   if (!modFXType) throw new Error('Missing modFXType attribute on kit ' + presetName)
   if (!modFXCurrentParam) throw new Error('Missing modFXCurrentParam attribute on kit ' + presetName)
   if (!currentFilterType) throw new Error('Missing currentFilterType attribute on kit ' + presetName)
-  if (!xmlDelay) throw new Error('Missing delay element on kit ' + presetName)
-  if (!xmlCompressor) throw new Error('Missing compressor element on kit ' + presetName)
 
   const kit: Kit = {
     presetName,
@@ -86,12 +84,12 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
     modFXType,
     modFXCurrentParam,
     currentFilterType,
-    delay: parseDelay(xmlDelay),
-    compressor: parseCompressor(xmlCompressor),
     soundSources
   }
 
   if (xmlDefaultParams) kit.defaultParams = parseAllAttributes(xmlDefaultParams)
+  if (xmlDelay) kit.delay = parseDelay(xmlDelay)
+  if (xmlCompressor) kit.compressor = parseCompressor(xmlCompressor)
 
   return kit
 }
@@ -101,7 +99,7 @@ export function parseSoundv3 (xml: Element, fileName?: string, songName?: string
 
   // TODO: evaluate if there should be multi-fw support in this function?
   if (xml.hasAttribute('name')) presetName = String(xml.getAttribute('name'))
-  else if (xml.querySelector('name')?.textContent) presetName = String(xml.querySelector('name')?.textContent)
+  else if (findDirectChildNodeByTagName(xml, 'name')?.textContent) presetName = String(findDirectChildNodeByTagName(xml, 'name')?.textContent)
   else if (fileName) presetName = fileName
 
   // Attributes
@@ -113,16 +111,16 @@ export function parseSoundv3 (xml: Element, fileName?: string, songName?: string
   const clippingAmount = xml.getAttribute('clippingAmount')
 
   // Child elements
-  const osc1 = xml.querySelector('osc1')
-  const osc2 = xml.querySelector('osc2')
-  const lfo1 = xml.querySelector('lfo1')
-  const lfo2 = xml.querySelector('lfo2')
-  const unison = xml.querySelector('unison')
-  const delay = xml.querySelector('delay')
-  const defaultParams = xml.querySelector('defaultParams')
-  const compressor = xml.querySelector('compressor')
-  const arpeggiator = xml.querySelector('arpeggiator')
-  const modKnobs = xml.querySelector('modKnobs')
+  const osc1 = findDirectChildNodeByTagName(xml, 'osc1')
+  const osc2 = findDirectChildNodeByTagName(xml, 'osc2')
+  const lfo1 = findDirectChildNodeByTagName(xml, 'lfo1')
+  const lfo2 = findDirectChildNodeByTagName(xml, 'lfo2')
+  const unison = findDirectChildNodeByTagName(xml, 'unison')
+  const delay = findDirectChildNodeByTagName(xml, 'delay')
+  const defaultParams = findDirectChildNodeByTagName(xml, 'defaultParams')
+  const compressor = findDirectChildNodeByTagName(xml, 'compressor')
+  const arpeggiator = findDirectChildNodeByTagName(xml, 'arpeggiator')
+  const modKnobs = findDirectChildNodeByTagName(xml, 'modKnobs')
 
   if (!mode) throw new Error('Missing mode attribute on sound ' + presetName)
   if (!lpfMode) throw new Error('Missing lpfMode attribute on sound ' + presetName)
@@ -171,8 +169,8 @@ function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
   const currentFilterType = xml.getAttribute('currentFilterType')
 
   // Child elements
-  const delay = xml.querySelector('delay')
-  const compressor = xml.querySelector('compressor')
+  const delay = findDirectChildNodeByTagName(xml, 'delay')
+  const compressor = findDirectChildNodeByTagName(xml, 'compressor')
 
   if (!name) throw new Error(`Missing 'name' attribute on audio track of song '${songName}'`)
   if (!echoingInput) throw new Error(`Missing 'echoingInput' attribute on audio track of song '${songName}'`)

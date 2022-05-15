@@ -60,8 +60,8 @@ export interface Kit {
   modFXType: string,
   modFXCurrentParam: string,
   currentFilterType: string,
-  delay: Delay,
-  compressor: Compressor,
+  delay?: Delay,
+  compressor?: Compressor,
   defaultParams?: {
     [key: string]: FixPos50,
   },
@@ -194,4 +194,14 @@ export function getInstrumentName(xml: Element): string {
     else presetName = `${prefix}${slot}`
   }
   return presetName
+}
+
+/**
+ * A helper to get an immediate child Element of an Element by its tag name.
+ * @param xml Element to search in.
+ * @param tagName Name of the child element to find.
+ * @returns The child element, or null if not found.
+ */
+export function findDirectChildNodeByTagName (xml: Element, tagName: string): Element | null {
+  return Array.from(xml.children).find(child => child.tagName === tagName) || null
 }

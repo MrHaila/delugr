@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { getFirmwareVersion, Kit, Song, Sound } from "./core"
-import { parseSoundv1 } from "./v1"
+import { parseKitv1, parseSoundv1 } from "./v1"
 import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3"
 
 export interface ParsedFile {
@@ -8,25 +8,62 @@ export interface ParsedFile {
   path: string,
   file: File,
   firmware: string,
-  type: string, // 'song' | 'sound' | 'kit',
+  type: FileType,
   data: Song | Sound | Kit,
+  usage: {
+    songs: { [key: string]: boolean },
+    sounds: { [key: string]: boolean },
+    kits: { [key: string]: boolean },
+  }
+}
+
+enum FileType {
+  Song,
+  Sound,
+  Kit,
+}
+
+export interface ParsedSongFile extends ParsedFile {
+  type: FileType.Song,
+  data: Song
+}
+
+export interface ParsedSoundFile extends ParsedFile {
+  type: FileType.Sound,
+  data: Sound
+}
+
+export interface ParsedKitFile extends ParsedFile {
+  type: FileType.Kit,
+  data: Kit
 }
 
 export interface SampleFile {
   name: string,
   path: string,
   file: File,
-  usage?: {
-    sourceName: string,
-    sourceType: 'kit' | 'sound' | 'song',
-  }[],
-  type: 'sample',
+  usage: {
+    sounds: { [key: string]: boolean },
+    kits: { [key: string]: boolean },
+  },
 }
 
-const songs: ParsedFile[] = []
-const sounds: ParsedFile[] = []
-const kits: ParsedFile[] = []
+enum FileSkipReason {
+  FailedToParse,
+  NotSupported,
+}
+
+export interface SkippedFile {
+  name: string,
+  path: string,
+  reason: FileSkipReason,
+}
+
+const songs: ParsedSongFile[] = []
+const sounds: ParsedSoundFile[] = []
+const kits: ParsedKitFile[] = []
 const samples: SampleFile[] = []
+const skippedFiles: SkippedFile[] = []
 
 export async function parseFolder(folder: FileSystemDirectoryHandle, path: string) {
   // For each XML or wav file in the folder structure, parse it and add it to the store
@@ -36,6 +73,9 @@ export async function parseFolder(folder: FileSystemDirectoryHandle, path: strin
       parseFolder(folder, path + '/' + entry.name)
     } else if (entry.kind === 'file') {
       const fileHandle = entry as FileSystemFileHandle
+      const name = fileHandle.name
+      const fullPath = path + '/' + fileHandle.name
+      
       // Parse XML and WAV files
       if (fileHandle.name.toLowerCase().endsWith('.xml')) {
         // console.log('Parsing XML file', fileHandle.name)
@@ -43,17 +83,38 @@ export async function parseFolder(folder: FileSystemDirectoryHandle, path: strin
         const parsedFile = await parseFile(file)
         
         // Store results into arrays
-        if (parsedFile?.type === 'song') songs.push(parsedFile)
-        else if (parsedFile?.type === 'sound') sounds.push(parsedFile)
-        else if (parsedFile?.type === 'kit') kits.push(parsedFile)
-        //else console.warn(`Skipped ${fileHandle.name}`)
+        if (parsedFile) {
+          if ('type' in parsedFile) {
+            if (parsedFile.type === FileType.Song) {
+              songs.push(parsedFile)
+            } else if (parsedFile.type === FileType.Sound) {
+              sounds.push(parsedFile)
+            } else if (parsedFile.type === FileType.Kit) {
+              kits.push(parsedFile)
+            }
+          }
+          else skippedFiles.push({
+            name,
+            path: fullPath,
+            reason: FileSkipReason.FailedToParse,
+          })
+        }
       } else if (fileHandle.name.toLowerCase().endsWith('.wav')) {
         const file = await fileHandle.getFile()
         samples.push({
-          name: fileHandle.name,
-          path: path + '/' + fileHandle.name,
+          name,
+          path: fullPath,
           file,
-          type: 'sample',
+          usage: {
+            sounds: {},
+            kits: {},
+          }
+        })
+      } else {
+        skippedFiles.push({
+          name,
+          path: fullPath,
+          reason: FileSkipReason.NotSupported,
         })
       }
     }
@@ -72,7 +133,7 @@ export async function parseFolder(folder: FileSystemDirectoryHandle, path: strin
 
 const parser = new DOMParser()
 
-export async function parseFile(file: File): Promise<ParsedFile | SampleFile | void> {
+export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoundFile | ParsedKitFile | SampleFile | void> {
   let xml = await file.text()
   let firmware
 
@@ -115,6 +176,11 @@ export async function parseFile(file: File): Promise<ParsedFile | SampleFile | v
       else if (firmware.startsWith('3')) data = parseSongv3(root, name)
       else if (firmware.startsWith('4')) throw Error(`Firmware version ${firmware} is not supported for song file ${name}`)
       else throw Error(`Firmware version ${firmware} is not supported for song file ${name}`)
+
+      return {
+        name, path, file, firmware, data, usage: { songs: {}, sounds: {}, kits: {}, },
+        type: FileType.Song,
+      }
     }
     else if (root.nodeName === 'sound') {
       if (firmware.startsWith('1')) data = parseSoundv1(root, name)
@@ -125,34 +191,37 @@ export async function parseFile(file: File): Promise<ParsedFile | SampleFile | v
       else if (firmware.startsWith('3')) data = parseSoundv3(root, name)
       else if (firmware.startsWith('4')) throw Error(`Firmware version ${firmware} is not supported for sound file ${name}`)
       else throw Error(`Firmware version ${firmware} is not supported for sound file ${name}`)
+
+      return {
+        name, path, file, firmware, data, usage: { songs: {}, sounds: {}, kits: {}, },
+        type: FileType.Sound,
+      }
     }
     else if (root.nodeName === 'kit') {
-      if (firmware.startsWith('1') || firmware.startsWith('2')) {
+      if (firmware.startsWith('1')) data = parseKitv1(root, name)
+      else if (firmware.startsWith('2')) {
         console.warn(`Firmware version ${firmware} is not supported for kit file ${name} -> skipping`)
         return
       }
       else if (firmware.startsWith('3')) data = parseKitv3(root, name)
       else if (firmware.startsWith('4')) throw Error(`Firmware version ${firmware} is not supported for kit file ${name}`)
       else throw Error(`Firmware version ${firmware} is not supported for kit file ${name}`)
+
+      return {
+        name, path, file, firmware, data, usage: { songs: {}, sounds: {}, kits: {}, },
+        type: FileType.Kit,
+      }
     }
     else throw new Error(`Unknown node type '${root.nodeName}' in file '${name}' (was expecting 'song', 'sound', or 'kit')`)
-    
-    const parsedFile: ParsedFile = {
-      name,
-      path,
-      file,
-      firmware,
-      data,
-      type: root.nodeName,
-    }
-
-    return parsedFile
   } else if (root.nodeName === 'sample') {
     const sampleFile: SampleFile = {
       name,
       path,
       file,
-      type: 'sample',
+      usage: {
+        sounds: {},
+        kits: {},
+      }
     }
     return sampleFile
   } else {
@@ -161,9 +230,9 @@ export async function parseFile(file: File): Promise<ParsedFile | SampleFile | v
 }
 
 export interface DelugrFileStore {
-  songs: ParsedFile[],
-  sounds: ParsedFile[],
-  kits: ParsedFile[],
+  songs: ParsedSongFile[],
+  sounds: ParsedSoundFile[],
+  kits: ParsedKitFile[],
   samples: SampleFile[],
   folderName: string,
   folderHandle: FileSystemDirectoryHandle | null,

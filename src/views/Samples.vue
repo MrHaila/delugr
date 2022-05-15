@@ -2,9 +2,10 @@
 page-base
   h1.font-bold.text-2xl Samples (stats inaccurate... I haven't implemented parsing older-than-v3 XMLs yet!)
   div(v-if="store.samples" class="space-y-3")
-    p You have {{ Object.keys(store.samples.files).length }} samples! {{ usedSamples }} of them are currently in use in a song. That means {{ Object.keys(store.samples.files).length - usedSamples }} are not used at all.
+    p You have {{ Object.keys(store.samples).length }} samples!
+    // {{ usedSamples }} of them are currently in use in a song. That means {{ Object.keys(store.samples.files).length - usedSamples }} are not used at all.
 
-    div(class="flex")
+    //div(class="flex")
       h-card(class="max-w-md md:flex-1")
         template(#title) Leaderboard #[h-badge {{ usedSamples }}]
         div(class="divide-y divide-gray-200")
@@ -20,7 +21,7 @@ page-base
 <script lang="ts" setup>
 import { computed } from '@vue/reactivity';
 import { DateTime } from 'luxon'
-import { useStore } from '../store'
+import { useStore } from '../deluge/files'
 
 const store = useStore()
 
@@ -32,8 +33,8 @@ function filePathToFileName(filePath: string) {
   return filePath.split('/').pop()?.slice(0, -4)
 }
 
-const file = computed(() => props.name ? store.samples?.files[props.name]?.fsFile : null)
-const sample = computed(() => props.name ? store.samples?.files[props.name] : null)
-const usedSamples = computed(() => store.samples?.files ? Object.values(store.samples.files).reduce((acc, sample) => acc += (sample.usage.length > 0 ? 1 : 0), 0) : 0)
-const sampleUsageCount = computed(() => store.samples?.files[props.name] ? store.samples?.files[props.name].usage.length : 0)
+const file = computed(() => props.name ? store.samples[props.name]?.file : null)
+const sample = computed(() => props.name ? store.samples[props.name] : null)
+//const usedSamples = computed(() => Object.values(store.samples.files).reduce((acc, sample) => acc += (sample.usage.length > 0 ? 1 : 0), 0) : 0)
+//const sampleUsageCount = computed(() => store.samples?.files[props.name] ? store.samples?.files[props.name].usage.length : 0)
 </script>
