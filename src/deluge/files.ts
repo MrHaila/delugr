@@ -8,6 +8,7 @@ export interface ParsedFile {
   path: string,
   file: File,
   firmware: string,
+  url: string,
   type: FileType,
   data: Song | Sound | Kit,
   usage: {
@@ -42,6 +43,7 @@ export interface SampleFile {
   name: string,
   path: string,
   file: File,
+  url: string,
   usage: {
     sounds: { [key: string]: boolean },
     kits: { [key: string]: boolean },
@@ -106,6 +108,7 @@ export async function parseFolder(folder: FileSystemDirectoryHandle, path: strin
           name,
           path: fullPath,
           file,
+          url: '#',
           usage: {
             sounds: {},
             kits: {},
@@ -184,6 +187,7 @@ export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoun
       return {
         name, path, file, firmware, data, usage: { songs: {}, sounds: {}, kits: {}, },
         type: FileType.Song,
+        url: encodeURI(`/songs/${name.slice(0, -4)}`)
       }
     }
     else if (root.nodeName === 'sound') {
@@ -196,6 +200,7 @@ export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoun
       return {
         name, path, file, firmware, data, usage: { songs: {}, sounds: {}, kits: {}, },
         type: FileType.Sound,
+        url: encodeURI(`/synths/${name.slice(0, -4)}`)
       }
     }
     else if (root.nodeName === 'kit') {
@@ -208,6 +213,7 @@ export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoun
       return {
         name, path, file, firmware, data, usage: { songs: {}, sounds: {}, kits: {}, },
         type: FileType.Kit,
+        url: encodeURI(`/kits/${name.slice(0, -4)}`)
       }
     }
     else throw new Error(`Unknown node type '${root.nodeName}' in file '${name}' (was expecting 'song', 'sound', or 'kit')`)
@@ -216,6 +222,7 @@ export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoun
       name,
       path,
       file,
+      url: '#',
       usage: {
         sounds: {},
         kits: {},

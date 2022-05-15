@@ -38,7 +38,9 @@ export function parseKitv1 (xml: Element, fileName?: string): Kit {
     modFXType,
     modFXCurrentParam,
     currentFilterType,
-    soundSources
+    soundSources,
+    instrumentType: 'kit',
+    problem: false,
   }
 
   if (delay) kit.delay = parseDelay(delay, fileName)
@@ -94,6 +96,8 @@ export function parseSoundv1 (xml: Element, fileName?: string, songName?: string
     lfo2: parseLfo(lfo2),
     unison: parseUnison(unison),
     delay: parseDelay(delay, fileName),
+    instrumentType: 'sound',
+    problem: false,
   }
 
   if (polyphonic) sound.polyphonic = polyphonic

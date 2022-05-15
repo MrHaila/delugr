@@ -37,10 +37,11 @@ export function parseSongv3(xml: Element, songName: string): Song {
 
 export function parseKitv3 (xml: Element, fileName?: string, songName?: string): Kit {
   let presetName = 'Unknown 🤔'
+  let problem = false
 
   // TODO: evaluate if there should be multi-fw support in this function?
   if (xml.hasAttribute('name')) presetName = String(xml.getAttribute('name'))
-  else if (findDirectChildNodeByTagName(xml, 'name')?.textContent) presetName = String(findDirectChildNodeByTagName(xml, 'name')?.textContent)
+  else if (findDirectChildNodeByTagName(xml, 'name')) presetName = String(findDirectChildNodeByTagName(xml, 'name')?.textContent)
   else if (xml.hasAttribute('presetSlot')) {
     presetName = 'KIT' + String(xml.getAttribute('presetSlot'))
     if (xml.hasAttribute('presetSubSlot')) {
@@ -49,6 +50,7 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
     }
   }
   else if (fileName) presetName = fileName
+  else problem = true
 
   // Attributes
   const lpfMode = xml.getAttribute('lpfMode')
@@ -66,8 +68,8 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
     for (let i = 0; i < soundNodes.length; i++) {
       const xmlSound = soundNodes.item(i)
       if (xmlSound) {
-        const song = parseSoundv3(xmlSound, fileName)
-        sounds[song.presetName] = song
+        const sound = parseSoundv3(xmlSound, fileName)
+        sounds[sound.presetName] = sound
       }
     }
     return sounds
@@ -84,7 +86,9 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
     modFXType,
     modFXCurrentParam,
     currentFilterType,
-    soundSources
+    soundSources,
+    instrumentType: 'kit',
+    problem,
   }
 
   if (xmlDefaultParams) kit.defaultParams = parseAllAttributes(xmlDefaultParams)
@@ -96,11 +100,13 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
 
 export function parseSoundv3 (xml: Element, fileName?: string, songName?: string): Sound {
   let presetName = 'Unknown 🤔'
+  let problem = false
 
   // TODO: evaluate if there should be multi-fw support in this function?
   if (xml.hasAttribute('name')) presetName = String(xml.getAttribute('name'))
-  else if (findDirectChildNodeByTagName(xml, 'name')?.textContent) presetName = String(findDirectChildNodeByTagName(xml, 'name')?.textContent)
+  else if (findDirectChildNodeByTagName(xml, 'name')) presetName = String(findDirectChildNodeByTagName(xml, 'name')?.textContent)
   else if (fileName) presetName = fileName
+  else problem = true
 
   // Attributes
   const mode = xml.getAttribute('mode')
@@ -143,6 +149,8 @@ export function parseSoundv3 (xml: Element, fileName?: string, songName?: string
     lfo2: parseLfo(lfo2),
     unison: parseUnison(unison),
     delay: parseDelay(delay),
+    instrumentType: 'sound',
+    problem,
   }
 
   if (polyphonic) sound.polyphonic = polyphonic
@@ -185,7 +193,7 @@ function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
   if (!compressor) throw new Error(`Missing 'compressor' element on audio track of song '${songName}'`)
 
   const audioTrack: AudioTrack = {
-    name: String(name),
+    presetName: String(name),
     echoingInput: Number(echoingInput),
     inputChannel: String(inputChannel),
     isArmedForRecording: Number(isArmedForRecording),
@@ -195,7 +203,9 @@ function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
     modFxCurrentParam: String(modFxCurrentParam),
     currentFilterType: String(currentFilterType),
     delay: parseDelay(delay),
-    compressor: parseCompressor(compressor)
+    compressor: parseCompressor(compressor),
+    instrumentType: 'audio track',
+    problem: false,
   }
 
   return audioTrack

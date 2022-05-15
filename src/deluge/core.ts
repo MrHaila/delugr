@@ -50,7 +50,8 @@ export interface Sound {
   modulator2?: Modulator,
 
   // Not part of the spec
-  problem?: boolean
+  problem: boolean,
+  instrumentType: 'sound',
 }
 
 export interface Kit {
@@ -67,10 +68,14 @@ export interface Kit {
   },
   equalizer?: Equalizer, // TODO: is this a default param or what?
   soundSources: { [key: string]: Sound },
+
+  // Not part of the spec
+  problem: boolean,
+  instrumentType: 'kit'
 }
 
 export interface AudioTrack {
-  name: string,
+  presetName: string,
 
   echoingInput: number,
   inputChannel: string,
@@ -82,6 +87,10 @@ export interface AudioTrack {
   currentFilterType: string,
   delay: Delay,
   compressor: Compressor,
+
+  // Not part of the spec
+  problem: boolean,
+  instrumentType: 'audio track'
 }
 
 export interface Modulator {
