@@ -1,4 +1,4 @@
-import { defineStore } from "pinia"
+import { defineStore, storeToRefs } from "pinia"
 import { getFirmwareVersion, Kit, Song, Sound } from "./core"
 import { parseKitv1, parseSoundv1 } from "./v1"
 import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3"
@@ -48,15 +48,10 @@ export interface SampleFile {
   },
 }
 
-enum FileSkipReason {
-  FailedToParse,
-  NotSupported,
-}
-
 export interface SkippedFile {
   name: string,
   path: string,
-  reason: FileSkipReason,
+  reason: string,
 }
 
 const songs: ParsedSongFile[] = []
@@ -65,25 +60,27 @@ const kits: ParsedKitFile[] = []
 const samples: SampleFile[] = []
 const skippedFiles: SkippedFile[] = []
 
-export async function parseFolder(folder: FileSystemDirectoryHandle, path: string) {
+export async function parseFolder(folder: FileSystemDirectoryHandle, path: string, saveAfterDone: boolean = false) {
+  const store = useStore()
+
   // For each XML or wav file in the folder structure, parse it and add it to the store
   for await (const entry of folder.values()) {
     if (entry.kind === 'directory') {
       const folder = entry as FileSystemDirectoryHandle
-      parseFolder(folder, path + '/' + entry.name)
+      await parseFolder(folder, path + '/' + entry.name)
     } else if (entry.kind === 'file') {
       const fileHandle = entry as FileSystemFileHandle
       const name = fileHandle.name
       const fullPath = path + '/' + fileHandle.name
       
-      // Parse XML and WAV files
+      // Parse XML
       if (fileHandle.name.toLowerCase().endsWith('.xml')) {
         // console.log('Parsing XML file', fileHandle.name)
         const file = await fileHandle.getFile()
         const parsedFile = await parseFile(file)
         
         // Store results into arrays
-        if (parsedFile) {
+        if (typeof parsedFile !== 'string') {
           if ('type' in parsedFile) {
             if (parsedFile.type === FileType.Song) {
               songs.push(parsedFile)
@@ -92,13 +89,17 @@ export async function parseFolder(folder: FileSystemDirectoryHandle, path: strin
             } else if (parsedFile.type === FileType.Kit) {
               kits.push(parsedFile)
             }
-          }
-          else skippedFiles.push({
+          } else skippedFiles.push({
             name,
             path: fullPath,
-            reason: FileSkipReason.FailedToParse,
+            reason: 'Unknown file type. Was expecting a song, sound, or kit.',
           })
-        }
+        } else skippedFiles.push({
+          name,
+          path: fullPath,
+          reason: parsedFile,
+        })
+      // Parse WAV
       } else if (fileHandle.name.toLowerCase().endsWith('.wav')) {
         const file = await fileHandle.getFile()
         samples.push({
@@ -110,30 +111,36 @@ export async function parseFolder(folder: FileSystemDirectoryHandle, path: strin
             kits: {},
           }
         })
-      } else {
+      // Ignore .DS_Store quietly, log everything else
+      } else if (fileHandle.name !== '.DS_Store') {
         skippedFiles.push({
           name,
           path: fullPath,
-          reason: FileSkipReason.NotSupported,
+          reason: 'Not a supported file type',
         })
       }
+
+      store.filesScanned++
     }
   }
 
   // Save results to the store
   // Note: these are done here instead of in the loops to save on Pinia's dev tools events
-  const store = useStore()
-  store.songs = songs
-  store.sounds = sounds
-  store.kits = kits
-  store.samples = samples
+  if (saveAfterDone) {
+    store.songs = songs
+    store.sounds = sounds
+    store.kits = kits
+    store.samples = samples
+    store.skippedFiles = skippedFiles
+    store.parsed = true
+  }
 
   // computeUsage()
 }
 
 const parser = new DOMParser()
 
-export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoundFile | ParsedKitFile | SampleFile | void> {
+export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoundFile | ParsedKitFile | SampleFile | string> {
   let xml = await file.text()
   let firmware
 
@@ -169,13 +176,10 @@ export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoun
   if (['song', 'sound', 'kit'].includes(root.nodeName)) {
     let data
     if (root.nodeName === 'song') {
-      if (firmware.startsWith('1') || firmware.startsWith('2')) {
-        console.warn(`Firmware version ${firmware} is not supported for song file ${name} -> skipping`)
-        return
-      }
-      else if (firmware.startsWith('3')) data = parseSongv3(root, name)
-      else if (firmware.startsWith('4')) throw Error(`Firmware version ${firmware} is not supported for song file ${name}`)
-      else throw Error(`Firmware version ${firmware} is not supported for song file ${name}`)
+      //if (firmware.startsWith('1') || firmware.startsWith('2')) return `Firmware version ${firmware} is not supported for songs.`
+      if (firmware.startsWith('3')) data = parseSongv3(root, name)
+      //else if (firmware.startsWith('4')) throw Error(`Firmware version ${firmware} is not supported for song file ${name}`)
+      else return `Firmware version ${firmware} is not supported for songs.`
 
       return {
         name, path, file, firmware, data, usage: { songs: {}, sounds: {}, kits: {}, },
@@ -184,13 +188,10 @@ export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoun
     }
     else if (root.nodeName === 'sound') {
       if (firmware.startsWith('1')) data = parseSoundv1(root, name)
-      else if (firmware.startsWith('2')) {
-        console.warn(`Firmware version ${firmware} is not supported for sound file ${name} -> skipping`)
-        return
-      }
+      //else if (firmware.startsWith('2')) return `Firmware version ${firmware} is not supported for sounds.`
       else if (firmware.startsWith('3')) data = parseSoundv3(root, name)
-      else if (firmware.startsWith('4')) throw Error(`Firmware version ${firmware} is not supported for sound file ${name}`)
-      else throw Error(`Firmware version ${firmware} is not supported for sound file ${name}`)
+      //else if (firmware.startsWith('4')) throw Error(`Firmware version ${firmware} is not supported for sound file ${name}`)
+      else return `Firmware version ${firmware} is not supported for sounds.`
 
       return {
         name, path, file, firmware, data, usage: { songs: {}, sounds: {}, kits: {}, },
@@ -199,13 +200,10 @@ export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoun
     }
     else if (root.nodeName === 'kit') {
       if (firmware.startsWith('1')) data = parseKitv1(root, name)
-      else if (firmware.startsWith('2')) {
-        console.warn(`Firmware version ${firmware} is not supported for kit file ${name} -> skipping`)
-        return
-      }
+      //else if (firmware.startsWith('2')) return `Firmware version ${firmware} is not supported for kits.`
       else if (firmware.startsWith('3')) data = parseKitv3(root, name)
-      else if (firmware.startsWith('4')) throw Error(`Firmware version ${firmware} is not supported for kit file ${name}`)
-      else throw Error(`Firmware version ${firmware} is not supported for kit file ${name}`)
+      //else if (firmware.startsWith('4')) return `Firmware version ${firmware} is not supported for kits.`
+      else return `Firmware version ${firmware} is not supported for kits.`
 
       return {
         name, path, file, firmware, data, usage: { songs: {}, sounds: {}, kits: {}, },
@@ -230,10 +228,14 @@ export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoun
 }
 
 export interface DelugrFileStore {
+  parsed: boolean,
+  parseError: string | null,
+  filesScanned: number,
   songs: ParsedSongFile[],
   sounds: ParsedSoundFile[],
   kits: ParsedKitFile[],
   samples: SampleFile[],
+  skippedFiles: SkippedFile[],
   folderName: string,
   folderHandle: FileSystemDirectoryHandle | null,
 }
@@ -241,10 +243,14 @@ export interface DelugrFileStore {
 export const useStore = defineStore('files', {
   state: (): DelugrFileStore => {
     return {
+      parsed: false,
+      parseError: null,
+      filesScanned: 0,
       songs: [],
       sounds: [],
       kits: [],
       samples: [],
+      skippedFiles: [],
       folderName: '',
       folderHandle: null,
     }

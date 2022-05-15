@@ -1,7 +1,15 @@
 <template lang="pug">
-div(v-if="!store.folderName").text-center.mt-20.space-y-3
+div(v-if="!store.folderName" class="text-center mt-20 space-y-3")
   h1 Select the Deluge memory card root folder to get started.
   h-button(@click="getFolder") Select folder
+
+div(v-else-if="!store.parsed && store.parseError" class="text-center mt-20 space-y-3")
+  h1 Something went wrong while parsing the folder. Maybe there's something helpful in the browser logs?
+  h-button(@click="getFolder") Try again
+
+div(v-else-if="!store.parsed" class="text-center mt-20 space-y-3")
+  h1 Parsing the folder contents...
+  p {{ store.filesScanned }} files scanned
 
 div(v-else class="flex h-screen overflow-hidden")
   nav(aria-label="Sidebar" class="flex-shrink-0 bg-gray-800 flex flex-col justify-between text-gray-400")
@@ -16,7 +24,7 @@ div(v-else class="flex h-screen overflow-hidden")
         sidebar-link(variant="samples")
 
       div(class="flex justify-center")
-        RefreshIcon(aria-hidden="true" @click="parseFolder(store.folderHandle, store.folderName)" class="border border-gray-700 h-7 w-7 p-1 text-gray-400 hover:bg-gray-700 rounded")
+        RefreshIcon(aria-hidden="true" @click="getFolder" class="border border-gray-700 h-7 w-7 p-1 text-gray-400 hover:bg-gray-700 rounded")
 
     div(class="flex justify-center")
       a(href="https://haila.fi" target="_blank" class="h-4 mb-4 fill-current text-gray-400 hover:text-gray-50")
@@ -40,9 +48,10 @@ let rootFolder: FileSystemDirectoryHandle | null = null
 
 async function getFolder() {
   // Ask for a folder
+  // TODO: handle cancels and other such errors
   rootFolder = await window.showDirectoryPicker()
   store.folderName = rootFolder.name
   store.folderHandle = rootFolder
-  parseFolder(rootFolder, rootFolder.name)
+  parseFolder(rootFolder, rootFolder.name, true)
 }
 </script>
