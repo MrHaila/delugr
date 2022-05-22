@@ -34,10 +34,18 @@ const props = defineProps<Props>()
 
 // Highlight entry based on current route
 let active = ref('')
+function setActive(name: string | string[]) {
+  if (isArray(name)) {
+    active.value = name[0]
+  } else {
+    active.value = name
+  }
+}
 const route = useRoute()
+setActive(route.params.name)
 watch(
   () => route.params.name,
-  newName => { isArray(newName) ? active.value = newName[0] : active.value = newName }
+  newName => setActive(newName)
 )
 
 /**

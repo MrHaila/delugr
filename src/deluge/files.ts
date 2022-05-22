@@ -139,9 +139,70 @@ export async function parseFolder(folder: FileSystemDirectoryHandle, path: strin
     store.samples = samples.sort((a, b) => a.name.localeCompare(b.name))
     store.skippedFiles = skippedFiles
     store.parsed = true
+
+    computeUsage()
   }
 
-  // computeUsage()
+}
+
+// TODO: consider in-song usage vs preset usage. Possibly break into smaller functions.
+function computeUsage () {
+  const store = useStore()
+
+  // Compute usage
+  for (const song of store.songs) {
+    for (const instrument of song.data.instruments) {
+      // Sounds
+      if (instrument.instrumentType === 'sound') {
+        const sound = sounds.find(sound => sound.name === instrument.presetName)
+        if (sound) {
+          sound.usage.songs[song.name] = true
+
+          // Samples inside sounds
+          if (sound.data.osc1.fileName) {
+            const soundSample = samples.find(sample => sample.name === sound.data.osc1.fileName)
+            if (soundSample) soundSample.usage.songs[song.name] = true
+          }
+          if (sound.data.osc2.fileName) {
+            const soundSample = samples.find(sample => sample.name === sound.data.osc2.fileName)
+            if (soundSample) soundSample.usage.songs[song.name] = true
+          }
+        }
+
+        // Kits
+      } else if (instrument.instrumentType === 'kit') {
+        const kit = kits.find(kit => kit.name === instrument.presetName)
+        if (kit) {
+          kit.usage.songs[song.name] = true
+
+          // Sounds inside kits
+          for (const soundSource of Object.values(kit.data.soundSources)) {
+            const sound = sounds.find(sound => sound.name === soundSource.presetName)
+            if (sound) {
+              sound.usage.songs[song.name] = true
+
+              // Samples inside sounds
+              if (sound.data.osc1.fileName) {
+                const soundSample = samples.find(sample => sample.name === sound.data.osc1.fileName)
+                if (soundSample) soundSample.usage.songs[song.name] = true
+              }
+              if (sound.data.osc2.fileName) {
+                const soundSample = samples.find(sample => sample.name === sound.data.osc2.fileName)
+                if (soundSample) soundSample.usage.songs[song.name] = true
+              }
+            }
+          }
+        }
+        // Audio tracks
+      } else if (instrument.instrumentType === 'audio track') {
+        console.log('TODO: audio track usage for', instrument.presetName)
+        // const sample = samples.find(sample => sample.name === instrument.presetName)
+        // if (sample) {
+        //   sample.usage.songs[song.name] = true
+        // }
+      }
+    }
+  }
 }
 
 const parser = new DOMParser()

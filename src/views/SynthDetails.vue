@@ -35,7 +35,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             div {{ sound.data.polyphonic }}
     
     div(class="flex space-x-3")
-      h-card
+      //h-card
         template(#title) Envelope 1
         div(class="divide-y divide-gray-200")
           div(class="py-2 flex flex-row")
@@ -51,7 +51,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             div(class="basis-40") Release
             div {{ sound.data.env1?.release.decimal }} - {{ sound.data.env1?.release.fixh }}
 
-      h-card(class="max-w-md md:flex-1")
+      //h-card(class="max-w-md md:flex-1")
         template(#title) Actions (TBD)
         div(class="space-x-3")
           h-button(variant="primary") Rename Synth
