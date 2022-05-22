@@ -191,9 +191,9 @@ export function getFirmwareVersion(xml: Element): string {
  * A helper to get a display name for a sound or a kit of any firmware version.
  * @param xml The intrument's root element.
  */
-export function getInstrumentName(xml: Element): string {
+export function getInstrumentName(xml: Element): string | null {
   // Newer instruments have a presetName attribute
-  let presetName = xml.getAttribute('presetName') || 'Unknown 🤔'
+  let presetName = xml.getAttribute('presetName') || null
 
   // Old instruments had slot numbers instead of names
   if (xml.hasAttribute('presetSlot')) {

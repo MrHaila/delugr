@@ -15,7 +15,8 @@ export interface ParsedFile {
     songs: { [key: string]: boolean },
     sounds: { [key: string]: boolean },
     kits: { [key: string]: boolean },
-  }
+  },
+  xml: string,
 }
 
 enum FileType {
@@ -185,7 +186,7 @@ export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoun
       else return `Firmware version ${firmware} is not supported for songs.`
 
       return {
-        name, path, file, firmware, data, usage: { songs: {}, sounds: {}, kits: {}, },
+        name, path, file, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, },
         type: FileType.Song,
         url: encodeURI(`/songs/${name.slice(0, -4)}`)
       }
@@ -198,7 +199,7 @@ export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoun
       else return `Firmware version ${firmware} is not supported for sounds.`
 
       return {
-        name, path, file, firmware, data, usage: { songs: {}, sounds: {}, kits: {}, },
+        name, path, file, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, },
         type: FileType.Sound,
         url: encodeURI(`/synths/${name.slice(0, -4)}`)
       }
@@ -211,7 +212,7 @@ export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoun
       else return `Firmware version ${firmware} is not supported for kits.`
 
       return {
-        name, path, file, firmware, data, usage: { songs: {}, sounds: {}, kits: {}, },
+        name, path, file, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, },
         type: FileType.Kit,
         url: encodeURI(`/kits/${name.slice(0, -4)}`)
       }

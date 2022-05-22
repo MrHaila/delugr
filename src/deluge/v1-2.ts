@@ -1,7 +1,15 @@
 import { Delay, findDirectChildNodeByTagName, getInstrumentName, Kit, Lfo, Oscillator, Sound, Unison } from "./core"
 
 export function parseKitv1 (xml: Element, fileName?: string): Kit {
-  const presetName = getInstrumentName(xml)
+  let presetName = getInstrumentName(xml)
+  let problem = false
+  if (!presetName) {
+    if (fileName) presetName = fileName.slice(0, -4)
+    else {
+      presetName = 'Unknown v1-2 kit 🤔'
+      problem = true
+    }
+  }
 
   // Child elements
   const lpfMode = findDirectChildNodeByTagName(xml, 'lpfMode')?.textContent
@@ -45,7 +53,15 @@ export function parseKitv1 (xml: Element, fileName?: string): Kit {
 }
 
 export function parseSoundv1 (xml: Element, fileName?: string, songName?: string): Sound {
-  const presetName = getInstrumentName(xml)
+  let presetName = getInstrumentName(xml)
+  let problem = false
+  if (!presetName) {
+    if (fileName) presetName = fileName.slice(0, -4)
+    else {
+      presetName = 'Unknown v1-2 sound 🤔'
+      problem = true
+    }
+  }
 
   // Child elements
   const mode = findDirectChildNodeByTagName(xml, 'mode')?.textContent

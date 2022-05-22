@@ -1,7 +1,7 @@
 <template lang="pug">
 div(v-if="!props.name") No name prop... What?
 
-div(v-else-if="props.name" class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-slate-50")
+div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-slate-50")
   div(v-if="!song" class="flex justify-center my-auto")
     h1(class="font-bold text-xl text-gray-400") Song '{{ props.name }}' not found!
 
@@ -34,9 +34,14 @@ div(v-else-if="props.name" class="min-w-0 flex-1 h-full flex flex-col overflow-y
     h2(class="font-bold text-xl") Technical Details
     p(class="text-sm") The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's a dump of what I've managed to parse so far:
 
-    pre.rounded.bg-gray-300.p-3.text-xs.font-mono
-      h3.font-bold RAW SONG DATA
-      pre {{ song.data }}
+    div(class="flex space-x-3")
+      pre.rounded.bg-gray-300.p-3.text-xs.font-mono
+        h3.font-bold PARSED SONG DATA
+        pre {{ song.data }}
+
+      pre.rounded.bg-gray-300.p-3.text-xs.font-mono
+        h3.font-bold RAW SONG DATA
+        pre {{ song.xml }}
 </template>
 
 <script lang="ts" setup>
@@ -52,13 +57,5 @@ const props = defineProps([
   'name'
 ])
 
-const song = computed(() => props.name ? store.songs.find(song => song.name.startsWith(props.name)) : null)
-
-function tagToName(tag: string) {
-  switch (tag) {
-    case 'sound': return 'Synth'
-    case 'kit': return 'Kit'
-    default: return tag
-  }
-}
+const song = computed(() => props.name ? store.songs.find(song => song.name.slice(0, -4) === props.name) : null)
 </script>

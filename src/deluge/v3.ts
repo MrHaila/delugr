@@ -35,8 +35,15 @@ export function parseSongv3(xml: Element, songName: string): Song {
 }
 
 export function parseKitv3 (xml: Element, fileName?: string, songName?: string): Kit {
-  const presetName = getInstrumentName(xml)
+  let presetName = getInstrumentName(xml)
   let problem = false
+  if (!presetName) {
+    if (fileName) presetName = fileName.slice(0, -4)
+    else {
+      presetName = 'Unknown v3 kit 🤔'
+      problem = true
+    }
+  }
 
   // Attributes
   const lpfMode = xml.getAttribute('lpfMode')
@@ -85,8 +92,15 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
 }
 
 export function parseSoundv3 (xml: Element, fileName?: string, songName?: string): Sound {
-  const presetName = getInstrumentName(xml)
+  let presetName = getInstrumentName(xml)
   let problem = false
+  if (!presetName) {
+    if (fileName) presetName = fileName.slice(0, -4)
+    else {
+      presetName = 'Unknown v3 sound 🤔'
+      problem = true
+    }
+  }
 
   // Attributes
   const mode = xml.getAttribute('mode')
