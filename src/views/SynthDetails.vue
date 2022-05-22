@@ -130,7 +130,6 @@ const props = defineProps([
 
 
 const sound = computed(() => props.name ? store.sounds.find(sound => sound.name.slice(0, -4) === props.name) : null)
-// const rawText = store.sounds.find(sound => sound = props.name)?.file.text()
 
 const usedSynths = computed(() => Object.keys(store.sounds[props.name]?.usage.songs).length + Object.keys(store.sounds[props.name].usage.kits).length)
 const synthSongUsageCount = computed(() => sound.value ? Object.keys(sound.value.usage.songs).length : null)

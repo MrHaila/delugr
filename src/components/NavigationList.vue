@@ -6,10 +6,10 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-
     v-if="props.listItems.length > 0"
     v-for="item in props.listItems"
     :to="item.url"
-    :class="['flex justify-between p-3 cursor-pointer text-sm', props.active === item.name ? 'bg-amber-400' : 'hover:bg-gray-300', (props.usage && !Object.hasOwn(props.usage, item.name)) ? 'bg-gray-200' : '']"
+    :class="['flex justify-between p-3 cursor-pointer text-sm', active === item.name.slice(0, -4) ? 'bg-amber-400' : 'hover:bg-gray-300', isUnused(item) ? 'bg-gray-200' : '']"
     )
     // dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name }} #[exclamation-circle-icon(v-if="item.problem" class="h-4 inline text-red-400 align-text-top")]
-    dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name.slice(0, -4) }} #[span(v-if="props.usage && !Object.hasOwn(props.usage, item.name)" class="text-xs font-light text-gray-500") un-used]
+    dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name.slice(0, -4) }} #[span(v-if="isUnused(item)" class="text-xs font-light text-gray-500") un-used]
     dd(class="text-gray-500 mt-0 col-span-2") {{ DateTime.fromMillis(item.file.lastModified).toFormat('yyyy-MM-dd') }}
 
   //div(v-else)
@@ -17,16 +17,40 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-
 </template>
 
 <script lang="ts" setup>
-import type { ParsedSongFile, ParsedSoundFile, ParsedKitFile, SampleFile } from '../deluge/files'
+import type { SampleFile, ParsedFile } from '../deluge/files'
 import { DateTime } from 'luxon'
 import { ExclamationCircleIcon } from '@heroicons/vue/solid'
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { isArray } from '@vue/shared'
+import { FileType } from '../deluge/files'
 
+// Props
 interface Props {
   title: string,
-  listItems: ParsedSongFile[] | ParsedSoundFile[] | ParsedKitFile[] | SampleFile[],
-  active?: string,
-  usage?: { [key: string]: string[] },
+  listItems: ParsedFile[] | SampleFile[],
 }
-
 const props = defineProps<Props>()
+
+// Highlight entry based on current route
+let active = ref('')
+const route = useRoute()
+watch(
+  () => route.params.name,
+  newName => { isArray(newName) ? active.value = newName[0] : active.value = newName }
+)
+
+/**
+ * Figure out if an item should be flagged as un-used.
+ * @param item Item to check.
+ */
+const isUnused = (item: ParsedFile | SampleFile): boolean => {
+  // Non-samples have a type.
+  if ('type' in item) {
+    // Songs can't be un-used
+    if (item.type === FileType.Song) return false
+  }
+  if ((Object.keys(item.usage.kits).length === 0 && Object.keys(item.usage.sounds).length === 0 && Object.keys(item.usage.songs).length === 0)) return true
+  return false
+}
 </script>

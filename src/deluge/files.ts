@@ -19,7 +19,7 @@ export interface ParsedFile {
   xml: string,
 }
 
-enum FileType {
+export enum FileType {
   Song,
   Sound,
   Kit,
@@ -46,6 +46,7 @@ export interface SampleFile {
   file: File,
   url: string,
   usage: {
+    songs: { [key: string]: boolean },
     sounds: { [key: string]: boolean },
     kits: { [key: string]: boolean },
   },
@@ -111,6 +112,7 @@ export async function parseFolder(folder: FileSystemDirectoryHandle, path: strin
           file,
           url: '#',
           usage: {
+            songs: {},
             sounds: {},
             kits: {},
           }
@@ -225,6 +227,7 @@ export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoun
       file,
       url: '#',
       usage: {
+        songs: {},
         sounds: {},
         kits: {},
       }
