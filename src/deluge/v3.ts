@@ -13,9 +13,8 @@ export function parseSongv3(xml: Element, songName: string): Song {
     let instrumentProblem = false
 
     // Old patches had slot numbers instead of names
-    let presetName = getInstrumentName(i)
+    const presetName = getInstrumentName(i)
 
-    // TODO audio tracks? Is that a thing?
     if (i.tagName === 'sound') {
       return parseSoundv3(i, undefined, songName)
     } else if (i.tagName === 'kit') {
@@ -36,21 +35,8 @@ export function parseSongv3(xml: Element, songName: string): Song {
 }
 
 export function parseKitv3 (xml: Element, fileName?: string, songName?: string): Kit {
-  let presetName = 'Unknown 🤔'
+  const presetName = getInstrumentName(xml)
   let problem = false
-
-  // TODO: evaluate if there should be multi-fw support in this function?
-  if (xml.hasAttribute('name')) presetName = String(xml.getAttribute('name'))
-  else if (findDirectChildNodeByTagName(xml, 'name')) presetName = String(findDirectChildNodeByTagName(xml, 'name')?.textContent)
-  else if (xml.hasAttribute('presetSlot')) {
-    presetName = 'KIT' + String(xml.getAttribute('presetSlot'))
-    if (xml.hasAttribute('presetSubSlot')) {
-      const presetSubSlot = Number(xml.getAttribute('presetSubSlot'))
-      if (presetSubSlot >= 0) presetName += ` ${presetSubSlot}`
-    }
-  }
-  else if (fileName) presetName = fileName
-  else problem = true
 
   // Attributes
   const lpfMode = xml.getAttribute('lpfMode')
@@ -99,14 +85,8 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
 }
 
 export function parseSoundv3 (xml: Element, fileName?: string, songName?: string): Sound {
-  let presetName = 'Unknown 🤔'
+  const presetName = getInstrumentName(xml)
   let problem = false
-
-  // TODO: evaluate if there should be multi-fw support in this function?
-  if (xml.hasAttribute('name')) presetName = String(xml.getAttribute('name'))
-  else if (findDirectChildNodeByTagName(xml, 'name')) presetName = String(findDirectChildNodeByTagName(xml, 'name')?.textContent)
-  else if (fileName) presetName = fileName
-  else problem = true
 
   // Attributes
   const mode = xml.getAttribute('mode')

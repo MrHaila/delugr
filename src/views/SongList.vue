@@ -6,13 +6,11 @@ main(class="min-w-0 flex-1 flex")
     :active="props.name || ''"
   )
 
-  router-view()
+  router-view
 </template>
 
 <script lang="ts" setup>
 import { useStore } from '../deluge/files'
-import { DateTime } from 'luxon'
-import { ExclamationCircleIcon } from '@heroicons/vue/solid'
 
 const props = defineProps([
   'name'

@@ -1,11 +1,7 @@
-import { Delay, findDirectChildNodeByTagName, Kit, Lfo, Oscillator, Sound, Unison } from "./core"
+import { Delay, findDirectChildNodeByTagName, getInstrumentName, Kit, Lfo, Oscillator, Sound, Unison } from "./core"
 
 export function parseKitv1 (xml: Element, fileName?: string): Kit {
-  let presetName = 'Unknown v1 or v2 kit 🤔'
-
-  // TODO: evaluate if there should be multi-fw support in this function?
-  if (findDirectChildNodeByTagName(xml, 'name')?.textContent) presetName = String(findDirectChildNodeByTagName(xml, 'name')?.textContent)
-  else if (fileName) presetName = fileName
+  const presetName = getInstrumentName(xml)
 
   // Child elements
   const lpfMode = findDirectChildNodeByTagName(xml, 'lpfMode')?.textContent
@@ -49,11 +45,7 @@ export function parseKitv1 (xml: Element, fileName?: string): Kit {
 }
 
 export function parseSoundv1 (xml: Element, fileName?: string, songName?: string): Sound {
-  let presetName = 'Unknown v1 or v2 Song 🤔'
-
-  // TODO: evaluate if there should be multi-fw support in this function?
-  if (findDirectChildNodeByTagName(xml, 'name')?.textContent) presetName = String(findDirectChildNodeByTagName(xml, 'name')?.textContent)
-  else if (fileName) presetName = fileName
+  const presetName = getInstrumentName(xml)
 
   // Child elements
   const mode = findDirectChildNodeByTagName(xml, 'mode')?.textContent

@@ -1,7 +1,7 @@
 <template lang="pug">
 section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-slate-50")
   div(class="flex justify-center my-auto")
-    h1(class="font-bold text-xl text-gray-400") ⬅ Select a kit to get started
+    h1(class="font-bold text-xl text-gray-400") ⬅ Select a synth to get started
 </template>
 
 <script lang="ts" setup>

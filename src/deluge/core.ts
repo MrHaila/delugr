@@ -193,7 +193,8 @@ export function getFirmwareVersion(xml: Element): string {
  */
 export function getInstrumentName(xml: Element): string {
   // Newer instruments have a presetName attribute
-  let presetName = xml.getAttribute('presetName') || ''
+  let presetName = xml.getAttribute('presetName') || 'Unknown 🤔'
+
   // Old instruments had slot numbers instead of names
   if (xml.hasAttribute('presetSlot')) {
     const prefix = xml.tagName === 'sound' ? 'SYNT' : 'KIT'
@@ -201,6 +202,12 @@ export function getInstrumentName(xml: Element): string {
     if (slot < 10) presetName = `${prefix}00${slot}`
     else if (slot < 99) presetName = `${prefix}0${slot}`
     else presetName = `${prefix}${slot}`
+
+    // Also might have a sub slot
+    if (xml.hasAttribute('presetSubSlot')) {
+      const presetSubSlot = Number(xml.getAttribute('presetSubSlot'))
+      if (presetSubSlot >= 0) presetName += ` ${presetSubSlot}`
+    }
   }
   return presetName
 }

@@ -130,10 +130,10 @@ export async function parseFolder(folder: FileSystemDirectoryHandle, path: strin
   // Save results to the store
   // Note: these are done here instead of in the loops to save on Pinia's dev tools events
   if (saveAfterDone) {
-    store.songs = songs
-    store.sounds = sounds
-    store.kits = kits
-    store.samples = samples
+    store.songs = songs.sort((a, b) => a.name.localeCompare(b.name))
+    store.sounds = sounds.sort((a, b) => a.name.localeCompare(b.name))
+    store.kits = kits.sort((a, b) => a.name.localeCompare(b.name))
+    store.samples = samples.sort((a, b) => a.name.localeCompare(b.name))
     store.skippedFiles = skippedFiles
     store.parsed = true
   }
