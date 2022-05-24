@@ -15,11 +15,15 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 
     div(class="flex space-x-3")
       h-card(class="max-w-md md:flex-1")
-        template(#title) Song usage #[h-badge {{ synthSongUsageCount }}]
+        template(#title) Usage #[h-badge {{ synthSongUsageCount }}]
         div(v-if="synthSongUsageCount" class="divide-y divide-gray-200")
-          div(v-for="(bool, key) in store.sounds[props.name].usage.songs" :key="key" class="py-2")
+          div(v-for="(bool, key) in sound.usage.songs" :key="key" class="py-2 flex justify-between")
             router-link(:to="'/songs/' + key" class="text-blue-500 hover:text-blue-600 hover:underline") {{ key }}
-        div(v-else class="italic text-gray-400") Not used in any songs.
+            span song
+          div(v-for="(bool, key) in sound.usage.kits" :key="key" class="py-2 flex justify-between")
+            router-link(:to="'/kits/' + key" class="text-blue-500 hover:text-blue-600 hover:underline") {{ key }}
+            span kit
+        div(v-else class="italic text-gray-400") Not used in any songs or kits.
 
       h-card(class="max-w-md md:flex-1")
         template(#title) Synth Settings
@@ -132,5 +136,5 @@ const props = defineProps([
 const sound = computed(() => props.name ? store.sounds.find(sound => sound.name.slice(0, -4) === props.name) : null)
 
 const usedSynths = computed(() => Object.keys(store.sounds[props.name]?.usage.songs).length + Object.keys(store.sounds[props.name].usage.kits).length)
-const synthSongUsageCount = computed(() => sound.value ? Object.keys(sound.value.usage.songs).length : null)
+const synthSongUsageCount = computed(() => sound.value?.usage ? Object.keys(sound.value.usage.songs).length : null)
 </script>

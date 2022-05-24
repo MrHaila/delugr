@@ -66,6 +66,7 @@ const skippedFiles: SkippedFile[] = []
 
 export async function parseFolder(folder: FileSystemDirectoryHandle, path: string, saveAfterDone: boolean = false) {
   const store = useStore()
+  if (saveAfterDone && store.filesScanned > 0) store.filesScanned = 0
 
   // For each XML or wav file in the folder structure, parse it and add it to the store
   for await (const entry of folder.values()) {
@@ -151,44 +152,45 @@ function computeUsage () {
 
   // Compute usage
   for (const song of store.songs) {
+    const songName = song.name.slice(0, -4) // Drop .xml from the name
     for (const instrument of song.data.instruments) {
       // Sounds
       if (instrument.instrumentType === 'sound') {
-        const sound = sounds.find(sound => sound.name === instrument.presetName)
+        const sound = sounds.find(sound => sound.name.slice(0, -4) === instrument.presetName)
         if (sound) {
-          sound.usage.songs[song.name] = true
+          sound.usage.songs[songName] = true
 
           // Samples inside sounds
           if (sound.data.osc1.fileName) {
             const soundSample = samples.find(sample => sample.name === sound.data.osc1.fileName)
-            if (soundSample) soundSample.usage.songs[song.name] = true
+            if (soundSample) soundSample.usage.songs[songName] = true
           }
           if (sound.data.osc2.fileName) {
             const soundSample = samples.find(sample => sample.name === sound.data.osc2.fileName)
-            if (soundSample) soundSample.usage.songs[song.name] = true
+            if (soundSample) soundSample.usage.songs[songName] = true
           }
         }
 
         // Kits
       } else if (instrument.instrumentType === 'kit') {
-        const kit = kits.find(kit => kit.name === instrument.presetName)
+        const kit = kits.find(kit => kit.name.slice(0, -4) === instrument.presetName)
         if (kit) {
-          kit.usage.songs[song.name] = true
+          kit.usage.songs[songName] = true
 
           // Sounds inside kits
           for (const soundSource of Object.values(kit.data.soundSources)) {
-            const sound = sounds.find(sound => sound.name === soundSource.presetName)
+            const sound = sounds.find(sound => sound.name.slice(0, -4) === soundSource.presetName)
             if (sound) {
-              sound.usage.songs[song.name] = true
+              sound.usage.songs[songName] = true
 
               // Samples inside sounds
               if (sound.data.osc1.fileName) {
                 const soundSample = samples.find(sample => sample.name === sound.data.osc1.fileName)
-                if (soundSample) soundSample.usage.songs[song.name] = true
+                if (soundSample) soundSample.usage.songs[songName] = true
               }
               if (sound.data.osc2.fileName) {
                 const soundSample = samples.find(sample => sample.name === sound.data.osc2.fileName)
-                if (soundSample) soundSample.usage.songs[song.name] = true
+                if (soundSample) soundSample.usage.songs[songName] = true
               }
             }
           }

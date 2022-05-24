@@ -17,7 +17,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
       h-card(class="max-w-md md:flex-1")
         template(#title) Song usage #[h-badge {{ kitSongUsageCount }}]
         div(v-if="kitSongUsageCount" class="divide-y divide-gray-200")
-          div(v-for="(bool, key) in store.kits[props.name].usage.songs" :key="key" class="py-2")
+          div(v-for="(bool, key) in kit.usage.songs" :key="key" class="py-2")
             router-link(:to="'/songs/' + key" class="text-blue-500 hover:text-blue-600 hover:underline") {{ key }}
         div(v-else class="italic text-gray-400") Not used in any songs.
 
