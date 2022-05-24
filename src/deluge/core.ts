@@ -195,6 +195,12 @@ export function getInstrumentName(xml: Element): string | null {
   // Newer instruments have a presetName attribute
   let presetName = xml.getAttribute('presetName') || null
 
+  // Sounds inside kits may have a name element in v1 and v2 files
+  if (xml.querySelector('name')) presetName = String(xml.querySelector('name')?.textContent)
+
+  // Sounds inside kits may have a name attribute in v3 and v4 files
+  if (xml.hasAttribute('name')) presetName = xml.getAttribute('name')
+
   // Old instruments had slot numbers instead of names
   if (xml.hasAttribute('presetSlot')) {
     const prefix = xml.tagName === 'sound' ? 'SYNT' : 'KIT'

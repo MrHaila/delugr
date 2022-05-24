@@ -24,8 +24,8 @@ export function parseKitv1 (xml: Element, fileName?: string): Kit {
     for (let i = 0; i < soundNodes.length; i++) {
       const xmlSound = soundNodes.item(i)
       if (xmlSound) {
-        const song = parseSoundv1(xmlSound, `${fileName}/${xmlSound.children.namedItem('name')?.textContent}`)
-        sounds[song.presetName] = song
+        const sound = parseSoundv1(xmlSound)
+        sounds[sound.presetName] = sound
       }
     }
     return sounds
@@ -125,12 +125,32 @@ function parseOscillator (xml: Element): Oscillator {
   const type = findDirectChildNodeByTagName(xml, 'type')?.textContent
   const transpose = findDirectChildNodeByTagName(xml, 'transpose')?.textContent
   const cents = findDirectChildNodeByTagName(xml, 'cents')?.textContent
+  const retrigPhase = findDirectChildNodeByTagName(xml, 'retrigPhase')?.textContent
+  const oscillatorSync = findDirectChildNodeByTagName(xml, 'oscillatorSync')?.textContent
+  const fileName = findDirectChildNodeByTagName(xml, 'fileName')?.textContent
+  const loopMode = findDirectChildNodeByTagName(xml, 'loopMode')?.textContent
+  const reversed = findDirectChildNodeByTagName(xml, 'reversed')?.textContent
+  const timeStretchAmount = findDirectChildNodeByTagName(xml, 'timeStretchAmount')?.textContent
+  const timeStretchEnable = findDirectChildNodeByTagName(xml, 'timeStretchEnabled')?.textContent
+
+  // TODO:
+  // zone?: {
+  //   startSamplePos: Number,
+  //   endSamplePos: Number
+  // }
 
   const oscillator: Oscillator = {}
 
   if (type) oscillator.type = type
   if (transpose) oscillator.transpose = Number(transpose)
   if (cents) oscillator.cents = Number(cents)
+  if (retrigPhase) oscillator.retrigPhase = Number(retrigPhase)
+  if (oscillatorSync) oscillator.oscillatorSync = Number(oscillatorSync)
+  if (fileName) oscillator.fileName = fileName
+  if (loopMode) oscillator.loopMode = Number(loopMode)
+  if (reversed) oscillator.reversed = Number(reversed)
+  if (timeStretchAmount) oscillator.timeStretchAmount = Number(timeStretchAmount)
+  if (timeStretchEnable) oscillator.timeStretchEnable = Number(timeStretchEnable)
 
   return oscillator
 }

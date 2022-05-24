@@ -61,7 +61,7 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
     for (let i = 0; i < soundNodes.length; i++) {
       const xmlSound = soundNodes.item(i)
       if (xmlSound) {
-        const sound = parseSoundv3(xmlSound, fileName)
+        const sound = parseSoundv3(xmlSound)
         sounds[sound.presetName] = sound
       }
     }
