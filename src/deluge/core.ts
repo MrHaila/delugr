@@ -1,16 +1,11 @@
 import { FixPos50 } from "./dataTypes"
 
 // Types ---------------------------------------------------------------------
-export interface DelugeParser {
-  parseSong(xml: Element): Song
-  parseSound(xml: Element): Sound
-  parseKit(xml: Element): Kit
-}
 
 export interface Song {
     name: string,
-    // TODO: all the rest
-    instruments: Array<Sound | Kit | AudioTrack> // TODO: audio tracks?
+    // TODO: the rest of the owl
+    instruments: Array<Sound | Kit | AudioTrack>
 }
 
 export interface Sound {
