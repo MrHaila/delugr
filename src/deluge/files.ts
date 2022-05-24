@@ -15,6 +15,7 @@ export interface ParsedFile {
     songs: { [key: string]: boolean },
     sounds: { [key: string]: boolean },
     kits: { [key: string]: boolean },
+    total: number,
   },
   xml: string,
 }
@@ -49,6 +50,7 @@ export interface SampleFile {
     songs: { [key: string]: boolean },
     sounds: { [key: string]: boolean },
     kits: { [key: string]: boolean },
+    total: number,
   },
 }
 
@@ -117,6 +119,7 @@ export async function parseFolder(folder: FileSystemDirectoryHandle, path: strin
             songs: {},
             sounds: {},
             kits: {},
+            total: 0,
           }
         })
       // Ignore .DS_Store quietly, log everything else
@@ -160,6 +163,7 @@ function computeUsage () {
         const sound = sounds.find(sound => sound.name.slice(0, -4) === instrument.presetName)
         if (sound) {
           sound.usage.songs[songName] = true
+          sound.usage.total++
 
           // Samples inside sounds
           if (sound.data.osc1.fileName) {
@@ -177,6 +181,7 @@ function computeUsage () {
         const kit = kits.find(kit => kit.name.slice(0, -4) === instrument.presetName)
         if (kit) {
           kit.usage.songs[songName] = true
+          kit.usage.total++
 
           // Sounds inside kits
           for (const soundSource of Object.values(kit.data.soundSources)) {
@@ -251,7 +256,7 @@ export async function parseFile(file: File, path: string): Promise<ParsedSongFil
       else return `Firmware version ${firmware} is not supported for songs.`
 
       return {
-        name, path, file, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, },
+        name, path, file, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, total: 0 },
         type: FileType.Song,
         url: encodeURI(`/songs/${name.slice(0, -4)}`)
       }
@@ -264,7 +269,7 @@ export async function parseFile(file: File, path: string): Promise<ParsedSongFil
       else return `Firmware version ${firmware} is not supported for sounds.`
 
       return {
-        name, path, file, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, },
+        name, path, file, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, total: 0 },
         type: FileType.Sound,
         url: encodeURI(`/synths/${name.slice(0, -4)}`)
       }
@@ -277,7 +282,7 @@ export async function parseFile(file: File, path: string): Promise<ParsedSongFil
       else return `Firmware version ${firmware} is not supported for kits.`
 
       return {
-        name, path, file, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, },
+        name, path, file, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, total: 0},
         type: FileType.Kit,
         url: encodeURI(`/kits/${name.slice(0, -4)}`)
       }
@@ -293,6 +298,7 @@ export async function parseFile(file: File, path: string): Promise<ParsedSongFil
         songs: {},
         sounds: {},
         kits: {},
+        total: 0
       }
     }
     return sampleFile
