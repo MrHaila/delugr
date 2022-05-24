@@ -67,16 +67,17 @@ const skippedFiles: SkippedFile[] = []
 export async function parseFolder(folder: FileSystemDirectoryHandle, path: string, saveAfterDone: boolean = false) {
   const store = useStore()
   if (saveAfterDone && store.filesScanned > 0) store.filesScanned = 0
+  if (path !== '') path += '/'
 
   // For each XML or wav file in the folder structure, parse it and add it to the store
   for await (const entry of folder.values()) {
     if (entry.kind === 'directory') {
       const folder = entry as FileSystemDirectoryHandle
-      await parseFolder(folder, path + '/' + entry.name)
+      await parseFolder(folder, path + entry.name)
     } else if (entry.kind === 'file') {
       const fileHandle = entry as FileSystemFileHandle
       const name = fileHandle.name
-      const fullPath = path + '/' + fileHandle.name
+      const fullPath = path + fileHandle.name
       
       // Parse XML
       if (fileHandle.name.toLowerCase().endsWith('.xml')) {
@@ -162,11 +163,11 @@ function computeUsage () {
 
           // Samples inside sounds
           if (sound.data.osc1.fileName) {
-            const soundSample = samples.find(sample => sample.name === sound.data.osc1.fileName)
+            const soundSample = samples.find(sample => sample.path === sound.data.osc1.fileName)
             if (soundSample) soundSample.usage.songs[songName] = true
           }
           if (sound.data.osc2.fileName) {
-            const soundSample = samples.find(sample => sample.name === sound.data.osc2.fileName)
+            const soundSample = samples.find(sample => sample.path === sound.data.osc2.fileName)
             if (soundSample) soundSample.usage.songs[songName] = true
           }
         }
@@ -185,11 +186,11 @@ function computeUsage () {
 
               // Samples inside sounds
               if (sound.data.osc1.fileName) {
-                const soundSample = samples.find(sample => sample.name === sound.data.osc1.fileName)
+                const soundSample = samples.find(sample => sample.path === sound.data.osc1.fileName)
                 if (soundSample) soundSample.usage.songs[songName] = true
               }
               if (sound.data.osc2.fileName) {
-                const soundSample = samples.find(sample => sample.name === sound.data.osc2.fileName)
+                const soundSample = samples.find(sample => sample.path === sound.data.osc2.fileName)
                 if (soundSample) soundSample.usage.songs[songName] = true
               }
             }

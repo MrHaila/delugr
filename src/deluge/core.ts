@@ -196,7 +196,7 @@ export function getInstrumentName(xml: Element): string | null {
   let presetName = xml.getAttribute('presetName') || null
 
   // Sounds inside kits may have a name element in v1 and v2 files
-  if (xml.querySelector('name')) presetName = String(xml.querySelector('name')?.textContent)
+  if (findDirectChildNodeByTagName(xml, 'name')) presetName = String(findDirectChildNodeByTagName(xml, 'name')?.textContent)
 
   // Sounds inside kits may have a name attribute in v3 and v4 files
   if (xml.hasAttribute('name')) presetName = xml.getAttribute('name')
