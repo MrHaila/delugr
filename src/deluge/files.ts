@@ -82,7 +82,7 @@ export async function parseFolder(folder: FileSystemDirectoryHandle, path: strin
       if (fileHandle.name.toLowerCase().endsWith('.xml')) {
         // console.log('Parsing XML file', fileHandle.name)
         const file = await fileHandle.getFile()
-        const parsedFile = await parseFile(file)
+        const parsedFile = await parseFile(file, fullPath)
         
         // Store results into arrays
         if (typeof parsedFile !== 'string') {
@@ -209,7 +209,7 @@ function computeUsage () {
 
 const parser = new DOMParser()
 
-export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoundFile | ParsedKitFile | SampleFile | string> {
+export async function parseFile(file: File, path: string): Promise<ParsedSongFile | ParsedSoundFile | ParsedKitFile | SampleFile | string> {
   let xml = await file.text()
   let firmware
 
@@ -240,7 +240,6 @@ export async function parseFile(file: File): Promise<ParsedSongFile | ParsedSoun
   const root = xmlDoc.documentElement as Element
 
   const name = file.name
-  const path = file.webkitRelativePath
 
   if (['song', 'sound', 'kit'].includes(root.nodeName)) {
     let data

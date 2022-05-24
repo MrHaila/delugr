@@ -8,10 +8,11 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
   div(v-else class="space-y-3")
     div(class="flex flex-row justify-between")
       div
-        h1.font-bold.text-2xl Song: {{ props.name }}
-        p Last modified: {{ DateTime.fromMillis(song.file.lastModified).toFormat('yyyy-MM-dd') }}
+        h1(class="font-bold text-2xl") Song: {{ props.name }}
+        p(class="text-gray-400 text-sm") {{ song.path }}
       div(class="text-right text-sm mt-3")
         p Firmware: {{ song.firmware }}
+        p Last modified: {{ DateTime.fromMillis(song.file.lastModified).toFormat('yyyy-MM-dd') }}
 
     div(class="flex space-x-3")
       h-card(v-if="song.data.instruments" class="max-w-md md:flex-1")

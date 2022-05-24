@@ -8,10 +8,11 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
   div(v-else class="space-y-3")
     div(class="flex flex-row justify-between")
       div
-        h1.font-bold.text-2xl Kit: {{ kit.data.presetName }}
-        p Last modified: {{ DateTime.fromMillis(kit.file.lastModified).toFormat('yyyy-MM-dd') }}
+        h1(class="font-bold text-2xl") Kit: {{ kit.data.presetName }}
+        p(class="text-gray-400 text-sm") {{ kit.path }}
       div(class="text-right text-sm mt-3")
         p Firmware: {{ kit.firmware }}
+        p Last modified: {{ DateTime.fromMillis(kit.file.lastModified).toFormat('yyyy-MM-dd') }}
 
     div(class="flex space-x-3")
       h-card(class="max-w-md md:flex-1")
