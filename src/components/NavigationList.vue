@@ -2,17 +2,21 @@
 aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-gray-200 overflow-y-auto")
   //- List bar
   h1(class="pl-3 py-2 font-bold") {{ props.title }} #[h-badge {{ props.listItems.length }}]
-  router-link(
+  div(
     v-if="props.listItems.length > 0"
-    v-for="item in props.listItems"
-    :to="item.url"
-    :class="['flex justify-between p-3 cursor-pointer text-sm', active === item.name.slice(0, -4) ? 'bg-amber-400' : 'hover:bg-gray-300', isUnused(item) ? 'bg-gray-200' : '']"
+    v-for="path in listItemPaths"
     )
-    // dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name }} #[exclamation-circle-icon(v-if="item.problem" class="h-4 inline text-red-400 align-text-top")]
-    dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name.slice(0, -4) }} #[span(v-if="isUnused(item)" class="text-xs font-light text-gray-500") un-used]
-    dd(class="text-gray-500 mt-0 col-span-2") {{ DateTime.fromMillis(item.file.lastModified).toFormat('yyyy-MM-dd') }}
+    div(v-if="listItemPaths.length > 1" class="py-1 px-3 text-sm font-semibold bg-gray-400") {{ path }}
+    router-link(
+      v-for="item in props.listItems.filter(item => item.path.split('/').slice(0, -1).join('/') === path)"
+      :to="item.url"
+      :class="['flex justify-between p-3 cursor-pointer text-sm', active === item.name.slice(0, -4) ? 'bg-amber-400' : 'hover:bg-gray-300', isUnused(item) ? 'bg-gray-200' : '']"
+      )
+      // dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name }} #[exclamation-circle-icon(v-if="item.problem" class="h-4 inline text-red-400 align-text-top")]
+      dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name.slice(0, -4) }} #[span(v-if="isUnused(item)" class="text-xs font-light text-gray-500") un-used]
+      dd(class="text-gray-500 mt-0 col-span-2") {{ DateTime.fromMillis(item.file.lastModified).toFormat('yyyy-MM-dd') }}
 
-  //div(v-else)
+  div(v-else)
     h1(class="text-center text-gray-500 font-bold p-4") No items
 </template>
 
@@ -20,7 +24,7 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-
 import type { SampleFile, ParsedFile } from '../deluge/files'
 import { DateTime } from 'luxon'
 import { ExclamationCircleIcon } from '@heroicons/vue/solid'
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { isArray } from '@vue/shared'
 import { FileType } from '../deluge/files'
@@ -31,6 +35,20 @@ interface Props {
   listItems: ParsedFile[] | SampleFile[],
 }
 const props = defineProps<Props>()
+
+// Get a list of unique paths
+const listItemPaths = computed(() => { 
+  return props.listItems
+    .map(item => item.path.split('/').slice(0, -1).join('/')) // Remove file name
+    .reduce<string[]>((accumulator, item, index, array) => {
+      if (index === 0) {
+        accumulator.push(item)
+      } else if (!accumulator.includes(item)) {
+        accumulator.push(item)
+      }
+      return accumulator.sort()
+    }, [])
+})
 
 // Highlight entry based on current route
 let active = ref('')

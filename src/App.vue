@@ -52,6 +52,6 @@ async function getFolder() {
   rootFolder = await window.showDirectoryPicker()
   store.folderName = rootFolder.name
   store.folderHandle = rootFolder
-  parseFolder(rootFolder, rootFolder.name, true)
+  parseFolder(rootFolder, '', true)
 }
 </script>
