@@ -2,6 +2,9 @@
 section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-slate-50")
   div(class="space-y-3")
     h1.font-bold.text-2xl You have {{ store.samples.length }} samples
+    p {{ usedSamplesCount }} of them are currently in use in a synth, kit or an audio track. That means {{ store.samples.length - usedSamplesCount }} are not used at all.
+    p(class="text-red-800") Attention! {{ store.missingSamples.length }} samples were referenced in instruments but could not be found.
+
 
     //div(class="flex")
       h-card(class="max-w-md md:flex-1")
@@ -23,7 +26,7 @@ import { useStore } from '../deluge/files'
 
 const store = useStore()
 
-const props = defineProps([
-  'name'
-])
+const usedSamplesCount = computed(() => {
+  return store.samples.map(s => s.usage.total).reduce((a, b) => a + b, 0)
+})
 </script>

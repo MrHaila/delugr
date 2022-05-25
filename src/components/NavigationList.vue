@@ -10,7 +10,7 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-
     router-link(
       v-for="item in props.listItems.filter(item => item.path.split('/').slice(0, -1).join('/') === path)"
       :to="item.url"
-      :class="['flex justify-between p-3 cursor-pointer text-sm', active === item.name.slice(0, -4) ? 'bg-amber-400' : 'hover:bg-gray-300', isUnused(item) ? 'bg-gray-200' : '']"
+      :class="['flex justify-between p-3 cursor-pointer text-sm', getBackgroundClass(item)]"
       )
       // dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name }} #[exclamation-circle-icon(v-if="item.problem" class="h-4 inline text-red-400 align-text-top")]
       dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name.slice(0, -4) }} #[span(v-if="isUnused(item)" class="text-xs font-light text-gray-500") un-used]
@@ -30,7 +30,7 @@ import { isArray } from '@vue/shared'
 import { FileType } from '../deluge/files'
 
 // Props
-interface Props {
+type Props = {
   title: string,
   listItems: ParsedFile[] | SampleFile[],
 }
@@ -78,5 +78,23 @@ const isUnused = (item: ParsedFile | SampleFile): boolean => {
   }
   if ((Object.keys(item.usage.kits).length === 0 && Object.keys(item.usage.sounds).length === 0 && Object.keys(item.usage.songs).length === 0)) return true
   return false
+}
+
+function isItemActive(item: ParsedFile | SampleFile) {
+  if ('id' in item) {
+    return active.value === item.id.toString()
+  } else {
+    return active.value === item.name.slice(0, -4)
+  }
+}
+
+function getBackgroundClass(item: ParsedFile | SampleFile) {
+  if (isItemActive(item)) {
+    return 'bg-amber-400'
+  } else if (isUnused(item)) {
+    return 'bg-gray-200'
+  } else {
+    return 'hover:bg-gray-300'
+  }
 }
 </script>

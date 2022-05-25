@@ -2,13 +2,13 @@ import { FixPos50 } from "./dataTypes"
 
 // Types ---------------------------------------------------------------------
 
-export interface Song {
+export type Song = {
     name: string,
     // TODO: the rest of the owl
     instruments: Array<Sound | Kit | AudioTrack>
 }
 
-export interface Sound {
+export type Sound = {
   presetName: string,
 
   mode: string,
@@ -49,7 +49,7 @@ export interface Sound {
   instrumentType: 'sound',
 }
 
-export interface Kit {
+export type Kit = {
   presetName: string,
 
   lpfMode: string,
@@ -69,7 +69,7 @@ export interface Kit {
   instrumentType: 'kit'
 }
 
-export interface AudioTrack {
+export type AudioTrack = {
   presetName: string,
 
   echoingInput: number,
@@ -88,79 +88,89 @@ export interface AudioTrack {
   instrumentType: 'audio track'
 }
 
-export interface Modulator {
+export type Modulator = {
   transpose: number,
   cents: number,
   toModulator1?: number,
 }
 
-export interface Arpeggiator {
+export type Arpeggiator = {
   mode: string,
   numOctaves: Number,
   syncLevel: Number
 }
 
-export interface Delay {
+export type Delay = {
   pingPong: Number,
   analog: Number,
   syncLevel: Number
 }
 
-export interface Compressor {
+export type Compressor = {
   syncLevel: Number,
   attack: Number,
   release: Number
 }
 
-export interface Equalizer {
+export type Equalizer = {
   bass: FixPos50,
   treble: FixPos50,
   bassFrequenzy: FixPos50,
   trebleFrequenzy: FixPos50
 }
 
-export interface Oscillator {
+export type Oscillator = {
   type?: string, // 'square' | 'saw' | 'sine' | 'sample'
   transpose?: Number,
   cents?: Number,
   retrigPhase?: Number,
   oscillatorSync?: Number,
-  fileName?: string,
   loopMode?: Number,
   reversed?: Number,
   timeStretchAmount?: Number,
-  timeStretchEnable?: Number
-  zone?: {
-    startSamplePos: Number,
-    endSamplePos: Number
-  }
+  timeStretchEnable?: Number,
+  fileName?: string,
+  zone?: Zone,
+  sampleRanges?: SampleRange[],
 }
 
-export interface Lfo {
+export type SampleRange = {
+  rangeTopNote: Number,
+  fileName: string,
+  transpose: Number,
+  zone: Zone
+}
+
+export type Zone = {
+  startSamplePos: Number,
+  endSamplePos: Number,
+}
+
+export type Lfo = {
   type: string,
   syncLevel?: Number
 }
 
-export interface Unison {
+export type Unison = {
   num: Number,
   detune: Number,
 }
 
-export interface Envelope {
+export type Envelope = {
   attack: FixPos50,
   decay: FixPos50,
   sustain: FixPos50,
   release: FixPos50
 }
 
-export interface PatchCable {
+export type PatchCable = {
   source: string,
   destination: string,
   amount: FixPos50,
   rangeAdjustable?: string
 }
 
-export interface ModKnob {
+export type ModKnob = {
   controlsParam: string,
   patchAmountFromSource?: string
 }

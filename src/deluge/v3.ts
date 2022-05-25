@@ -1,4 +1,4 @@
-import { Arpeggiator, AudioTrack, Compressor, Delay, Envelope, Equalizer, findDirectChildNodeByTagName, getInstrumentName, Kit, Lfo, ModKnob, Oscillator, PatchCable, Song, Sound, Unison } from "./core";
+import { Arpeggiator, AudioTrack, Compressor, Delay, Envelope, Equalizer, findDirectChildNodeByTagName, getInstrumentName, Kit, Lfo, ModKnob, Oscillator, PatchCable, Song, Sound, Unison, Zone } from "./core";
 import { FixPos50 } from "./dataTypes";
 
 export function parseSongv3(xml: Element, songName: string): Song {
@@ -275,7 +275,35 @@ function parseOscillator(xml: Element): Oscillator {
   if (xml.hasAttribute('timeStretchAmount')) osc.timeStretchAmount = Number(xml.getAttribute('timeStretchAmount'))
   if (xml.hasAttribute('timeStretchEnable')) osc.timeStretchEnable = Number(xml.getAttribute('timeStretchEnable'))
 
+  const sampleRanges = findDirectChildNodeByTagName(xml, 'sampleRanges')?.children
+  if (sampleRanges) {
+    osc.sampleRanges = Array.from(sampleRanges).map(element => {
+      return {
+        fileName: String(element.getAttribute('fileName')),
+        rangeTopNote: Number(element.getAttribute('rangeTopNote')),
+        transpose: Number(element.getAttribute('transpose')),
+        zone: parseZone(element),
+      }
+    })
+  }
+
   return osc
+}
+
+function parseZone(xml: Element): Zone {
+  const zone = findDirectChildNodeByTagName(xml, 'zone')
+  if (!zone) throw new Error(`Zone missing 'zone' element! XML: ${xml.outerHTML}`)
+  const startSamplePos = zone.getAttribute('startSamplePos')
+  const endSamplePos = zone.getAttribute('endSamplePos')
+
+  if (startSamplePos === null || endSamplePos === null) {
+    throw new Error(`Zone missing attributes! XML: ${xml.outerHTML}`)
+  }
+
+  return {
+    startSamplePos: Number(startSamplePos),
+    endSamplePos: Number(endSamplePos),
+  }
 }
 
 // TODO: more parameters

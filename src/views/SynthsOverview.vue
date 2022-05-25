@@ -2,7 +2,7 @@
 section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-slate-50")
   div(class="space-y-3")
     h1.font-bold.text-2xl You have {{ store.sounds.length }} synths
-    p {{ usedSynthsCount }} of them are currently in use in a song. That means {{ store.sounds.length - usedSynthsCount }} are not used at all.
+    p {{ usedSynthsCount }} of them are currently in use in a song or a kit. That means {{ store.sounds.length - usedSynthsCount }} are not used at all.
 
     div(class="flex")
       h-card(class="max-w-md md:flex-1")

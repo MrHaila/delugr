@@ -46,6 +46,7 @@ export interface SampleFile {
   path: string,
   file: File,
   url: string,
+  id: Number,
   usage: {
     songs: { [key: string]: boolean },
     sounds: { [key: string]: boolean },
@@ -65,7 +66,9 @@ const sounds: ParsedSoundFile[] = []
 const kits: ParsedKitFile[] = []
 const samples: SampleFile[] = []
 const skippedFiles: SkippedFile[] = []
+const missingSamples: string[] = []
 
+let id = 0
 export async function parseFolder(folder: FileSystemDirectoryHandle, path: string, saveAfterDone: boolean = false) {
   const store = useStore()
   if (saveAfterDone && store.filesScanned > 0) store.filesScanned = 0
@@ -114,7 +117,8 @@ export async function parseFolder(folder: FileSystemDirectoryHandle, path: strin
           name,
           path: fullPath,
           file,
-          url: '#',
+          id,
+          url: encodeURI(`/samples/${id}`),
           usage: {
             songs: {},
             sounds: {},
@@ -122,6 +126,7 @@ export async function parseFolder(folder: FileSystemDirectoryHandle, path: strin
             total: 0,
           }
         })
+        id++
       // Ignore .DS_Store quietly, log everything else
       } else if (fileHandle.name !== '.DS_Store') {
         skippedFiles.push({
@@ -138,66 +143,46 @@ export async function parseFolder(folder: FileSystemDirectoryHandle, path: strin
   // Save results to the store
   // Note: these are done here instead of in the loops to save on Pinia's dev tools events
   if (saveAfterDone) {
+    computeUsage()
+
     store.songs = songs.sort((a, b) => a.name.localeCompare(b.name))
     store.sounds = sounds.sort((a, b) => a.name.localeCompare(b.name))
     store.kits = kits.sort((a, b) => a.name.localeCompare(b.name))
     store.samples = samples.sort((a, b) => a.name.localeCompare(b.name))
     store.skippedFiles = skippedFiles
+    store.missingSamples = missingSamples.sort((a, b) => a.localeCompare(b))
     store.parsed = true
-
-    computeUsage()
   }
 
 }
 
 // TODO: consider in-song usage vs preset usage. Possibly break into smaller functions.
 function computeUsage () {
-  const store = useStore()
-
   // Compute usage
-  for (const song of store.songs) {
+  for (const song of songs) {
     const songName = song.name.slice(0, -4) // Drop .xml from the name
     for (const instrument of song.data.instruments) {
       // Sounds
       if (instrument.instrumentType === 'sound') {
-        const sound = sounds.find(sound => sound.name.slice(0, -4) === instrument.presetName)
+        const sound = sounds.find(sound => sound.data.presetName === instrument.presetName)
         if (sound) {
-          sound.usage.songs[songName] = true
-          sound.usage.total++
-
-          // Samples inside sounds
-          if (sound.data.osc1.fileName) {
-            const soundSample = samples.find(sample => sample.path === sound.data.osc1.fileName)
-            if (soundSample) soundSample.usage.songs[songName] = true
-          }
-          if (sound.data.osc2.fileName) {
-            const soundSample = samples.find(sample => sample.path === sound.data.osc2.fileName)
-            if (soundSample) soundSample.usage.songs[songName] = true
-          }
+          countSoundUsageInSong(sound, songName)
+          computeSampleUsage(sound)
         }
 
         // Kits
       } else if (instrument.instrumentType === 'kit') {
-        const kit = kits.find(kit => kit.name.slice(0, -4) === instrument.presetName)
+        const kit = kits.find(kit => kit.data.presetName === instrument.presetName)
         if (kit) {
           kit.usage.songs[songName] = true
           kit.usage.total++
 
           // Sounds inside kits
           for (const soundSource of Object.values(kit.data.soundSources)) {
-            const sound = sounds.find(sound => sound.name.slice(0, -4) === soundSource.presetName)
+            const sound = sounds.find(sound => sound.data.presetName === soundSource.presetName)
             if (sound) {
-              sound.usage.songs[songName] = true
-
-              // Samples inside sounds
-              if (sound.data.osc1.fileName) {
-                const soundSample = samples.find(sample => sample.path === sound.data.osc1.fileName)
-                if (soundSample) soundSample.usage.songs[songName] = true
-              }
-              if (sound.data.osc2.fileName) {
-                const soundSample = samples.find(sample => sample.path === sound.data.osc2.fileName)
-                if (soundSample) soundSample.usage.songs[songName] = true
-              }
+              countSoundUsageInKit(kit, songName)
+              computeSampleUsage(sound)
             }
           }
         }
@@ -210,6 +195,54 @@ function computeUsage () {
         // }
       }
     }
+  }
+
+  function computeSampleUsage(sound: ParsedSoundFile) {
+    // Individual samples
+    if (sound.data.osc1.fileName) {
+      const sample = samples.find(sample => sample.path == sound.data.osc1.fileName)
+      if (sample)
+        countSampleUsageInSound(sample, sound.data.presetName)
+    }
+    if (sound.data.osc2.fileName) {
+      const sample = samples.find(sample => sample.path == sound.data.osc2.fileName)
+      if (sample)
+        countSampleUsageInSound(sample, sound.data.presetName)
+    }
+    // Multisamples
+    if (sound.data.osc1.sampleRanges) {
+      for (const sampleRange of sound.data.osc1.sampleRanges) {
+        if (sampleRange.fileName) {
+          const sample = samples.find(sample => sample.path == sampleRange.fileName)
+          if (sample)
+            countSampleUsageInSound(sample, sound.data.presetName)
+          else
+            addMissingSample(sampleRange.fileName)
+        }
+      }
+    }
+  }
+
+  function addMissingSample(samplePath: string) {
+    if (!missingSamples.includes(samplePath)) missingSamples.push(samplePath)
+  }
+  
+  function countSampleUsageInSound(sample: SampleFile, name: string) {
+    if (sample.usage.sounds[name]) return
+    sample.usage.sounds[name] = true
+    sample.usage.total++
+  }
+  
+  function countSoundUsageInKit(sound: ParsedFile, name: string) {
+    if (sound.usage.kits[name]) return
+    sound.usage.kits[name] = true
+    sound.usage.total++
+  }
+  
+  function countSoundUsageInSong(sound: ParsedFile, name: string) {
+    if (sound.usage.songs[name]) return
+    sound.usage.songs[name] = true
+    sound.usage.total++
   }
 }
 
@@ -288,20 +321,6 @@ export async function parseFile(file: File, path: string): Promise<ParsedSongFil
       }
     }
     else throw new Error(`Unknown node type '${root.nodeName}' in file '${name}' (was expecting 'song', 'sound', or 'kit')`)
-  } else if (root.nodeName === 'sample') {
-    const sampleFile: SampleFile = {
-      name,
-      path,
-      file,
-      url: '#',
-      usage: {
-        songs: {},
-        sounds: {},
-        kits: {},
-        total: 0
-      }
-    }
-    return sampleFile
   } else {
     throw new Error(`Unknown node type '${root.nodeName}' in file '${name}'`)
   }
@@ -316,6 +335,7 @@ export interface DelugrFileStore {
   kits: ParsedKitFile[],
   samples: SampleFile[],
   skippedFiles: SkippedFile[],
+  missingSamples: string[],
   folderName: string,
   folderHandle: FileSystemDirectoryHandle | null,
 }
@@ -331,6 +351,7 @@ export const useStore = defineStore('files', {
       kits: [],
       samples: [],
       skippedFiles: [],
+      missingSamples: [],
       folderName: '',
       folderHandle: null,
     }
