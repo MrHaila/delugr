@@ -72,13 +72,12 @@ let id = 0
 export async function parseFolder(folder: FileSystemDirectoryHandle, path: string, saveAfterDone: boolean = false) {
   const store = useStore()
   if (saveAfterDone && store.filesScanned > 0) store.filesScanned = 0
-  if (path !== '') path += '/'
 
   // For each XML or wav file in the folder structure, parse it and add it to the store
   for await (const entry of folder.values()) {
     if (entry.kind === 'directory') {
       const folder = entry as FileSystemDirectoryHandle
-      await parseFolder(folder, path + entry.name)
+      await parseFolder(folder, path + entry.name + '/')
     } else if (entry.kind === 'file') {
       const fileHandle = entry as FileSystemFileHandle
       const name = fileHandle.name

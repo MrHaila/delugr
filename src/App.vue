@@ -23,7 +23,7 @@ div(v-else class="flex h-screen overflow-hidden")
         sidebar-link(variant="kits")
         sidebar-link(variant="samples")
 
-      div(class="flex justify-center")
+      //div(class="flex justify-center")
         RefreshIcon(aria-hidden="true" @click="getFolder" class="border border-gray-700 h-7 w-7 p-1 text-gray-400 hover:bg-gray-700 rounded")
 
     div(class="flex justify-center")
@@ -52,6 +52,6 @@ async function getFolder() {
   rootFolder = await window.showDirectoryPicker()
   store.folderName = rootFolder.name
   store.folderHandle = rootFolder
-  parseFolder(rootFolder, '', true)
+  parseFolder(rootFolder, '/', true)
 }
 </script>
