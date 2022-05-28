@@ -20,10 +20,13 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         div(class="divide-y divide-gray-200")
           div(v-for="(i, index) in song.data.instruments" :key="index" class="py-2 flex flex-row items-center space-x-1")
             div(class="basis-20") {{ i.instrumentType }}
-            div
-              router-link(v-if="!i.problem && i.instrumentType === 'sound'" :to="'/synths/' + i.presetName") {{ i.presetName }}
-              router-link(v-else-if="!i.problem && i.instrumentType === 'kit'" :to="'/kits/' + i.presetName") {{ i.presetName }}
-              span(v-else class="text-gray-400") {{ i.presetName }}
+            div(class="flex-auto")
+              span {{ i.presetName }}
+            div(class="text-right")
+              router-link(v-if="i.instrumentType === 'sound' && store.sounds.find(sound => sound.name.slice(0, -4) === i.presetName)" :to="'/synths/' + i.presetName" class="text-xs") View preset
+              router-link(v-else-if="i.instrumentType === 'kit' && store.kits.find(kit => kit.name.slice(0, -4) === i.presetName)" :to="'/kits/' + i.presetName" class="text-xs") View preset
+              span(v-else class="text-xs text-gray-400") No preset found
+
             // exclamation-circle-icon(v-if="i.problem" class="h-4 text-red-400")
       
       // h-card(class="max-w-md md:flex-1")

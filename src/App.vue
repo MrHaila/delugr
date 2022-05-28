@@ -1,13 +1,13 @@
 <template lang="pug">
 //- Landing page
-div(v-if="!store.parsed" class="mt-20 space-y-20")
+div(v-if="!store.parsed" class="mt-20 space-y-20 mb-20")
   div(class="text-center")
     h1(class="text-8xl font-bold mb-5") Delurg
     h2(class="text-2xl") The Synthstrom Deluge file browser... in the browser!
 
   div(class="space-y-20")
     div(class="flex justify-center text-center")
-      div(class="p-8 rounded-xl border-dashed border-gray-400 border-4" style="width: 32rem; height: 9.7rem")
+      div(class="p-8 rounded-xl border-dashed border-gray-400 bg-sky-50 border-4" style="width: 32rem; height: 9.7rem")
         div(v-if="!store.folderName")
           p(class="mb-5") Select the Deluge memory card root folder to get started.
           h-button(@click="getFolder") Select folder
@@ -16,7 +16,7 @@ div(v-if="!store.parsed" class="mt-20 space-y-20")
           p(class="text-xl font-bold") {{ store.filesScanned }} files scanned
 
     div(class="flex justify-center")
-      div(class="bg-gray-200 rounded p-5 space-y-3" style="width: 42rem")
+      div(class="bg-gray-200 shadow rounded p-5 space-y-3" style="width: 42rem")
         h3(class="font-bold") 👋 Greetings, stranger!
         p Delugr is a web-app that lets you browse the contents of your Deluge memory card.
         p It uses the new #[a(href="https://web.dev/file-system-access/") File System Access API] to read the contents of your memory card, so there's no need to install anything! As of May 2022, the API is not yet supported by Firefox, Safari or any of the mobile browsers.

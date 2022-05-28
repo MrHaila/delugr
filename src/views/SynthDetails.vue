@@ -15,18 +15,20 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         p Last modified: {{ DateTime.fromMillis(sound.file.lastModified).toFormat('yyyy-MM-dd') }}
 
     div(class="flex space-x-3")
-      h-card(class="max-w-md md:flex-1")
+      h-card(class="max-w-md flex-1")
         template(#title) Usage #[h-badge {{ synthSongUsageCount }}]
         div(v-if="synthSongUsageCount" class="divide-y divide-gray-200")
-          div(v-for="(bool, key) in sound.usage.songs" :key="key" class="py-2 flex justify-between")
+          div(v-for="(bool, key) in sound.usage.songs" :key="key" class="py-2 flex flex-row items-center space-x-1")
+            div(class="basis-20")
+              span song
             router-link(:to="'/songs/' + key") {{ key }}
-            span song
-          div(v-for="(bool, key) in sound.usage.kits" :key="key" class="py-2 flex justify-between")
+          div(v-for="(bool, key) in sound.usage.kits" :key="key" class="py-2 flex flex-row items-center space-x-1")
+            div(class="basis-20")
+              span kit
             router-link(:to="'/kits/' + key") {{ key }}
-            span kit
         div(v-else class="italic text-gray-400") Not used in any songs or kits.
 
-      h-card(class="max-w-md md:flex-1")
+      h-card(class="max-w-md flex-1")
         template(#title) Synth Settings
         div(class="divide-y divide-gray-200")
           div(class="py-2 flex flex-row")
