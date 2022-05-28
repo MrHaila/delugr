@@ -1,16 +1,33 @@
 <template lang="pug">
-div(v-if="!store.folderName" class="text-center mt-20 space-y-3")
-  h1 Select the Deluge memory card root folder to get started.
-  h-button(@click="getFolder") Select folder
+//- Landing page
+div(v-if="!store.parsed" class="mt-20 space-y-20")
+  div(class="text-center")
+    h1(class="text-8xl font-bold mb-5") Delurg
+    h2(class="text-2xl") The Synthstrom Deluge file browser... in the browser!
 
+  div(class="space-y-20")
+    div(class="flex justify-center text-center")
+      div(class="p-8 rounded-xl border-dashed border-gray-400 border-4" style="width: 32rem; height: 9.7rem")
+        div(v-if="!store.folderName")
+          p(class="mb-5") Select the Deluge memory card root folder to get started.
+          h-button(@click="getFolder") Select folder
+        div(v-else class="text-center space-y-3")
+          h1(class="mb-6") Parsing the folder contents...
+          p(class="text-xl font-bold") {{ store.filesScanned }} files scanned
+
+    div(class="flex justify-center")
+      div(class="bg-gray-200 rounded p-5 space-y-3" style="width: 42rem")
+        h3(class="font-bold") 👋 Greetings, stranger!
+        p Delugr is a web-app that lets you browse the contents of your Deluge memory card.
+        p It uses the new #[a(href="https://web.dev/file-system-access/") File System Access API] to read the contents of your memory card, so there's no need to install anything! As of May 2022, the API is not yet supported by Firefox, Safari or any of the mobile browsers.
+        p Made with ❤️ by #[a(href="https://haila.fi") Teemu Haila] as #[a(href="https://gitlab.com/dasinf/delugr") open source]. Contributions welcome!
+
+//- Error
 div(v-else-if="!store.parsed && store.parseError" class="text-center mt-20 space-y-3")
   h1 Something went wrong while parsing the folder. Maybe there's something helpful in the browser logs?
   h-button(@click="getFolder") Try again
 
-div(v-else-if="!store.parsed" class="text-center mt-20 space-y-3")
-  h1 Parsing the folder contents...
-  p {{ store.filesScanned }} files scanned
-
+//- Actual thing
 div(v-else class="flex h-screen overflow-hidden")
   nav(aria-label="Sidebar" class="flex-shrink-0 bg-gray-800 flex flex-col justify-between text-gray-400")
     div(class="space-y-3 py-3")
