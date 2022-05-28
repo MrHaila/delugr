@@ -63,12 +63,17 @@ const store = useStore()
 
 let rootFolder: FileSystemDirectoryHandle | null = null
 
+/**
+ * Ask for a folder and parse the contents.
+ */
 async function getFolder() {
   // Ask for a folder
   // TODO: handle cancels and other such errors
   rootFolder = await window.showDirectoryPicker()
   store.folderName = rootFolder.name
   store.folderHandle = rootFolder
-  parseFolder(rootFolder, '/', true)
+
+  // Parse!
+  parseFolder(rootFolder)
 }
 </script>
