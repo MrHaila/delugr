@@ -3,45 +3,90 @@ import type { Kit, Song, Sound } from "./core"
 import { parseKitv1, parseSoundv1 } from "./v1-2"
 import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3"
 
-export interface ParsedFile {
+/**
+ * Base type for all parsed XML files.
+ */
+export type ParsedFile = {
+  /**
+   * File name. For example, "KIT001.xml" or "Some Song Name.xml".
+   */
   name: string,
+  /**
+   * Path to the file relative to the selected root folder.
+   */
   path: string,
+  /**
+   * Actual file contents.
+   */
   file: File,
+  /**
+   * Detected firmware version of the file.
+   */
   firmware: string,
+  /**
+   * URL to the file's details page.
+   */
   url: string,
+  /**
+   * Type of the file. Helps with type narrowing.
+   */
   type: FileType,
+  /**
+   * Parsed file contents.
+   */
   data: Song | Sound | Kit,
+  /**
+   * Usage stats for the file.
+   */
   usage: {
     songs: { [key: string]: boolean },
     sounds: { [key: string]: boolean },
     kits: { [key: string]: boolean },
     total: number,
   },
+  /**
+   * Raw XML text contents. Kinda redundant, but helps a lot with debugging parsing errors or missing data.
+   */
   xml: string,
 }
 
+/**
+ * Type of the file. Helps with type narrowing.
+ */
 export enum FileType {
   Song,
   Sound,
   Kit,
 }
 
+/**
+ * Parsed song file.
+ */
 export interface ParsedSongFile extends ParsedFile {
   type: FileType.Song,
   data: Song
 }
 
+/**
+ * Parsed sound file.
+ */
 export interface ParsedSoundFile extends ParsedFile {
   type: FileType.Sound,
   data: Sound
 }
 
+/**
+ * Parsed kit file.
+ */
 export interface ParsedKitFile extends ParsedFile {
   type: FileType.Kit,
   data: Kit
 }
 
-export interface SampleFile {
+/**
+ * Detected sample file.
+ */
+export type SampleFile = {
   name: string,
   path: string,
   file: File,
@@ -55,108 +100,100 @@ export interface SampleFile {
   },
 }
 
-export interface SkippedFile {
+/**
+ * Info about a file that could not be parsed.
+ */
+export type SkippedFile = {
   name: string,
   path: string,
   reason: string,
 }
 
-const songs: ParsedSongFile[] = []
-const sounds: ParsedSoundFile[] = []
-const kits: ParsedKitFile[] = []
-const samples: SampleFile[] = []
-const skippedFiles: SkippedFile[] = []
-const missingSamples: string[] = []
-
-let id = 0
-export async function parseFolder(folder: FileSystemDirectoryHandle, path: string, saveAfterDone: boolean = false) {
+/**
+ * One-stop-shop for parsing a folder of files. Saves the results into the Pinia store.
+ * @param folder The folder to parse.
+ */
+export async function parseFolder(folder: FileSystemDirectoryHandle) {
+  const songs: ParsedSongFile[] = []
+  const sounds: ParsedSoundFile[] = []
+  const kits: ParsedKitFile[] = []
+  const samples: SampleFile[] = []
+  const skippedFiles: SkippedFile[] = []
+  const missingSamples: string[] = []
+  let id = 0
+  
   const store = useStore()
-  if (saveAfterDone && store.filesScanned > 0) store.filesScanned = 0
+  if (store.filesScanned > 0) store.filesScanned = 0
 
-  // For each XML or wav file in the folder structure, parse it and add it to the store
-  for await (const entry of folder.values()) {
-    if (entry.kind === 'directory') {
-      const folder = entry as FileSystemDirectoryHandle
-      await parseFolder(folder, path + entry.name + '/')
-    } else if (entry.kind === 'file') {
-      const fileHandle = entry as FileSystemFileHandle
-      const name = fileHandle.name
-      const fullPath = path + fileHandle.name
-      
-      // Parse XML
-      if (fileHandle.name.toLowerCase().endsWith('.xml')) {
-        // console.log('Parsing XML file', fileHandle.name)
-        const file = await fileHandle.getFile()
-        const parsedFile = await parseFile(file, fullPath)
+  await scanFolder(folder, '/')
+  async function scanFolder(folder: FileSystemDirectoryHandle, path: string) {
+    // For each XML or wav file in the folder structure, parse it and add it to the store
+    for await (const entry of folder.values()) {
+      if (entry.kind === 'directory') {
+        const folder = entry as FileSystemDirectoryHandle
+        await scanFolder(folder, path + entry.name + '/')
+      } else if (entry.kind === 'file') {
+        const fileHandle = entry as FileSystemFileHandle
+        const name = fileHandle.name
+        const fullPath = path + fileHandle.name
         
-        // Store results into arrays
-        if (typeof parsedFile !== 'string') {
-          if ('type' in parsedFile) {
-            if (parsedFile.type === FileType.Song) {
-              songs.push(parsedFile)
-            } else if (parsedFile.type === FileType.Sound) {
-              sounds.push(parsedFile)
-            } else if (parsedFile.type === FileType.Kit) {
-              kits.push(parsedFile)
-            }
+        // Parse XML
+        if (fileHandle.name.toLowerCase().endsWith('.xml')) {
+          // console.log('Parsing XML file', fileHandle.name)
+          const file = await fileHandle.getFile()
+          const parsedFile = await parseFile(file, fullPath)
+          
+          // Store results into arrays
+          if (typeof parsedFile !== 'string') {
+            if ('type' in parsedFile) {
+              if (parsedFile.type === FileType.Song) {
+                songs.push(parsedFile)
+              } else if (parsedFile.type === FileType.Sound) {
+                sounds.push(parsedFile)
+              } else if (parsedFile.type === FileType.Kit) {
+                kits.push(parsedFile)
+              }
+            } else skippedFiles.push({
+              name,
+              path: fullPath,
+              reason: 'Unknown file type. Was expecting a song, sound, or kit.',
+            })
           } else skippedFiles.push({
             name,
             path: fullPath,
-            reason: 'Unknown file type. Was expecting a song, sound, or kit.',
+            reason: parsedFile,
           })
-        } else skippedFiles.push({
-          name,
-          path: fullPath,
-          reason: parsedFile,
-        })
-      // Parse WAV
-      } else if (fileHandle.name.toLowerCase().endsWith('.wav')) {
-        const file = await fileHandle.getFile()
-        samples.push({
-          name,
-          path: fullPath,
-          file,
-          id,
-          url: encodeURI(`/samples/${id}`),
-          usage: {
-            songs: {},
-            sounds: {},
-            kits: {},
-            total: 0,
-          }
-        })
-        id++
-      // Ignore .DS_Store quietly, log everything else
-      } else if (fileHandle.name !== '.DS_Store') {
-        skippedFiles.push({
-          name,
-          path: fullPath,
-          reason: 'Not a supported file type',
-        })
-      }
+        // Parse WAV
+        } else if (fileHandle.name.toLowerCase().endsWith('.wav')) {
+          const file = await fileHandle.getFile()
+          samples.push({
+            name,
+            path: fullPath,
+            file,
+            id,
+            url: encodeURI(`/samples/${id}`),
+            usage: {
+              songs: {},
+              sounds: {},
+              kits: {},
+              total: 0,
+            }
+          })
+          id++
+        // Ignore .DS_Store quietly, log everything else
+        } else if (fileHandle.name !== '.DS_Store') {
+          skippedFiles.push({
+            name,
+            path: fullPath,
+            reason: 'Not a supported file type',
+          })
+        }
 
-      store.filesScanned++
+        store.filesScanned++
+      }
     }
   }
-
-  // Save results to the store
-  // Note: these are done here instead of in the loops to save on Pinia's dev tools events
-  if (saveAfterDone) {
-    computeUsage()
-
-    store.songs = songs.sort((a, b) => a.name.localeCompare(b.name))
-    store.sounds = sounds.sort((a, b) => a.name.localeCompare(b.name))
-    store.kits = kits.sort((a, b) => a.name.localeCompare(b.name))
-    store.samples = samples.sort((a, b) => a.name.localeCompare(b.name))
-    store.skippedFiles = skippedFiles
-    store.missingSamples = missingSamples.sort((a, b) => a.localeCompare(b))
-    store.parsed = true
-  }
-
-}
-
-// TODO: consider in-song usage vs preset usage. Possibly break into smaller functions.
-function computeUsage () {
+  
   // Compute usage
   for (const song of songs) {
     const songName = song.name.slice(0, -4) // Drop .xml from the name
@@ -243,10 +280,26 @@ function computeUsage () {
     sound.usage.songs[name] = true
     sound.usage.total++
   }
+
+  // Save results to the store
+  // Note: these are done here instead of in the loops to save on Pinia's dev tools events
+  store.songs = songs.sort((a, b) => a.name.localeCompare(b.name))
+  store.sounds = sounds.sort((a, b) => a.name.localeCompare(b.name))
+  store.kits = kits.sort((a, b) => a.name.localeCompare(b.name))
+  store.samples = samples.sort((a, b) => a.name.localeCompare(b.name))
+  store.skippedFiles = skippedFiles
+  store.missingSamples = missingSamples.sort((a, b) => a.localeCompare(b))
+  store.parsed = true
 }
 
 const parser = new DOMParser()
 
+/**
+ * Parse any Deluge XML file into data. Returns an error message if the file is not valid.
+ * @param file The file to parse.
+ * @param path Full path to the file.
+ * @returns The parsed file, or an error message.
+ */
 export async function parseFile(file: File, path: string): Promise<ParsedSongFile | ParsedSoundFile | ParsedKitFile | SampleFile | string> {
   let xml = await file.text()
   let firmware
@@ -325,7 +378,7 @@ export async function parseFile(file: File, path: string): Promise<ParsedSongFil
   }
 }
 
-export interface DelugrFileStore {
+export type DelugrFileStore = {
   parsed: boolean,
   parseError: string | null,
   filesScanned: number,
@@ -339,6 +392,9 @@ export interface DelugrFileStore {
   folderHandle: FileSystemDirectoryHandle | null,
 }
 
+/**
+ * The main state of the app.
+ */
 export const useStore = defineStore('files', {
   state: (): DelugrFileStore => {
     return {
@@ -357,6 +413,11 @@ export const useStore = defineStore('files', {
   }
 })
 
+/**
+ * Get the stored URL of a sample based on its path. Also good for checking if the sample exists.
+ * @param path Sample path.
+ * @returns The URL to the sample's details page or null if not found.
+ */
 export function getSampleUrlbyPath(path: string | null | undefined) {
   if (!path) return null
   if (path[0] !== '/') path = '/' + path
