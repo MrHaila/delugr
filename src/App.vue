@@ -1,13 +1,17 @@
 <template lang="pug">
+// div(class="absolute top-0 right-0 bottom-0 left-0 bg-gray-400")
+  div(class="move")
+    img(src="/favicon.png" class="w-16 h-8 spin")
+
 //- Landing page
 div(v-if="!store.parsed" class="mt-20 space-y-20 mb-20")
   div(class="text-center")
-    h1(class="text-8xl font-bold mb-5") Delurg
-    h2(class="text-2xl") The Synthstrom Deluge file browser... in the browser!
+    h1(class="text-8xl font-bold mb-5 text-gray-900") Delurg
+    h2(class="text-2xl text-gray-900 font-semibold") The Synthstrom Deluge file browser... in the browser!
 
   div(class="space-y-20")
     div(class="flex justify-center text-center")
-      div(class="p-8 rounded-xl border-dashed border-gray-400 bg-sky-50 border-4" style="width: 32rem; height: 9.7rem")
+      div(class="p-8 rounded-xl border-dashed border-gray-400 bg-sky-50/50 backdrop-blur-md border-4" style="width: 32rem; height: 9.7rem")
         div(v-if="!store.folderName")
           p(class="mb-5") Select the Deluge memory card root folder to get started.
           h-button(@click="getFolder") Select folder
@@ -16,7 +20,7 @@ div(v-if="!store.parsed" class="mt-20 space-y-20 mb-20")
           p(class="text-xl font-bold") {{ store.filesScanned }} files scanned
 
     div(class="flex justify-center")
-      div(class="bg-gray-200 shadow rounded p-5 space-y-3" style="width: 42rem")
+      div(class="shadow rounded p-5 space-y-3 backdrop-blur-md bg-white/30" style="width: 42rem")
         h3(class="font-bold") 👋 Greetings, stranger!
         p Delugr is a web-app that lets you browse the contents of your Deluge memory card.
         p It uses the new #[a(href="https://web.dev/file-system-access/") File System Access API] to read the contents of your memory card, so there's no need to install anything! As of May 2022, the API is not yet supported by Firefox, Safari or any of the mobile browsers.
@@ -74,6 +78,57 @@ async function getFolder() {
   store.folderHandle = rootFolder
 
   // Parse!
-  parseFolder(rootFolder)
+  await parseFolder(rootFolder)
+  document.getElementById('animation-root')?.remove()
 }
+
+// Animation shenanigans
+// Root div for all animations
+document.getElementById('animation-root')?.remove() // Delete old stuff during HMR
+const animationRoot = document.createElement('div')
+animationRoot.id = 'animation-root'
+animationRoot.className = 'absolute top-0 right-0 bottom-0 left-0'
+animationRoot.style.background = 'linear-gradient(to bottom, rgb(243 244 246), rgb(229 231 235)'
+animationRoot.style.zIndex = '-2'
+
+const amount = 40
+for (let i = 0; i < amount; i++) {
+  const small = Math.random() > .5
+
+  // Div that moves...
+  const movingContainer = document.createElement('div')
+  movingContainer.className = 'move absolute'
+  movingContainer.style.top = `${1 / amount * i * 100 + 3}%`
+  movingContainer.style.zIndex = '-1'
+  const moveAnimation = movingContainer.animate([
+    { transform: 'translateX(100vw)' },
+    { transform: 'translateX(-10vw)' }
+  ], {
+    duration: small ? 80000 : 40000, // ms
+    iterations: Infinity,
+  })
+  moveAnimation.currentTime = Math.round(Math.random() * (small ? 80000 : 40000))
+
+  // ...and the spinning image inside
+  const spinningElement = document.createElement('img')
+  spinningElement.src = '/favicon.png'
+  const size = small ? 2 : 4
+  spinningElement.style.width = `${size}rem`
+  spinningElement.style.filter = 'invert(100%)'
+  const spinAnimation = spinningElement.animate([
+    { transform: 'rotate(0deg)' },
+    { transform: 'rotate(360deg)' }
+  ], {
+    duration: 20000,
+    iterations: Infinity,
+  })
+  spinAnimation.currentTime = Math.round(Math.random() * 20000)
+
+  // Mount
+  movingContainer.appendChild(spinningElement)
+  animationRoot.appendChild(movingContainer)
+}
+// Mount
+document.getElementById('app')?.appendChild(animationRoot)
+
 </script>
