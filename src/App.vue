@@ -4,7 +4,7 @@
     img(src="/favicon.png" class="w-16 h-8 spin")
 
 //- Landing page
-div(v-if="!store.parsed" class="mt-20 space-y-20 mb-20")
+div(v-if="!store.parsed" class="pt-20 space-y-20 mb-20")
   div(class="text-center")
     h1(class="text-8xl font-bold mb-5 text-gray-900") Delurg
     h2(class="text-2xl text-gray-900 font-semibold") The Synthstrom Deluge file browser... in the browser!
@@ -98,7 +98,7 @@ for (let i = 0; i < amount; i++) {
   // Div that moves...
   const movingContainer = document.createElement('div')
   movingContainer.className = 'move absolute'
-  movingContainer.style.top = `${1 / amount * i * 100 + 3}%`
+  movingContainer.style.top = `${1 / amount * i * 100}%`
   movingContainer.style.zIndex = '-1'
   const moveAnimation = movingContainer.animate([
     { transform: 'translateX(100vw)' },
