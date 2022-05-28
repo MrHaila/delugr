@@ -356,3 +356,11 @@ export const useStore = defineStore('files', {
     }
   }
 })
+
+export function getSampleUrlbyPath(path: string | null | undefined) {
+  if (!path) return null
+  if (path[0] !== '/') path = '/' + path
+  const file = useStore().samples.find(f => f.path.toLowerCase() === path?.toLowerCase())
+  if (file) return file.url
+  else return null
+}

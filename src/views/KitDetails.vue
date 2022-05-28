@@ -29,8 +29,14 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             div(class="flex flex-row items-center space-x-1")
               span {{ i.presetName }}
               exclamation-circle-icon(v-if="i.problem" class="h-4 text-red-400")
-            div(class="text-xs text-gray-400") {{ i.osc1.fileName}}
-            div(class="text-xs text-gray-400") {{ i.osc2.fileName}}
+
+            // Note: Deluge paths are case insensitive, so we need to mind that.
+            div(class="text-xs text-gray-400")
+              router-link(v-if="getSampleUrlbyPath(i.osc1.fileName)" :to="getSampleUrlbyPath(i.osc1.fileName)") {{ i.osc1.fileName }}
+              span(v-else class="text-red-800") {{ i.osc1.fileName }}
+            div(class="text-xs text-gray-400")
+              router-link(v-if="getSampleUrlbyPath(i.osc2.fileName)" :to="getSampleUrlbyPath(i.osc2.fileName)") {{ i.osc2.fileName }}
+              span(v-else class="text-red-800") {{ i.osc2.fileName }}
 
     h2(class="font-bold text-xl") Technical Details
     p(class="text-sm") The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's a dump of what I've managed to parse so far:
@@ -50,6 +56,7 @@ import { computed } from 'vue';
 import { useStore } from '../deluge/files'
 import { DateTime } from 'luxon'
 import { ExclamationCircleIcon } from '@heroicons/vue/solid'
+import { getSampleUrlbyPath } from '../deluge/files'
 
 const store = useStore()
 
