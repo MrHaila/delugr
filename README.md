@@ -4,24 +4,36 @@
 
 The missing asset manager for the Synthstrom Deluge. Maybe. Some day.
 
-Huge credit to Jamie Fenton for open-sourcing [Downrush](github.com/jamiefaye/downrush) and Rohan for making his [file format documentation](https://docs.google.com/document/d/11DUuuE1LBYOVlluPA9McT1_dT4AofZ5jnUD5eHvj7Vs/edit) available. Probably would have already stopped trying to parse the Deluge file format otherwise.
+Huge credit to:
+
+- Rohan for making his [Deluge file format documentation](https://docs.google.com/document/d/11DUuuE1LBYOVlluPA9McT1_dT4AofZ5jnUD5eHvj7Vs/edit) available
+- Jamie Fenton for open-sourcing [Downrush](github.com/jamiefaye/downrush)
+- Fabio Barbon for open-sourcing [Deluge Commander](https://github.com/drbourbon/deluge-commander)
+
+Probably would have already stopped trying to parse the Deluge file format(s) otherwise.
 
 Main branch automatically builds to <https://delugr.haila.fi/>
 
 ## Features
 
 - 100% browser based. Nothing to install!
-- Browse your songs, synths and kits and see what instruments are used in them.
-- Easy navigation between songs and instruments via deep links when possible.
+- Browse your songs, synths, kits and samples and see how they are used.
+- At-a-glace visuals for spotting the most used and un-used items.
+- Easy navigation between items via deep links when possible.
 
 ## Future things that would make sense (backlog)
 
-- List samples... somehow. Making a file browser would suck.
+- Sample usage & leaderboards
+- Broken sample detection in instruments
+- Sample deep links for better navigation
+- Ability to play/preview samples?
+- Song instrument view in addition to preset view?
 - Actions to rename stuff (needs a bit of RnD on the web apis and how to surgically edit the original files without breaking anything)
-- List recordings?
+- Actions to delete stuff?
 - Prettier everything
 - Responsive layout
-- Parsing synth data (of various firmwares and binary types) to reliably show the synth settings
+- Parsing more XML data (of various firmwares and binary types)
+- 4.x support (untested for now)
 - Fancy-ass visualisations of synth settings to better understand them
 
 ## Technical Stuff

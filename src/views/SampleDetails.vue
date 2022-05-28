@@ -8,10 +8,12 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
   div(v-else class="space-y-3")
     div(class="flex flex-row justify-between")
       div
-        h1.font-bold.text-2xl Sample: {{ sample.name }}
+        h1.font-bold.text-2xl Sample: {{ sample.name.slice(0, -4) }}
         p(class="text-gray-400 text-sm") {{ sample.path }}
       div(class="text-right text-sm mt-3")
         p Last modified: {{ DateTime.fromMillis(sample.file.lastModified).toFormat('yyyy-MM-dd') }}
+    
+    div File size: {{ sample.file.size }} bytes
 </template>
 
 <script lang="ts" setup>

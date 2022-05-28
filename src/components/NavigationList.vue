@@ -38,26 +38,8 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-
     dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name.slice(0, -4) }} #[span(v-if="isUnused(file)" class="text-xs font-light text-gray-500") un-used]
     dd(class="text-gray-500 mt-0 col-span-2") {{ DateTime.fromMillis(file.file.lastModified).toFormat('yyyy-MM-dd') }}
 
-
-//aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-gray-200 overflow-y-auto")
-  //- List bar
-  h1(class="pl-3 py-2 font-bold") {{ props.title }} #[h-badge {{ props.listItems.length }}]
-  div(
-    v-if="props.listItems.length > 0"
-    v-for="path in listItemPaths"
-    )
-    div(v-if="listItemPaths.length > 1" class="py-1 px-3 text-sm font-semibold bg-gray-400") {{ path }}
-    router-link(
-      v-for="item in props.listItems.filter(item => item.path.split('/').slice(1, -1).join('/') === path)"
-      :to="item.url"
-      :class="['flex justify-between p-3 cursor-pointer text-sm', getBackgroundClass(item)]"
-      )
-      // dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name }} #[exclamation-circle-icon(v-if="item.problem" class="h-4 inline text-red-400 align-text-top")]
-      dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ item.name.slice(0, -4) }} #[span(v-if="isUnused(item)" class="text-xs font-light text-gray-500") un-used]
-      dd(class="text-gray-500 mt-0 col-span-2") {{ DateTime.fromMillis(item.file.lastModified).toFormat('yyyy-MM-dd') }}
-
-  div(v-else)
-    h1(class="text-center text-gray-500 font-bold p-4") No items
+div(v-if="props.listItems.length === 0 || (currentNavigationLevel.files?.length === 0 && currentNavigationLevel.folders?.length === 0)")
+  h1(class="text-center text-gray-500 font-bold p-4") No items
 </template>
 
 <script lang="ts" setup>
@@ -82,6 +64,7 @@ type Props = {
 }
 const props = defineProps<Props>()
 
+// Folders and folder navigation magic
 const root = computed(() => buildNavigationLevelForPath('/'))
 const firstFolderWithContent = computed(() => getFirstFolderWithContent(root.value))
 const currentNavigationLevel = ref(firstFolderWithContent.value)
@@ -131,20 +114,6 @@ const lastFolderFromPath = function (path: string): string {
   const folders = path.split('/')
   return folders[folders.length - 2]
 }
-
-// Get a list of unique paths
-const listItemPaths = computed(() => { 
-  return props.listItems
-    .map(item => item.path.split('/').slice(1, -1).join('/')) // Remove file name and beginning slash
-    .reduce<string[]>((accumulator, item, index, array) => {
-      if (index === 0) {
-        accumulator.push(item)
-      } else if (!accumulator.includes(item)) {
-        accumulator.push(item)
-      }
-      return accumulator.sort()
-    }, [])
-})
 
 // Highlight entry based on current route
 let active = ref('')
