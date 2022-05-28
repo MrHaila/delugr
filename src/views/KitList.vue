@@ -3,7 +3,6 @@ main(class="min-w-0 flex-1 flex")
   navigation-list(
     title="Kits"
     :listItems="store.kits"
-    :active="props.name || ''"
   )
 
   router-view

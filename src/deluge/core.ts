@@ -47,6 +47,7 @@ export type Sound = {
   // Not part of the spec
   problem: boolean,
   instrumentType: 'sound',
+  isInstance: boolean,
 }
 
 export type Kit = {
@@ -66,7 +67,8 @@ export type Kit = {
 
   // Not part of the spec
   problem: boolean,
-  instrumentType: 'kit'
+  instrumentType: 'kit',
+  isInstance: boolean,
 }
 
 export type AudioTrack = {

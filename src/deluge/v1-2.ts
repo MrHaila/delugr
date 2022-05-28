@@ -1,6 +1,6 @@
 import { Delay, findDirectChildNodeByTagName, getInstrumentName, Kit, Lfo, Oscillator, Sound, Unison } from "./core"
 
-export function parseKitv1 (xml: Element, fileName?: string): Kit {
+export function parseKitv1 (xml: Element, fileName?: string, songName?: string): Kit {
   let presetName = getInstrumentName(xml)
   let problem = false
   if (!presetName) {
@@ -45,6 +45,7 @@ export function parseKitv1 (xml: Element, fileName?: string): Kit {
     soundSources,
     instrumentType: 'kit',
     problem: false,
+    isInstance: songName !== undefined,
   }
 
   if (delay) kit.delay = parseDelay(delay, fileName)
@@ -52,7 +53,7 @@ export function parseKitv1 (xml: Element, fileName?: string): Kit {
   return kit
 }
 
-export function parseSoundv1 (xml: Element, fileName?: string, songName?: string): Sound {
+export function parseSoundv1 (xml: Element, fileName?: string, songName?: string, kitName?: string): Sound {
   let presetName = getInstrumentName(xml)
   let problem = false
   if (!presetName) {
@@ -106,6 +107,7 @@ export function parseSoundv1 (xml: Element, fileName?: string, songName?: string
     delay: parseDelay(delay, fileName),
     instrumentType: 'sound',
     problem: false,
+    isInstance: true,
   }
 
   if (polyphonic) sound.polyphonic = polyphonic

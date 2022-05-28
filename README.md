@@ -25,7 +25,6 @@ Main branch automatically builds to <https://delugr.haila.fi/>
 
 - Sample usage & leaderboards
 - Broken sample detection in instruments
-- Sample deep links for better navigation
 - Ability to play/preview samples?
 - Song instrument view in addition to preset view?
 - Actions to rename stuff (needs a bit of RnD on the web apis and how to surgically edit the original files without breaking anything)
@@ -33,6 +32,9 @@ Main branch automatically builds to <https://delugr.haila.fi/>
 - Prettier everything
 - Responsive layout
 - Parsing more XML data (of various firmwares and binary types)
+  - Audio tracks
+  - Default params
+  - Envelopes
 - 4.x support (untested for now)
 - Fancy-ass visualisations of synth settings to better understand them
 
