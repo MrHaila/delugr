@@ -36,11 +36,11 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
     p(class="text-sm") The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's a dump of what I've managed to parse so far:
 
     div(class="flex space-x-3")
-      pre.rounded.bg-gray-300.p-3.text-xs.font-mono
+      pre(class="rounded bg-gray-300 p-3 text-xs font-mono max-w-4xl")
         h3.font-bold PARSED SONG DATA
         pre {{ song.data }}
 
-      pre.rounded.bg-gray-300.p-3.text-xs.font-mono
+      pre(class="rounded bg-gray-300 p-3 text-xs font-mono max-w-4xl")
         h3.font-bold RAW SONG DATA
         pre {{ song.xml }}
 </template>

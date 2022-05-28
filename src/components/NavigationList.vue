@@ -2,38 +2,43 @@
 aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-gray-200 overflow-y-auto")
   //- Header
   div(class="flex")
-    //div(
-      @click="currentNavigationLevel.parent ? currentNavigationLevel = currentNavigationLevel.parent : ''"
-      class="aspect-square self-center p-3 cursor-pointer"
-      ) back
-    h1(class="pl-3 py-2 font-bold") {{ currentNavigationLevel.name }} #[h-badge {{ Number(currentNavigationLevel.folders?.length) + Number(currentNavigationLevel.files?.length) | 0 }}]
+    div(
+      @click="navigateBack"
+      :class="['self-center m-1 p-1 cursor-pointer hover:bg-gray-300 active:bg-gray-400 flex items-center rounded select-none', { 'text-gray-300 disabled pointer-events-none': currentNavigationLevel.name === '/' } ]"
+      )
+      chevron-left-icon(class="h-5")
+      span(class="mr-2") Back
+    h1(class="pl-1 py-2 font-bold") {{ currentNavigationLevel.name }}
 
   //- Folders
+  h3(v-if="currentNavigationLevel.folders?.length > 0" class="font-bold py-1 px-3 bg-gray-200 text-xs flex items-center")
+    folder-icon(class="h-3 mr-1")
+    | Folders #[span(class="text-gray-400 ml-2 font-normal") {{ Number(currentNavigationLevel.folders?.length) | 0 }}]
   div(
     v-for="navLevel in currentNavigationLevel.folders"
     @click="currentNavigationLevel = navLevel"
-    :class="['flex justify-between p-3 cursor-pointer text-sm']"
+    :class="['flex justify-between p-3 cursor-pointer text-sm hover:bg-gray-300 active:bg-gray-400']"
     )
     dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ lastFolderFromPath(navLevel.name) }} 
+    chevron-right-icon(class="h-5")
 
   //- Files
-  //router-link(
+  h3(v-if="currentNavigationLevel.files?.length > 0" class="font-bold py-1 px-3 bg-gray-200 text-xs flex items-center")
+    music-note-icon(v-if="title === 'Songs'" class="h-3 mr-1")
+    adjustments-icon(v-else-if="title === 'Synths'" class="h-3 mr-1")
+    archive-icon(v-else-if="title === 'Kits'" class="h-3 mr-1")
+    microphone-icon(v-else-if="title === 'Samples'" class="h-3 mr-1")
+    | {{ title }} #[span(class="text-gray-400 ml-2 font-normal") {{ Number(currentNavigationLevel.files?.length) | 0 }}]
+  router-link(
     v-for="file in currentNavigationLevel.files"
     :to="file.url"
-    :class="['flex justify-between p-3 cursor-pointer text-sm', getBackgroundClass(file)]"
+    :class="['flex justify-between p-3 cursor-pointer text-sm hover:no-underline', getBackgroundClass(file)]"
     )
     // dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name }} #[exclamation-circle-icon(v-if="file.problem" class="h-4 inline text-red-400 align-text-top")]
     dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name.slice(0, -4) }} #[span(v-if="isUnused(file)" class="text-xs font-light text-gray-500") un-used]
     dd(class="text-gray-500 mt-0 col-span-2") {{ DateTime.fromMillis(file.file.lastModified).toFormat('yyyy-MM-dd') }}
-  router-link(
-    v-for="file in currentNavigationLevel.files"
-    :to="file.url"
-    :class="['flex justify-between p-3 cursor-pointer text-sm hover:no-underline']"
-    )
-    // dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name }} #[exclamation-circle-icon(v-if="file.problem" class="h-4 inline text-red-400 align-text-top")]
-    dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name.slice(0, -4) }}
-    dd(class="text-gray-500 mt-0 col-span-2") {{ DateTime.fromMillis(file.file.lastModified).toFormat('yyyy-MM-dd') }}
-  
+
+
 //aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-gray-200 overflow-y-auto")
   //- List bar
   h1(class="pl-3 py-2 font-bold") {{ props.title }} #[h-badge {{ props.listItems.length }}]
@@ -63,10 +68,10 @@ import { ExclamationCircleIcon } from '@heroicons/vue/solid'
 import { ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { isArray } from '@vue/shared'
+import { MusicNoteIcon, ArchiveIcon, AdjustmentsIcon, MicrophoneIcon, ChevronRightIcon, ChevronLeftIcon, FolderIcon } from '@heroicons/vue/solid'
 
 type NavigationLevel = {
   name: string,
-  parent?: NavigationLevel,
   folders: NavigationLevel[],
   files: (ParsedFile | SampleFile)[],
 }
@@ -77,11 +82,11 @@ type Props = {
 }
 const props = defineProps<Props>()
 
-const currentFolderPath = ref('/')
 const root = computed(() => buildNavigationLevelForPath('/'))
-const currentNavigationLevel = ref(root.value)
+const firstFolderWithContent = computed(() => getFirstFolderWithContent(root.value))
+const currentNavigationLevel = ref(firstFolderWithContent.value)
 
-function buildNavigationLevelForPath(path: string, parent?: NavigationLevel): NavigationLevel {
+function buildNavigationLevelForPath(path: string): NavigationLevel {
   const files = props.listItems.filter(item => item.path.split('/').slice(0, -1).join('/') + '/' === path)
   const folders = props.listItems
     .filter(item => item.path.split('/').slice(0, -1).join('/').startsWith(path)) // Find further folders that start with current path
@@ -91,7 +96,14 @@ function buildNavigationLevelForPath(path: string, parent?: NavigationLevel): Na
       return accumulator
     }, [])
 
-  function getFirstFolderWithContent(navLevel: NavigationLevel): NavigationLevel {
+  return {
+    name: path,
+    folders: folders.map(item => buildNavigationLevelForPath(item + '/')),
+    files: files,
+  }
+}
+
+function getFirstFolderWithContent(navLevel: NavigationLevel): NavigationLevel {
     // Return if there is no content
     if (navLevel.files.length === 0 && navLevel.folders.length === 0) return navLevel
     // Return if are any files
@@ -102,14 +114,17 @@ function buildNavigationLevelForPath(path: string, parent?: NavigationLevel): Na
     return getFirstFolderWithContent(navLevel.folders[0])
   }
 
-  const rootObject: NavigationLevel = {
-    name: path,
-    parent,
-    folders: folders.map(item => buildNavigationLevelForPath(item + '/')),
-    files: files,
-  }
+const navigateBack = function() {
+  let folders = currentNavigationLevel.value.name.split('/')
+  folders = folders.slice(1, -2)
 
-  return getFirstFolderWithContent(rootObject)
+  let newNavigationLevel = root.value
+  for (const folder of folders) {
+    const subfolder = newNavigationLevel.folders.find(item => item.name === newNavigationLevel.name + folder + '/')
+    if (!subfolder) throw new Error('Could not find folder ' + newNavigationLevel.name + folder + ' in the folders of ' + newNavigationLevel.name)
+    newNavigationLevel = subfolder
+  }
+  currentNavigationLevel.value = newNavigationLevel
 }
 
 const lastFolderFromPath = function (path: string): string {
@@ -151,7 +166,7 @@ watch(
  * Figure out if an item should be flagged as un-used.
  * @param item Item to check.
  */
-const isUnused = (item: ParsedFile | SampleFile): boolean => {
+const isUnused = (item: ParsedFile | SampleFile | any): boolean => {
   // Non-samples have a type.
   if ('type' in item) {
     // Songs can't be un-used
@@ -161,7 +176,7 @@ const isUnused = (item: ParsedFile | SampleFile): boolean => {
   return false
 }
 
-function isItemActive(item: ParsedFile | SampleFile) {
+function isItemActive(item: ParsedFile | SampleFile | any) {
   if ('id' in item) {
     return active.value === item.id.toString()
   } else {
@@ -169,7 +184,7 @@ function isItemActive(item: ParsedFile | SampleFile) {
   }
 }
 
-function getBackgroundClass(item: ParsedFile | SampleFile) {
+function getBackgroundClass(item: ParsedFile | SampleFile | any) {
   if (isItemActive(item)) {
     return 'bg-amber-400'
   } else if (isUnused(item)) {

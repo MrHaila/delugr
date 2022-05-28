@@ -4,6 +4,7 @@ main(class="min-w-0 flex-1 flex")
     title="Samples"
     :listItems="store.samples"
     :active="props.name || ''"
+    fileIcon="microphone-icon"
   )
 
   router-view
