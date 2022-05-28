@@ -203,26 +203,30 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
         const sound = sounds.find(sound => sound.data.presetName === instrument.presetName)
         if (sound) {
           countSoundUsageInSong(sound, songName)
-          computeSampleUsage(sound)
+          computeSampleUsage(sound.data)
         }
 
-        // Kits
+      // Kits
       } else if (instrument.instrumentType === 'kit') {
+        // TODO: consider kit instances vs presets
         const kit = kits.find(kit => kit.data.presetName === instrument.presetName)
         if (kit) {
-          kit.usage.songs[songName] = true
-          kit.usage.total++
+          countKitUsageInSong(kit, songName)
 
           // Sounds inside kits
           for (const soundSource of Object.values(kit.data.soundSources)) {
+            // Each kit sound is an instance that may or may not relate to a preset
             const sound = sounds.find(sound => sound.data.presetName === soundSource.presetName)
             if (sound) {
-              countSoundUsageInKit(kit, songName)
-              computeSampleUsage(sound)
+              // Found a preset with the same name. Let's assume it's the same sound.
+              countSoundUsageInKit(kit, kit.name)
             }
+
+            // Count sample usage regardless of whether we found a preset or not
+            computeSampleUsage(soundSource)
           }
         }
-        // Audio tracks
+      // Audio tracks
       } else if (instrument.instrumentType === 'audio track') {
         console.log('TODO: audio track usage for', instrument.presetName)
         // const sample = samples.find(sample => sample.name === instrument.presetName)
@@ -233,27 +237,24 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
     }
   }
 
-  function computeSampleUsage(sound: ParsedSoundFile) {
+  function computeSampleUsage(sound: Sound) {
     // Individual samples
-    if (sound.data.osc1.fileName) {
-      const sample = samples.find(sample => sample.path == sound.data.osc1.fileName)
-      if (sample)
-        countSampleUsageInSound(sample, sound.data.presetName)
+    if (sound.osc1.fileName) {
+      const sample = samples.find(sample => sample.path === '/' + sound.osc1.fileName)
+      if (sample) countSampleUsageInSound(sample, sound.presetName)
+      else console.log('Missing sample', sound.osc1.fileName)
     }
-    if (sound.data.osc2.fileName) {
-      const sample = samples.find(sample => sample.path == sound.data.osc2.fileName)
-      if (sample)
-        countSampleUsageInSound(sample, sound.data.presetName)
+    if (sound.osc2.fileName) {
+      const sample = samples.find(sample => sample.path === '/' + sound.osc2.fileName)
+      if (sample) countSampleUsageInSound(sample, sound.presetName)
     }
     // Multisamples
-    if (sound.data.osc1.sampleRanges) {
-      for (const sampleRange of sound.data.osc1.sampleRanges) {
+    if (sound.osc1.sampleRanges) {
+      for (const sampleRange of sound.osc1.sampleRanges) {
         if (sampleRange.fileName) {
-          const sample = samples.find(sample => sample.path == sampleRange.fileName)
-          if (sample)
-            countSampleUsageInSound(sample, sound.data.presetName)
-          else
-            addMissingSample(sampleRange.fileName)
+          const sample = samples.find(sample => sample.path === '/' + sampleRange.fileName)
+          if (sample) countSampleUsageInSound(sample, sound.presetName)
+          else addMissingSample(sampleRange.fileName)
         }
       }
     }
@@ -264,21 +265,30 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
   }
   
   function countSampleUsageInSound(sample: SampleFile, name: string) {
-    if (sample.usage.sounds[name]) return
-    sample.usage.sounds[name] = true
-    sample.usage.total++
+    if (!sample.usage.sounds[name]) {
+      sample.usage.sounds[name] = true
+      sample.usage.total++ // Only increase the total in samples, as this is the true usage count
+    }
   }
   
   function countSoundUsageInKit(sound: ParsedFile, name: string) {
-    if (sound.usage.kits[name]) return
-    sound.usage.kits[name] = true
-    sound.usage.total++
+    if (!sound.usage.kits[name]) {
+      sound.usage.kits[name] = true
+    }
   }
   
   function countSoundUsageInSong(sound: ParsedFile, name: string) {
-    if (sound.usage.songs[name]) return
-    sound.usage.songs[name] = true
-    sound.usage.total++
+    if (!sound.usage.songs[name]) {
+      sound.usage.songs[name] = true
+      sound.usage.total++
+    }
+  }
+
+  function countKitUsageInSong(kit: ParsedFile, name: string) {
+    if (!kit.usage.songs[name]) {
+      kit.usage.songs[name] = true
+      kit.usage.total++
+    }
   }
 
   // Save results to the store

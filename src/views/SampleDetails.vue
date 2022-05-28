@@ -14,6 +14,24 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         p Last modified: {{ DateTime.fromMillis(sample.file.lastModified).toFormat('yyyy-MM-dd') }}
     
     div File size: {{ sample.file.size }} bytes
+
+    div(class="flex space-x-3")
+      h-card(class="max-w-md flex-1")
+        template(#title) Usage #[h-badge {{ sample.usage.total }}]
+        div(v-if="sample.usage.total" class="divide-y divide-gray-200")
+          div(v-for="(bool, key) in sample.usage.songs" :key="key" class="py-2 flex flex-row items-center space-x-1")
+            div(class="basis-20")
+              span song
+            router-link(:to="'/songs/' + key") {{ key }}
+          div(v-for="(bool, key) in sample.usage.sounds" :key="key" class="py-2 flex flex-row items-center space-x-1")
+            div(class="basis-20")
+              span synth
+            router-link(:to="'/synths/' + key") {{ key }}
+          div(v-for="(bool, key) in sample.usage.kits" :key="key" class="py-2 flex flex-row items-center space-x-1")
+            div(class="basis-20")
+              span kit
+            router-link(:to="'/kits/' + key") {{ key }}
+        div(v-else class="italic text-gray-400") Not used in any songs or kits.
 </template>
 
 <script lang="ts" setup>

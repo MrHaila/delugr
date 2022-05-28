@@ -61,7 +61,7 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
     for (let i = 0; i < soundNodes.length; i++) {
       const xmlSound = soundNodes.item(i)
       if (xmlSound) {
-        const sound = parseSoundv3(xmlSound)
+        const sound = parseSoundv3(xmlSound, fileName, songName, presetName)
         sounds[sound.presetName] = sound
       }
     }
@@ -82,6 +82,7 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
     soundSources,
     instrumentType: 'kit',
     problem,
+    isInstance: songName !== undefined,
   }
 
   if (xmlDefaultParams) kit.defaultParams = parseAllAttributes(xmlDefaultParams)
@@ -91,7 +92,7 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
   return kit
 }
 
-export function parseSoundv3 (xml: Element, fileName?: string, songName?: string): Sound {
+export function parseSoundv3 (xml: Element, fileName?: string, songName?: string, kitName?: string): Sound {
   let presetName = getInstrumentName(xml)
   let problem = false
   if (!presetName) {
@@ -145,6 +146,7 @@ export function parseSoundv3 (xml: Element, fileName?: string, songName?: string
     delay: parseDelay(delay),
     instrumentType: 'sound',
     problem,
+    isInstance: true,
   }
 
   if (polyphonic) sound.polyphonic = polyphonic
