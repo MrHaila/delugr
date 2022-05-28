@@ -19,10 +19,10 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         template(#title) Usage #[h-badge {{ synthSongUsageCount }}]
         div(v-if="synthSongUsageCount" class="divide-y divide-gray-200")
           div(v-for="(bool, key) in sound.usage.songs" :key="key" class="py-2 flex justify-between")
-            router-link(:to="'/songs/' + key" class="text-blue-500 hover:text-blue-600 hover:underline") {{ key }}
+            router-link(:to="'/songs/' + key") {{ key }}
             span song
           div(v-for="(bool, key) in sound.usage.kits" :key="key" class="py-2 flex justify-between")
-            router-link(:to="'/kits/' + key" class="text-blue-500 hover:text-blue-600 hover:underline") {{ key }}
+            router-link(:to="'/kits/' + key") {{ key }}
             span kit
         div(v-else class="italic text-gray-400") Not used in any songs or kits.
 
@@ -118,7 +118,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         template(#title) Song usage #[h-badge {{ synthSongUsageCount }}]
         div(v-if="synthSongUsageCount > 0" class="divide-y divide-gray-200")
           div(v-for="entry in store.synths?.usage[props.name]" :key="entry" class="py-2")
-            router-link(:to="'/songs/' + entry" class="text-blue-500 hover:text-blue-600 hover:underline") {{ entry }}
+            router-link(:to="'/songs/' + entry") {{ entry }}
         div(v-else class="italic text-gray-400") Not used in any songs.
 </template>
 

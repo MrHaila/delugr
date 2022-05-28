@@ -21,8 +21,8 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
           div(v-for="(i, index) in song.data.instruments" :key="index" class="py-2 flex flex-row items-center space-x-1")
             div(class="basis-20") {{ i.instrumentType }}
             div
-              router-link(v-if="!i.problem && i.instrumentType === 'sound'" :to="'/synths/' + i.presetName" class="text-blue-500 hover:text-blue-600 hover:underline") {{ i.presetName }}
-              router-link(v-else-if="!i.problem && i.instrumentType === 'kit'" :to="'/kits/' + i.presetName" class="text-blue-500 hover:text-blue-600 hover:underline") {{ i.presetName }}
+              router-link(v-if="!i.problem && i.instrumentType === 'sound'" :to="'/synths/' + i.presetName") {{ i.presetName }}
+              router-link(v-else-if="!i.problem && i.instrumentType === 'kit'" :to="'/kits/' + i.presetName") {{ i.presetName }}
               span(v-else class="text-gray-400") {{ i.presetName }}
             // exclamation-circle-icon(v-if="i.problem" class="h-4 text-red-400")
       

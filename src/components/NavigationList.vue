@@ -28,7 +28,7 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-
   router-link(
     v-for="file in currentNavigationLevel.files"
     :to="file.url"
-    :class="['flex justify-between p-3 cursor-pointer text-sm']"
+    :class="['flex justify-between p-3 cursor-pointer text-sm hover:no-underline']"
     )
     // dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name }} #[exclamation-circle-icon(v-if="file.problem" class="h-4 inline text-red-400 align-text-top")]
     dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name.slice(0, -4) }}
