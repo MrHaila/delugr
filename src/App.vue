@@ -122,7 +122,7 @@ if (!store.parsed) {
   animationRoot.id = 'animation-root'
   animationRoot.className = 'absolute top-0 right-0 bottom-0 left-0'
   animationRoot.style.background = 'linear-gradient(to bottom, rgb(243 244 246), rgb(229 231 235)'
-  animationRoot.style.zIndex = '-2'
+  animationRoot.style.zIndex = '-3'
 
   const amount = 40
   for (let i = 0; i < amount; i++) {
@@ -132,7 +132,7 @@ if (!store.parsed) {
     const movingContainer = document.createElement('div')
     movingContainer.className = 'move absolute'
     movingContainer.style.top = `${1 / amount * i * 100}%`
-    movingContainer.style.zIndex = '-1'
+    movingContainer.style.zIndex = small ? '-2' : '-1'
     const moveAnimation = movingContainer.animate([
       { transform: 'translateX(100vw)' },
       { transform: 'translateX(-10vw)' }
@@ -147,7 +147,7 @@ if (!store.parsed) {
     spinningElement.src = '/favicon.png'
     const size = small ? 2 : 4
     spinningElement.style.width = `${size}rem`
-    spinningElement.style.filter = 'invert(100%)'
+    spinningElement.style.filter = 'invert(100%)' + (small ? ' brightness(105%)' : '')
     const spinAnimation = spinningElement.animate([
       { transform: 'rotate(0deg)' },
       { transform: 'rotate(360deg)' }
