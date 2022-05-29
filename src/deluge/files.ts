@@ -289,19 +289,21 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
   function countSampleUsageInSong(sample: SampleFile, name: string) {
     if (!sample.usage.songs[name]) {
       sample.usage.songs[name] = true
+      sample.usage.total++
     }
   }
 
   function countSampleUsageInKit(sample: SampleFile, name: string) {
     if (!sample.usage.kits[name]) {
       sample.usage.kits[name] = true
+      sample.usage.total++
     }
   }
   
   function countSampleUsageInSound(sample: SampleFile, name: string) {
     if (!sample.usage.sounds[name]) {
       sample.usage.sounds[name] = true
-      sample.usage.total++ // Only increase the total in sounds, as this is the true usage count
+      sample.usage.total++
     }
   }
   
