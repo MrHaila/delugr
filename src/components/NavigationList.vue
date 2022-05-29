@@ -97,9 +97,21 @@ function getFirstFolderWithContent(navLevel: NavigationLevel): NavigationLevel {
     return getFirstFolderWithContent(navLevel.folders[0])
   }
 
-const navigateBack = function() {
-  let folders = currentNavigationLevel.value.name.split('/')
-  folders = folders.slice(1, -2)
+/**
+ * Go back by one step in the navigation.
+ */
+function navigateBack() {
+  const newPath = currentNavigationLevel.value.name.split('/').slice(0, -2).join('/')
+  navigateToPath(newPath)
+}
+
+/**
+ * Open the side navigation into a folder based on its path.
+ */
+function navigateToPath(path: string) {
+  let folders = path.split('/')
+  folders = folders.slice(1)
+  console.log(path, folders)
 
   let newNavigationLevel = root.value
   for (const folder of folders) {
@@ -123,6 +135,20 @@ function setActive(name: string | string[]) {
   } else {
     active.value = name
   }
+
+  // Find the active item's path & navigate to it in the sidebar
+  console.log(active.value)
+  const activeItemPath = props.listItems.find(item => {
+      if (item.name.slice(0, -4) === active.value) return true
+      else if ('id' in item && String(item.id) === active.value) return true
+      else return false
+    })?.path
+  console.log('Active item path: ' + activeItemPath)
+  if (!activeItemPath) return
+  navigateToPath(activeItemPath.split('/').slice(0, -1).join('/'))
+  
+  // Scroll to the active item. Might not work due to race conditions...
+  document.querySelector('.active')?.scrollIntoView()
 }
 const route = useRoute()
 setActive(route.params.name)
@@ -155,7 +181,7 @@ function isItemActive(item: ParsedFile | SampleFile | any) {
 
 function getBackgroundClass(item: ParsedFile | SampleFile | any) {
   if (isItemActive(item)) {
-    return 'bg-amber-400'
+    return 'bg-amber-400 active'
   } else if (isUnused(item)) {
     return 'bg-gray-200'
   } else {
