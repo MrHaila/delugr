@@ -17,6 +17,7 @@
     "@types/wicg-file-system-access": "^2020.9.5",
     "@vitejs/plugin-vue": "^2.3.3",
     "autoprefixer": "^10.4.7",
+    "idb-keyval": "^6.1.0",
     "luxon": "^2.4.0",
     "pinia": "^2.0.14",
     "postcss": "^8.4.13",

@@ -6,21 +6,17 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
     h2(class="font-bold text-red-800") Work-in-progress! Sample usage stats are broken, but I didn't want to hide this whole section for now.
 
     p {{ usedSamplesCount }} of them are currently in use in a synth, kit or an audio track. That means {{ store.samples.length - usedSamplesCount }} are not used at all.
-    p(class="text-red-800") Attention! {{ store.missingSamples.length }} samples were referenced in instruments but could not be found.
+    p(class="text-red-800") Attention! {{ store.missingSamples.length }} samples were referenced in synths but could not be found.
 
 
-    //div(class="flex")
+    div(class="flex")
       h-card(class="max-w-md md:flex-1")
-        template(#title) Leaderboard #[h-badge {{ usedSamples }}]
+        template(#title) Leaderboard
+        template(#subtitle) Samples get one point each for getting included in a synth, kit or a song. A widely used sample may only belong to one synth, but that synth may be used in lots of places!
         div(class="divide-y divide-gray-200")
-          div(v-for="entry in Object.entries(store.samples?.files).filter(f => f[1].usage.length > 0).sort((a, b) => b[1].usage.length - a[1].usage.length)" :key="entry[0]" class="py-2")
-            div
-              span {{ entry[1].usage.length }} - 
-              router-link(:to="'samples/' + entry[0]") {{ entry[1].fsFile.name.slice(0, -4) }}
-            div(class="text-xs text-gray-400") {{ entry[0] }}
-
-  div(class="flex justify-center my-auto")
-    h1(class="font-bold text-xl text-gray-400") ⬅ Select a sample to get started
+          div(v-for="sample in Object.values(store.samples).sort((a, b) => b.usage.total - a.usage.total).slice(0, 19).filter(sample => sample.usage.total > 0)" :key="sample.path" class="py-2")
+            span {{ sample.usage.total }} - 
+            router-link(:to="'/samples/' + sample.id") {{ sample.name.slice(0, -4) }}
 </template>
 
 <script lang="ts" setup>

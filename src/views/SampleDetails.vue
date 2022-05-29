@@ -17,20 +17,26 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 
     div(class="flex space-x-3")
       h-card(class="max-w-md flex-1")
-        template(#title) Usage #[h-badge {{ sample.usage.total }}]
-        div(v-if="sample.usage.total" class="divide-y divide-gray-200")
-          div(v-for="(bool, key) in sample.usage.songs" :key="key" class="py-2 flex flex-row items-center space-x-1")
-            div(class="basis-20")
-              span song
-            router-link(:to="'/songs/' + key") {{ key }}
-          div(v-for="(bool, key) in sample.usage.sounds" :key="key" class="py-2 flex flex-row items-center space-x-1")
-            div(class="basis-20")
-              span synth
-            router-link(:to="'/synths/' + key") {{ key }}
-          div(v-for="(bool, key) in sample.usage.kits" :key="key" class="py-2 flex flex-row items-center space-x-1")
-            div(class="basis-20")
-              span kit
-            router-link(:to="'/kits/' + key") {{ key }}
+        template(#title) Usage
+        div(v-if="sample.usage.total" class="flex justify-between")
+          div
+            h2(class="font-semibold") Songs #[h-badge {{ Object.keys(sample.usage.songs).length }}]
+            div(class="space-y-2 divide-y divide-gray-200")
+              div(v-for="(bool, key) in sample.usage.songs" :key="key")
+                router-link(:to="'/songs/' + key") {{ key }}
+          
+          div
+            h2(class="font-semibold") Kits #[h-badge {{ Object.keys(sample.usage.kits).length }}]
+            div(class="space-y-2 divide-y divide-gray-200")
+              div(v-for="(bool, key) in sample.usage.kits" :key="key")
+                router-link(:to="'/kits/' + key") {{ key }}
+          
+          div
+            h2(class="font-semibold") Synths #[h-badge {{ Object.keys(sample.usage.sounds).length }}]
+            div(class="space-y-2 divide-y divide-gray-200")
+              div(v-for="(bool, key) in sample.usage.sounds" :key="key")
+                router-link(:to="'/synths/' + key") {{ key }}
+        
         div(v-else class="italic text-gray-400") Not used in any songs or kits.
 </template>
 
