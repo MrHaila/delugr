@@ -109,11 +109,22 @@ export type SkippedFile = {
   reason: string,
 }
 
+async function verifyFolderPermission(folderHandle: FileSystemDirectoryHandle, write = false) {
+  // Check if permission was already granted. If so, return true.
+  if ((await folderHandle.queryPermission({ mode: write ? 'readwrite' : 'read' })) === 'granted') return true
+  // Request permission. If the user grants permission, return true.
+  if ((await folderHandle.requestPermission({ mode: write ? 'readwrite' : 'read' })) === 'granted') return true
+  // The user didn't grant permission, so return false.
+  return false
+}
+
 /**
  * One-stop-shop for parsing a folder of files. Saves the results into the Pinia store.
  * @param folder The folder to parse.
  */
 export async function parseFolder(folder: FileSystemDirectoryHandle) {
+  if (!(await verifyFolderPermission(folder))) throw new Error('Permission denied')
+
   const songs: ParsedSongFile[] = []
   const sounds: ParsedSoundFile[] = []
   const kits: ParsedKitFile[] = []
@@ -125,6 +136,7 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
   const store = useStore()
   if (store.filesScanned > 0) store.filesScanned = 0
 
+  store.parsingMessage = 'Parsing the folder contents...'
   await scanFolder(folder, '/')
   async function scanFolder(folder: FileSystemDirectoryHandle, path: string) {
     // For each XML or wav file in the folder structure, parse it and add it to the store
@@ -195,6 +207,7 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
   }
   
   // Compute usage
+  store.parsingMessage = 'Computing usage stats...'
   for (const song of songs) {
     const songName = song.name.slice(0, -4) // Drop .xml from the name
     for (const instrument of song.data.instruments) {
@@ -292,6 +305,7 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
   }
 
   // Save results to the store
+  store.parsingMessage = 'Saving...'
   // Note: these are done here instead of in the loops to save on Pinia's dev tools events
   store.songs = songs.sort((a, b) => a.name.localeCompare(b.name))
   store.sounds = sounds.sort((a, b) => a.name.localeCompare(b.name))
@@ -299,6 +313,8 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
   store.samples = samples.sort((a, b) => a.name.localeCompare(b.name))
   store.skippedFiles = skippedFiles
   store.missingSamples = missingSamples.sort((a, b) => a.localeCompare(b))
+
+  store.parsingMessage = 'Done!'
   store.parsed = true
 }
 
@@ -391,6 +407,7 @@ export async function parseFile(file: File, path: string): Promise<ParsedSongFil
 export type DelugrFileStore = {
   parsed: boolean,
   parseError: string | null,
+  parsingMessage: string,
   filesScanned: number,
   songs: ParsedSongFile[],
   sounds: ParsedSoundFile[],
@@ -398,7 +415,6 @@ export type DelugrFileStore = {
   samples: SampleFile[],
   skippedFiles: SkippedFile[],
   missingSamples: string[],
-  folderName: string,
   folderHandle: FileSystemDirectoryHandle | null,
 }
 
@@ -410,6 +426,7 @@ export const useStore = defineStore('files', {
     return {
       parsed: false,
       parseError: null,
+      parsingMessage: '',
       filesScanned: 0,
       songs: [],
       sounds: [],
@@ -417,7 +434,6 @@ export const useStore = defineStore('files', {
       samples: [],
       skippedFiles: [],
       missingSamples: [],
-      folderName: '',
       folderHandle: null,
     }
   }
