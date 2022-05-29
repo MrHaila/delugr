@@ -216,7 +216,7 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
         const sound = sounds.find(sound => sound.data.presetName === instrument.presetName)
         if (sound) {
           countSoundUsageInSong(sound, songName)
-          computeSampleUsage(sound.data)
+          computeSampleUsageinSound(sound.data)
         }
 
       // Kits
@@ -232,11 +232,11 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
             const sound = sounds.find(sound => sound.data.presetName === soundSource.presetName)
             if (sound) {
               // Found a preset with the same name. Let's assume it's the same sound.
-              countSoundUsageInKit(kit, kit.name)
+              countSoundUsageInKit(kit, kit.data.presetName)
             }
 
             // Count sample usage regardless of whether we found a preset or not
-            computeSampleUsage(soundSource)
+            computeSampleUsageinSound(soundSource, kit.data.presetName, songName)
           }
         }
       // Audio tracks
@@ -250,25 +250,34 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
     }
   }
 
-  function computeSampleUsage(sound: Sound) {
+  function computeSampleUsageinSound(sound: Sound, kitName?: string, songName?: string) {
     // Individual samples
-    if (sound.osc1.fileName) {
-      const sample = samples.find(sample => sample.path === '/' + sound.osc1.fileName)
-      if (sample) countSampleUsageInSound(sample, sound.presetName)
-      else console.log('Missing sample', sound.osc1.fileName)
+    const fileNames = []
+    if (sound.osc1.fileName) fileNames.push(sound.osc1.fileName)
+    if (sound.osc2.fileName) fileNames.push(sound.osc2.fileName)
+    for (const fileName of fileNames) {
+      const sample = samples.find(sample => sample.path.toLowerCase() === '/' + fileName.toLocaleLowerCase())
+      if (sample) {
+        countSampleUsageInSound(sample, sound.presetName)
+        if (kitName) countSampleUsageInKit(sample, kitName)
+        if (songName) countSampleUsageInSong(sample, songName)
+      }
+      else addMissingSample(fileName)
     }
-    if (sound.osc2.fileName) {
-      const sample = samples.find(sample => sample.path === '/' + sound.osc2.fileName)
-      if (sample) countSampleUsageInSound(sample, sound.presetName)
-    }
+
     // Multisamples
-    if (sound.osc1.sampleRanges) {
-      for (const sampleRange of sound.osc1.sampleRanges) {
-        if (sampleRange.fileName) {
-          const sample = samples.find(sample => sample.path === '/' + sampleRange.fileName)
-          if (sample) countSampleUsageInSound(sample, sound.presetName)
-          else addMissingSample(sampleRange.fileName)
+    const sampleRanges = []
+    if (sound.osc1.sampleRanges) sampleRanges.push(...sound.osc1.sampleRanges)
+    if (sound.osc2.sampleRanges) sampleRanges.push(...sound.osc2.sampleRanges)
+    for (const sampleRange of sampleRanges) {
+      if (sampleRange.fileName) {
+        const sample = samples.find(sample => sample.path.toLowerCase() === '/' + sampleRange.fileName?.toLocaleLowerCase())
+        if (sample) {
+          countSampleUsageInSound(sample, sound.presetName)
+          if (kitName) countSampleUsageInKit(sample, kitName)
+          if (songName) countSampleUsageInSong(sample, songName)
         }
+        else addMissingSample(sampleRange.fileName)
       }
     }
   }
@@ -276,11 +285,23 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
   function addMissingSample(samplePath: string) {
     if (!missingSamples.includes(samplePath)) missingSamples.push(samplePath)
   }
+
+  function countSampleUsageInSong(sample: SampleFile, name: string) {
+    if (!sample.usage.songs[name]) {
+      sample.usage.songs[name] = true
+    }
+  }
+
+  function countSampleUsageInKit(sample: SampleFile, name: string) {
+    if (!sample.usage.kits[name]) {
+      sample.usage.kits[name] = true
+    }
+  }
   
   function countSampleUsageInSound(sample: SampleFile, name: string) {
     if (!sample.usage.sounds[name]) {
       sample.usage.sounds[name] = true
-      sample.usage.total++ // Only increase the total in samples, as this is the true usage count
+      sample.usage.total++ // Only increase the total in sounds, as this is the true usage count
     }
   }
   
