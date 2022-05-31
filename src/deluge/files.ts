@@ -123,11 +123,16 @@ export type SampleFile = {
    * Usage stats for the file.
    */
   usage: {
-    songs: { [key: string]: boolean },
-    sounds: { [key: string]: boolean },
-    kits: { [key: string]: boolean },
+    songs: { [key: string]: UsageReference },
+    sounds: { [key: string]: UsageReference },
+    kits: { [key: string]: UsageReference },
     total: number,
   },
+}
+
+export type UsageReference = {
+  instrumentType: string,
+  instrumentName: string,
 }
 
 /**
@@ -291,9 +296,17 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
     for (const fileName of fileNames) {
       const sample = samples.find(sample => sample.path.toLowerCase() === '/' + fileName.toLocaleLowerCase())
       if (sample) {
-        countSampleUsageInSound(sample, sound.presetName)
-        if (kitName) countSampleUsageInKit(sample, kitName)
-        if (songName) countSampleUsageInSong(sample, songName)
+        countSampleUsageInSound(sample, sound.presetName, sound.presetName, 'synth')
+        if (kitName && songName) {
+          countSampleUsageInKit(sample, kitName, sound.presetName, 'synth')
+          countSampleUsageInSong(sample, songName, kitName, 'kit')
+        }
+        else if (!kitName && songName) {
+          countSampleUsageInSong(sample, songName, sound.presetName, 'synth')
+        }
+        else if (kitName && !songName) {
+          countSampleUsageInKit(sample, kitName, sound.presetName, 'synth')
+        }
       }
       else addMissingSample(fileName)
     }
@@ -306,9 +319,9 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
       if (sampleRange.fileName) {
         const sample = samples.find(sample => sample.path.toLowerCase() === '/' + sampleRange.fileName?.toLocaleLowerCase())
         if (sample) {
-          countSampleUsageInSound(sample, sound.presetName)
-          if (kitName) countSampleUsageInKit(sample, kitName)
-          if (songName) countSampleUsageInSong(sample, songName)
+          countSampleUsageInSound(sample, sound.presetName, sound.presetName, 'synth')
+          if (kitName) countSampleUsageInKit(sample, kitName, sound.presetName, 'synth')
+          if (songName) countSampleUsageInSong(sample, songName, sound.presetName, 'synth')
         }
         else addMissingSample(sampleRange.fileName)
       }
@@ -319,23 +332,32 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
     if (!missingSamples.includes(samplePath)) missingSamples.push(samplePath)
   }
 
-  function countSampleUsageInSong(sample: SampleFile, name: string) {
+  function countSampleUsageInSong(sample: SampleFile, name: string, instrumentName: string, instrumentType: string) {
     if (!sample.usage.songs[name]) {
-      sample.usage.songs[name] = true
+      sample.usage.songs[name] = {
+        instrumentName,
+        instrumentType,
+      }
       sample.usage.total++
     }
   }
 
-  function countSampleUsageInKit(sample: SampleFile, name: string) {
+  function countSampleUsageInKit(sample: SampleFile, name: string, instrumentName: string, instrumentType: string) {
     if (!sample.usage.kits[name]) {
-      sample.usage.kits[name] = true
+      sample.usage.kits[name] = {
+        instrumentName,
+        instrumentType,
+      }
       sample.usage.total++
     }
   }
   
-  function countSampleUsageInSound(sample: SampleFile, name: string) {
+  function countSampleUsageInSound(sample: SampleFile, name: string, instrumentName: string, instrumentType: string) {
     if (!sample.usage.sounds[name]) {
-      sample.usage.sounds[name] = true
+      sample.usage.sounds[name] = {
+        instrumentName,
+        instrumentType,
+      }
       sample.usage.total++
     }
   }
