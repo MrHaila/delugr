@@ -3,7 +3,7 @@
 div(v-if="store.parseError || !store.parsed" class="pt-20 space-y-20 h-screen overflow-y-auto")
   //- Header
   div(class="text-center")
-    h1(class="text-8xl font-bold mb-5 text-gray-900") Delurg
+    h1(class="text-8xl font-bold mb-5 text-gray-900") Delugr
     h2(class="text-2xl text-gray-900 font-semibold") The Synthstrom Deluge file browser... in the browser!
 
   //- Error
