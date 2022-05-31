@@ -15,6 +15,8 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
     
     div File size: {{ sample.size }} bytes
 
+    h-button(@click="isPlaying ? stopSample() : playSample()") {{ isPlaying ? 'Stop sample' : 'Play sample' }}
+
     div(class="flex space-x-3")
       h-card(class="max-w-md flex-1")
         template(#title) Usage
@@ -41,8 +43,9 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
 </template>
 
 <script lang="ts" setup>
-import { computed } from '@vue/reactivity';
+import { computed } from '@vue/reactivity'
 import { DateTime } from 'luxon'
+import { onUnmounted, ref } from 'vue'
 import { useStore } from '../deluge/files'
 
 const store = useStore()
@@ -51,6 +54,42 @@ const props = defineProps([
   'name'
 ])
 
+
 const idAsNumber = computed(() => parseInt(props.name))
 const sample = computed(() => props.name ? store.samples.find(sample => sample.id === idAsNumber.value) : null)
+
+//- Audio playback shenanigans
+let audioContext: AudioContext | null = null
+let audioSource: AudioBufferSourceNode | null = null
+const isPlaying = ref(false)
+
+async function playSample() {
+  if (!sample.value) return
+
+  if (!audioContext || !audioSource) {
+    audioContext = new AudioContext()
+    audioSource = audioContext.createBufferSource()
+    audioSource.connect(audioContext.destination)
+    const file = await sample.value.fileHandle.getFile()
+    const buffer = await file.arrayBuffer()
+    const audioData = await audioContext.decodeAudioData(buffer)
+    audioSource.buffer = audioData
+    audioSource.start()
+    audioSource.onended = () => stopSample()
+    isPlaying.value = true
+  }
+
+  if (audioContext.state === 'suspended') {
+    audioContext.resume()
+  }
+}
+
+function stopSample() {
+  audioSource?.stop()
+  audioSource?.disconnect()
+  audioSource = null
+  isPlaying.value = false
+}
+
+onUnmounted(() => stopSample())
 </script>
