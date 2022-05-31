@@ -17,9 +17,9 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-
   div(
     v-for="navLevel in currentNavigationLevel.folders"
     @click="currentNavigationLevel = navLevel"
-    :class="['flex justify-between p-3 cursor-pointer text-sm hover:bg-gray-300 active:bg-gray-400']"
+    :class="['flex justify-between p-3 cursor-pointer text-sm hover:bg-gray-300 active:bg-gray-400', { 'bg-gray-200': navLevel.allFilesUnused }]"
     )
-    dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ lastFolderFromPath(navLevel.name) }} 
+    dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ lastFolderFromPath(navLevel.name) }} #[span(v-if="navLevel.allFilesUnused" class="text-xs font-light text-gray-500") un-used]
     chevron-right-icon(class="h-5")
 
   //- Files
@@ -56,6 +56,7 @@ type NavigationLevel = {
   name: string,
   folders: NavigationLevel[],
   files: (ParsedFile | SampleFile)[],
+  allFilesUnused: boolean,
 }
 
 type Props = {
@@ -78,12 +79,20 @@ function buildNavigationLevelForPath(path: string): NavigationLevel {
       if (!accumulator.includes(item)) accumulator.push(item)
       return accumulator
     }, [])
+    .map(item => buildNavigationLevelForPath(item + '/'))
+  const allFilesUnused = isNavigationLevelUnused(files, folders)
 
   return {
     name: path,
-    folders: folders.map(item => buildNavigationLevelForPath(item + '/')),
-    files: files,
+    folders,
+    files,
+    allFilesUnused,
   }
+}
+
+function isNavigationLevelUnused(files: (ParsedFile | SampleFile)[], folders: NavigationLevel[]): boolean {
+  return files.every(file => file.usage.total === 0) && folders.every(folder => isNavigationLevelUnused(folder.files, folder.folders))
+
 }
 
 function getFirstFolderWithContent(navLevel: NavigationLevel): NavigationLevel {
