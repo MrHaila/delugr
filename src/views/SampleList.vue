@@ -1,11 +1,11 @@
 <template lang="pug">
-main(class="flex")
+main(class="min-w-0 flex-1 flex")
   navigation-list(
     title="Samples"
     :listItems="store.samples"
   )
 
-  router-view(style="min-width: 31rem")
+  router-view
 </template>
 
 <script lang="ts" setup>
