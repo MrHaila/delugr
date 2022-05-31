@@ -115,52 +115,53 @@ async function parseFolder(rootFolder: FileSystemDirectoryHandle | any) {
 }
 
 // Animation shenanigans
-// Root div for all animations
-document.getElementById('animation-root')?.remove() // Delete old stuff during HMR
-const animationRoot = document.createElement('div')
-animationRoot.id = 'animation-root'
-animationRoot.className = 'absolute top-0 right-0 bottom-0 left-0'
-animationRoot.style.background = 'linear-gradient(to bottom, rgb(243 244 246), rgb(229 231 235)'
-animationRoot.style.zIndex = '-2'
+if (!store.parsed) {
+  // Root div for all animations
+  document.getElementById('animation-root')?.remove() // Delete old stuff during HMR
+  const animationRoot = document.createElement('div')
+  animationRoot.id = 'animation-root'
+  animationRoot.className = 'absolute top-0 right-0 bottom-0 left-0'
+  animationRoot.style.background = 'linear-gradient(to bottom, rgb(243 244 246), rgb(229 231 235)'
+  animationRoot.style.zIndex = '-3'
 
-const amount = 40
-for (let i = 0; i < amount; i++) {
-  const small = Math.random() > .5
+  const amount = 40
+  for (let i = 0; i < amount; i++) {
+    const small = Math.random() > .5
 
-  // Div that moves...
-  const movingContainer = document.createElement('div')
-  movingContainer.className = 'move absolute'
-  movingContainer.style.top = `${1 / amount * i * 100}%`
-  movingContainer.style.zIndex = '-1'
-  const moveAnimation = movingContainer.animate([
-    { transform: 'translateX(100vw)' },
-    { transform: 'translateX(-10vw)' }
-  ], {
-    duration: small ? 80000 : 40000, // ms
-    iterations: Infinity,
-  })
-  moveAnimation.currentTime = Math.round(Math.random() * (small ? 80000 : 40000))
+    // Div that moves...
+    const movingContainer = document.createElement('div')
+    movingContainer.className = 'move absolute'
+    movingContainer.style.top = `${1 / amount * i * 100}%`
+    movingContainer.style.zIndex = small ? '-2' : '-1'
+    const moveAnimation = movingContainer.animate([
+      { transform: 'translateX(100vw)' },
+      { transform: 'translateX(-10vw)' }
+    ], {
+      duration: small ? 80000 : 40000, // ms
+      iterations: Infinity,
+    })
+    moveAnimation.currentTime = Math.round(Math.random() * (small ? 80000 : 40000))
 
-  // ...and the spinning image inside
-  const spinningElement = document.createElement('img')
-  spinningElement.src = '/favicon.png'
-  const size = small ? 2 : 4
-  spinningElement.style.width = `${size}rem`
-  spinningElement.style.filter = 'invert(100%)'
-  const spinAnimation = spinningElement.animate([
-    { transform: 'rotate(0deg)' },
-    { transform: 'rotate(360deg)' }
-  ], {
-    duration: 20000,
-    iterations: Infinity,
-  })
-  spinAnimation.currentTime = Math.round(Math.random() * 20000)
+    // ...and the spinning image inside
+    const spinningElement = document.createElement('img')
+    spinningElement.src = '/favicon.png'
+    const size = small ? 2 : 4
+    spinningElement.style.width = `${size}rem`
+    spinningElement.style.filter = 'invert(100%)' + (small ? ' brightness(105%)' : '')
+    const spinAnimation = spinningElement.animate([
+      { transform: 'rotate(0deg)' },
+      { transform: 'rotate(360deg)' }
+    ], {
+      duration: 20000,
+      iterations: Infinity,
+    })
+    spinAnimation.currentTime = Math.round(Math.random() * 20000)
 
+    // Mount
+    movingContainer.appendChild(spinningElement)
+    animationRoot.appendChild(movingContainer)
+  }
   // Mount
-  movingContainer.appendChild(spinningElement)
-  animationRoot.appendChild(movingContainer)
+  document.querySelector('body')?.appendChild(animationRoot)
 }
-// Mount
-document.querySelector('body')?.appendChild(animationRoot)
-
 </script>

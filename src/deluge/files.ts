@@ -16,9 +16,13 @@ export type ParsedFile = {
    */
   path: string,
   /**
-   * Actual file contents.
+   * File system handle to access the file.
    */
-  file: File,
+  fileHandle: FileSystemFileHandle,
+  /**
+   * Last modified date of the file.
+   */
+  lastModified: number,
   /**
    * Detected firmware version of the file.
    */
@@ -87,17 +91,48 @@ export interface ParsedKitFile extends ParsedFile {
  * Detected sample file.
  */
 export type SampleFile = {
+  /**
+   * File name. For example, "Super Clap.wav".
+   */
   name: string,
+  /**
+   * Path to the file relative to the selected root folder.
+   */
   path: string,
-  file: File,
+  /**
+   * File system handle to access the file.
+   */
+  fileHandle: FileSystemFileHandle,
+  /**
+   * Size of the file in bytes.
+   */
+  size: Number,
+  /**
+   * Last modified date of the file.
+   */
+  lastModified: number,
+  /**
+   * URL to the file's details page.
+   */
   url: string,
+  /**
+   * Unique ID for the file. Used in URLs.
+   */
   id: Number,
+  /**
+   * Usage stats for the file.
+   */
   usage: {
-    songs: { [key: string]: boolean },
-    sounds: { [key: string]: boolean },
-    kits: { [key: string]: boolean },
+    songs: { [key: string]: UsageReference },
+    sounds: { [key: string]: UsageReference },
+    kits: { [key: string]: UsageReference },
     total: number,
   },
+}
+
+export type UsageReference = {
+  instrumentType: string,
+  instrumentName: string,
 }
 
 /**
@@ -152,8 +187,7 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
         // Parse XML
         if (fileHandle.name.toLowerCase().endsWith('.xml')) {
           // console.log('Parsing XML file', fileHandle.name)
-          const file = await fileHandle.getFile()
-          const parsedFile = await parseFile(file, fullPath)
+          const parsedFile = await parseFile(fileHandle, fullPath)
           
           // Store results into arrays
           if (typeof parsedFile !== 'string') {
@@ -178,11 +212,15 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
         // Parse WAV
         } else if (fileHandle.name.toLowerCase().endsWith('.wav')) {
           const file = await fileHandle.getFile()
+          const size = file.size
+          const lastModified = file.lastModified
           samples.push({
             name,
             path: fullPath,
-            file,
+            fileHandle,
+            size,
             id,
+            lastModified,
             url: encodeURI(`/samples/${id}`),
             usage: {
               songs: {},
@@ -258,9 +296,17 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
     for (const fileName of fileNames) {
       const sample = samples.find(sample => sample.path.toLowerCase() === '/' + fileName.toLocaleLowerCase())
       if (sample) {
-        countSampleUsageInSound(sample, sound.presetName)
-        if (kitName) countSampleUsageInKit(sample, kitName)
-        if (songName) countSampleUsageInSong(sample, songName)
+        countSampleUsageInSound(sample, sound.presetName, sound.presetName, 'synth')
+        if (kitName && songName) {
+          countSampleUsageInKit(sample, kitName, sound.presetName, 'synth')
+          countSampleUsageInSong(sample, songName, kitName, 'kit')
+        }
+        else if (!kitName && songName) {
+          countSampleUsageInSong(sample, songName, sound.presetName, 'synth')
+        }
+        else if (kitName && !songName) {
+          countSampleUsageInKit(sample, kitName, sound.presetName, 'synth')
+        }
       }
       else addMissingSample(fileName)
     }
@@ -273,9 +319,9 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
       if (sampleRange.fileName) {
         const sample = samples.find(sample => sample.path.toLowerCase() === '/' + sampleRange.fileName?.toLocaleLowerCase())
         if (sample) {
-          countSampleUsageInSound(sample, sound.presetName)
-          if (kitName) countSampleUsageInKit(sample, kitName)
-          if (songName) countSampleUsageInSong(sample, songName)
+          countSampleUsageInSound(sample, sound.presetName, sound.presetName, 'synth')
+          if (kitName) countSampleUsageInKit(sample, kitName, sound.presetName, 'synth')
+          if (songName) countSampleUsageInSong(sample, songName, sound.presetName, 'synth')
         }
         else addMissingSample(sampleRange.fileName)
       }
@@ -286,23 +332,32 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
     if (!missingSamples.includes(samplePath)) missingSamples.push(samplePath)
   }
 
-  function countSampleUsageInSong(sample: SampleFile, name: string) {
+  function countSampleUsageInSong(sample: SampleFile, name: string, instrumentName: string, instrumentType: string) {
     if (!sample.usage.songs[name]) {
-      sample.usage.songs[name] = true
+      sample.usage.songs[name] = {
+        instrumentName,
+        instrumentType,
+      }
       sample.usage.total++
     }
   }
 
-  function countSampleUsageInKit(sample: SampleFile, name: string) {
+  function countSampleUsageInKit(sample: SampleFile, name: string, instrumentName: string, instrumentType: string) {
     if (!sample.usage.kits[name]) {
-      sample.usage.kits[name] = true
+      sample.usage.kits[name] = {
+        instrumentName,
+        instrumentType,
+      }
       sample.usage.total++
     }
   }
   
-  function countSampleUsageInSound(sample: SampleFile, name: string) {
+  function countSampleUsageInSound(sample: SampleFile, name: string, instrumentName: string, instrumentType: string) {
     if (!sample.usage.sounds[name]) {
-      sample.usage.sounds[name] = true
+      sample.usage.sounds[name] = {
+        instrumentName,
+        instrumentType,
+      }
       sample.usage.total++
     }
   }
@@ -345,11 +400,13 @@ const parser = new DOMParser()
 
 /**
  * Parse any Deluge XML file into data. Returns an error message if the file is not valid.
- * @param file The file to parse.
+ * @param fileHandle The file to parse.
  * @param path Full path to the file.
  * @returns The parsed file, or an error message.
  */
-export async function parseFile(file: File, path: string): Promise<ParsedSongFile | ParsedSoundFile | ParsedKitFile | SampleFile | string> {
+export async function parseFile(fileHandle: FileSystemFileHandle, path: string): Promise<ParsedSongFile | ParsedSoundFile | ParsedKitFile | SampleFile | string> {
+  const file = await fileHandle.getFile()
+  const lastModified = file.lastModified
   let xml = await file.text()
   let firmware
 
@@ -372,14 +429,14 @@ export async function parseFile(file: File, path: string): Promise<ParsedSongFil
     const from = xml.indexOf('firmwareVersion="')
     const to = xml.indexOf('"', from + 17)
     firmware = xml.substring(from + 17, to)
-  } else throw Error(`Failed to decide what firware version to use for file ${file.name}`)
+  } else throw Error(`Failed to decide what firware version to use for file ${fileHandle.name}`)
   
   // Parse the file
   const xmlDoc = parser.parseFromString(xml, 'text/xml')
   //console.log(xmlDoc)
   const root = xmlDoc.documentElement as Element
 
-  const name = file.name
+  const name = fileHandle.name
 
   if (['song', 'sound', 'kit'].includes(root.nodeName)) {
     let data
@@ -390,7 +447,7 @@ export async function parseFile(file: File, path: string): Promise<ParsedSongFil
       else return `Firmware version ${firmware} is not supported for songs.`
 
       return {
-        name, path, file, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, total: 0 },
+        name, path, fileHandle, lastModified, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, total: 0 },
         type: FileType.Song,
         url: encodeURI(`/songs/${name.slice(0, -4)}`)
       }
@@ -403,7 +460,7 @@ export async function parseFile(file: File, path: string): Promise<ParsedSongFil
       else return `Firmware version ${firmware} is not supported for sounds.`
 
       return {
-        name, path, file, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, total: 0 },
+        name, path, fileHandle, lastModified, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, total: 0 },
         type: FileType.Sound,
         url: encodeURI(`/synths/${name.slice(0, -4)}`)
       }
@@ -416,7 +473,7 @@ export async function parseFile(file: File, path: string): Promise<ParsedSongFil
       else return `Firmware version ${firmware} is not supported for kits.`
 
       return {
-        name, path, file, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, total: 0},
+        name, path, fileHandle, lastModified, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, total: 0},
         type: FileType.Kit,
         url: encodeURI(`/kits/${name.slice(0, -4)}`)
       }

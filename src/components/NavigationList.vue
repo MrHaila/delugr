@@ -17,9 +17,9 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-
   div(
     v-for="navLevel in currentNavigationLevel.folders"
     @click="currentNavigationLevel = navLevel"
-    :class="['flex justify-between p-3 cursor-pointer text-sm hover:bg-gray-300 active:bg-gray-400']"
+    :class="['flex justify-between p-3 cursor-pointer text-sm hover:bg-gray-300 active:bg-gray-400', { 'bg-gray-200': navLevel.allFilesUnused }]"
     )
-    dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ lastFolderFromPath(navLevel.name) }} 
+    dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ lastFolderFromPath(navLevel.name) }} #[span(v-if="navLevel.allFilesUnused" class="text-xs font-light text-gray-500") un-used]
     chevron-right-icon(class="h-5")
 
   //- Files
@@ -36,7 +36,7 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-
     )
     // dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name }} #[exclamation-circle-icon(v-if="file.problem" class="h-4 inline text-red-400 align-text-top")]
     dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name.slice(0, -4) }} #[span(v-if="isUnused(file)" class="text-xs font-light text-gray-500") un-used]
-    dd(class="text-gray-500 mt-0 col-span-2") {{ DateTime.fromMillis(file.file.lastModified).toFormat('yyyy-MM-dd') }}
+    dd(class="text-gray-500 mt-0 col-span-2") {{ DateTime.fromMillis(file.lastModified).toFormat('yyyy-MM-dd') }}
 
 div(v-if="props.listItems.length === 0 || (currentNavigationLevel.files?.length === 0 && currentNavigationLevel.folders?.length === 0)")
   h1(class="text-center text-gray-500 font-bold p-4") No items
@@ -56,6 +56,7 @@ type NavigationLevel = {
   name: string,
   folders: NavigationLevel[],
   files: (ParsedFile | SampleFile)[],
+  allFilesUnused: boolean,
 }
 
 type Props = {
@@ -78,12 +79,20 @@ function buildNavigationLevelForPath(path: string): NavigationLevel {
       if (!accumulator.includes(item)) accumulator.push(item)
       return accumulator
     }, [])
+    .map(item => buildNavigationLevelForPath(item + '/'))
+  const allFilesUnused = isNavigationLevelUnused(files, folders)
 
   return {
     name: path,
-    folders: folders.map(item => buildNavigationLevelForPath(item + '/')),
-    files: files,
+    folders,
+    files,
+    allFilesUnused,
   }
+}
+
+function isNavigationLevelUnused(files: (ParsedFile | SampleFile)[], folders: NavigationLevel[]): boolean {
+  return files.every(file => file.usage.total === 0) && folders.every(folder => isNavigationLevelUnused(folder.files, folder.folders))
+
 }
 
 function getFirstFolderWithContent(navLevel: NavigationLevel): NavigationLevel {
@@ -97,9 +106,20 @@ function getFirstFolderWithContent(navLevel: NavigationLevel): NavigationLevel {
     return getFirstFolderWithContent(navLevel.folders[0])
   }
 
-const navigateBack = function() {
-  let folders = currentNavigationLevel.value.name.split('/')
-  folders = folders.slice(1, -2)
+/**
+ * Go back by one step in the navigation.
+ */
+function navigateBack() {
+  const newPath = currentNavigationLevel.value.name.split('/').slice(0, -2).join('/')
+  navigateToPath(newPath)
+}
+
+/**
+ * Open the side navigation into a folder based on its path.
+ */
+function navigateToPath(path: string) {
+  let folders = path.split('/')
+  folders = folders.slice(1)
 
   let newNavigationLevel = root.value
   for (const folder of folders) {
@@ -123,6 +143,18 @@ function setActive(name: string | string[]) {
   } else {
     active.value = name
   }
+
+  // Find the active item's path & navigate to it in the sidebar
+  const activeItemPath = props.listItems.find(item => {
+      if (item.name.slice(0, -4) === active.value) return true
+      else if ('id' in item && String(item.id) === active.value) return true
+      else return false
+    })?.path
+  if (!activeItemPath) return
+  navigateToPath(activeItemPath.split('/').slice(0, -1).join('/'))
+  
+  // Scroll to the active item. Might not work due to race conditions...
+  document.querySelector('.active')?.scrollIntoView()
 }
 const route = useRoute()
 setActive(route.params.name)
@@ -155,7 +187,7 @@ function isItemActive(item: ParsedFile | SampleFile | any) {
 
 function getBackgroundClass(item: ParsedFile | SampleFile | any) {
   if (isItemActive(item)) {
-    return 'bg-amber-400'
+    return 'bg-amber-400 active'
   } else if (isUnused(item)) {
     return 'bg-gray-200'
   } else {
