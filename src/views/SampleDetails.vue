@@ -11,9 +11,9 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
         h1.font-bold.text-2xl Sample: {{ sample.name.slice(0, -4) }}
         p(class="text-gray-400 text-sm") {{ sample.path }}
       div(class="text-right text-sm mt-3")
-        p Last modified: {{ DateTime.fromMillis(sample.file.lastModified).toFormat('yyyy-MM-dd') }}
+        p Last modified: {{ DateTime.fromMillis(sample.lastModified).toFormat('yyyy-MM-dd') }}
     
-    div File size: {{ sample.file.size }} bytes
+    div File size: {{ sample.size }} bytes
 
     div(class="flex space-x-3")
       h-card(class="max-w-md flex-1")
