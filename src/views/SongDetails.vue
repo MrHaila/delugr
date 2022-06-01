@@ -29,11 +29,22 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 
             // exclamation-circle-icon(v-if="i.problem" class="h-4 text-red-400")
       
-      // h-card(class="max-w-md md:flex-1")
-        template(#title) Actions (TBD)
+      h-card(class="max-w-md md:flex-1")
+        template(#title) Actions
         div(class="space-x-3")
-          h-button(variant="primary") Rename Song
-          h-button(variant="primary") Delete Song
+          h-button(@click="renameModal?.openModal()") Rename Song
+          h-button(@click="deleteModal?.openModal()" variant="danger") Delete Song
+
+        h-modal(ref="renameModal" variant="warning" okLabel="Rename")
+          template(#title) Rename Song
+          template(#message) Renaming a song will change the actual file name on the memory card.
+          
+          div FORM TBD
+
+        h-modal(ref="deleteModal" variant="danger" okLabel="Delete")
+          template(#title) Delete Song
+          template(#message) Are you sure you want to permanently delete this song? This action can't be undone.
+
 
     h2(class="font-bold text-xl") Technical Details
     p(class="text-sm") The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's a dump of what I've managed to parse so far:
@@ -49,17 +60,20 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from '../deluge/files'
 import { DateTime } from 'luxon'
 import { ExclamationCircleIcon } from '@heroicons/vue/solid'
-import type { Song } from '../deluge/core';
+import HModalVue from '../components/HModal.vue';
 
 const store = useStore()
 
 const props = defineProps([
   'name'
 ])
+
+const renameModal = ref<InstanceType<typeof HModalVue> | null>(null)
+const deleteModal = ref<InstanceType<typeof HModalVue> | null>(null)
 
 const song = computed(() => props.name ? store.songs.find(song => song.name.slice(0, -4) === props.name) : null)
 </script>

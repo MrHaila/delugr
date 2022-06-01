@@ -23,6 +23,7 @@ import HCard from './components/HCard.vue'
 import HButton from './components/HButton.vue'
 import NavigationList from './components/NavigationList.vue'
 import HBadge from './components/HBadge.vue'
+import HModal from './components/HModal.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -60,4 +61,5 @@ createApp(App)
   .component('HButton', HButton)
   .component('NavigationList', NavigationList)
   .component('HBadge', HBadge)
+  .component('HModal', HModal)
   .mount('#app')
