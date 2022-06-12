@@ -29,7 +29,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 
             // exclamation-circle-icon(v-if="i.problem" class="h-4 text-red-400")
       
-      h-card(class="max-w-md md:flex-1")
+      //h-card(class="max-w-md md:flex-1")
         template(#title) Actions
         div(class="space-x-3")
           h-button(@click="renameModal?.openModal()") Rename Song
