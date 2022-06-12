@@ -177,7 +177,6 @@ function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
   const compressor = findDirectChildNodeByTagName(xml, 'compressor')
 
   if (!name) throw new Error(`Missing 'name' attribute on audio track of song '${songName}'`)
-  if (!echoingInput) throw new Error(`Missing 'echoingInput' attribute on audio track of song '${songName}'`)
   if (!inputChannel) throw new Error(`Missing 'inputChannel' attribute on audio track of song '${songName}'`)
   if (!isArmedForRecording) throw new Error(`Missing 'isArmedForRecording' attribute on audio track of song '${songName}'`)
   if (!activeModFunction) throw new Error(`Missing 'activeModFunction' attribute on audio track of song '${songName}'`)
@@ -190,7 +189,6 @@ function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
 
   const audioTrack: AudioTrack = {
     presetName: String(name),
-    echoingInput: Number(echoingInput),
     inputChannel: String(inputChannel),
     isArmedForRecording: Number(isArmedForRecording),
     activeModFunction: Number(activeModFunction),
@@ -203,6 +201,8 @@ function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
     instrumentType: 'audio track',
     problem: false,
   }
+
+  if (echoingInput) audioTrack.echoingInput = Number(echoingInput)
 
   return audioTrack
 }
