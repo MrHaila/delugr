@@ -74,7 +74,7 @@ export type Kit = {
 export type AudioTrack = {
   presetName: string,
 
-  echoingInput: number,
+  echoingInput?: number,
   inputChannel: string,
   isArmedForRecording: number,
   activeModFunction: number,
