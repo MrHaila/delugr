@@ -185,30 +185,39 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
         const fullPath = path + fileHandle.name
         
         // Parse XML
-        if (fileHandle.name.toLowerCase().endsWith('.xml')) {
+        if (fileHandle.name.startsWith('.')) continue // Skip all dot files
+        else if (fileHandle.name.toLowerCase().endsWith('.xml')) {
           // console.log('Parsing XML file', fileHandle.name)
-          const parsedFile = await parseFile(fileHandle, fullPath)
-          
-          // Store results into arrays
-          if (typeof parsedFile !== 'string') {
-            if ('type' in parsedFile) {
-              if (parsedFile.type === FileType.Song) {
-                songs.push(parsedFile)
-              } else if (parsedFile.type === FileType.Sound) {
-                sounds.push(parsedFile)
-              } else if (parsedFile.type === FileType.Kit) {
-                kits.push(parsedFile)
-              }
+          try {
+            const parsedFile = await parseFile(fileHandle, fullPath)
+            
+            // Store results into arrays
+            if (typeof parsedFile !== 'string') {
+              if ('type' in parsedFile) {
+                if (parsedFile.type === FileType.Song) {
+                  songs.push(parsedFile)
+                } else if (parsedFile.type === FileType.Sound) {
+                  sounds.push(parsedFile)
+                } else if (parsedFile.type === FileType.Kit) {
+                  kits.push(parsedFile)
+                }
+              } else skippedFiles.push({
+                name,
+                path: fullPath,
+                reason: 'Unknown file type. Was expecting a song, sound, or kit.',
+              })
             } else skippedFiles.push({
               name,
               path: fullPath,
-              reason: 'Unknown file type. Was expecting a song, sound, or kit.',
+              reason: parsedFile,
             })
-          } else skippedFiles.push({
-            name,
-            path: fullPath,
-            reason: parsedFile,
-          })
+          } catch (e) {
+            skippedFiles.push({
+              name,
+              path: fullPath,
+              reason: String(e),
+            })
+          }
         // Parse WAV
         } else if (fileHandle.name.toLowerCase().endsWith('.wav')) {
           const file = await fileHandle.getFile()
@@ -231,7 +240,7 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
           })
           id++
         // Ignore .DS_Store quietly, log everything else
-        } else if (fileHandle.name !== '.DS_Store') {
+        } else {
           skippedFiles.push({
             name,
             path: fullPath,
