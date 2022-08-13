@@ -110,6 +110,7 @@ export function parseSoundv3 (xml: Element, fileName?: string, songName?: string
     }
   }
   sound.presetName = presetName
+  if (sound.presetName === 'SEEING THIS MEANS BAD THINGS HAPPENED') console.log(fileName, ' presetname should be ' + presetName)
 
   // Override defaults for the stuff we understand
   const polyphonic = xml.getAttribute('polyphonic')

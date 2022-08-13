@@ -2,7 +2,7 @@ import { Sound } from "./core"
 import { FixPos50 } from "./dataTypes"
 
 export const defaultSynthPatch: Sound = {
-  presetName: 'ASDASDASDASD',
+  presetName: 'SEEING THIS MEANS BAD THINGS HAPPENED',
   polyphonic: "poly",
   voicePriority: 1,
   mode: "subtractive",

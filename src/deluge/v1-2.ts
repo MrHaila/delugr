@@ -55,6 +55,9 @@ export function parseKitv1 (xml: Element, fileName?: string, songName?: string):
 }
 
 export function parseSoundv1 (xml: Element, fileName?: string, songName?: string, kitName?: string): Sound {
+  // Init to default values
+  const sound: Sound = JSON.parse(JSON.stringify(defaultSynthPatch))
+
   let presetName = getInstrumentName(xml)
   let problem = false
   if (!presetName) {
@@ -64,9 +67,7 @@ export function parseSoundv1 (xml: Element, fileName?: string, songName?: string
       problem = true
     }
   }
-
-  // Init to default values
-  const sound: Sound = defaultSynthPatch
+  sound.presetName = presetName
   
   // Override defaults for the stuff we understand
   const polyphonic = findDirectChildNodeByTagName(xml, 'polyphonic')?.textContent
