@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import type { Kit, Song, Sound } from "./core"
 import { parseKitv1, parseSoundv1 } from "./v1-2"
-import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3"
+import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3-4"
 
 /**
  * Base type for all parsed XML files.
@@ -433,7 +433,7 @@ export async function parseFile(fileHandle: FileSystemFileHandle, path: string):
     to = xml.indexOf('</earliestCompatibleFirmware>') + 30
     xml = xml.substring(0, from) + xml.substring(to)
   }
-  // 3.x has a firmwareVersion attribute on the root node
+  // 3.x and 4.x have a firmwareVersion attribute on the root node
   else if (xml.includes('firmwareVersion="')) {
     const from = xml.indexOf('firmwareVersion="')
     const to = xml.indexOf('"', from + 17)
@@ -451,7 +451,7 @@ export async function parseFile(fileHandle: FileSystemFileHandle, path: string):
     let data
     if (root.nodeName === 'song') {
       //if (firmware.startsWith('1') || firmware.startsWith('2')) return `Firmware version ${firmware} is not supported for songs.`
-      if (firmware.startsWith('3')) data = parseSongv3(root, name)
+      if (firmware.startsWith('3') || firmware.startsWith('4')) data = parseSongv3(root, name)
       //else if (firmware.startsWith('4')) throw Error(`Firmware version ${firmware} is not supported for song file ${name}`)
       else return `Firmware version ${firmware} is not supported for songs.`
 
@@ -464,7 +464,7 @@ export async function parseFile(fileHandle: FileSystemFileHandle, path: string):
     else if (root.nodeName === 'sound') {
       if (firmware.startsWith('1')) data = parseSoundv1(root, name)
       else if (firmware.startsWith('2')) data = parseSoundv1(root, name)
-      else if (firmware.startsWith('3')) data = parseSoundv3(root, name)
+      else if (firmware.startsWith('3') || firmware.startsWith('4')) data = parseSoundv3(root, name)
       //else if (firmware.startsWith('4')) throw Error(`Firmware version ${firmware} is not supported for sound file ${name}`)
       else return `Firmware version ${firmware} is not supported for sounds.`
 
@@ -477,7 +477,7 @@ export async function parseFile(fileHandle: FileSystemFileHandle, path: string):
     else if (root.nodeName === 'kit') {
       if (firmware.startsWith('1')) data = parseKitv1(root, name)
       else if (firmware.startsWith('2')) data = parseKitv1(root, name)
-      else if (firmware.startsWith('3')) data = parseKitv3(root, name)
+      else if (firmware.startsWith('3') || firmware.startsWith('4')) data = parseKitv3(root, name)
       //else if (firmware.startsWith('4')) return `Firmware version ${firmware} is not supported for kits.`
       else return `Firmware version ${firmware} is not supported for kits.`
 

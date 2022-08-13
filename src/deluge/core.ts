@@ -2,17 +2,20 @@ import { FixPos50 } from "./dataTypes"
 
 // Types ---------------------------------------------------------------------
 
-export type Song = {
+export interface Song {
     name: string,
     // TODO: the rest of the owl
     instruments: Array<Sound | Kit | AudioTrack>
 }
 
-export type Sound = {
+export interface Sound {
   presetName: string,
 
-  mode: string,
-  lpfMode: string,
+  polyphonic: 'poly' | string,
+  voicePriority: number,
+  mode: 'substractive' | string,
+  lpfMode: '24dB' | string,
+
   osc1: Oscillator,
   osc2: Oscillator,
   lfo1: Lfo,
@@ -22,6 +25,10 @@ export type Sound = {
     detune: Number,
   },
   delay: Delay,
+  compressor: Compressor,
+  arpeggiator: Arpeggiator,
+  modKnobs: ModKnob[],
+
   // TODO: How do defaults work? Duplicate info in the XML?
   defaultParams?: {
     [key: string]: FixPos50
@@ -29,18 +36,13 @@ export type Sound = {
   env1?: Envelope,
   env2?: Envelope,
   patchCables?: PatchCable[],
+  equalizer?: Equalizer,
   
   // Not in old files
-  compressor?: Compressor,
-  polyphonic?: string,
   oscillatorReset?: number
-  voicePriority?: number,
   transpose?: number,
   modFXType?: string,
   clippingAmount?: number,
-  equalizer?: Equalizer,
-  arpeggiator?: Arpeggiator,
-  modKnobs?: ModKnob[],
   modulator1?: Modulator,
   modulator2?: Modulator,
 

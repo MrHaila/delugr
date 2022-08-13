@@ -154,7 +154,7 @@ function setActive(name: string | string[]) {
   navigateToPath(activeItemPath.split('/').slice(0, -1).join('/'))
   
   // Scroll to the active item. Might not work due to race conditions...
-  document.querySelector('.active')?.scrollIntoView()
+  // document.querySelector('.active')?.scrollIntoView()
 }
 const route = useRoute()
 setActive(route.params.name)
