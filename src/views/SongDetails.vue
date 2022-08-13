@@ -23,8 +23,8 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             div(class="flex-auto")
               span {{ i.presetName }}
             div(class="text-right")
-              router-link(v-if="i.instrumentType === 'sound' && store.sounds.find(sound => sound.name.slice(0, -4) === i.presetName)" :to="'/synths/' + i.presetName" class="text-xs") View preset
-              router-link(v-else-if="i.instrumentType === 'kit' && store.kits.find(kit => kit.name.slice(0, -4) === i.presetName)" :to="'/kits/' + i.presetName" class="text-xs") View preset
+              router-link(v-if="i.instrumentType === 'sound' && store.sounds.find(sound => sound.name.split('.')[0] === i.presetName)" :to="'/synths/' + i.presetName" class="text-xs") View preset
+              router-link(v-else-if="i.instrumentType === 'kit' && store.kits.find(kit => kit.name.split('.')[0] === i.presetName)" :to="'/kits/' + i.presetName" class="text-xs") View preset
               span(v-else class="text-xs text-gray-400") No preset found
 
             // exclamation-circle-icon(v-if="i.problem" class="h-4 text-red-400")
@@ -75,5 +75,5 @@ const props = defineProps([
 const renameModal = ref<InstanceType<typeof HModalVue> | null>(null)
 const deleteModal = ref<InstanceType<typeof HModalVue> | null>(null)
 
-const song = computed(() => props.name ? store.songs.find(song => song.name.slice(0, -4) === props.name) : null)
+const song = computed(() => props.name ? store.songs.find(song => song.name.split('.')[0] === props.name) : null)
 </script>

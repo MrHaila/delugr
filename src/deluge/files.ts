@@ -218,8 +218,8 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
               reason: String(e),
             })
           }
-        // Parse WAV
-        } else if (fileHandle.name.toLowerCase().endsWith('.wav')) {
+        // Parse WAV and AIFF
+        } else if (fileHandle.name.toLowerCase().endsWith('.wav') || fileHandle.name.toLowerCase().endsWith('.aiff')) {
           const file = await fileHandle.getFile()
           const size = file.size
           const lastModified = file.lastModified
@@ -256,7 +256,7 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
   // Compute usage
   store.parsingMessage = 'Computing usage stats...'
   for (const song of songs) {
-    const songName = song.name.slice(0, -4) // Drop .xml from the name
+    const songName = song.name.split('.')[0] // Drop .xml from the name
     for (const instrument of song.data.instruments) {
       // Sounds
       if (instrument.instrumentType === 'sound') {
@@ -458,7 +458,7 @@ export async function parseFile(fileHandle: FileSystemFileHandle, path: string):
       return {
         name, path, fileHandle, lastModified, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, total: 0 },
         type: FileType.Song,
-        url: encodeURI(`/songs/${name.slice(0, -4)}`)
+        url: encodeURI(`/songs/${name.split('.')[0]}`)
       }
     }
     else if (root.nodeName === 'sound') {
@@ -471,7 +471,7 @@ export async function parseFile(fileHandle: FileSystemFileHandle, path: string):
       return {
         name, path, fileHandle, lastModified, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, total: 0 },
         type: FileType.Sound,
-        url: encodeURI(`/synths/${name.slice(0, -4)}`)
+        url: encodeURI(`/synths/${name.split('.')[0]}`)
       }
     }
     else if (root.nodeName === 'kit') {
@@ -484,7 +484,7 @@ export async function parseFile(fileHandle: FileSystemFileHandle, path: string):
       return {
         name, path, fileHandle, lastModified, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, total: 0},
         type: FileType.Kit,
-        url: encodeURI(`/kits/${name.slice(0, -4)}`)
+        url: encodeURI(`/kits/${name.split('.')[0]}`)
       }
     }
     else throw new Error(`Unknown node type '${root.nodeName}' in file '${name}' (was expecting 'song', 'sound', or 'kit')`)

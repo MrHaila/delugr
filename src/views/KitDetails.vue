@@ -64,7 +64,7 @@ const props = defineProps([
   'name'
 ])
 
-const kit = computed(() => props.name ? store.kits.find(kit => kit.name.slice(0, -4) === props.name) : null)
+const kit = computed(() => props.name ? store.kits.find(kit => kit.name.split('.')[0] === props.name) : null)
 
 // const file = computed(() => props.name ? store.kits[props.name]?.file : null)
 // const parsedKit = computed(() => props.name ? store.kits[props.name]?.data : null)

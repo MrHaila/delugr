@@ -35,7 +35,7 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-
     :class="['flex justify-between p-3 cursor-pointer text-sm hover:no-underline', getBackgroundClass(file)]"
     )
     // dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name }} #[exclamation-circle-icon(v-if="file.problem" class="h-4 inline text-red-400 align-text-top")]
-    dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name.slice(0, -4) }} #[span(v-if="isUnused(file)" class="text-xs font-light text-gray-500") un-used]
+    dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name.split('.')[0] }} #[span(v-if="isUnused(file)" class="text-xs font-light text-gray-500") un-used]
     dd(class="text-gray-500 mt-0 col-span-2") {{ DateTime.fromMillis(file.lastModified).toFormat('yyyy-MM-dd') }}
 
 div(v-if="props.listItems.length === 0 || (currentNavigationLevel.files?.length === 0 && currentNavigationLevel.folders?.length === 0)")
@@ -146,7 +146,7 @@ function setActive(name: string | string[]) {
 
   // Find the active item's path & navigate to it in the sidebar
   const activeItemPath = props.listItems.find(item => {
-      if (item.name.slice(0, -4) === active.value) return true
+      if (item.name.split('.')[0] === active.value) return true
       else if ('id' in item && String(item.id) === active.value) return true
       else return false
     })?.path
@@ -181,7 +181,7 @@ function isItemActive(item: ParsedFile | SampleFile | any) {
   if ('id' in item) {
     return active.value === item.id.toString()
   } else {
-    return active.value === item.name.slice(0, -4)
+    return active.value === item.name.split('.')[0]
   }
 }
 

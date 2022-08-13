@@ -125,6 +125,6 @@ const props = defineProps([
 ])
 
 
-const sound = computed(() => props.name ? store.sounds.find(sound => sound.name.slice(0, -4) === props.name) : null)
+const sound = computed(() => props.name ? store.sounds.find(sound => sound.name.split('.')[0] === props.name) : null)
 const synthSongUsageCount = computed(() => sound.value?.usage ? Object.keys(sound.value.usage.songs).length : null)
 </script>

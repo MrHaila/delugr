@@ -236,3 +236,12 @@ export function getInstrumentName(xml: Element): string | null {
 export function findDirectChildNodeByTagName (xml: Element, tagName: string): Element | null {
   return Array.from(xml.children).find(child => child.tagName === tagName) || null
 }
+
+/**
+ * A helper function to return a given file name without the file type extension.
+ * @param fileName The file name to remove the extension from.
+ * @returns The file name without the extension.
+ */
+export function getFileNameWithoutExtension (fileName: string) {
+  return fileName.split('.')[0]
+}

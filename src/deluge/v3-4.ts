@@ -41,7 +41,7 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
   let presetName = getInstrumentName(xml)
   let problem = false
   if (!presetName) {
-    if (fileName) presetName = fileName.slice(0, -4)
+    if (fileName) presetName = fileName.split('.')[0]
     else {
       presetName = 'Unknown v3 kit 🤔'
       problem = true
@@ -103,7 +103,7 @@ export function parseSoundv3 (xml: Element, fileName?: string, songName?: string
   let problem = false
   if (!presetName) {
     // Fallback to filename if no preset name is found.
-    if (fileName) presetName = fileName.slice(0, -4)
+    if (fileName) presetName = fileName.split('.')[0]
     else {
       presetName = 'Unknown v3 or v4 sound 🤔'
       problem = true
