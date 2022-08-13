@@ -36,6 +36,8 @@ export function parseSongv3(xml: Element, songName: string): Song {
 }
 
 export function parseKitv3 (xml: Element, fileName?: string, songName?: string): Kit {
+  // TODO: default kit -> overrides
+  
   let presetName = getInstrumentName(xml)
   let problem = false
   if (!presetName) {
