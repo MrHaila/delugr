@@ -63,7 +63,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 import { computed, ref } from 'vue';
 import { useStore } from '../deluge/files'
 import { DateTime } from 'luxon'
-import { ExclamationCircleIcon } from '@heroicons/vue/20/solid'
+import { ExclamationCircleIcon } from '@heroicons/vue/24/solid'
 import HModalVue from '../components/HModal.vue';
 
 const store = useStore()

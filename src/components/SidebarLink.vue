@@ -16,7 +16,7 @@ router-link(:to="url" :class="[route.path.includes(variant) ? 'bg-gray-900 text-
 </template>
 
 <script lang="ts" setup>
-import { MusicalNoteIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon } from '@heroicons/vue/20/solid'
+import { MusicalNoteIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon } from '@heroicons/vue/24/solid'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 

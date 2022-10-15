@@ -15,7 +15,7 @@ div
 </template>
 
 <script lang="ts" setup>
-import { ExclamationCircleIcon } from '@heroicons/vue/20/solid'
+import { ExclamationCircleIcon } from '@heroicons/vue/24/solid'
 
 /*
   TODO:
