@@ -55,7 +55,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 import { computed } from 'vue';
 import { useStore } from '../deluge/files'
 import { DateTime } from 'luxon'
-import { ExclamationCircleIcon } from '@heroicons/vue/solid'
+import { ExclamationCircleIcon } from '@heroicons/vue/20/solid'
 import { getSampleUrlbyPath } from '../deluge/files'
 
 const store = useStore()

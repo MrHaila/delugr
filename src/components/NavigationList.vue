@@ -24,9 +24,9 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-
 
   //- Files
   h3(v-if="currentNavigationLevel.files?.length > 0" class="font-bold py-1 px-3 bg-gray-200 text-xs flex items-center")
-    music-note-icon(v-if="title === 'Songs'" class="h-3 mr-1")
-    adjustments-icon(v-else-if="title === 'Synths'" class="h-3 mr-1")
-    archive-icon(v-else-if="title === 'Kits'" class="h-3 mr-1")
+    musical-note-icon(v-if="title === 'Songs'" class="h-3 mr-1")
+    adjustments-vertical-icon(v-else-if="title === 'Synths'" class="h-3 mr-1")
+    archive-box-icon(v-else-if="title === 'Kits'" class="h-3 mr-1")
     microphone-icon(v-else-if="title === 'Samples'" class="h-3 mr-1")
     | {{ title }} #[span(class="text-gray-400 ml-2 font-normal") {{ Number(currentNavigationLevel.files?.length) | 0 }}]
   router-link(
@@ -46,11 +46,10 @@ div(v-if="props.listItems.length === 0 || (currentNavigationLevel.files?.length 
 import type { SampleFile, ParsedFile } from '../deluge/files'
 import { FileType } from '../deluge/files'
 import { DateTime } from 'luxon'
-import { ExclamationCircleIcon } from '@heroicons/vue/solid'
 import { ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { isArray } from '@vue/shared'
-import { MusicNoteIcon, ArchiveIcon, AdjustmentsIcon, MicrophoneIcon, ChevronRightIcon, ChevronLeftIcon, FolderIcon } from '@heroicons/vue/solid'
+import { ExclamationCircleIcon, MusicalNoteIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon, ChevronRightIcon, ChevronLeftIcon, FolderIcon } from '@heroicons/vue/20/solid'
 
 type NavigationLevel = {
   name: string,

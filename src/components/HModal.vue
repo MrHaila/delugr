@@ -13,12 +13,12 @@ TransitionRoot(as="template" :show="open")
                   v-if="variant === 'warning'"
                   class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10"
                   )
-                  ExclamationIcon(class="h-6 w-6 text-yellow-600" aria-hidden="true")
+                  ExclamationTriangleIcon(class="h-6 w-6 text-yellow-600" aria-hidden="true")
                 div(
                   v-else-if="variant === 'danger'"
                   class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"
                   )
-                  ExclamationIcon(class="h-6 w-6 text-red-600" aria-hidden="true")
+                  ExclamationTriangleIcon(class="h-6 w-6 text-red-600" aria-hidden="true")
 
                 div(class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left")
                   DialogTitle(as="h3" class="text-lg leading-6 font-medium text-gray-900")
@@ -44,7 +44,7 @@ TransitionRoot(as="template" :show="open")
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { CheckIcon, ExclamationIcon } from '@heroicons/vue/outline'
+import { CheckIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
 
 // Visibility controls
 const open = ref(false)
