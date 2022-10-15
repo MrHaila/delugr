@@ -24,9 +24,9 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-
 
   //- Files
   h3(v-if="currentNavigationLevel.files?.length > 0" class="font-bold py-1 px-3 bg-gray-200 text-xs flex items-center")
-    music-note-icon(v-if="title === 'Songs'" class="h-3 mr-1")
-    adjustments-icon(v-else-if="title === 'Synths'" class="h-3 mr-1")
-    archive-icon(v-else-if="title === 'Kits'" class="h-3 mr-1")
+    musical-note-icon(v-if="title === 'Songs'" class="h-3 mr-1")
+    adjustments-vertical-icon(v-else-if="title === 'Synths'" class="h-3 mr-1")
+    archive-box-icon(v-else-if="title === 'Kits'" class="h-3 mr-1")
     microphone-icon(v-else-if="title === 'Samples'" class="h-3 mr-1")
     | {{ title }} #[span(class="text-gray-400 ml-2 font-normal") {{ Number(currentNavigationLevel.files?.length) | 0 }}]
   router-link(
@@ -36,7 +36,9 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 divide-y divide-
     )
     // dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name }} #[exclamation-circle-icon(v-if="file.problem" class="h-4 inline text-red-400 align-text-top")]
     dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name.split('.')[0] }} #[span(v-if="isUnused(file)" class="text-xs font-light text-gray-500") un-used]
-    dd(class="text-gray-500 mt-0 col-span-2") {{ DateTime.fromMillis(file.lastModified).toFormat('yyyy-MM-dd') }}
+    dd(class="text-gray-500 mt-0 col-span-2")
+      // play-button(:id="Number(file.url.split('/').pop())")
+      | {{ DateTime.fromMillis(file.lastModified).toFormat('yyyy-MM-dd') }}
 
 div(v-if="props.listItems.length === 0 || (currentNavigationLevel.files?.length === 0 && currentNavigationLevel.folders?.length === 0)")
   h1(class="text-center text-gray-500 font-bold p-4") No items
@@ -46,11 +48,11 @@ div(v-if="props.listItems.length === 0 || (currentNavigationLevel.files?.length 
 import type { SampleFile, ParsedFile } from '../deluge/files'
 import { FileType } from '../deluge/files'
 import { DateTime } from 'luxon'
-import { ExclamationCircleIcon } from '@heroicons/vue/solid'
 import { ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { isArray } from '@vue/shared'
-import { MusicNoteIcon, ArchiveIcon, AdjustmentsIcon, MicrophoneIcon, ChevronRightIcon, ChevronLeftIcon, FolderIcon } from '@heroicons/vue/solid'
+import { ExclamationCircleIcon, MusicalNoteIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon, ChevronRightIcon, ChevronLeftIcon, FolderIcon } from '@heroicons/vue/24/solid'
+// import PlayButton from './PlayButton.vue'
 
 type NavigationLevel = {
   name: string,

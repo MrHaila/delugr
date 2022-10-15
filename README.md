@@ -19,6 +19,7 @@ Main branch automatically builds to <https://delugr.haila.fi/>
 - 100% browser based. Nothing to install!
 - Browse your songs, synths, kits and samples and see how they are used.
 - At-a-glace visuals for spotting the most used and un-used items.
+- Preview (play) sample files.
 - Easy navigation between items via deep links when possible.
 
 ## Future things that would make sense (backlog)

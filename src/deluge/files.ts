@@ -533,10 +533,23 @@ export const useStore = defineStore('files', {
  * @param path Sample path.
  * @returns The URL to the sample's details page or null if not found.
  */
-export function getSampleUrlbyPath(path: string | null | undefined) {
+export function getSampleUrlByPath(path: string | null | undefined) {
   if (!path) return null
   if (path[0] !== '/') path = '/' + path
   const file = useStore().samples.find(f => f.path.toLowerCase() === path?.toLowerCase())
   if (file) return file.url
+  else return null
+}
+
+/**
+ * Get the stored sample based on its path. Also good for checking if the sample exists.
+ * @param path Sample path.
+ * @returns Sample details or null if not found.
+ */
+export function getSampleByPath(path: string | null | undefined) {
+  if (!path) return null
+  if (path[0] !== '/') path = '/' + path
+  const file = useStore().samples.find(f => f.path.toLowerCase() === path?.toLowerCase())
+  if (file) return file
   else return null
 }
