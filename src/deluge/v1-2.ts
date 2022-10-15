@@ -1,10 +1,11 @@
 import { Delay, findDirectChildNodeByTagName, getInstrumentName, Kit, Lfo, Oscillator, Sound, Unison } from "./core"
+import { defaultSynthPatch } from "./defaultSynthPatchv4"
 
 export function parseKitv1 (xml: Element, fileName?: string, songName?: string): Kit {
   let presetName = getInstrumentName(xml)
   let problem = false
   if (!presetName) {
-    if (fileName) presetName = fileName.slice(0, -4)
+    if (fileName) presetName = fileName.split('.')[0]
     else {
       presetName = 'Unknown v1-2 kit 🤔'
       problem = true
@@ -54,71 +55,78 @@ export function parseKitv1 (xml: Element, fileName?: string, songName?: string):
 }
 
 export function parseSoundv1 (xml: Element, fileName?: string, songName?: string, kitName?: string): Sound {
+  // Init to default values
+  const sound: Sound = JSON.parse(JSON.stringify(defaultSynthPatch))
+
   let presetName = getInstrumentName(xml)
   let problem = false
   if (!presetName) {
-    if (fileName) presetName = fileName.slice(0, -4)
+    if (fileName) presetName = fileName.split('.')[0]
     else {
       presetName = 'Unknown v1-2 sound 🤔'
       problem = true
     }
   }
-
-  // Child elements
-  const mode = findDirectChildNodeByTagName(xml, 'mode')?.textContent
-  const lpfMode = findDirectChildNodeByTagName(xml, 'lpfMode')?.textContent
-  const modFXType = findDirectChildNodeByTagName(xml, 'modFXType')?.textContent
+  sound.presetName = presetName
+  
+  // Override defaults for the stuff we understand
   const polyphonic = findDirectChildNodeByTagName(xml, 'polyphonic')?.textContent
-  const voicePriority = findDirectChildNodeByTagName(xml, 'voicePriority')?.textContent
-  const clippingAmount = findDirectChildNodeByTagName(xml, 'clippingAmount')?.textContent
-  const osc1 = findDirectChildNodeByTagName(xml, 'osc1')
-  const osc2 = findDirectChildNodeByTagName(xml, 'osc2')
-  const lfo1 = findDirectChildNodeByTagName(xml, 'lfo1')
-  const lfo2 = findDirectChildNodeByTagName(xml, 'lfo2')
-  const unison = findDirectChildNodeByTagName(xml, 'unison')
-  const delay = findDirectChildNodeByTagName(xml, 'delay')
-  const defaultParams = findDirectChildNodeByTagName(xml, 'defaultParams')
-  const compressor = findDirectChildNodeByTagName(xml, 'compressor')
-  const arpeggiator = findDirectChildNodeByTagName(xml, 'arpeggiator')
-  const modKnobs = findDirectChildNodeByTagName(xml, 'modKnobs')
-  const modulator1 = findDirectChildNodeByTagName(xml, 'modulator1')
-  const modulator2 = findDirectChildNodeByTagName(xml, 'modulator2')
-
-  if (!mode) throw new Error('Missing mode attribute on sound ' + presetName)
-  if (!lpfMode) throw new Error('Missing lpfMode attribute on sound ' + presetName)
-  if (!modFXType) throw new Error('Missing modFXType attribute on sound ' + presetName)
-  if (!osc1) throw new Error('Missing osc1 element on sound ' + presetName)
-  if (!osc2) throw new Error('Missing osc2 element on sound ' + presetName)
-  if (!lfo1) throw new Error('Missing lfo1 element on sound ' + presetName)
-  if (!lfo2) throw new Error('Missing lfo2 element on sound ' + presetName)
-  if (!unison) throw new Error('Missing unison element on sound ' + presetName)
-  if (!delay) throw new Error('Missing delay element on sound ' + presetName)
-
-  const sound: Sound = {
-    presetName,
-    mode,
-    lpfMode,
-    modFXType,
-    osc1: parseOscillator(osc1),
-    osc2: parseOscillator(osc2),
-    lfo1: parseLfo(lfo1),
-    lfo2: parseLfo(lfo2),
-    unison: parseUnison(unison),
-    delay: parseDelay(delay, fileName),
-    instrumentType: 'sound',
-    problem: false,
-    isInstance: true,
-  }
-
   if (polyphonic) sound.polyphonic = polyphonic
+  
+  const voicePriority = findDirectChildNodeByTagName(xml, 'voicePriority')?.textContent
   if (voicePriority) sound.voicePriority = Number(voicePriority)
-  if (clippingAmount) sound.clippingAmount = Number(clippingAmount)
-  // if (defaultParams) sound.defaultParams = parseAllAttributes(defaultParams)
+  
+  const mode = findDirectChildNodeByTagName(xml, 'mode')?.textContent
+  if (mode) sound.mode = mode
+
+  const lpfMode = findDirectChildNodeByTagName(xml, 'lpfMode')?.textContent
+  if (lpfMode) sound.lpfMode = lpfMode
+
+  const modFXType = findDirectChildNodeByTagName(xml, 'modFXType')?.textContent
+  if (modFXType) sound.modFXType = modFXType
+
+  const osc1 = findDirectChildNodeByTagName(xml, 'osc1')
+  if (osc1) sound.osc1 = parseOscillator(osc1)
+
+  const osc2 = findDirectChildNodeByTagName(xml, 'osc2')
+  if (osc2) sound.osc2 = parseOscillator(osc2)
+
+  const lfo1 = findDirectChildNodeByTagName(xml, 'lfo1')
+  if (lfo1) sound.lfo1 = parseLfo(lfo1)
+
+  const lfo2 = findDirectChildNodeByTagName(xml, 'lfo2')
+  if (lfo2) sound.lfo2 = parseLfo(lfo2)
+
+  const unison = findDirectChildNodeByTagName(xml, 'unison')
+  if (unison) sound.unison = parseUnison(unison)
+
+  const delay = findDirectChildNodeByTagName(xml, 'delay')
+  if (delay) sound.delay = parseDelay(delay, fileName)
+
+  // const compressor = findDirectChildNodeByTagName(xml, 'compressor')
   // if (compressor) sound.compressor = parseCompressor(compressor)
+
+  // const defaultParams = findDirectChildNodeByTagName(xml, 'defaultParams')
+  // if (defaultParams) sound.defaultParams = parseAllAttributes(defaultParams)
+
+  // TODO - envelopes, patch cables, eq, etc.
+  
+  // const arpeggiator = findDirectChildNodeByTagName(xml, 'arpeggiator')
   // if (arpeggiator) sound.arpeggiator = parseArpeggiator(arpeggiator)
+
+  // const modKnobs = findDirectChildNodeByTagName(xml, 'modKnobs')
   // if (modKnobs) sound.modKnobs = parseModKnobs(modKnobs)
-  // if (modulator1) sound.modulator1 = parseModulator(modulator1)
-  // if (modulator1) sound.modulator1 = parseModulator(modulator2)
+
+  // Optional params
+  const clippingAmount = findDirectChildNodeByTagName(xml, 'clippingAmount')?.textContent
+  if (clippingAmount) sound.clippingAmount = Number(clippingAmount)
+
+  // const modulator1 = findDirectChildNodeByTagName(xml, 'modulator1')
+  // const modulator2 = findDirectChildNodeByTagName(xml, 'modulator2')
+
+  // Non-spec params
+  sound.problem = problem
+  sound.isInstance = true
 
   return sound
 }

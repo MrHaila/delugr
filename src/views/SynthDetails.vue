@@ -102,14 +102,14 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
     h2(class="font-bold text-xl") Technical Details
     p(class="text-sm") The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's a dump of what I've managed to parse so far:
 
-    div(class="flex space-x-3")
-      pre.rounded.bg-gray-300.p-3.text-xs.font-mono
-        h3.font-bold PARSED SYNTH DATA
+    div(class="flex space-x-3" style="font-size: 60%;")
+      div(class="rounded bg-gray-300 p-3 font-mono max-w-xl")
+        h3(class="font-bold") PARSED SYNTH DATA
         pre {{ sound.data }}
 
-      pre.rounded.bg-gray-300.p-3.text-xs.font-mono
-        h3.font-bold RAW SYNTH DATA
-        pre {{ sound.xml }}
+      div(class="rounded bg-gray-300 p-3 font-mono max-w-xl")
+        h3(class="font-bold") RAW SYNTH DATA
+        pre(class="break-all whitespace-pre-wrap") {{ sound.xml }}
 </template>
 
 <script lang="ts" setup>
@@ -125,6 +125,6 @@ const props = defineProps([
 ])
 
 
-const sound = computed(() => props.name ? store.sounds.find(sound => sound.name.slice(0, -4) === props.name) : null)
+const sound = computed(() => props.name ? store.sounds.find(sound => sound.name.split('.')[0] === props.name) : null)
 const synthSongUsageCount = computed(() => sound.value?.usage ? Object.keys(sound.value.usage.songs).length : null)
 </script>

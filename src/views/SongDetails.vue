@@ -23,13 +23,13 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             div(class="flex-auto")
               span {{ i.presetName }}
             div(class="text-right")
-              router-link(v-if="i.instrumentType === 'sound' && store.sounds.find(sound => sound.name.slice(0, -4) === i.presetName)" :to="'/synths/' + i.presetName" class="text-xs") View preset
-              router-link(v-else-if="i.instrumentType === 'kit' && store.kits.find(kit => kit.name.slice(0, -4) === i.presetName)" :to="'/kits/' + i.presetName" class="text-xs") View preset
+              router-link(v-if="i.instrumentType === 'sound' && store.sounds.find(sound => sound.name.split('.')[0] === i.presetName)" :to="'/synths/' + i.presetName" class="text-xs") View preset
+              router-link(v-else-if="i.instrumentType === 'kit' && store.kits.find(kit => kit.name.split('.')[0] === i.presetName)" :to="'/kits/' + i.presetName" class="text-xs") View preset
               span(v-else class="text-xs text-gray-400") No preset found
 
             // exclamation-circle-icon(v-if="i.problem" class="h-4 text-red-400")
       
-      h-card(class="max-w-md md:flex-1")
+      //h-card(class="max-w-md md:flex-1")
         template(#title) Actions
         div(class="space-x-3")
           h-button(@click="renameModal?.openModal()") Rename Song
@@ -49,14 +49,14 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
     h2(class="font-bold text-xl") Technical Details
     p(class="text-sm") The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's a dump of what I've managed to parse so far:
 
-    div(class="flex space-x-3")
-      pre(class="rounded bg-gray-300 p-3 text-xs font-mono max-w-4xl")
-        h3.font-bold PARSED SONG DATA
+    div(class="flex space-x-3" style="font-size: 60%;")
+      div(class="rounded bg-gray-300 p-3 font-mono max-w-xl")
+        h3(class="font-bold") PARSED SONG DATA
         pre {{ song.data }}
 
-      pre(class="rounded bg-gray-300 p-3 text-xs font-mono max-w-4xl")
-        h3.font-bold RAW SONG DATA
-        pre {{ song.xml }}
+      div(class="rounded bg-gray-300 p-3 font-mono max-w-xl")
+        h3(class="font-bold") RAW SONG DATA
+        pre(class="break-all whitespace-pre-wrap") {{ song.xml }}
 </template>
 
 <script lang="ts" setup>
@@ -75,5 +75,5 @@ const props = defineProps([
 const renameModal = ref<InstanceType<typeof HModalVue> | null>(null)
 const deleteModal = ref<InstanceType<typeof HModalVue> | null>(null)
 
-const song = computed(() => props.name ? store.songs.find(song => song.name.slice(0, -4) === props.name) : null)
+const song = computed(() => props.name ? store.songs.find(song => song.name.split('.')[0] === props.name) : null)
 </script>

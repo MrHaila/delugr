@@ -10,7 +10,7 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
         div(class="divide-y divide-gray-200")
           div(v-for="sound in Object.values(store.sounds).sort((a, b) => b.usage.total - a.usage.total).slice(0, 19).filter(sound => sound.usage.total > 0)" :key="sound.path" class="py-2")
             span {{ sound.usage.total }} - 
-            router-link(:to="'/synths/' + sound.name.slice(0, -4)") {{ sound.name.slice(0, -4) }}
+            router-link(:to="'/synths/' + sound.name.split('.')[0]") {{ sound.name.split('.')[0] }}
 </template>
 
 <script lang="ts" setup>

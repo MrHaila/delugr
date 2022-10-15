@@ -14,7 +14,7 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
         div(class="divide-y divide-gray-200")
           div(v-for="sample in Object.values(store.samples).sort((a, b) => b.usage.total - a.usage.total).slice(0, 19).filter(sample => sample.usage.total > 0)" :key="sample.path" class="py-2")
             span {{ sample.usage.total }} - 
-            router-link(:to="'/samples/' + sample.id") {{ sample.name.slice(0, -4) }}
+            router-link(:to="'/samples/' + sample.id") {{ sample.name.split('.')[0] }}
 </template>
 
 <script lang="ts" setup>

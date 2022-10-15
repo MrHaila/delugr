@@ -8,7 +8,7 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
   div(v-else class="space-y-3")
     div(class="flex flex-row justify-between")
       div
-        h1.font-bold.text-2xl Sample: {{ sample.name.slice(0, -4) }}
+        h1.font-bold.text-2xl Sample: {{ sample.name.split('.')[0] }}
         p(class="text-gray-400 text-sm") {{ sample.path }}
       div(class="text-right text-sm mt-3")
         p Last modified: {{ DateTime.fromMillis(sample.lastModified).toFormat('yyyy-MM-dd') }}

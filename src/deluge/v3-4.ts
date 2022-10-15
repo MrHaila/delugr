@@ -1,5 +1,6 @@
-import { Arpeggiator, AudioTrack, Compressor, Delay, Envelope, Equalizer, findDirectChildNodeByTagName, getInstrumentName, Kit, Lfo, ModKnob, Oscillator, PatchCable, Song, Sound, Unison, Zone } from "./core";
-import { FixPos50 } from "./dataTypes";
+import { Arpeggiator, AudioTrack, Compressor, Delay, Envelope, Equalizer, findDirectChildNodeByTagName, getInstrumentName, Kit, Lfo, ModKnob, Oscillator, PatchCable, Song, Sound, Unison, Zone } from "./core"
+import { FixPos50 } from "./dataTypes"
+import { defaultSynthPatch } from "./defaultSynthPatchv4"
 
 export function parseSongv3(xml: Element, songName: string): Song {
   // Only parse the instruments node for now. Could do more later.
@@ -35,10 +36,12 @@ export function parseSongv3(xml: Element, songName: string): Song {
 }
 
 export function parseKitv3 (xml: Element, fileName?: string, songName?: string): Kit {
+  // TODO: default kit -> overrides
+  
   let presetName = getInstrumentName(xml)
   let problem = false
   if (!presetName) {
-    if (fileName) presetName = fileName.slice(0, -4)
+    if (fileName) presetName = fileName.split('.')[0]
     else {
       presetName = 'Unknown v3 kit 🤔'
       problem = true
@@ -93,69 +96,77 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
 }
 
 export function parseSoundv3 (xml: Element, fileName?: string, songName?: string, kitName?: string): Sound {
+  // Init to default values
+  const sound: Sound = JSON.parse(JSON.stringify(defaultSynthPatch))
+  
   let presetName = getInstrumentName(xml)
   let problem = false
   if (!presetName) {
-    if (fileName) presetName = fileName.slice(0, -4)
+    // Fallback to filename if no preset name is found.
+    if (fileName) presetName = fileName.split('.')[0]
     else {
-      presetName = 'Unknown v3 sound 🤔'
+      presetName = 'Unknown v3 or v4 sound 🤔'
       problem = true
     }
   }
+  sound.presetName = presetName
+  if (sound.presetName === 'SEEING THIS MEANS BAD THINGS HAPPENED') console.log(fileName, ' presetname should be ' + presetName)
 
-  // Attributes
-  const mode = xml.getAttribute('mode')
-  const lpfMode = xml.getAttribute('lpfMode')
-  const modFXType = xml.getAttribute('modFXType')
+  // Override defaults for the stuff we understand
   const polyphonic = xml.getAttribute('polyphonic')
-  const voicePriority = xml.getAttribute('voicePriority')
-  const clippingAmount = xml.getAttribute('clippingAmount')
-
-  // Child elements
-  const osc1 = findDirectChildNodeByTagName(xml, 'osc1')
-  const osc2 = findDirectChildNodeByTagName(xml, 'osc2')
-  const lfo1 = findDirectChildNodeByTagName(xml, 'lfo1')
-  const lfo2 = findDirectChildNodeByTagName(xml, 'lfo2')
-  const unison = findDirectChildNodeByTagName(xml, 'unison')
-  const delay = findDirectChildNodeByTagName(xml, 'delay')
-  const defaultParams = findDirectChildNodeByTagName(xml, 'defaultParams')
-  const compressor = findDirectChildNodeByTagName(xml, 'compressor')
-  const arpeggiator = findDirectChildNodeByTagName(xml, 'arpeggiator')
-  const modKnobs = findDirectChildNodeByTagName(xml, 'modKnobs')
-
-  if (!mode) throw new Error('Missing mode attribute on sound ' + presetName + ' of ' + fileName)
-  if (!lpfMode) throw new Error('Missing lpfMode attribute on sound ' + presetName + ' of ' + fileName)
-  if (!modFXType) throw new Error('Missing modFXType attribute on sound ' + presetName + ' of ' + fileName)
-  if (!osc1) throw new Error('Missing osc1 element on sound ' + presetName + ' of ' + fileName)
-  if (!osc2) throw new Error('Missing osc2 element on sound ' + presetName + ' of ' + fileName)
-  if (!lfo1) throw new Error('Missing lfo1 element on sound ' + presetName + ' of ' + fileName)
-  if (!lfo2) throw new Error('Missing lfo2 element on sound ' + presetName + ' of ' + fileName)
-  if (!unison) throw new Error('Missing unison element on sound ' + presetName + ' of ' + fileName)
-  if (!delay) throw new Error('Missing delay element on sound ' + presetName + ' of ' + fileName)
-
-  const sound: Sound = {
-    presetName,
-    mode,
-    lpfMode,
-    modFXType,
-    osc1: parseOscillator(osc1),
-    osc2: parseOscillator(osc2),
-    lfo1: parseLfo(lfo1),
-    lfo2: parseLfo(lfo2),
-    unison: parseUnison(unison),
-    delay: parseDelay(delay),
-    instrumentType: 'sound',
-    problem,
-    isInstance: true,
-  }
-
   if (polyphonic) sound.polyphonic = polyphonic
+
+  const voicePriority = xml.getAttribute('voicePriority')
   if (voicePriority) sound.voicePriority = Number(voicePriority)
-  if (clippingAmount) sound.clippingAmount = Number(clippingAmount)
-  if (defaultParams) sound.defaultParams = parseAllAttributes(defaultParams)
+
+  const mode = xml.getAttribute('mode')
+  if (mode) sound.mode = mode
+
+  const lpfMode = xml.getAttribute('lpfMode')
+  if (lpfMode) sound.lpfMode = lpfMode
+
+  const modFXType = xml.getAttribute('modFXType')
+  if (modFXType) sound.modFXType = modFXType
+
+  const osc1 = findDirectChildNodeByTagName(xml, 'osc1')
+  if (osc1) sound.osc1 = parseOscillator(osc1)
+
+  const osc2 = findDirectChildNodeByTagName(xml, 'osc2')
+  if (osc2) sound.osc2 = parseOscillator(osc2)
+
+  const lfo1 = findDirectChildNodeByTagName(xml, 'lfo1')
+  if (lfo1) sound.lfo1 = parseLfo(lfo1)
+
+  const lfo2 = findDirectChildNodeByTagName(xml, 'lfo2')
+  if (lfo2) sound.lfo2 = parseLfo(lfo2)
+
+  const unison = findDirectChildNodeByTagName(xml, 'unison')
+  if (unison) sound.unison = parseUnison(unison)
+
+  const delay = findDirectChildNodeByTagName(xml, 'delay')
+  if (delay) sound.delay = parseDelay(delay)
+
+  const compressor = findDirectChildNodeByTagName(xml, 'compressor')
   if (compressor) sound.compressor = parseCompressor(compressor)
+
+  const defaultParams = findDirectChildNodeByTagName(xml, 'defaultParams')
+  if (defaultParams) sound.defaultParams = parseAllAttributes(defaultParams)
+
+  // TODO - envelopes, patch cables, eq, etc.
+  
+  const arpeggiator = findDirectChildNodeByTagName(xml, 'arpeggiator')
   if (arpeggiator) sound.arpeggiator = parseArpeggiator(arpeggiator)
+
+  const modKnobs = findDirectChildNodeByTagName(xml, 'modKnobs')
   if (modKnobs) sound.modKnobs = parseModKnobs(modKnobs)
+
+  // Optional params
+  const clippingAmount = xml.getAttribute('clippingAmount')
+  if (clippingAmount) sound.clippingAmount = Number(clippingAmount)
+
+  // Non-spec params
+  sound.problem = problem
+  sound.isInstance = true
 
   return sound
 }
