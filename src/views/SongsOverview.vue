@@ -8,7 +8,6 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
 import { useStore } from '../deluge/files'
 
 const store = useStore()

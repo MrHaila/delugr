@@ -19,7 +19,7 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
             )
             span {{ sample.usage.total }} - 
               router-link(:to="'/samples/' + sample.id") {{ sample.name.split('.')[0] }}
-            div: play-button(:id="sample.id")
+            play-button(:id="sample.id")
 </template>
 
 <script lang="ts" setup>
