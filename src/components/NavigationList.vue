@@ -50,7 +50,6 @@ import { FileType } from '../deluge/files'
 import { DateTime } from 'luxon'
 import { ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { isArray } from '@vue/shared'
 import { ExclamationCircleIcon, MusicalNoteIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon, ChevronRightIcon, ChevronLeftIcon, FolderIcon } from '@heroicons/vue/24/solid'
 // import PlayButton from './PlayButton.vue'
 
@@ -140,7 +139,7 @@ const lastFolderFromPath = function (path: string): string {
 // Highlight entry based on current route
 let active = ref('')
 function setActive(name: string | string[]) {
-  if (isArray(name)) {
+  if (Array.isArray(name)) {
     active.value = name[0]
   } else {
     active.value = name

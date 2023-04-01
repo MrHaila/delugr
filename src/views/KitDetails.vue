@@ -41,7 +41,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed } from 'vue'
 import { useStore } from '../deluge/files'
 import { DateTime } from 'luxon'
 import SampleRow from '../components/SampleRow.vue'

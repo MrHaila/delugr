@@ -44,7 +44,7 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
 </template>
 
 <script lang="ts" setup>
-import { computed } from '@vue/reactivity'
+import { computed } from 'vue'
 import { DateTime } from 'luxon'
 import { useStore } from '../deluge/files'
 import PlayButton from '../components/PlayButton.vue'
