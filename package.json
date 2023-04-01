@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "filesize": "^10.0.7",
     "vue": "^3.2.47"
   },
   "devDependencies": {

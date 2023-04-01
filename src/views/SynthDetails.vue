@@ -5,7 +5,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
   div(v-if="!sound" class="flex justify-center my-auto")
     h1(class="font-bold text-xl text-gray-400") Synth '{{ props.name }}' not found!
 
-  div(v-else class="space-y-3")
+  div(v-else class="space-y-5")
     div(class="flex flex-row justify-between")
       div
         h1(class="font-bold text-2xl") Synth: {{ sound.data.presetName }}
