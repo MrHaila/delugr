@@ -117,7 +117,7 @@ import { computed } from 'vue'
 import { useStore } from '../deluge/files'
 import { DateTime } from 'luxon'
 import { getSampleUrlByPath } from '../deluge/files'
-import { ExclamationCircleIcon, MusicalNoteIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon } from '@heroicons/vue/20/solid'
+import { MusicalNoteIcon, AdjustmentsVerticalIcon } from '@heroicons/vue/20/solid'
 
 const store = useStore()
 
