@@ -19,24 +19,30 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
         template(#title) Usage
         div(v-if="sample.usage.total" class="flex justify-between space-x-3")
           div(class="flex-1")
-            h2(class="font-semibold") Songs #[h-badge {{ Object.keys(sample.usage.songs).length }}]
-            div(class="space-y-2 divide-y divide-gray-200")
-              div(v-for="(details, key) in sample.usage.songs" :key="key")
-                router-link(:to="'/songs/' + key") {{ key }}
-                span(class="text-xs text-gray-400")  via {{ details.instrumentName }}
+            h-list(
+              title="Songs"
+              :object="sample.usage.songs"
+              )
+              template(#item="{ item }")
+                router-link(:to="'/songs/' + item.key") {{ item.key }}
+                span(class="text-xs text-gray-400")  via {{ item.value.instrumentName }}
           
           div(class="flex-1")
-            h2(class="font-semibold") Kits #[h-badge {{ Object.keys(sample.usage.kits).length }}]
-            div(class="space-y-2 divide-y divide-gray-200")
-              div(v-for="(details, key) in sample.usage.kits" :key="key")
-                router-link(:to="'/kits/' + key") {{ key }}
-                span(class="text-xs text-gray-400")  via {{ details.instrumentName }}
+            h-list(
+              title="Kits"
+              :object="sample.usage.kits"
+              )
+              template(#item="{ item }")
+                router-link(:to="'/kits/' + item.key") {{ item.key }}
+                span(class="text-xs text-gray-400")  via {{ item.value.instrumentName }}
           
           div(class="flex-1")
-            h2(class="font-semibold") Synths #[h-badge {{ Object.keys(sample.usage.sounds).length }}]
-            div(class="space-y-2 divide-y divide-gray-200")
-              div(v-for="(details, key) in sample.usage.sounds" :key="key")
-                router-link(:to="'/synths/' + key") {{ key }}
+            h-list(
+              title="Synths"
+              :object="sample.usage.sounds"
+              )
+              template(#item="{ item }")
+                router-link(:to="'/synths/' + item.key") {{ item.key }}
         
         div(v-else class="italic text-gray-400") Not used in any songs, kits or synths.
 </template>

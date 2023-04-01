@@ -2,8 +2,8 @@
 div(class="bg-white shadow overflow-hidden sm:rounded-lg")
   //- Header
   div(class="px-5 py-4")
-    h3(class="text-lg leading-6 font-medium text-gray-900")
-      slot(name="title") Placeholder Title
+    h3(class="text-lg leading-6 font-semibold text-gray-900")
+      slot(name="title") {{ title || 'Placeholder Title' }}
       p(v-if="$slots.subtitle" class="mt-1 max-w-2xl text-sm text-gray-500")
         slot(name="subtitle")
   
@@ -14,9 +14,8 @@ div(class="bg-white shadow overflow-hidden sm:rounded-lg")
 </template>
 
 <script lang="ts" setup>
-interface Props {
+const props = defineProps<{
+  title?: string
   flush?: boolean
-}
-
-const props = defineProps<Props>()
+}>()
 </script>

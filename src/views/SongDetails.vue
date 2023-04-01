@@ -15,19 +15,27 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         p Last modified: {{ DateTime.fromMillis(song.lastModified).toFormat('yyyy-MM-dd') }}
 
     div(class="flex space-x-3")
-      h-card(v-if="song.data.instruments" class="max-w-md md:flex-1")
-        template(#title) Instruments #[h-badge {{ song.data.instruments.length }}]
-        div(class="divide-y divide-gray-200")
-          div(v-for="(i, index) in song.data.instruments" :key="index" class="py-2 flex flex-row items-center space-x-1")
-            div(class="basis-20") {{ i.instrumentType }}
-            div(class="flex-auto")
-              span {{ i.presetName }}
-            div(class="text-right")
-              router-link(v-if="i.instrumentType === 'sound' && store.sounds.find(sound => sound.name.split('.')[0] === i.presetName)" :to="'/synths/' + i.presetName" class="text-xs") View preset
-              router-link(v-else-if="i.instrumentType === 'kit' && store.kits.find(kit => kit.name.split('.')[0] === i.presetName)" :to="'/kits/' + i.presetName" class="text-xs") View preset
+      h-list-card(
+        v-if="song.data.instruments"
+        title="Instruments"
+        :items="song.data.instruments"
+        class="max-w-md md:flex-1"
+        )
+        template(#item="{ item }")
+          div(class="flex flex-row space-x-1 items-baseline")
+            AdjustmentsVerticalIcon(v-if="item.instrumentType === 'sound'" class="h-3 inline mb-1")
+            ArchiveBoxIcon(v-else-if="item.instrumentType === 'kit'" class="h-3 inline mb-1")
+            MicrophoneIcon(v-else-if="item.instrumentType === 'audio track'" class="h-3 inline mb-1")
+            span(v-else class="text-xs") {{ item.instrumentType }}
+
+            span {{ item.presetName }}
+            
+            span(class="flex-grow text-right")
+              router-link(v-if="item.instrumentType === 'sound' && store.sounds.find(sound => sound.name.split('.')[0] === item.presetName)" :to="'/synths/' + item.presetName" class="text-xs") View preset
+              router-link(v-else-if="item.instrumentType === 'kit' && store.kits.find(kit => kit.name.split('.')[0] === item.presetName)" :to="'/kits/' + item.presetName" class="text-xs") View preset
               span(v-else class="text-xs text-gray-400") No preset found
 
-            // exclamation-circle-icon(v-if="i.problem" class="h-4 text-red-400")
+            // exclamation-circle-icon(v-if="item.problem" class="h-4 text-red-400")
       
       //h-card(class="max-w-md md:flex-1")
         template(#title) Actions
@@ -63,7 +71,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 import { computed, ref } from 'vue';
 import { useStore } from '../deluge/files'
 import { DateTime } from 'luxon'
-import { ExclamationCircleIcon } from '@heroicons/vue/24/solid'
+import { ChevronLeftIcon, ExclamationCircleIcon, MusicalNoteIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon, ChevronRightIcon, FolderIcon } from '@heroicons/vue/20/solid'
 import HModalVue from '../components/HModal.vue';
 
 const store = useStore()
