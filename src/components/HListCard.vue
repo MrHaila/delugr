@@ -8,11 +8,16 @@ h-card
       )
       slot(name="item" :item="item")
         pre {{ item }}
+  span(
+    v-if="items.length === 0"
+    class="text-gray-400 italic"
+    ) {{ emptyLabel || 'No items.' }}
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
   title: string
   items: any[]
+  emptyLabel?: string
 }>()
 </script>

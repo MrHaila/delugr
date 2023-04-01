@@ -29,7 +29,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             span(v-else class="text-xs") {{ item.instrumentType }}
 
             span {{ item.presetName }}
-            
+
             span(class="flex-grow text-right")
               router-link(v-if="item.instrumentType === 'sound' && store.sounds.find(sound => sound.name.split('.')[0] === item.presetName)" :to="'/synths/' + item.presetName" class="text-xs") View preset
               router-link(v-else-if="item.instrumentType === 'kit' && store.kits.find(kit => kit.name.split('.')[0] === item.presetName)" :to="'/kits/' + item.presetName" class="text-xs") View preset
@@ -71,7 +71,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 import { computed, ref } from 'vue';
 import { useStore } from '../deluge/files'
 import { DateTime } from 'luxon'
-import { ChevronLeftIcon, ExclamationCircleIcon, MusicalNoteIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon, ChevronRightIcon, FolderIcon } from '@heroicons/vue/20/solid'
+import { ExclamationCircleIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon } from '@heroicons/vue/20/solid'
 import HModalVue from '../components/HModal.vue';
 
 const store = useStore()

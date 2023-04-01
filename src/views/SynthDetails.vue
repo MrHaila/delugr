@@ -15,18 +15,17 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         p Last modified: {{ DateTime.fromMillis(sound.lastModified).toFormat('yyyy-MM-dd') }}
 
     div(class="flex space-x-3")
-      h-card(class="max-w-md flex-1")
-        template(#title) Usage #[h-badge {{ synthSongUsageCount }}]
-        div(v-if="synthSongUsageCount" class="divide-y divide-gray-200")
-          div(v-for="(bool, key) in sound.usage.songs" :key="key" class="py-2 flex flex-row items-center space-x-1")
-            div(class="basis-20")
-              span song
-            router-link(:to="'/songs/' + key") {{ key }}
-          div(v-for="(bool, key) in sound.usage.kits" :key="key" class="py-2 flex flex-row items-center space-x-1")
-            div(class="basis-20")
-              span kit
-            router-link(:to="'/kits/' + key") {{ key }}
-        div(v-else class="italic text-gray-400") Not used in any songs or kits.
+      h-list-card(
+        title="Usage"
+        :items="usageList"
+        class="max-w-md md:flex-1"
+        emptyLabel="Not used in any songs or kits."
+        )
+        template(#item="{ item }")
+          div(class="flex flex-row space-x-1 items-baseline")
+            MusicalNoteIcon(v-if="item.type === 'song'" class="h-3 inline mb-1")
+            AdjustmentsVerticalIcon(v-else-if="item.type === 'kit'" class="h-3 inline mb-1")
+            router-link(:to="`/${item.type}s/${item.name}`") {{ item.name }}
 
       h-card(class="max-w-md flex-1")
         template(#title) Synth Settings
@@ -99,17 +98,18 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
           h-button(variant="primary") Rename Synth
           h-button(variant="primary") Delete Synth
 
-    h2(class="font-bold text-xl") Technical Details
-    p(class="text-sm") The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's a dump of what I've managed to parse so far:
+    div
+      h2(class="font-bold text-gray-500") Technical Details
+      p(class="text-sm mb-4 text-gray-500") The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's a dump of what I've managed to parse so far:
 
-    div(class="flex space-x-3" style="font-size: 60%;")
-      div(class="rounded bg-gray-300 p-3 font-mono max-w-xl")
-        h3(class="font-bold") PARSED SYNTH DATA
-        pre {{ sound.data }}
+      div(class="flex space-x-3" style="font-size: 60%;")
+        div(class="rounded bg-gray-100 p-3 font-mono max-w-xl text-gray-600")
+          h3(class="font-bold") PARSED SYNTH DATA
+          pre {{ sound.data }}
 
-      div(class="rounded bg-gray-300 p-3 font-mono max-w-xl")
-        h3(class="font-bold") RAW SYNTH DATA
-        pre(class="break-all whitespace-pre-wrap") {{ sound.xml }}
+        div(class="rounded bg-gray-100 p-3 font-mono max-w-xl text-gray-600")
+          h3(class="font-bold") RAW SYNTH DATA
+          pre(class="break-all whitespace-pre-wrap") {{ sound.xml }}
 </template>
 
 <script lang="ts" setup>
@@ -117,6 +117,7 @@ import { computed } from 'vue'
 import { useStore } from '../deluge/files'
 import { DateTime } from 'luxon'
 import { getSampleUrlByPath } from '../deluge/files'
+import { ExclamationCircleIcon, MusicalNoteIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon } from '@heroicons/vue/20/solid'
 
 const store = useStore()
 
@@ -127,4 +128,11 @@ const props = defineProps([
 
 const sound = computed(() => props.name ? store.sounds.find(sound => sound.name.split('.')[0] === props.name) : null)
 const synthSongUsageCount = computed(() => sound.value?.usage ? Object.keys(sound.value.usage.songs).length : null)
+
+const usageList = computed(() => {
+  if (!sound.value?.usage) return []
+  const songs = Object.keys(sound.value.usage.songs).map(name => ({ type: 'song', name }))
+  const kits = Object.keys(sound.value.usage.kits).map(name => ({ type: 'kit', name }))
+  return songs.concat(kits)
+})
 </script>
