@@ -40,22 +40,22 @@ Main branch automatically builds to <https://delugr.haila.fi/>
 ## Technical Stuff
 
 - Built with Vue 3 & Tailwind 3.
-- Project tooling by Vite.
+- Project tooling by PNPM and Vite.
 
 ### Build & Run Locally
 
 *You need the latest LTS of [Node.js](https://nodejs.org/) installed to build the project.*
 
 1. Clone this repo: `git clone https://gitlab.com/dasinf/delugr`
-1. Install dependencies: `npm i`
-1. Build: `npm run build`
-1. Run: `npm run preview`
+1. Install dependencies: `pnpm i`
+1. Build: `pnpm build`
+1. Run: `pnpm preview`
 
 ### Develop
 
 1. Clone this repo: `git clone https://gitlab.com/dasinf/delugr`
-1. Install dependencies: `npm i`
-1. Build & run: `npm run dev`
+1. Install dependencies: `pnpm i`
+1. Build & run: `pnpm dev`
 
 ### Recommended IDE Setup
 
