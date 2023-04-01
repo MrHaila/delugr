@@ -9,7 +9,7 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
     div(class="flex flex-row justify-between")
       div
         h1.font-bold.text-2xl Sample: {{ sample.name.split('.')[0] }}
-          play-button(:id="sample.id" class="ml-4" :large="true")
+          play-button(:id="sample.id" class="ml-4 relative bottom-1" :large="true")
         p(class="text-gray-400 text-sm") {{ sample.path }}
       div(class="text-right text-sm mt-3")
         p Last modified: {{ DateTime.fromMillis(sample.lastModified).toFormat('yyyy-MM-dd') }}

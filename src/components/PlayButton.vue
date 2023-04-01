@@ -2,7 +2,7 @@
 button(
   type="button"
   @click="isPlaying ? stopSample() : playSample()"
-  class="inline-flex justify-center items-center px-1 py-1 rounded-md hover:shadow-sm hover:text-white select-none text-cyan-500 hover:bg-cyan-500 focus:outline-none ring-1 ring-cyan-500"
+  class="inline-flex justify-center items-center px-1 py-1 rounded-md hover:shadow-sm hover:text-white select-none text-cyan-500 hover:bg-cyan-500 focus:outline-none ring-1 ring-cyan-500 w-4 h-4"
 )
   PlayIcon(v-show="!isPlaying" :class="large ? 'w-4' : 'w-2'")
   PauseIcon(v-show="isPlaying" :class="large ? 'w-4' : 'w-2'")
