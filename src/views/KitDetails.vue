@@ -27,17 +27,18 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         div(class="divide-y divide-gray-200")
           sample-row(v-for="(sound, index) in Object.values(kit.data.soundSources)" :key="index" :sound="sound")
 
-    h2(class="font-bold text-xl") Technical Details
-    p(class="text-sm") The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's a dump of what I've managed to parse so far:
+    div
+      h2(class="font-bold text-gray-500") Technical Details
+      p(class="text-sm mb-4 text-gray-500") The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's a dump of what I've managed to parse so far:
 
-    div(class="flex space-x-3" style="font-size: 60%;")
-      div(class="rounded bg-gray-300 p-3 font-mono max-w-xl")
-        h3(class="font-bold") PARSED KIT DATA
-        pre {{ kit.data }}
+      div(class="flex space-x-3" style="font-size: 60%;")
+        div(class="rounded bg-gray-100 p-3 font-mono max-w-xl text-gray-600")
+          h3(class="font-bold") PARSED KIT DATA
+          pre {{ kit.data }}
 
-      div(class="rounded bg-gray-300 p-3 font-mono max-w-xl")
-        h3(class="font-bold") RAW KIT DATA
-        pre(class="break-all whitespace-pre-wrap") {{ kit.xml }}
+        div(class="rounded bg-gray-100 p-3 font-mono max-w-xl text-gray-600")
+          h3(class="font-bold") RAW KIT DATA
+          pre(class="break-all whitespace-pre-wrap") {{ kit.xml }}
 </template>
 
 <script lang="ts" setup>
