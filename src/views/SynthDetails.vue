@@ -50,13 +50,17 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
           div(class="py-2 flex flex-row" v-if="sound.data.osc1.transpose")
             div(class="basis-20") Transpose
             div {{ sound.data.osc1.transpose }}
-          div(class="py-2 flex flex-row" v-if="sound.data.osc1.fileName || sound.data.osc1.sampleRanges")
-            div(class="basis-20") Sample(s)
+          div(class="py-2 flex flex-row" v-if="sound.data.osc1.fileName")
+            div(class="basis-20") Sample
             div(class="text-xs")
               router-link(v-if="sound.data.osc1.fileName" :to="String(getSampleUrlByPath(sound.data.osc1.fileName))") {{ sound.data.osc1.fileName }}
-              div(v-for="range in sound.data.osc1.sampleRanges")
-                router-link(v-if="getSampleUrlByPath(range.fileName)" :to="String(getSampleUrlByPath(range.fileName))") {{ range.fileName }}
-                span(v-else class="text-red-800") {{ range.fileName }}
+          div(v-if="sound.data.osc1.sampleRanges" class="pt-2")
+            h3 Multisamples
+            div(class="divide-y divide-gray-200")
+              MultisampleSampleListItem(
+                v-for="sampleRange in Object.values(sound.data.osc1.sampleRanges)"
+                :sampleRange="sampleRange"
+                )
 
       h-card(class="max-w-md flex-1")
         template(#title) Oscillator 2
@@ -67,13 +71,17 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
           div(class="py-2 flex flex-row" v-if="sound.data.osc2.transpose")
             div(class="basis-20") Transpose
             div {{ sound.data.osc2.transpose }}
-          div(class="py-2 flex flex-row" v-if="sound.data.osc2.fileName || sound.data.osc2.sampleRanges")
-            div(class="basis-20") Sample(s)
+          div(class="py-2 flex flex-row" v-if="sound.data.osc2.fileName")
+            div(class="basis-20") Sample
             div(class="text-xs")
               router-link(v-if="sound.data.osc2.fileName" :to="String(getSampleUrlByPath(sound.data.osc2.fileName))") {{ sound.data.osc2.fileName }}
-              div(v-for="range in sound.data.osc2.sampleRanges")
-                router-link(v-if="getSampleUrlByPath(range.fileName)" :to="String(getSampleUrlByPath(range.fileName))") {{ range.fileName }}
-                span(v-else class="text-red-800") {{ range.fileName }}
+          div(v-if="sound.data.osc2.sampleRanges" class="pt-2")
+            h3 Multisamples
+            div(class="divide-y divide-gray-200")
+              MultisampleSampleListItem(
+                v-for="sampleRange in Object.values(sound.data.osc2.sampleRanges)"
+                :sampleRange="sampleRange"
+                )
     
     div(class="flex space-x-3")
       //h-card
@@ -119,6 +127,8 @@ import { DateTime } from 'luxon'
 import { getSampleUrlByPath } from '../deluge/files'
 import { MusicalNoteIcon, ArchiveBoxIcon } from '@heroicons/vue/20/solid'
 import { AdjustmentsVerticalIcon } from '@heroicons/vue/24/solid'
+import SoundSamplesListItem from '../components/SoundSamplesListItem.vue'
+import MultisampleSampleListItem from '../components/MultisampleSampleListItem.vue'
 
 const store = useStore()
 
