@@ -9,11 +9,11 @@ main(class="min-w-0 flex-1 flex")
 </template>
 
 <script lang="ts" setup>
-import { useStore } from '../deluge/files'
+import { useFiles } from '../deluge/files'
 
 const props = defineProps([
   'name'
 ])
 
-const store = useStore()
+const store = useFiles()
 </script>

@@ -63,11 +63,11 @@ div(v-else class="flex h-screen")
 import HLogo from './components/HLogo.vue'
 import SidebarLink from './components/SidebarLink.vue'
 import { ArrowPathIcon } from '@heroicons/vue/24/solid'
-import { parseFolder as actuallyParseFolder, useStore } from './deluge/files'
+import { parseFolder as actuallyParseFolder, useFiles } from './deluge/files'
 import { ref } from 'vue'
 import { get, set } from 'idb-keyval'
 
-const store = useStore()
+const store = useFiles()
 const isParsing = ref(false)
 
 // Load previously selected folder from IndexedDB

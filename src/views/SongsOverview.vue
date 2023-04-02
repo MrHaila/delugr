@@ -8,9 +8,9 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
 </template>
 
 <script lang="ts" setup>
-import { useStore } from '../deluge/files'
+import { useFiles } from '../deluge/files'
 
-const store = useStore()
+const store = useFiles()
 
 const props = defineProps([
   'name'

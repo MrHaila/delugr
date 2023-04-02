@@ -25,7 +25,7 @@ div(class="space-y-3 max-w-3xl p-3")
 
 <script lang="ts" setup>
 import { DateTime } from 'luxon'
-import { useStore } from '../deluge/files'
+import { useFiles } from '../deluge/files'
 
-const store = useStore()
+const store = useFiles()
 </script>

@@ -54,13 +54,13 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useStore } from '../deluge/files'
+import { useFiles } from '../deluge/files'
 import { DateTime } from 'luxon'
 import SoundSamplesListItem from '../components/SoundSamplesListItem.vue'
 import { MusicalNoteIcon } from '@heroicons/vue/20/solid'
 import { ArchiveBoxIcon } from '@heroicons/vue/24/solid'
 
-const store = useStore()
+const store = useFiles()
 
 const props = defineProps([
   'name'

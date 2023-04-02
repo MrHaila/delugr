@@ -11,7 +11,7 @@ button(
 <script lang="ts" setup>
 import { PlayIcon, PauseIcon } from '@heroicons/vue/20/solid'
 import { computed, onUnmounted, ref } from 'vue'
-import { useStore } from '../deluge/files'
+import { useFiles } from '../deluge/files'
 
 interface Props {
   id: Number
@@ -20,7 +20,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const store = useStore()
+const store = useFiles()
 
 const sample = computed(() => props.id ? store.samples.find(sample => sample.id === props.id) : null)
 
