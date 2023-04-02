@@ -1,5 +1,7 @@
 <template lang="pug">
-h-card
+h-card(
+  :subtitle="subtitle"
+  )
   template(#title) {{ title }} #[h-badge {{ items.length }}]
   div(class="divide-y-2 divide-gray-200")
     div(
@@ -17,6 +19,7 @@ h-card
 <script setup lang="ts">
 const props = defineProps<{
   title: string
+  subtitle?: string
   items: any[]
   emptyLabel?: string
 }>()
