@@ -43,13 +43,14 @@ const store = useFiles()
 const listFolders = async () => {
   if (!store.folderHandle) return
 
-  const entries = await store.folderHandle.values()
+  const entries = await store.folderHandle.keys()
   const folders: string[] = []
 
   for await (const entry of entries) {
-    if (entry.kind === 'directory') {
-      folders.push(entry.name)
-    }
+    // if (entry.kind === 'directory') {
+    //   folders.push(entry.name)
+    // }
+    folders.push(entry)
   }
 
   return folders
