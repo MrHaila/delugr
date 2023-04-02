@@ -8,7 +8,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
   div(v-else class="space-y-5")
     div(class="flex flex-row justify-between")
       div
-        h1(class="font-bold text-2xl") Synth: {{ sound.data.presetName }}
+        h1(class="font-bold text-2xl") #[AdjustmentsVerticalIcon(class="h-5 inline mb-1")] {{ sound.data.presetName }}
         p(class="text-gray-400 text-sm") {{ sound.path }}
       div(class="text-right text-sm mt-3")
         p Firmware: {{ sound.firmware }}
@@ -24,7 +24,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         template(#item="{ item }")
           div(class="flex flex-row space-x-1 items-baseline")
             MusicalNoteIcon(v-if="item.type === 'song'" class="h-3 inline mb-1")
-            AdjustmentsVerticalIcon(v-else-if="item.type === 'kit'" class="h-3 inline mb-1")
+            ArchiveBoxIcon(v-else-if="item.type === 'kit'" class="h-3 inline mb-1")
             router-link(:to="`/${item.type}s/${item.name}`") {{ item.name }}
 
       h-card(class="max-w-md flex-1")
@@ -117,7 +117,8 @@ import { computed } from 'vue'
 import { useStore } from '../deluge/files'
 import { DateTime } from 'luxon'
 import { getSampleUrlByPath } from '../deluge/files'
-import { MusicalNoteIcon, AdjustmentsVerticalIcon } from '@heroicons/vue/20/solid'
+import { MusicalNoteIcon, ArchiveBoxIcon } from '@heroicons/vue/20/solid'
+import { AdjustmentsVerticalIcon } from '@heroicons/vue/24/solid'
 
 const store = useStore()
 

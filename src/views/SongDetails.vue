@@ -8,7 +8,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
   div(v-else class="space-y-5")
     div(class="flex flex-row justify-between")
       div
-        h1(class="font-bold text-2xl") Song: {{ props.name }}
+        h1(class="font-bold text-2xl") #[MusicalNoteIcon(class="h-5 inline mb-1")] {{ props.name }}
         p(class="text-gray-400 text-sm") {{ song.path }}
       div(class="text-right text-sm mt-3")
         p Firmware: {{ song.firmware }}
@@ -69,11 +69,12 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref } from 'vue'
 import { useStore } from '../deluge/files'
 import { DateTime } from 'luxon'
 import { ExclamationCircleIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon } from '@heroicons/vue/20/solid'
-import HModalVue from '../components/HModal.vue';
+import HModalVue from '../components/HModal.vue'
+import { MusicalNoteIcon } from '@heroicons/vue/24/solid'
 
 const store = useStore()
 
