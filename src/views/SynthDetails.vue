@@ -122,7 +122,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useStore } from '../deluge/files'
+import { useFiles } from '../deluge/files'
 import { DateTime } from 'luxon'
 import { getSampleUrlByPath } from '../deluge/files'
 import { MusicalNoteIcon, ArchiveBoxIcon } from '@heroicons/vue/20/solid'
@@ -130,7 +130,7 @@ import { AdjustmentsVerticalIcon } from '@heroicons/vue/24/solid'
 import SoundSamplesListItem from '../components/SoundSamplesListItem.vue'
 import MultisampleSampleListItem from '../components/MultisampleSampleListItem.vue'
 
-const store = useStore()
+const store = useFiles()
 
 const props = defineProps([
   'name'

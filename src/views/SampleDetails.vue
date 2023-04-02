@@ -53,12 +53,12 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { DateTime } from 'luxon'
-import { useStore } from '../deluge/files'
+import { useFiles } from '../deluge/files'
 import PlayButton from '../components/PlayButton.vue'
 import { filesize } from 'filesize'
 import { ExclamationCircleIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon, MusicalNoteIcon } from '@heroicons/vue/20/solid'
 
-const store = useStore()
+const store = useFiles()
 
 const props = defineProps([
   'name'

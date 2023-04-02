@@ -15,9 +15,9 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useStore } from '../deluge/files'
+import { useFiles } from '../deluge/files'
 
-const store = useStore()
+const store = useFiles()
 
 const usedSynthsCount = computed(() => {
   return store.sounds.map(s => s.usage.total).reduce((a, b) => a + b, 0)

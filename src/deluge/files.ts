@@ -1,7 +1,7 @@
-import { defineStore } from "pinia"
-import type { Kit, SampleRange, Song, Sound } from "./core"
+import type { Kit, Song, Sound } from "./core"
 import { parseKitv1, parseSoundv1 } from "./v1-2"
 import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3-4"
+import { ShallowReactive, shallowReactive } from "vue"
 
 /**
  * Base type for all parsed XML files.
@@ -144,6 +144,38 @@ export type SkippedFile = {
   reason: string,
 }
 
+export type DelugrFileStore = {
+  parsed: boolean,
+  parseError: string | null,
+  parsingMessage: string,
+  filesScanned: number,
+  songs: ParsedSongFile[],
+  sounds: ParsedSoundFile[],
+  kits: ParsedKitFile[],
+  samples: SampleFile[],
+  skippedFiles: SkippedFile[],
+  missingSamples: string[],
+  folderHandle: FileSystemDirectoryHandle | null,
+}
+
+const fileStore: ShallowReactive<DelugrFileStore> = shallowReactive({
+  parsed: false,
+  parseError: null,
+  parsingMessage: '',
+  filesScanned: 0,
+  songs: [],
+  sounds: [],
+  kits: [],
+  samples: [],
+  skippedFiles: [],
+  missingSamples: [],
+  folderHandle: null,
+})
+
+export function useFiles() {
+  return fileStore
+}
+
 async function verifyFolderPermission(folderHandle: FileSystemDirectoryHandle, write = false) {
   // Check if permission was already granted. If so, return true.
   if ((await folderHandle.queryPermission({ mode: write ? 'readwrite' : 'read' })) === 'granted') return true
@@ -154,7 +186,7 @@ async function verifyFolderPermission(folderHandle: FileSystemDirectoryHandle, w
 }
 
 /**
- * One-stop-shop for parsing a folder of files. Saves the results into the Pinia store.
+ * One-stop-shop for parsing a folder of files.
  * @param folder The folder to parse.
  */
 export async function parseFolder(folder: FileSystemDirectoryHandle) {
@@ -168,11 +200,8 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
   const missingSamples: string[] = []
   let id = 0
   
-  const store = useStore()
-  if (store.filesScanned > 0) store.filesScanned = 0
-
-  store.parsingMessage = 'Parsing the folder contents...'
-  await scanFolder(folder, '/')
+  if (fileStore.filesScanned > 0) fileStore.filesScanned = 0
+  
   async function scanFolder(folder: FileSystemDirectoryHandle, path: string) {
     // For each XML or wav file in the folder structure, parse it and add it to the store
     for await (const entry of folder.values()) {
@@ -248,13 +277,17 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
           })
         }
 
-        store.filesScanned++
+        fileStore.filesScanned++
       }
     }
   }
+
+  // Scan the selected folder
+  fileStore.parsingMessage = 'Parsing the folder contents...'
+  await scanFolder(folder, '/')
   
   // Compute usage
-  store.parsingMessage = 'Computing usage stats...'
+  fileStore.parsingMessage = 'Computing usage stats...'
 
   // For every song...
   for (const song of songs) {
@@ -395,17 +428,17 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
   }
 
   // Save results to the store
-  store.parsingMessage = 'Saving...'
-  // Note: these are done here instead of in the loops to save on Pinia's dev tools events
-  store.songs = songs.sort((a, b) => a.name.localeCompare(b.name))
-  store.sounds = sounds.sort((a, b) => a.name.localeCompare(b.name))
-  store.kits = kits.sort((a, b) => a.name.localeCompare(b.name))
-  store.samples = samples.sort((a, b) => a.name.localeCompare(b.name))
-  store.skippedFiles = skippedFiles
-  store.missingSamples = missingSamples.sort((a, b) => a.localeCompare(b))
+  fileStore.parsingMessage = 'Saving...'
+  // Note: these are done here instead of in the loops to save on mutations in the reactive store.
+  fileStore.songs = songs.sort((a, b) => a.name.localeCompare(b.name))
+  fileStore.sounds = sounds.sort((a, b) => a.name.localeCompare(b.name))
+  fileStore.kits = kits.sort((a, b) => a.name.localeCompare(b.name))
+  fileStore.samples = samples.sort((a, b) => a.name.localeCompare(b.name))
+  fileStore.skippedFiles = skippedFiles
+  fileStore.missingSamples = missingSamples.sort((a, b) => a.localeCompare(b))
 
-  store.parsingMessage = 'Done!'
-  store.parsed = true
+  fileStore.parsingMessage = 'Done!'
+  fileStore.parsed = true
 }
 
 const parser = new DOMParser()
@@ -496,40 +529,26 @@ export async function parseFile(fileHandle: FileSystemFileHandle, path: string):
   }
 }
 
-export type DelugrFileStore = {
-  parsed: boolean,
-  parseError: string | null,
-  parsingMessage: string,
-  filesScanned: number,
-  songs: ParsedSongFile[],
-  sounds: ParsedSoundFile[],
-  kits: ParsedKitFile[],
-  samples: SampleFile[],
-  skippedFiles: SkippedFile[],
-  missingSamples: string[],
-  folderHandle: FileSystemDirectoryHandle | null,
-}
-
 /**
  * The main state of the app.
  */
-export const useStore = defineStore('files', {
-  state: (): DelugrFileStore => {
-    return {
-      parsed: false,
-      parseError: null,
-      parsingMessage: '',
-      filesScanned: 0,
-      songs: [],
-      sounds: [],
-      kits: [],
-      samples: [],
-      skippedFiles: [],
-      missingSamples: [],
-      folderHandle: null,
-    }
-  }
-})
+// export const useStore = defineStore('files', {
+//   state: (): DelugrFileStore => {
+//     return {
+//       parsed: false,
+//       parseError: null,
+//       parsingMessage: '',
+//       filesScanned: 0,
+//       songs: [],
+//       sounds: [],
+//       kits: [],
+//       samples: [],
+//       skippedFiles: [],
+//       missingSamples: [],
+//       folderHandle: null,
+//     }
+//   }
+// })
 
 /**
  * Get the stored URL of a sample based on its path. Also good for checking if the sample exists.
@@ -539,7 +558,7 @@ export const useStore = defineStore('files', {
 export function getSampleUrlByPath(path: string | null | undefined) {
   if (!path) return null
   if (path[0] !== '/') path = '/' + path
-  const file = useStore().samples.find(f => f.path.toLowerCase() === path?.toLowerCase())
+  const file = fileStore.samples.find(f => f.path.toLowerCase() === path?.toLowerCase())
   if (file) return file.url
   else return null
 }
@@ -552,7 +571,80 @@ export function getSampleUrlByPath(path: string | null | undefined) {
 export function getSampleByPath(path: string | null | undefined) {
   if (!path) return null
   if (path[0] !== '/') path = '/' + path
-  const file = useStore().samples.find(f => f.path.toLowerCase() === path?.toLowerCase())
+  const file = fileStore.samples.find(f => f.path.toLowerCase() === path?.toLowerCase())
   if (file) return file
   else return null
 }
+
+/**
+ * Look through all known samples and find the one that most closely matches the given path. Assumes that the file name is the same.
+ * @param movedPath 
+ */
+export function findLikeliestMatchForMisplacedSample(movedPath: string) {
+  const movedFileName = movedPath.split('/').pop()
+  const movedFolderName = movedPath.substring(0, movedPath.lastIndexOf('/'))
+
+  let bestMatch: SampleFile | null = null
+  let bestScore = 0
+
+  for (const sample of fileStore.samples) {
+    const existingFileName = sample.path.split('/').pop()
+    const existingFolderName = sample.path.substring(0, sample.path.lastIndexOf('/'))
+
+    if (existingFileName !== movedFileName) {
+      continue
+    }
+
+    const score = similarityScore(existingFolderName, movedFolderName)
+    if (score > bestScore) {
+      bestScore = score
+      bestMatch = sample
+    }
+  }
+
+  return bestMatch!
+}
+
+/**
+ * Based on the Levenshtein distance algorithm.
+ */
+function similarityScore(str1: string, str2: string): number {
+  const s1 = str1.toLowerCase();
+  const s2 = str2.toLowerCase();
+
+  const len1 = s1.length;
+  const len2 = s2.length;
+
+  if (len1 === 0 || len2 === 0) {
+    return 0;
+  }
+
+  const matrix = [];
+
+  for (let i = 0; i <= len1; i++) {
+    matrix[i] = [i];
+  }
+
+  for (let j = 0; j <= len2; j++) {
+    matrix[0][j] = j;
+  }
+
+  for (let i = 1; i <= len1; i++) {
+    for (let j = 1; j <= len2; j++) {
+      if (s1.charAt(i - 1) === s2.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        const deletion = matrix[i - 1][j] + 1;
+        const insertion = matrix[i][j - 1] + 1;
+        const substitution = matrix[i - 1][j - 1] + 1;
+        matrix[i][j] = Math.min(deletion, insertion, substitution);
+      }
+    }
+  }
+
+  const maxScore = Math.max(len1, len2);
+  const score = 1 - matrix[len1][len2] / maxScore;
+
+  return score;
+}
+

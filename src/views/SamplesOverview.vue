@@ -30,17 +30,20 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
         :items="store.missingSamples"
         )
         template(#item="{ item }")
-          span(class="text-xs text-red-800") {{ item }}
+          div(class="text-xs")
+            div(class="text-red-800") {{ item }}
+            //div best guess for the correct path 👇
+            //div {{ findLikeliestMatchForMisplacedSample(item).path }}
 
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useStore } from '../deluge/files'
+import { findLikeliestMatchForMisplacedSample, useFiles } from '../deluge/files'
 import PlayButton from '../components/PlayButton.vue'
 import { MicrophoneIcon } from '@heroicons/vue/20/solid'
 
-const store = useStore()
+const store = useFiles()
 
 const usedSamplesCount = computed(() => {
   return store.samples.map(s => s.usage.total).reduce((a, b) => a + b, 0)
