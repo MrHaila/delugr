@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import type { Kit, Song, Sound } from "./core"
+import type { Kit, SampleRange, Song, Sound } from "./core"
 import { parseKitv1, parseSoundv1 } from "./v1-2"
 import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3-4"
 
@@ -255,15 +255,19 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
   
   // Compute usage
   store.parsingMessage = 'Computing usage stats...'
+
+  // For every song...
   for (const song of songs) {
     const songName = song.name.split('.')[0] // Drop .xml from the name
+
+    // For every instrument in the song...
     for (const instrument of song.data.instruments) {
       // Sounds
       if (instrument.instrumentType === 'sound') {
         const sound = sounds.find(sound => sound.data.presetName === instrument.presetName)
         if (sound) {
           countSoundUsageInSong(sound, songName)
-          computeSampleUsageinSound(sound.data)
+          computeSampleUsageinSound(sound.data, undefined, songName)
         }
 
       // Kits
@@ -298,10 +302,25 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
   }
 
   function computeSampleUsageinSound(sound: Sound, kitName?: string, songName?: string) {
-    // Individual samples
     const fileNames = []
+    
+    // Individual samples
     if (sound.osc1.fileName) fileNames.push(sound.osc1.fileName)
     if (sound.osc2.fileName) fileNames.push(sound.osc2.fileName)
+
+    // Multisamples
+    if (sound.osc1.sampleRanges) {
+      for (const sampleRange of sound.osc1.sampleRanges) {
+        fileNames.push(sampleRange.fileName)
+      }
+    }
+    if (sound.osc2.sampleRanges) {
+      for (const sampleRange of sound.osc2.sampleRanges) {
+        fileNames.push(sampleRange.fileName)
+      }
+    }
+
+    // Find the samples in the store and count usage
     for (const fileName of fileNames) {
       const sample = samples.find(sample => sample.path.toLowerCase() === '/' + fileName.toLocaleLowerCase())
       if (sample) {
@@ -318,22 +337,6 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
         }
       }
       else addMissingSample(fileName)
-    }
-
-    // Multisamples
-    const sampleRanges = []
-    if (sound.osc1.sampleRanges) sampleRanges.push(...sound.osc1.sampleRanges)
-    if (sound.osc2.sampleRanges) sampleRanges.push(...sound.osc2.sampleRanges)
-    for (const sampleRange of sampleRanges) {
-      if (sampleRange.fileName) {
-        const sample = samples.find(sample => sample.path.toLowerCase() === '/' + sampleRange.fileName?.toLocaleLowerCase())
-        if (sample) {
-          countSampleUsageInSound(sample, sound.presetName, sound.presetName, 'synth')
-          if (kitName) countSampleUsageInKit(sample, kitName, sound.presetName, 'synth')
-          if (songName) countSampleUsageInSong(sample, songName, sound.presetName, 'synth')
-        }
-        else addMissingSample(sampleRange.fileName)
-      }
     }
   }
 

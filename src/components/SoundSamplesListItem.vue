@@ -2,6 +2,7 @@
 div(class="py-2")
   //- Sound name
   div(class="flex flex-row items-center space-x-1")
+    MicrophoneIcon(class="h-3 inline")
     span {{ sound.presetName }}
     exclamation-circle-icon(v-if="sound.problem" class="h-4 text-red-400")
 
@@ -22,7 +23,7 @@ div(class="py-2")
 <script lang="ts" setup>
 import type { Sound } from '../deluge/core'
 import { getSampleByPath } from '../deluge/files'
-import { ExclamationCircleIcon } from '@heroicons/vue/24/solid'
+import { ExclamationCircleIcon, MicrophoneIcon } from '@heroicons/vue/20/solid'
 import PlayButton from './PlayButton.vue'
 import { computed } from 'vue'
 

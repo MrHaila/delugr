@@ -8,7 +8,7 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
   div(v-else class="space-y-5")
     div(class="flex flex-row justify-between")
       div
-        h1.font-bold.text-2xl Sample: {{ sample.name.split('.')[0] }}
+        h1.font-bold.text-2xl #[MicrophoneIcon(class="h-5 inline mb-1")] {{ sample.name.split('.')[0] }}
           play-button(:id="sample.id" class="ml-4 relative bottom-1" :large="true")
         p(class="text-gray-400 text-sm") {{ sample.path }} #[span(class="text-xs") ({{ filesize(sample.size) }})]
       div(class="text-right text-sm mt-3")
@@ -24,6 +24,7 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
               :object="sample.usage.songs"
               )
               template(#item="{ item }")
+                MusicalNoteIcon(class="h-3 inline mb-1 mr-1")
                 router-link(:to="'/songs/' + item.key") {{ item.key }}
                 span(class="text-xs text-gray-400")  via {{ item.value.instrumentName }}
           
@@ -33,6 +34,7 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
               :object="sample.usage.kits"
               )
               template(#item="{ item }")
+                ArchiveBoxIcon(class="h-3 inline mb-1 mr-1")
                 router-link(:to="'/kits/' + item.key") {{ item.key }}
                 span(class="text-xs text-gray-400")  via {{ item.value.instrumentName }}
           
@@ -42,6 +44,7 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
               :object="sample.usage.sounds"
               )
               template(#item="{ item }")
+                AdjustmentsVerticalIcon(class="h-3 inline mb-1 mr-1")
                 router-link(:to="'/synths/' + item.key") {{ item.key }}
         
         div(v-else class="italic text-gray-400") Not used in any songs, kits or synths.
@@ -53,6 +56,7 @@ import { DateTime } from 'luxon'
 import { useStore } from '../deluge/files'
 import PlayButton from '../components/PlayButton.vue'
 import { filesize } from 'filesize'
+import { ExclamationCircleIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon, MusicalNoteIcon } from '@heroicons/vue/20/solid'
 
 const store = useStore()
 
