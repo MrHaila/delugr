@@ -15,9 +15,10 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
           div(
             v-for="sample in Object.values(store.samples).sort((a, b) => b.usage.total - a.usage.total).slice(0, 19).filter(sample => sample.usage.total > 0)"
             :key="sample.path"
-            class="py-2 flex justify-between"
+            class="py-2 flex justify-between items-baseline"
             )
-            span {{ sample.usage.total }} - 
+            span {{ sample.usage.total }} points - 
+              MicrophoneIcon(class="h-3 inline mb-1 mr-1")
               router-link(:to="'/samples/' + sample.id") {{ sample.name.split('.')[0] }}
             play-button(:id="sample.id")
 
@@ -37,6 +38,7 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
 import { computed } from 'vue'
 import { useStore } from '../deluge/files'
 import PlayButton from '../components/PlayButton.vue'
+import { MicrophoneIcon } from '@heroicons/vue/20/solid'
 
 const store = useStore()
 
