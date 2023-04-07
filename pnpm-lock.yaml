@@ -21,6 +21,9 @@ devDependencies:
   '@types/luxon':
     specifier: ^3.3.0
     version: 3.3.0
+  '@types/wavesurfer.js':
+    specifier: ^6.0.4
+    version: 6.0.4
   '@types/wicg-file-system-access':
     specifier: ^2020.9.6
     version: 2020.9.6
@@ -63,6 +66,9 @@ devDependencies:
   vue-tsc:
     specifier: latest
     version: 1.2.0(typescript@4.9.5)
+  wavesurfer.js:
+    specifier: ^6.6.3
+    version: 6.6.3
 
 packages:
 
@@ -334,8 +340,18 @@ packages:
       tailwindcss: 3.3.1(postcss@8.4.21)
     dev: true
 
+  /@types/debounce@1.2.1:
+    resolution: {integrity: sha512-epMsEE85fi4lfmJUH/89/iV/LI+F5CvNIvmgs5g5jYFPfhO2S/ae8WSsLOKWdwtoaZw9Q2IhJ4tQ5tFCcS/4HA==}
+    dev: true
+
   /@types/luxon@3.3.0:
     resolution: {integrity: sha512-uKRI5QORDnrGFYgcdAVnHvEIvEZ8noTpP/Bg+HeUzZghwinDlIS87DEenV5r1YoOF9G4x600YsUXLWZ19rmTmg==}
+    dev: true
+
+  /@types/wavesurfer.js@6.0.4:
+    resolution: {integrity: sha512-TGWy48OTZc9fuedxBmtM5WGNK4WDloRzf6/mE+OXmM9JuLzshhWZXSbZHiGnzpYB19mfdwnoEE4/8PNvyr/JBQ==}
+    dependencies:
+      '@types/debounce': 1.2.1
     dev: true
 
   /@types/web-bluetooth@0.0.16:
@@ -1595,6 +1611,10 @@ packages:
       '@vue/runtime-dom': 3.2.47
       '@vue/server-renderer': 3.2.47(vue@3.2.47)
       '@vue/shared': 3.2.47
+
+  /wavesurfer.js@6.6.3:
+    resolution: {integrity: sha512-XqUOXe8+SOTe8uKCHaqW0vJ5etCCQvq/NgaPycn9HAX/nUi+2zoWD+w9i7H5vBT9UCDNawOia+vS5Ct3kZGQzA==}
+    dev: true
 
   /with@7.0.2:
     resolution: {integrity: sha512-RNGKj82nUPg3g5ygxkQl0R937xLyho1J24ItRCBTr/m1YnZkzJy1hUiHUJrc/VlsDQzsCnInEGSg3bci0Lmd4w==}
