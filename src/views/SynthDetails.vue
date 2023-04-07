@@ -1,4 +1,9 @@
 <template lang="pug">
+//- TODO
+//- - Add a button to show a modal to fix all fixable file paths (https://developer.mozilla.org/en-US/docs/Web/API/FileSystemFileHandle/createWritable)
+//- - Add a delete button -> modal -> delete file
+
+
 div(v-if="!props.name") No name prop... What?
 
 div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-slate-50")
