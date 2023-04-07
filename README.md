@@ -1,8 +1,8 @@
-# Delugr (super wip alpha preview etc)
+# Delugr
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/4bc18d98-eeba-4601-857c-632ebe0d373a/deploy-status)](https://app.netlify.com/sites/delugr/deploys)
 
-The missing asset manager for the Synthstrom Deluge. Maybe. Some day.
+The missing asset manager for the Synthstrom Deluge. Maybe. Some day. With more work.
 
 Huge credit to:
 
@@ -16,7 +16,7 @@ Main branch automatically builds to <https://delugr.haila.fi/>
 
 ## Features
 
-- 100% browser based. Nothing to install!
+- 100% browser based. Nothing to install! Just drag & drop your Deluge folder.
 - Browse your songs, synths, kits and samples and see how they are used.
 - At-a-glace visuals for spotting the most used and un-used items.
 - Preview (play) sample files.
@@ -24,12 +24,11 @@ Main branch automatically builds to <https://delugr.haila.fi/>
 
 ## Future things that would make sense (backlog)
 
-- Sample usage & leaderboards
+- Prettier everything
+- Actions to delete stuff
+- Actions to rename stuff
 - Broken sample detection in instruments
 - Song instrument view in addition to preset view?
-- Actions to rename stuff (needs a bit of RnD on the web apis and how to surgically edit the original files without breaking anything)
-- Actions to delete stuff?
-- Prettier everything
 - Responsive layout
 - Parsing more XML data (of various firmwares and binary types)
   - Audio tracks
@@ -39,12 +38,12 @@ Main branch automatically builds to <https://delugr.haila.fi/>
 
 ## Technical Stuff
 
-- Built with Vue 3 & Tailwind 3.
+- Built with Vue & Tailwind.
 - Project tooling by PNPM and Vite.
 
 ### Build & Run Locally
 
-*You need the latest LTS of [Node.js](https://nodejs.org/) installed to build the project.*
+*You need the latest LTS of [Node.js](https://nodejs.org/) and [PNPM](https://pnpm.io/) installed to build the project.*
 
 1. Clone this repo: `git clone https://gitlab.com/dasinf/delugr`
 1. Install dependencies: `pnpm i`
