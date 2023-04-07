@@ -155,7 +155,7 @@ export type DelugrFileStore = {
   samples: SampleFile[],
   skippedFiles: SkippedFile[],
   missingSamples: string[],
-  folderHandle: FileSystemDirectoryHandle | null,
+  folderHandle?: FileSystemDirectoryHandle,
 }
 
 const fileStore: ShallowReactive<DelugrFileStore> = shallowReactive({
@@ -169,7 +169,7 @@ const fileStore: ShallowReactive<DelugrFileStore> = shallowReactive({
   samples: [],
   skippedFiles: [],
   missingSamples: [],
-  folderHandle: null,
+  folderHandle: undefined,
 })
 
 export function useFiles() {

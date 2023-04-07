@@ -6,26 +6,43 @@ div(v-if="store.parseError || !store.parsed" class="pt-20 space-y-20 h-screen ov
     h1(class="text-8xl font-bold mb-5 text-gray-900") Delugr
     h2(class="text-2xl text-gray-900 font-semibold") The Synthstrom Deluge file browser... in the browser!
 
-  //- Error
-  div(v-if="store.parseError" class="space-y-3 flex justify-center")
-    div(style="width: 42rem" class="shadow rounded p-5 space-y-3 backdrop-blur-md bg-white/30 text-center")
-      h1(class="text-xl font-bold") Something went wrong while parsing the folder 😱
-      p Maybe there's something helpful in the browser logs?
-      p(class="text-red-800") {{ store.parseError }}
-      h-button(@click="askAndParseFolder") Try again
-
   //- File selector UI
-  div(v-else-if="!store.parsed" class="space-y-20")
+  div(class="space-y-20")
     div(class="flex justify-center text-center")
-      div(class="p-8 rounded-xl border-dashed border-gray-400 bg-sky-50/50 backdrop-blur-md border-4" style="width: 32rem; height: 9.7rem")
-        div(v-if="!isParsing")
-          p(class="mb-5") Select the Deluge memory card root folder to get started.
-          div(class="flex justify-center space-x-3")
-            h-button(v-if="store.folderHandle" @click="parseFolder(store.folderHandle)") Re-open {{ store.folderHandle.name }}
-            h-button(@click="askAndParseFolder") Select folder
-        div(v-else class="text-center space-y-3")
+      div(
+        :class="['p-8 rounded-xl border-dashed border-gray-400 bg-sky-50/50 backdrop-blur-md border-4 h-44 flex flex-col justify-center', { 'border-sky-500 bg-sky-100/50': isOverDropZone, 'border-red-300 bg-red-50/50': store.parseError && !isOverDropZone }]"
+        style="width: 32rem"
+        ref="dropzone"
+        )
+        //- Parsing
+        div(v-if="isParsing")
           h1(class="mb-6") {{ store.parsingMessage }}
           p(class="text-xl font-bold") {{ store.filesScanned }} files scanned
+
+        //- Drag and drop
+        div(
+          v-else-if="isOverDropZone"
+          class="text-gray-500"
+          ) ...aaaand drop!
+
+        //- Error
+        div(v-else-if="store.parseError" class="space-y-3")
+          h1(class="text-lg font-bold text-red-900") Something went wrong while parsing the folder 😱
+          p(class="text-red-800") {{ store.parseError }}
+          h-button(@click="askAndParseFolder") Pick another folder
+
+
+        //- Default content
+        div(v-else class="text-center space-y-5")
+          div(class="space-y-1")
+            p Select the Deluge memory card root folder to get started.
+            p(class="text-gray-500 text-sm italic") {{ dragAndDropMessage }}
+          div(class="flex justify-center space-x-3")
+            h-button(
+              v-if="store.folderHandle"
+              @click="store.folderHandle ? parseFolder(store.folderHandle) : null"
+              ) Re-open {{ store.folderHandle.name }}
+            h-button(@click="askAndParseFolder") Select folder
 
   //- App description
   div(class="flex justify-center pb-20")
@@ -62,18 +79,59 @@ div(v-else class="flex h-screen")
 <script lang="ts" setup>
 import HLogo from './components/HLogo.vue'
 import SidebarLink from './components/SidebarLink.vue'
-import { ArrowPathIcon } from '@heroicons/vue/24/solid'
 import { parseFolder as actuallyParseFolder, useFiles } from './deluge/files'
 import { ref } from 'vue'
 import { get, set } from 'idb-keyval'
+import { useDragAndDrop } from './useDragAndDrop'
 
 const store = useFiles()
 const isParsing = ref(false)
 
+const dragAndDropMessage = ref('You can also drag and drop the folder here.')
+const dropzone = ref<HTMLDivElement>()
+
+async function onDrop(items: DataTransferItemList | null) {
+  if (!items || items.length === 0) {
+    dragAndDropMessage.value = 'No item dropped.'
+    return
+  }
+  const item = items[0] // Get the dropped item from the event dataTransfer object
+    
+  const handle = await item.getAsFileSystemHandle() as FileSystemDirectoryHandle | FileSystemFileHandle
+
+  if (handle.kind === 'directory') {
+    parseFolder(handle)
+    store.folderHandle = handle
+    set('folderHandle', handle)
+  } else {
+    dragAndDropMessage.value = 'Please drop a folder, not a file.'
+  }
+}
+
+const { isOverDropZone } = useDragAndDrop(dropzone, onDrop)
+
+// async function onDrop (event: DragEvent) {
+//   const item = event.dataTransfer?.items[0] // Get the dropped items from the event dataTransfer object
+//   if (!item) {
+//     dragAndDropMessage.value = 'No item dropped.'
+//     return
+//   }
+    
+//   const handle = await item.getAsFileSystemHandle() as FileSystemDirectoryHandle | FileSystemFileHandle
+
+//   if (handle.kind === 'directory') {
+//     await parseFolder(handle)
+//     store.folderHandle = handle
+//     set('folderHandle', handle)
+//   } else {
+//     dragAndDropMessage.value = 'Please drop a folder, not a file.'
+//   }
+// }
+
 // Load previously selected folder from IndexedDB
 getStoredHandle()
 async function getStoredHandle() {
-  const storedHandle = await get('folderHandle')
+  const storedHandle = await get('folderHandle') as FileSystemDirectoryHandle
   if (storedHandle) {
     store.folderHandle = storedHandle
   }
@@ -100,7 +158,7 @@ async function askAndParseFolder() {
 /**
  * Parse a folder and manage the UI states while at it.
  */
-async function parseFolder(rootFolder: FileSystemDirectoryHandle | any) {
+async function parseFolder(rootFolder: FileSystemDirectoryHandle) {
   try {
     store.parsed = false
     store.parseError = null
