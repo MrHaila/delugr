@@ -9,10 +9,15 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
     div(class="flex flex-row justify-between")
       div
         h1.font-bold.text-2xl #[MicrophoneIcon(class="h-5 inline mb-1")] {{ sample.name.split('.')[0] }}
-          play-button(:id="sample.id" class="ml-4 relative bottom-1" :large="true")
         p(class="text-gray-400 text-sm") {{ sample.path }} #[span(class="text-xs") ({{ filesize(sample.size) }})]
       div(class="text-right text-sm mt-3")
         p Last modified: {{ DateTime.fromMillis(sample.lastModified).toFormat('yyyy-MM-dd') }}
+
+    h-card(
+      class="w-full"
+      title="Preview"
+      )
+      div#wavesurfer
 
     div(class="flex space-x-3")
       h-card(class="max-w-3xl flex-1")
@@ -51,12 +56,12 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import { DateTime } from 'luxon'
 import { useFiles } from '../deluge/files'
-import PlayButton from '../components/PlayButton.vue'
 import { filesize } from 'filesize'
 import { ExclamationCircleIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon, MusicalNoteIcon } from '@heroicons/vue/20/solid'
+import WaveSurfer from 'wavesurfer.js'
 
 const store = useFiles()
 
@@ -66,4 +71,46 @@ const props = defineProps([
 
 const idAsNumber = computed(() => parseInt(props.name))
 const sample = computed(() => props.name ? store.samples.find(sample => sample.id === idAsNumber.value) : null)
+
+let wavesurfer: WaveSurfer
+
+onMounted(async () => {
+  wavesurfer = WaveSurfer.create({
+    container: '#wavesurfer',
+    waveColor: 'gray',
+    progressColor: 'orange',
+    barWidth: 3,
+    barRadius: 3,
+    cursorWidth: 1,
+    barGap: 3,
+    cursorColor: 'orange',
+  })
+
+  if (sample.value) {
+    wavesurfer.on('ready', function(e) {
+      wavesurfer.play()
+    })
+
+    // Play on click
+    // wavesurfer.on('click', function(e) {
+    //   wavesurfer.playPause()
+    // })
+
+    // Play after seeking
+    wavesurfer.on('seek', function(e) {
+      wavesurfer.play()
+    })
+
+    const file = await sample.value.fileHandle.getFile()
+    wavesurfer.loadBlob(file)
+  }
+})
+
+watch(sample, (newSample, oldSample) => {
+  if (newSample) {
+    newSample.fileHandle.getFile().then(file => {
+      wavesurfer.loadBlob(file)
+    })
+  }
+})
 </script>
