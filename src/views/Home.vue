@@ -28,13 +28,29 @@ div(class="space-y-5 p-3 overflow-y-auto w-full")
       class="max-w-3xl flex-1"
       )
       template(#item="{ item }")
-        div(class="text-red-800") {{ item.name }}
+        div(class="flex space-x-3 justify-between")
+          div(class="text-red-800") {{ item.name }}
+          HButton(
+            size="xs"
+            variant="danger"
+            )
+            TrashIcon(
+              class="h-3"
+              @click="selectedFileForDeletion = item.fileHandle; "
+              )
         div(class="text-gray-400") {{ item.reason }}
+
+FileDeletionModal(
+  v-if="selectedFileForDeletion"
+  :file-handle="selectedFileForDeletion"
+)
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue'
 import { useFiles } from '../deluge/files'
+import { TrashIcon } from '@heroicons/vue/20/solid'
+import FileDeletionModal from '../components/FileDeletionModal.vue'
 
 const store = useFiles()
 
@@ -59,4 +75,6 @@ const folders = ref<string[]>()
 onMounted(async () => {
   folders.value = await listFolders()
 })
+
+const selectedFileForDeletion = ref<FileSystemFileHandle>()
 </script>

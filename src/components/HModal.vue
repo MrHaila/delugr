@@ -22,27 +22,25 @@ TransitionRoot(as="template" :show="open")
 
                 div(class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left")
                   DialogTitle(as="h3" class="text-lg leading-6 font-medium text-gray-900")
-                    slot(name="title") Placeholder Title
-                  div(class="mt-2")
-                    p(class="text-sm text-gray-500")
-                      slot(name="message") Lorem ipsum dolor sit amet.
+                    slot(name="title") {{ title || 'Title TBD' }}
+                  div(v-if="message" class="mt-2")
+                    p(class="text-sm text-gray-500") {{ message }}
                   div(class="mt-2")
                     slot
                 
             div(class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense")
               h-button(
                 variant="secondary"
-                @click="closeModal"
-                ref="cancelButtonRef"
+                @click="cancel"
                 ) Cancel
               h-button(
                 :variant="variant"
                 @click="ok"
-                ) {{ okLabel }}   
+                ) {{ okButtonLabel }}   
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onBeforeMount, onBeforeUnmount, ref } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { CheckIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
 
@@ -60,16 +58,35 @@ defineExpose({
 })
 
 // Events
-const emit = defineEmits(['ok'])
+const emit = defineEmits(['ok', 'cancel', 'show', 'hide'])
+onBeforeMount(() => {
+  emit('show')
+})
+onBeforeUnmount(() => {
+  emit('hide')
+})
+
+// Variants etc.
+const props = withDefaults(defineProps<{
+  variant?: 'warning' | 'danger'
+  title?: string
+  message?: string
+  okButtonLabel?: string
+}>(), {
+  variant: 'warning',
+  title: 'Title TBD',
+  message: undefined,
+  okButtonLabel: 'Ok',
+})
+
+// Actions
 function ok() {
   emit('ok')
   closeModal()
 }
 
-// Variants etc.
-interface Props {
-  variant: 'warning' | 'danger'
-  okLabel: string
+function cancel() {
+  emit('cancel')
+  closeModal()
 }
-const props = defineProps<Props>()
 </script>

@@ -1,4 +1,21 @@
-import { Arpeggiator, AudioTrack, Compressor, Delay, Envelope, Equalizer, findDirectChildNodeByTagName, getInstrumentName, Kit, Lfo, ModKnob, Oscillator, PatchCable, Song, Sound, Unison, Zone } from "./core"
+import {
+  findDirectChildNodeByTagName,
+  getInstrumentName,
+  type Arpeggiator,
+  type AudioTrack,
+  type Compressor,
+  type Delay,
+  type Envelope,
+  type Equalizer,
+  type Kit,
+  type Lfo,
+  type ModKnob,
+  type Oscillator,
+  type PatchCable,
+  type Song,
+  type Sound,
+  type Unison,
+  type Zone } from "./core"
 import { FixPos50 } from "./dataTypes"
 import { defaultSynthPatch } from "./defaultSynthPatchv4"
 

@@ -1,4 +1,4 @@
-import { FixPos50 } from "./dataTypes"
+import type { FixPos50 } from "./dataTypes"
 
 // Types ---------------------------------------------------------------------
 

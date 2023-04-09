@@ -1,4 +1,13 @@
-import { Delay, findDirectChildNodeByTagName, getInstrumentName, Kit, Lfo, Oscillator, Sound, Unison } from "./core"
+import {
+  findDirectChildNodeByTagName,
+  getInstrumentName,
+  type Delay,
+  type Kit,
+  type Lfo,
+  type Oscillator,
+  type Sound,
+  type Unison
+} from "./core"
 import { defaultSynthPatch } from "./defaultSynthPatchv4"
 
 export function parseKitv1 (xml: Element, fileName?: string, songName?: string): Kit {

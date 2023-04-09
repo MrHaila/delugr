@@ -1,7 +1,7 @@
 import type { Kit, Song, Sound } from "./core"
 import { parseKitv1, parseSoundv1 } from "./v1-2"
 import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3-4"
-import { ShallowReactive, shallowReactive } from "vue"
+import { type ShallowReactive, shallowReactive } from "vue"
 
 /**
  * Base type for all parsed XML files.
@@ -142,6 +142,7 @@ export type SkippedFile = {
   name: string,
   path: string,
   reason: string,
+  fileHandle: FileSystemFileHandle,
 }
 
 export type DelugrFileStore = {
@@ -234,17 +235,20 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
                 name,
                 path: fullPath,
                 reason: 'Unknown file type. Was expecting a song, sound, or kit.',
+                fileHandle,
               })
             } else skippedFiles.push({
               name,
               path: fullPath,
               reason: parsedFile,
+              fileHandle,
             })
           } catch (e) {
             skippedFiles.push({
               name,
               path: fullPath,
               reason: String(e),
+              fileHandle,
             })
           }
         // Parse WAV and AIFF
@@ -268,12 +272,13 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
             }
           })
           id++
-        // Ignore .DS_Store quietly, log everything else
+        // Skip unsupported file types
         } else {
           skippedFiles.push({
             name,
             path: fullPath,
-            reason: 'Not a supported file type',
+            reason: 'Not a supported file type.',
+            fileHandle,
           })
         }
 

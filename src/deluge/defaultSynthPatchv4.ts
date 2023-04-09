@@ -1,4 +1,4 @@
-import { Sound } from "./core"
+import type { Sound } from "./core"
 import { FixPos50 } from "./dataTypes"
 
 export const defaultSynthPatch: Sound = {
