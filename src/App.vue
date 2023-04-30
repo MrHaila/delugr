@@ -50,7 +50,7 @@ div(v-if="store.parseError || !store.parsed" class="pt-20 space-y-20 h-screen ov
       h3(class="font-bold") 👋 Greetings, stranger!
       p Delugr is a web-app that lets you browse the contents of your Deluge memory card.
       p It uses the new #[a(href="https://web.dev/file-system-access/") File System Access API] to read the contents of your memory card, so there's no need to install anything! As of May 2022, the API is not yet supported by Firefox, Safari or any of the mobile browsers.
-      p Made with ❤️ by #[a(href="https://haila.fi") Teemu Haila] as #[a(href="https://gitlab.com/dasinf/delugr") open source]. Contributions welcome!
+      p Made with ❤️ by #[a(href="https://haila.fi") Teemu Haila] as #[a(href="https://github.com/MrHaila/delugr") open source]. Contributions welcome!
 
 //- Actual thing
 div(v-else class="flex h-screen")
