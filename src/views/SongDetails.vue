@@ -73,7 +73,7 @@ import { computed, ref } from 'vue'
 import { useFiles } from '../deluge/files'
 import { DateTime } from 'luxon'
 import { ExclamationCircleIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon } from '@heroicons/vue/20/solid'
-import HModalVue from '../components/HModal.vue'
+// import HModal from '../components/HModal.vue'
 import { MusicalNoteIcon } from '@heroicons/vue/24/solid'
 
 const store = useFiles()
@@ -82,8 +82,8 @@ const props = defineProps([
   'name'
 ])
 
-const renameModal = ref<InstanceType<typeof HModalVue> | null>(null)
-const deleteModal = ref<InstanceType<typeof HModalVue> | null>(null)
+// const renameModal = ref<InstanceType<typeof HModal> | null>(null)
+// const deleteModal = ref<InstanceType<typeof HModal> | null>(null)
 
 const song = computed(() => props.name ? store.songs.find(song => song.name.split('.')[0] === props.name) : null)
 </script>
