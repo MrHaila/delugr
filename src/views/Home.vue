@@ -33,17 +33,17 @@ div(class="space-y-5 p-3 overflow-y-auto w-full")
           HButton(
             size="xs"
             variant="danger"
+            @click="selectedFileForDeletion = item.fileHandle"
             )
             TrashIcon(
               class="h-3"
-              @click="selectedFileForDeletion = item.fileHandle; "
               )
         div(class="text-gray-400") {{ item.reason }}
 
 FileDeletionModal(
   v-if="selectedFileForDeletion"
   :file-handle="selectedFileForDeletion"
-)
+  )
 </template>
 
 <script lang="ts" setup>
