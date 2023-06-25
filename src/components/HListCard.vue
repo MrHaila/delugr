@@ -16,11 +16,11 @@ h-card(
     ) {{ emptyLabel || 'No items.' }}
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
 const props = defineProps<{
   title: string
   subtitle?: string
-  items: any[]
+  items: T[]
   emptyLabel?: string
 }>()
 </script>

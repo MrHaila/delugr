@@ -45,14 +45,14 @@ Main branch automatically builds to <https://delugr.haila.fi/>
 
 *You need the latest LTS of [Node.js](https://nodejs.org/) and [PNPM](https://pnpm.io/) installed to build the project.*
 
-1. Clone this repo: `git clone https://gitlab.com/dasinf/delugr`
+1. Clone this repo: `git clone git@github.com:MrHaila/delugr.git`
 1. Install dependencies: `pnpm i`
 1. Build: `pnpm build`
 1. Run: `pnpm preview`
 
 ### Develop
 
-1. Clone this repo: `git clone https://gitlab.com/dasinf/delugr`
+1. Clone this repo: `git clone git@github.com:MrHaila/delugr.git`
 1. Install dependencies: `pnpm i`
 1. Build & run: `pnpm dev`
 
