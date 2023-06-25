@@ -33,7 +33,8 @@ div(class="space-y-5 p-3 overflow-y-auto w-full")
           HButton(
             size="xs"
             variant="danger"
-            @click="selectedFileForDeletion = item.fileHandle"
+            @click="openFileDeletionModal(item.fileHandle)"
+            class="h-6"
             )
             TrashIcon(
               class="h-3"
@@ -43,11 +44,12 @@ div(class="space-y-5 p-3 overflow-y-auto w-full")
 FileDeletionModal(
   v-if="selectedFileForDeletion"
   :file-handle="selectedFileForDeletion"
+  ref="fileDeletionModal"
   )
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
 import { useFiles } from '../deluge/files'
 import { TrashIcon } from '@heroicons/vue/20/solid'
 import FileDeletionModal from '../components/FileDeletionModal.vue'
@@ -77,4 +79,12 @@ onMounted(async () => {
 })
 
 const selectedFileForDeletion = ref<FileSystemFileHandle>()
+const fileDeletionModal = ref<typeof FileDeletionModal>()
+
+async function openFileDeletionModal (fileHandle: FileSystemFileHandle) {
+  selectedFileForDeletion.value = fileHandle
+  if (!fileDeletionModal.value) await nextTick() // Await for the next tick to make sure the modal is mounted before opening it.
+  fileDeletionModal.value?.openModal()
+}
+
 </script>
