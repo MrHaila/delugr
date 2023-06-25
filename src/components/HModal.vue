@@ -6,6 +6,14 @@ dialog(
   //- Ok pressed -> waiting...
   div(v-if="okPromisePending")
     div(class="flex justify-center my-14 italic text-gray-500") Doing the thing...
+    div(v-if="okPromiseError")
+      div(class="flex justify-center text-red-500") Error: {{ okPromiseError.message }}
+      h-button(
+        @click="closeModal"
+        variant="danger"
+        class="mt-4 w-full"
+        ) Close
+
 
   //- Default content
   div(v-else)
@@ -87,13 +95,19 @@ onBeforeUnmount(() => {
 
 // Actions
 const okPromisePending = ref(false)
+const okPromiseError = ref<Error>()
 async function ok() {
   emit('ok')
   if (props.onOk) {
     okPromisePending.value = true
-    await props.onOk()
+    try {
+      await props.onOk()
+      closeModal()
+    } catch (error) {
+      okPromiseError.value = error as Error
+      console.error(error)
+    }
   }
-  closeModal()
 }
 
 function cancel() {
