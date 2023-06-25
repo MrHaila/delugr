@@ -19,13 +19,12 @@ Main branch automatically builds to <https://delugr.haila.fi/>
 - 100% browser based. Nothing to install! Just drag & drop your Deluge folder.
 - Browse your songs, synths, kits and samples and see how they are used.
 - At-a-glace visuals for spotting the most used and un-used items.
-- Preview (play) sample files.
 - Easy navigation between items via deep links when possible.
+- Preview (play) sample files.
+- Delete files.
 
 ## Future things that would make sense (backlog)
 
-- Prettier everything
-- Actions to delete stuff
 - Actions to rename stuff
 - Broken sample detection in instruments
 - Song instrument view in addition to preset view?
