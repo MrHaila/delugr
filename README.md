@@ -38,22 +38,22 @@ Main branch automatically builds to <https://delugr.haila.fi/>
 ## Technical Stuff
 
 - Built with Vue & Tailwind.
-- Project tooling by PNPM and Vite.
+- Project tooling by Bun and Vite.
 
-### Build & Run Locally
+### Run Locally
 
-*You need the latest LTS of [Node.js](https://nodejs.org/) and [PNPM](https://pnpm.io/) installed to build the project.*
-
-1. Clone this repo: `git clone git@github.com:MrHaila/delugr.git`
-1. Install dependencies: `pnpm i`
-1. Build: `pnpm build`
-1. Run: `pnpm preview`
-
-### Develop
+*You need [Bun](https://bun.sh/) installed to build the project.*
 
 1. Clone this repo: `git clone git@github.com:MrHaila/delugr.git`
-1. Install dependencies: `pnpm i`
-1. Build & run: `pnpm dev`
+1. Install dependencies: `bun i`
+1. Build & run: `bun run dev`
+
+### Build for Production
+
+1. Clone this repo: `git clone git@github.com:MrHaila/delugr.git`
+1. Install dependencies: `bun i`
+1. Build: `bun run build`
+1. (optional) Run locally: `bun run preview`
 
 ### Recommended IDE Setup
 
