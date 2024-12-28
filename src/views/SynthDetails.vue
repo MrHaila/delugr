@@ -32,7 +32,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             ArchiveBoxIcon(v-else-if="item.type === 'kit'" class="h-3 inline mb-1")
             RouterLink(:to="`/${item.type}s/${item.name}`") {{ item.name }}
 
-      HCard(class="max-w-md flex-1")
+      //HCard(class="max-w-md flex-1")
         template(#title) Synth Settings
         div(class="divide-y divide-gray-200")
           div(class="py-2 flex flex-row")
@@ -45,7 +45,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             div(class="basis-20") Polyphony
             div {{ sound.data.polyphonic }}
 
-    div(class="flex space-x-3")
+    //div(class="flex space-x-3")
       HCard(class="max-w-md flex-1")
         template(#title) Oscillator 1
         div(class="divide-y divide-gray-200")
