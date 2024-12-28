@@ -3,8 +3,12 @@
     "*.css": "tailwindcss"
   },
   "cSpell.words": [
+    "Delugr",
+    "Kitv",
     "luxon",
     "Millis",
+    "Songv",
+    "Soundv",
     "wavesurfer"
   ]
 }

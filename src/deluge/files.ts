@@ -305,7 +305,7 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
         const sound = sounds.find(sound => sound.data.presetName === instrument.presetName)
         if (sound) {
           countSoundUsageInSong(sound, songName)
-          computeSampleUsageinSound(sound.data, undefined, songName)
+          computeSampleUsageInSound(sound.data, undefined, songName)
         }
 
       // Kits
@@ -325,7 +325,7 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
             }
 
             // Count sample usage regardless of whether we found a preset or not
-            computeSampleUsageinSound(soundSource, kit.data.presetName, songName)
+            computeSampleUsageInSound(soundSource, kit.data.presetName, songName)
           }
         }
       // Audio tracks
@@ -339,14 +339,14 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
     }
   }
 
-  function computeSampleUsageinSound(sound: Sound, kitName?: string, songName?: string) {
+  function computeSampleUsageInSound(sound: Sound, kitName?: string, songName?: string) {
     const fileNames = []
     
     // Individual samples
     if (sound.osc1.fileName) fileNames.push(sound.osc1.fileName)
     if (sound.osc2.fileName) fileNames.push(sound.osc2.fileName)
 
-    // Multisamples
+    // Multi samples
     if (sound.osc1.sampleRanges) {
       for (const sampleRange of sound.osc1.sampleRanges) {
         fileNames.push(sampleRange.fileName)
@@ -479,7 +479,7 @@ export async function parseFile(fileHandle: FileSystemFileHandle, path: string):
     const from = xml.indexOf('firmwareVersion="')
     const to = xml.indexOf('"', from + 17)
     firmware = xml.substring(from + 17, to)
-  } else throw Error(`Failed to decide what firware version to use for file ${fileHandle.name}`)
+  } else throw Error(`Failed to decide what firmware version to use for file ${fileHandle.name}`)
   
   // Parse the file
   const xmlDoc = parser.parseFromString(xml, 'text/xml')
