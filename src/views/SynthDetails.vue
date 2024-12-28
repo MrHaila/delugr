@@ -45,46 +45,29 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             div(class="basis-20") Polyphony
             div {{ sound.data.polyphonic }}
 
-    //div(class="flex space-x-3")
-      HCard(class="max-w-md flex-1")
-        template(#title) Oscillator 1
-        div(class="divide-y divide-gray-200")
-          div(class="py-2 flex flex-row")
-            div(class="basis-20") Type
-            div {{ sound.data.osc1.sampleRanges ? 'multisample' : sound.data.osc1.type }}
-          div(class="py-2 flex flex-row" v-if="sound.data.osc1.transpose")
-            div(class="basis-20") Transpose
-            div {{ sound.data.osc1.transpose }}
-          div(class="py-2 flex flex-row" v-if="sound.data.osc1.fileName")
-            div(class="basis-20") Sample
-            div(class="text-xs")
-              RouterLink(v-if="sound.data.osc1.fileName" :to="String(getSampleUrlByPath(sound.data.osc1.fileName))") {{ sound.data.osc1.fileName }}
-          div(v-if="sound.data.osc1.sampleRanges" class="pt-2")
-            h3 Multisamples
-            div(class="divide-y divide-gray-200")
-              MultisampleSampleListItem(
-                v-for="sampleRange in Object.values(sound.data.osc1.sampleRanges)"
-                :sampleRange="sampleRange"
-                )
+    div(class="flex space-x-3")
+      HCard(v-for="(oscillator, index) in [sound.data.osc1, sound.data.osc2]" class="max-w-md flex-1")
+        template(#title) Oscillator {{ index + 1 }}
 
-      HCard(class="max-w-md flex-1")
-        template(#title) Oscillator 2
         div(class="divide-y divide-gray-200")
-          div(class="py-2 flex flex-row")
+          div(class="py-2 flex flex-row justify-between")
             div(class="basis-20") Type
-            div {{ sound.data.osc2.sampleRanges ? 'multisample' : sound.data.osc2.type }}
-          div(class="py-2 flex flex-row" v-if="sound.data.osc2.transpose")
+            div {{ oscillator.sampleRanges ? 'multisample' : oscillator.type }}
+
+          //div(class="py-2 flex flex-row justify-between" v-if="oscillator.transpose")
             div(class="basis-20") Transpose
-            div {{ sound.data.osc2.transpose }}
-          div(class="py-2 flex flex-row" v-if="sound.data.osc2.fileName")
+            div {{ oscillator.transpose }}
+
+          div(class="py-2 flex flex-row justify-between" v-if="oscillator.fileName")
             div(class="basis-20") Sample
             div(class="text-xs")
-              RouterLink(v-if="sound.data.osc2.fileName" :to="String(getSampleUrlByPath(sound.data.osc2.fileName))") {{ sound.data.osc2.fileName }}
-          div(v-if="sound.data.osc2.sampleRanges" class="pt-2")
-            h3 Multisamples
+              RouterLink(v-if="oscillator.fileName" :to="String(getSampleUrlByPath(oscillator.fileName))") {{ oscillator.fileName }}
+            
+          div(v-if="oscillator.sampleRanges" class="pt-2")
+            h3 Samples
             div(class="divide-y divide-gray-200")
               MultisampleSampleListItem(
-                v-for="sampleRange in Object.values(sound.data.osc2.sampleRanges)"
+                v-for="sampleRange in Object.values(oscillator.sampleRanges)"
                 :sampleRange="sampleRange"
                 )
     
