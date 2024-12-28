@@ -111,18 +111,12 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
           h-button(variant="primary") Rename Synth
           h-button(variant="primary") Delete Synth
 
-    div
-      h2(class="font-bold text-gray-500") Technical Details
-      p(class="text-sm mb-4 text-gray-500") The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's a dump of what I've managed to parse so far:
+    TechnicalDetails(leftTitle="Parsed Synth Data" rightTitle="Raw Synth Data")
+      template(#left)
+        pre {{ sound.data }}
 
-      div(class="flex space-x-3" style="font-size: 60%;")
-        div(class="rounded bg-gray-100 p-3 font-mono max-w-xl text-gray-600")
-          h3(class="font-bold") PARSED SYNTH DATA
-          pre {{ sound.data }}
-
-        div(class="rounded bg-gray-100 p-3 font-mono max-w-xl text-gray-600")
-          h3(class="font-bold") RAW SYNTH DATA
-          pre(class="break-all whitespace-pre-wrap") {{ sound.xml }}
+      template(#right)
+        pre {{ sound.xml }}
 </template>
 
 <script lang="ts" setup>
@@ -134,6 +128,7 @@ import { MusicalNoteIcon, ArchiveBoxIcon } from '@heroicons/vue/20/solid'
 import { AdjustmentsVerticalIcon } from '@heroicons/vue/24/solid'
 import SoundSamplesListItem from '../components/SoundSamplesListItem.vue'
 import MultisampleSampleListItem from '../components/MultisampleSampleListItem.vue'
+import TechnicalDetails from '../components/TechnicalDetails.vue'
 
 const store = useFiles()
 
