@@ -4,12 +4,13 @@ HModal(
   title="Delete File"
   okButtonLabel="Delete"
   :onOk="deleteFile"
+  variant="danger"
   )
   p(v-if="!file") Loading...
   div(v-else)
-    p(class="mb-1") You are about to delete #[HBadge(inline variant="warning") {{ file }}].
+    p(class="mb-1") You are about to delete #[HBadge(inline variant="danger") {{ file }}].
     p(class="text-sm text-gray-500") This action cannot be undone. All good?
-    p(class="mt-2 text-sm text-gray-500") Note: As of June 2023, the #[a(href="https://developer.mozilla.org/en-US/docs/Web/API/FileSystemHandle/remove" target="black") API for removing files] is not yet implemented in all browsers.
+    p(class="mt-2 text-sm text-gray-500") Note: As of December 2024, the #[a(href="https://developer.mozilla.org/en-US/docs/Web/API/FileSystemHandle/remove" target="blank") API for removing files] is not yet implemented in #[a(href="https://caniuse.com/mdn-api_filesystemhandle_remove" target="blank") all browsers].
     //- div(class="bg-gray-200 text-gray-600 rounded-sm p-3 border")
       p {{ file.name }}
       p {{ file.size }} bytes
