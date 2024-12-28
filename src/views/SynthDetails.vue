@@ -46,7 +46,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             div {{ sound.data.polyphonic }}
 
     div(class="flex space-x-3")
-      HCard(v-for="(oscillator, index) in [sound.data.osc1, sound.data.osc2]" class="max-w-md flex-1")
+      HCard(v-for="(oscillator, index) in [sound.data.osc1, sound.data.osc2]" class="flex-1")
         template(#title) Oscillator {{ index + 1 }}
 
         div(class="divide-y divide-gray-200")
@@ -69,6 +69,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
               MultisampleSampleListItem(
                 v-for="sampleRange in Object.values(oscillator.sampleRanges)"
                 :sampleRange="sampleRange"
+                :sourceFile="sound"
                 )
     
     div(class="flex space-x-3")
@@ -121,7 +122,6 @@ const props = defineProps([
 
 
 const sound = computed(() => props.name ? store.sounds.find(sound => sound.name.split('.')[0] === props.name) : null)
-const synthSongUsageCount = computed(() => sound.value?.usage ? Object.keys(sound.value.usage.songs).length : null)
 
 const usageList = computed(() => {
   if (!sound.value?.usage) return []

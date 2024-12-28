@@ -48,7 +48,6 @@ div(v-if="props.listItems.length === 0 || (currentNavigationLevel.files?.length 
 
 <script lang="ts" setup>
 import type { SampleFile, ParsedFile } from '../deluge/files'
-import { FileType } from '../deluge/files'
 import { DateTime } from 'luxon'
 import { ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
@@ -174,7 +173,7 @@ const isUnused = (item: ParsedFile | SampleFile | any): boolean => {
   // Non-samples have a type.
   if ('type' in item) {
     // Songs can't be un-used
-    if (item.type === FileType.Song) return false
+    if (item.type === 'song') return false
   }
   if ((Object.keys(item.usage.kits).length === 0 && Object.keys(item.usage.sounds).length === 0 && Object.keys(item.usage.songs).length === 0)) return true
   return false

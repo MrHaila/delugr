@@ -57,17 +57,13 @@ export type ParsedFile = {
 /**
  * Type of the file. Helps with type narrowing.
  */
-export enum FileType {
-  Song,
-  Sound,
-  Kit,
-}
+export type FileType = 'song' | 'sound' | 'kit'
 
 /**
  * Parsed song file.
  */
 export interface ParsedSongFile extends ParsedFile {
-  type: FileType.Song,
+  type: 'song',
   data: Song
 }
 
@@ -75,7 +71,7 @@ export interface ParsedSongFile extends ParsedFile {
  * Parsed sound file.
  */
 export interface ParsedSoundFile extends ParsedFile {
-  type: FileType.Sound,
+  type: 'sound',
   data: Sound
 }
 
@@ -83,7 +79,7 @@ export interface ParsedSoundFile extends ParsedFile {
  * Parsed kit file.
  */
 export interface ParsedKitFile extends ParsedFile {
-  type: FileType.Kit,
+  type: 'kit',
   data: Kit
 }
 
@@ -146,7 +142,8 @@ export type SkippedFile = {
 }
 
 export type DelugrFileStore = {
-  parsed: boolean,
+  isParsed: boolean,
+  isParsing: boolean,
   parseError: string | null,
   parsingMessage: string,
   filesScanned: number,
@@ -160,7 +157,8 @@ export type DelugrFileStore = {
 }
 
 const fileStore: ShallowReactive<DelugrFileStore> = shallowReactive({
-  parsed: false,
+  isParsed: false,
+  isParsing: false,
   parseError: null,
   parsingMessage: '',
   filesScanned: 0,
@@ -202,6 +200,8 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
   let id = 0
   
   if (fileStore.filesScanned > 0) fileStore.filesScanned = 0
+  if (fileStore.isParsed) fileStore.isParsed = false
+  fileStore.isParsing = true
   
   async function scanFolder(folder: FileSystemDirectoryHandle, path: string) {
     // For each XML or wav file in the folder structure, parse it and add it to the store
@@ -224,11 +224,11 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
             // Store results into arrays
             if (typeof parsedFile !== 'string') {
               if ('type' in parsedFile) {
-                if (parsedFile.type === FileType.Song) {
+                if (parsedFile.type === 'song') {
                   songs.push(parsedFile)
-                } else if (parsedFile.type === FileType.Sound) {
+                } else if (parsedFile.type === 'sound') {
                   sounds.push(parsedFile)
-                } else if (parsedFile.type === FileType.Kit) {
+                } else if (parsedFile.type === 'kit') {
                   kits.push(parsedFile)
                 }
               } else skippedFiles.push({
@@ -443,7 +443,14 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
   fileStore.missingSamples = missingSamples.sort((a, b) => a.localeCompare(b))
 
   fileStore.parsingMessage = 'Done!'
-  fileStore.parsed = true
+  fileStore.isParsed = true
+  fileStore.isParsing = false
+}
+
+export async function reParseFileStore() {
+  if (fileStore.folderHandle) {
+    await parseFolder(fileStore.folderHandle)
+  }
 }
 
 const parser = new DOMParser()
@@ -498,7 +505,7 @@ export async function parseFile(fileHandle: FileSystemFileHandle, path: string):
 
       return {
         name, path, fileHandle, lastModified, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, total: 0 },
-        type: FileType.Song,
+        type: 'song',
         url: encodeURI(`/songs/${name.split('.')[0]}`)
       }
     }
@@ -511,7 +518,7 @@ export async function parseFile(fileHandle: FileSystemFileHandle, path: string):
 
       return {
         name, path, fileHandle, lastModified, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, total: 0 },
-        type: FileType.Sound,
+        type: 'sound',
         url: encodeURI(`/synths/${name.split('.')[0]}`)
       }
     }
@@ -524,7 +531,7 @@ export async function parseFile(fileHandle: FileSystemFileHandle, path: string):
 
       return {
         name, path, fileHandle, lastModified, firmware, data, xml, usage: { songs: {}, sounds: {}, kits: {}, total: 0},
-        type: FileType.Kit,
+        type: 'kit',
         url: encodeURI(`/kits/${name.split('.')[0]}`)
       }
     }
@@ -533,27 +540,6 @@ export async function parseFile(fileHandle: FileSystemFileHandle, path: string):
     throw new Error(`Unknown node type '${root.nodeName}' in file '${name}'`)
   }
 }
-
-/**
- * The main state of the app.
- */
-// export const useStore = defineStore('files', {
-//   state: (): DelugrFileStore => {
-//     return {
-//       parsed: false,
-//       parseError: null,
-//       parsingMessage: '',
-//       filesScanned: 0,
-//       songs: [],
-//       sounds: [],
-//       kits: [],
-//       samples: [],
-//       skippedFiles: [],
-//       missingSamples: [],
-//       folderHandle: null,
-//     }
-//   }
-// })
 
 /**
  * Get the stored URL of a sample based on its path. Also good for checking if the sample exists.
@@ -651,5 +637,24 @@ function similarityScore(str1: string, str2: string): number {
   const score = 1 - matrix[len1][len2] / maxScore;
 
   return score;
+}
+
+export async function remapSampleInParsedFile(parsedFile: ParsedFile, oldPath: string, newPath: string) {
+  newPath = newPath.replace(/\\/g, '/') // Normalize path separators. Deluge does not start with a backslash, while the file system does.
+
+  console.log(`Remapping sample in ${parsedFile.name}: ${oldPath} -> ${newPath}`)
+
+  // Find instances of the old path in the parsed file and replace them with the new path
+  const newXml = parsedFile.xml.replace(new RegExp(oldPath, 'g'), newPath)
+
+  // Write the new XML to the file
+  const writeStream = await parsedFile.fileHandle.createWritable()
+  await writeStream.write(newXml)
+  await writeStream.close()
+
+  // Update the parsed file
+  parsedFile.xml = newXml
+
+  // TODO: Update the sample usage. Maybe show a notification to trigger re-scanning all files at once to avoid monkeying around with individual files?
 }
 

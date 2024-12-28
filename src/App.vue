@@ -1,6 +1,6 @@
 <template lang="pug">
 //- Landing page
-div(v-if="store.parseError || !store.parsed" class="pt-20 space-y-20 h-screen overflow-y-auto")
+div(v-if="store.parseError || !store.isParsed" class="pt-20 space-y-20 h-screen overflow-y-auto")
   //- Header
   div(class="text-center")
     h1(class="text-8xl font-bold mb-5 text-gray-900") Delugr
@@ -15,7 +15,7 @@ div(v-if="store.parseError || !store.parsed" class="pt-20 space-y-20 h-screen ov
         ref="dropzone"
         )
         //- Parsing
-        div(v-if="isParsing")
+        div(v-if="store.isParsing")
           h1(class="mb-6") {{ store.parsingMessage }}
           p(class="text-xl font-bold") {{ store.filesScanned }} files scanned
 
@@ -85,7 +85,6 @@ import { get, set } from 'idb-keyval'
 import { useDragAndDrop } from './useDragAndDrop'
 
 const store = useFiles()
-const isParsing = ref(false)
 
 const dragAndDropMessage = ref('You can also drag and drop the folder here.')
 const dropzone = ref<HTMLDivElement>()
@@ -160,11 +159,9 @@ async function askAndParseFolder() {
  */
 async function parseFolder(rootFolder: FileSystemDirectoryHandle) {
   try {
-    store.parsed = false
+    store.isParsed = false
     store.parseError = null
-    isParsing.value = true
     await actuallyParseFolder(rootFolder)
-    isParsing.value = false
     document.getElementById('animation-root')?.remove()
   } catch (e) {
     console.error(e)
@@ -173,7 +170,7 @@ async function parseFolder(rootFolder: FileSystemDirectoryHandle) {
 }
 
 // Animation shenanigans
-if (!store.parsed) {
+if (!store.isParsed) {
   // Root div for all animations
   document.getElementById('animation-root')?.remove() // Delete old stuff during HMR
   const animationRoot = document.createElement('div')
