@@ -57,10 +57,7 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
 
 <script lang="ts" setup>
 import { computed, onMounted, watch } from 'vue'
-import { DateTime } from 'luxon'
 import { useFiles } from '../deluge/files'
-import { filesize } from 'filesize'
-import { ExclamationCircleIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon, MusicalNoteIcon } from '@heroicons/vue/20/solid'
 import WaveSurfer from 'wavesurfer.js'
 
 const store = useFiles()
@@ -97,7 +94,7 @@ onMounted(async () => {
     // })
 
     // Play after seeking
-    wavesurfer.on('seek', function(e) {
+    wavesurfer.on('seeking', function(e) {
       wavesurfer.play()
     })
 
