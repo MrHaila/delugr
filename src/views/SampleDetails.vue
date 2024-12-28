@@ -58,7 +58,9 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
 <script lang="ts" setup>
 import { computed, onMounted, watch } from 'vue'
 import { useFiles } from '../deluge/files'
+import { DateTime } from 'luxon'
 import WaveSurfer from 'wavesurfer.js'
+import { filesize } from 'filesize'
 
 const store = useFiles()
 
