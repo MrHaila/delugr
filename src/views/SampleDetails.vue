@@ -16,8 +16,9 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
     HCard(
       class="w-full"
       title="Preview"
+      @click="wavesurfer.seekTo(0)"
       )
-      div#wavesurfer
+      div(@click.stop)#wavesurfer
 
     div(class="flex space-x-3")
       HCard(class="max-w-3xl flex-1")
