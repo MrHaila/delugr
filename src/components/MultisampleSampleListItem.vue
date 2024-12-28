@@ -10,7 +10,7 @@ div(class="py-2")
   // Note: Deluge paths are case insensitive, so we need to mind that.
   div(class="text-xs text-gray-400")
     span(v-if="sample" class="flex justify-between")
-      router-link(:to="sample.url") {{ sampleRange.fileName }}
+      RouterLink(:to="sample.url") {{ sampleRange.fileName }}
       PlayButton(:id="sample.id")
     span(v-else class="text-red-800") {{ sampleRange.fileName }}
 </template>

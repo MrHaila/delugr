@@ -31,13 +31,13 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             span {{ item.presetName }}
 
             span(class="flex-grow text-right")
-              router-link(v-if="item.instrumentType === 'sound' && store.sounds.find(sound => sound.name.split('.')[0] === item.presetName)" :to="'/synths/' + item.presetName" class="text-xs") View preset
-              router-link(v-else-if="item.instrumentType === 'kit' && store.kits.find(kit => kit.name.split('.')[0] === item.presetName)" :to="'/kits/' + item.presetName" class="text-xs") View preset
+              RouterLink(v-if="item.instrumentType === 'sound' && store.sounds.find(sound => sound.name.split('.')[0] === item.presetName)" :to="'/synths/' + item.presetName" class="text-xs") View preset
+              RouterLink(v-else-if="item.instrumentType === 'kit' && store.kits.find(kit => kit.name.split('.')[0] === item.presetName)" :to="'/kits/' + item.presetName" class="text-xs") View preset
               span(v-else class="text-xs text-gray-400") No preset found
 
             // exclamation-circle-icon(v-if="item.problem" class="h-4 text-red-400")
       
-      //h-card(class="max-w-md md:flex-1")
+      //HCard(class="max-w-md md:flex-1")
         template(#title) Actions
         div(class="space-x-3")
           h-button(@click="renameModal?.openModal()") Rename Song

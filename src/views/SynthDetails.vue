@@ -30,9 +30,9 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
           div(class="flex flex-row space-x-1 items-baseline")
             MusicalNoteIcon(v-if="item.type === 'song'" class="h-3 inline mb-1")
             ArchiveBoxIcon(v-else-if="item.type === 'kit'" class="h-3 inline mb-1")
-            router-link(:to="`/${item.type}s/${item.name}`") {{ item.name }}
+            RouterLink(:to="`/${item.type}s/${item.name}`") {{ item.name }}
 
-      h-card(class="max-w-md flex-1")
+      HCard(class="max-w-md flex-1")
         template(#title) Synth Settings
         div(class="divide-y divide-gray-200")
           div(class="py-2 flex flex-row")
@@ -46,7 +46,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             div {{ sound.data.polyphonic }}
 
     div(class="flex space-x-3")
-      h-card(class="max-w-md flex-1")
+      HCard(class="max-w-md flex-1")
         template(#title) Oscillator 1
         div(class="divide-y divide-gray-200")
           div(class="py-2 flex flex-row")
@@ -58,7 +58,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
           div(class="py-2 flex flex-row" v-if="sound.data.osc1.fileName")
             div(class="basis-20") Sample
             div(class="text-xs")
-              router-link(v-if="sound.data.osc1.fileName" :to="String(getSampleUrlByPath(sound.data.osc1.fileName))") {{ sound.data.osc1.fileName }}
+              RouterLink(v-if="sound.data.osc1.fileName" :to="String(getSampleUrlByPath(sound.data.osc1.fileName))") {{ sound.data.osc1.fileName }}
           div(v-if="sound.data.osc1.sampleRanges" class="pt-2")
             h3 Multisamples
             div(class="divide-y divide-gray-200")
@@ -67,7 +67,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
                 :sampleRange="sampleRange"
                 )
 
-      h-card(class="max-w-md flex-1")
+      HCard(class="max-w-md flex-1")
         template(#title) Oscillator 2
         div(class="divide-y divide-gray-200")
           div(class="py-2 flex flex-row")
@@ -79,7 +79,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
           div(class="py-2 flex flex-row" v-if="sound.data.osc2.fileName")
             div(class="basis-20") Sample
             div(class="text-xs")
-              router-link(v-if="sound.data.osc2.fileName" :to="String(getSampleUrlByPath(sound.data.osc2.fileName))") {{ sound.data.osc2.fileName }}
+              RouterLink(v-if="sound.data.osc2.fileName" :to="String(getSampleUrlByPath(sound.data.osc2.fileName))") {{ sound.data.osc2.fileName }}
           div(v-if="sound.data.osc2.sampleRanges" class="pt-2")
             h3 Multisamples
             div(class="divide-y divide-gray-200")
@@ -105,7 +105,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             div(class="basis-40") Release
             div {{ sound.data.env1?.release.decimal }} - {{ sound.data.env1?.release.fixh }}
 
-      //h-card(class="max-w-md md:flex-1")
+      //HCard(class="max-w-md md:flex-1")
         template(#title) Actions (TBD)
         div(class="space-x-3")
           h-button(variant="primary") Rename Synth

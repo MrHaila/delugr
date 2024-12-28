@@ -10,12 +10,12 @@ div(class="py-2")
   // Note: Deluge paths are case insensitive, so we need to mind that.
   div(class="text-xs text-gray-400")
     span(v-if="sample1" class="flex justify-between")
-      router-link(:to="sample1.url") {{ sound.osc1.fileName }}
+      RouterLink(:to="sample1.url") {{ sound.osc1.fileName }}
       PlayButton(:id="sample1.id")
     span(v-else class="text-red-800") {{ sound.osc1.fileName }}
   div(class="text-xs text-gray-400")
     span(v-if="sample2" class="flex justify-between")
-      router-link(:to="sample2.url") {{ sound.osc2.fileName }}
+      RouterLink(:to="sample2.url") {{ sound.osc2.fileName }}
       PlayButton(:id="sample2.id")
     span(v-else class="text-red-800") {{ sound.osc2.fileName }}
 </template>

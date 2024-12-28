@@ -13,49 +13,50 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
       div(class="text-right text-sm mt-3")
         p Last modified: {{ DateTime.fromMillis(sample.lastModified).toFormat('yyyy-MM-dd') }}
 
-    h-card(
+    HCard(
       class="w-full"
       title="Preview"
       )
       div#wavesurfer
 
     div(class="flex space-x-3")
-      h-card(class="max-w-3xl flex-1")
+      HCard(class="max-w-3xl flex-1")
         template(#title) Usage
         div(v-if="sample.usage.total" class="flex justify-between space-x-3")
           div(class="flex-1")
-            h-list(
+            HList(
               title="Songs"
               :object="sample.usage.songs"
               )
               template(#item="{ item }")
                 MusicalNoteIcon(class="h-3 inline mb-1 mr-1")
-                router-link(:to="'/songs/' + item.key") {{ item.key }}
+                RouterLink(:to="'/songs/' + item.key") {{ item.key }}
                 span(class="text-xs text-gray-400")  via {{ item.value.instrumentName }}
           
           div(class="flex-1")
-            h-list(
+            HList(
               title="Kits"
               :object="sample.usage.kits"
               )
               template(#item="{ item }")
                 ArchiveBoxIcon(class="h-3 inline mb-1 mr-1")
-                router-link(:to="'/kits/' + item.key") {{ item.key }}
+                RouterLink(:to="'/kits/' + item.key") {{ item.key }}
                 span(class="text-xs text-gray-400")  via {{ item.value.instrumentName }}
           
           div(class="flex-1")
-            h-list(
+            HList(
               title="Synths"
               :object="sample.usage.sounds"
               )
               template(#item="{ item }")
                 AdjustmentsVerticalIcon(class="h-3 inline mb-1 mr-1")
-                router-link(:to="'/synths/' + item.key") {{ item.key }}
+                RouterLink(:to="'/synths/' + item.key") {{ item.key }}
         
         div(v-else class="italic text-gray-400") Not used in any songs, kits or synths.
 </template>
 
 <script lang="ts" setup>
+import { MusicalNoteIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon } from '@heroicons/vue/24/solid'
 import { computed, onMounted, watch } from 'vue'
 import { useFiles } from '../deluge/files'
 import { DateTime } from 'luxon'

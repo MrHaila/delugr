@@ -6,7 +6,7 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
     p {{ usedSamplesCount }} of them are currently in use in a synth, kit or an audio track. That means {{ store.samples.length - usedSamplesCount }} are not used at all.
     
     div(class="flex space-x-3")
-      h-card(
+      HCard(
         class="max-w-md md:flex-1"
         title="Most Used Samples"
         subtitle="Samples get one point each for getting included in a synth, kit or a song. A widely used sample may only belong to one synth, but that synth may be used in lots of places!"
@@ -19,7 +19,7 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
             )
             span {{ sample.usage.total }} points - 
               MicrophoneIcon(class="h-3 inline mb-1 mr-1")
-              router-link(:to="'/samples/' + sample.id") {{ sample.name.split('.')[0] }}
+              RouterLink(:to="'/samples/' + sample.id") {{ sample.name.split('.')[0] }}
             play-button(:id="sample.id")
 
       HListCard(

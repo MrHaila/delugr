@@ -31,7 +31,7 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 overflow-y-auto 
       archive-box-icon(v-else-if="title === 'Kits'" class="h-3 mr-1")
       microphone-icon(v-else-if="title === 'Samples'" class="h-3 mr-1")
       | {{ title }} #[span(class="text-gray-400 ml-2 font-normal") {{ Number(currentNavigationLevel.files?.length) | 0 }}]
-    router-link(
+    RouterLink(
       v-for="file in currentNavigationLevel.files"
       :to="file.url"
       :class="['flex justify-between p-3 cursor-pointer text-sm hover:no-underline', getBackgroundClass(file)]"

@@ -1,5 +1,5 @@
 <template lang="pug">
-h-card(
+HCard(
   :subtitle="subtitle"
   )
   template(#title) {{ title }} #[h-badge {{ items.length }}]

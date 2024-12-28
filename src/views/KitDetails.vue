@@ -24,16 +24,16 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         template(#item="{ item }")
           div(class="flex flex-row space-x-1 items-baseline")
             MusicalNoteIcon(class="h-3 inline mb-1")
-            router-link(:to="`/songs/${item}`") {{ item }}
+            RouterLink(:to="`/songs/${item}`") {{ item }}
 
-      //- h-card(class="max-w-md md:flex-1")
+      //- HCard(class="max-w-md md:flex-1")
       //-   template(#title) Song usage #[h-badge {{ kitSongUsageCount }}]
       //-   div(v-if="kitSongUsageCount" class="divide-y divide-gray-200")
       //-     div(v-for="(bool, key) in kit.usage.songs" :key="key" class="py-2")
-      //-       router-link(:to="'/songs/' + key") {{ key }}
+      //-       RouterLink(:to="'/songs/' + key") {{ key }}
       //-   div(v-else class="italic text-gray-400") Not used in any songs.
 
-      h-card(v-if="kit.data.soundSources" class="max-w-md md:flex-1")
+      HCard(v-if="kit.data.soundSources" class="max-w-md md:flex-1")
         template(#title) Samples #[h-badge {{ Object.keys(kit.data.soundSources).length }}]
         div(class="divide-y divide-gray-200")
           SoundSamplesListItem(v-for="(sound, index) in Object.values(kit.data.soundSources)" :key="index" :sound="sound")

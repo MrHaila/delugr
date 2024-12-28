@@ -57,7 +57,7 @@ div(v-else class="flex h-screen")
   nav(aria-label="Sidebar" class="flex-shrink-0 bg-gray-800 flex flex-col justify-between text-gray-400")
     div(class="space-y-3 py-3")
       div(class="flex justify-center font-bold")
-        router-link(to="/" class="text-gray-400 hover:text-gray-50 hover:no-underline") Delugr
+        RouterLink(to="/" class="text-gray-400 hover:text-gray-50 hover:no-underline") Delugr
 
       div.w-20.p-3.space-y-3
         sidebar-link(variant="songs")

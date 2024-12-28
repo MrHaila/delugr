@@ -5,12 +5,12 @@ section(ria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex-
     p {{ usedKitsCount }} of them are currently in use in a song. That means {{ store.kits.length - usedKitsCount }} are not used at all.
   
     div(class="flex")
-      h-card(class="max-w-md md:flex-1")
+      HCard(class="max-w-md md:flex-1")
         template(#title) Leaderboard
         div(class="divide-y divide-gray-200")
           div(v-for="kit in Object.values(store.kits).sort((a, b) => b.usage.total - a.usage.total).slice(0, 19).filter(kit => kit.usage.total > 0)" :key="kit.path" class="py-2")
             span {{ kit.usage.total }} - 
-            router-link(:to="'/kits/' + kit.name.split('.')[0]") {{ kit.name.split('.')[0] }}
+            RouterLink(:to="'/kits/' + kit.name.split('.')[0]") {{ kit.name.split('.')[0] }}
 </template>
 
 <script lang="ts" setup>
