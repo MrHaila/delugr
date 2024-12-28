@@ -43,7 +43,7 @@ dialog(
         @click="ok"
         ) {{ okButtonLabel }}   
       h-button(
-        class="sm:order-last order-first"
+        class="order-first"
         variant="secondary"
         @click="cancel"
         ) Cancel
