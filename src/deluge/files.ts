@@ -106,7 +106,7 @@ export type SampleFile = {
   /**
    * Size of the file in bytes.
    */
-  size: Number,
+  size: number,
   /**
    * Last modified date of the file.
    */
