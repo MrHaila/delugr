@@ -3,7 +3,7 @@ div(v-if="!props.name") No name prop... What?
 
 div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
   div(v-if="!sample" class="flex justify-center my-auto")
-    h1(class="font-bold text-xl text-gray-400") Sample not found! {{ store.samples.length }} samples in total
+    h1(class="font-bold text-xl text-gray-400") Sample not found! {{ fileStore.samples.length }} samples in total
 
   div(v-else class="space-y-5")
     div(class="flex flex-row justify-between")
@@ -59,19 +59,19 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
 <script lang="ts" setup>
 import { MusicalNoteIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon } from '@heroicons/vue/24/solid'
 import { computed, onMounted, watch } from 'vue'
-import { useFiles } from '../deluge/files'
+import { useFileStore } from '../composables/useFileStore'
 import { DateTime } from 'luxon'
 import WaveSurfer from 'wavesurfer.js'
 import { filesize } from 'filesize'
 
-const store = useFiles()
+const { fileStore } = useFileStore()
 
 const props = defineProps([
   'name'
 ])
 
 const idAsNumber = computed(() => parseInt(props.name))
-const sample = computed(() => props.name ? store.samples.find(sample => sample.id === idAsNumber.value) : null)
+const sample = computed(() => props.name ? fileStore.samples.find(sample => sample.id === idAsNumber.value) : null)
 
 let wavesurfer: WaveSurfer
 

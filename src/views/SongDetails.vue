@@ -31,8 +31,8 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             span {{ item.presetName }}
 
             span(class="flex-grow text-right")
-              RouterLink(v-if="item.instrumentType === 'sound' && store.sounds.find(sound => sound.name.split('.')[0] === item.presetName)" :to="'/synths/' + item.presetName" class="text-xs") View preset
-              RouterLink(v-else-if="item.instrumentType === 'kit' && store.kits.find(kit => kit.name.split('.')[0] === item.presetName)" :to="'/kits/' + item.presetName" class="text-xs") View preset
+              RouterLink(v-if="item.instrumentType === 'sound' && fileStore.sounds.find(sound => sound.name.split('.')[0] === item.presetName)" :to="'/synths/' + item.presetName" class="text-xs") View preset
+              RouterLink(v-else-if="item.instrumentType === 'kit' && fileStore.kits.find(kit => kit.name.split('.')[0] === item.presetName)" :to="'/kits/' + item.presetName" class="text-xs") View preset
               span(v-else class="text-xs text-gray-400") No preset found
 
             // exclamation-circle-icon(v-if="item.problem" class="h-4 text-red-400")
@@ -64,14 +64,14 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { useFiles } from '../deluge/files'
+import { useFileStore } from '../composables/useFileStore'
 import { DateTime } from 'luxon'
 import { ExclamationCircleIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon } from '@heroicons/vue/20/solid'
 // import HModal from '../components/HModal.vue'
 import { MusicalNoteIcon } from '@heroicons/vue/24/solid'
 import TechnicalDetails from '../components/TechnicalDetails.vue'
 
-const store = useFiles()
+const { fileStore } = useFileStore()
 
 const props = defineProps([
   'name'
@@ -80,5 +80,5 @@ const props = defineProps([
 // const renameModal = ref<InstanceType<typeof HModal> | null>(null)
 // const deleteModal = ref<InstanceType<typeof HModal> | null>(null)
 
-const song = computed(() => props.name ? store.songs.find(song => song.name.split('.')[0] === props.name) : null)
+const song = computed(() => props.name ? fileStore.songs.find(song => song.name.split('.')[0] === props.name) : null)
 </script>

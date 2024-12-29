@@ -21,7 +21,7 @@ HModal(
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
 import HModal from './HModal.vue'
-import { useFiles } from '../deluge/files'
+import { useFileStore } from '../composables/useFileStore'
 
 const props = defineProps<{
   fileHandle: FileSystemFileHandle
@@ -35,7 +35,7 @@ watch(() => props.fileHandle, async () => {
 
 const modal = ref<typeof HModal>()
 
-const store = useFiles()
+const { fileStore } = useFileStore()
 
 async function deleteFile() {
   try {
@@ -49,7 +49,7 @@ async function deleteFile() {
       throw error
     } else {
       // Remove from the list of skipped files.
-      store.skippedFiles = store.skippedFiles.filter(f => f.fileHandle !== props.fileHandle)
+      fileStore.skippedFiles = fileStore.skippedFiles.filter(f => f.fileHandle !== props.fileHandle)
     }
   }
 }

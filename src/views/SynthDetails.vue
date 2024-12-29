@@ -105,7 +105,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useFiles } from '../deluge/files'
+import { useFileStore } from '../composables/useFileStore'
 import { DateTime } from 'luxon'
 import { getSampleUrlByPath } from '../deluge/files'
 import { MusicalNoteIcon, ArchiveBoxIcon } from '@heroicons/vue/20/solid'
@@ -114,14 +114,14 @@ import SoundSamplesListItem from '../components/SoundSamplesListItem.vue'
 import MultisampleSampleListItem from '../components/MultisampleSampleListItem.vue'
 import TechnicalDetails from '../components/TechnicalDetails.vue'
 
-const store = useFiles()
+const { fileStore } = useFileStore()
 
 const props = defineProps([
   'name'
 ])
 
 
-const sound = computed(() => props.name ? store.sounds.find(sound => sound.name.split('.')[0] === props.name) : null)
+const sound = computed(() => props.name ? fileStore.sounds.find(sound => sound.name.split('.')[0] === props.name) : null)
 
 const usageList = computed(() => {
   if (!sound.value?.usage) return []

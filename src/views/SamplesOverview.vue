@@ -1,9 +1,9 @@
 <template lang="pug">
 section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-slate-50")
   div(class="space-y-5")
-    h1.font-bold.text-2xl You have {{ store.samples.length }} samples
+    h1.font-bold.text-2xl You have {{ fileStore.samples.length }} samples
     
-    p {{ usedSamplesCount }} of them are currently in use in a synth, kit or an audio track. That means {{ store.samples.length - usedSamplesCount }} are not used at all.
+    p {{ usedSamplesCount }} of them are currently in use in a synth, kit or an audio track. That means {{ fileStore.samples.length - usedSamplesCount }} are not used at all.
     
     div(class="flex space-x-3")
       HCard(
@@ -13,7 +13,7 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
         )
         div(class="divide-y divide-gray-200")
           div(
-            v-for="sample in Object.values(store.samples).sort((a, b) => b.usage.total - a.usage.total).slice(0, 19).filter(sample => sample.usage.total > 0)"
+            v-for="sample in Object.values(fileStore.samples).sort((a, b) => b.usage.total - a.usage.total).slice(0, 19).filter(sample => sample.usage.total > 0)"
             :key="sample.path"
             class="py-2 flex justify-between items-baseline"
             )
@@ -23,11 +23,11 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
             play-button(:id="sample.id")
 
       HListCard(
-        v-if="store.missingSamples.length > 0"
+        v-if="fileStore.missingSamples.length > 0"
         class="max-w-md md:flex-1"
         title="Missing Samples"
         subtitle="These samples were referenced in synths but could not be found."
-        :items="store.missingSamples"
+        :items="fileStore.missingSamples"
         )
         template(#item="{ item }")
           div(class="text-xs")
@@ -39,13 +39,14 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { findLikeliestMatchForMisplacedSample, useFiles } from '../deluge/files'
+import { findLikeliestMatchForMisplacedSample } from '../deluge/files'
+import { useFileStore } from '../composables/useFileStore'
 import PlayButton from '../components/PlayButton.vue'
 import { MicrophoneIcon } from '@heroicons/vue/20/solid'
 
-const store = useFiles()
+const { fileStore } = useFileStore()
 
 const usedSamplesCount = computed(() => {
-  return store.samples.map(s => s.usage.total).reduce((a, b) => a + b, 0)
+  return fileStore.samples.map(s => s.usage.total).reduce((a, b) => a + b, 0)
 })
 </script>

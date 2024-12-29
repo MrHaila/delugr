@@ -47,7 +47,7 @@ div(v-if="props.listItems.length === 0 || (currentNavigationLevel.files?.length 
 </template>
 
 <script lang="ts" setup>
-import type { SampleFile, ParsedFile } from '../deluge/files'
+import type { SampleFile, ParsedAssetFile } from '../composables/useFileStore'
 import { DateTime } from 'luxon'
 import { ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
@@ -57,13 +57,13 @@ import { ChevronLeftIcon, ExclamationCircleIcon, MusicalNoteIcon, ArchiveBoxIcon
 type NavigationLevel = {
   name: string,
   folders: NavigationLevel[],
-  files: (ParsedFile | SampleFile)[],
+  files: (ParsedAssetFile | SampleFile)[],
   allFilesUnused: boolean,
 }
 
 type Props = {
   title: string,
-  listItems: (ParsedFile | SampleFile)[],
+  listItems: (ParsedAssetFile | SampleFile)[],
 }
 const props = defineProps<Props>()
 
@@ -92,7 +92,7 @@ function buildNavigationLevelForPath(path: string): NavigationLevel {
   }
 }
 
-function isNavigationLevelUnused(files: (ParsedFile | SampleFile)[], folders: NavigationLevel[]): boolean {
+function isNavigationLevelUnused(files: (ParsedAssetFile | SampleFile)[], folders: NavigationLevel[]): boolean {
   return files.every(file => file.usage.total === 0) && folders.every(folder => isNavigationLevelUnused(folder.files, folder.folders))
 
 }
@@ -169,7 +169,7 @@ watch(
  * Figure out if an item should be flagged as un-used.
  * @param item Item to check.
  */
-const isUnused = (item: ParsedFile | SampleFile | any): boolean => {
+const isUnused = (item: ParsedAssetFile | SampleFile | any): boolean => {
   // Non-samples have a type.
   if ('type' in item) {
     // Songs can't be un-used
@@ -179,7 +179,7 @@ const isUnused = (item: ParsedFile | SampleFile | any): boolean => {
   return false
 }
 
-function isItemActive(item: ParsedFile | SampleFile | any) {
+function isItemActive(item: ParsedAssetFile | SampleFile | any) {
   if ('id' in item) {
     return active.value === item.id.toString()
   } else {
@@ -187,7 +187,7 @@ function isItemActive(item: ParsedFile | SampleFile | any) {
   }
 }
 
-function getBackgroundClass(item: ParsedFile | SampleFile | any) {
+function getBackgroundClass(item: ParsedAssetFile | SampleFile | any) {
   if (isItemActive(item)) {
     return 'bg-amber-400 active'
   } else if (isUnused(item)) {

@@ -28,23 +28,24 @@ div(class="py-2")
 
 <script lang="ts" setup>
 import type { SampleRange } from '../deluge/core'
-import { getSampleByPath, remapSampleInParsedFile, useFiles, type ParsedFile, type SampleFile, reParseFileStore } from '../deluge/files'
+import { getSampleByPath, remapSampleInParsedFile, reParseFileStore } from '../deluge/files'
 import { ExclamationCircleIcon, MicrophoneIcon } from '@heroicons/vue/20/solid'
 import PlayButton from './PlayButton.vue'
 import { computed, ref } from 'vue'
+import { useFileStore, type ParsedAssetFile, type SampleFile } from '../composables/useFileStore'
 
-const store = useFiles()
+const { fileStore } = useFileStore()
 
 const props = defineProps<{
   sampleRange: SampleRange
-  sourceFile: ParsedFile
+  sourceFile: ParsedAssetFile
 }>()
 
 const sampleName = computed(() => sample.value?.name ?? props.sampleRange.fileName.split('/').pop() as string)
 const sample = computed(() => getSampleByPath(props.sampleRange.fileName))
 
 const samplesWithSimilarNames = computed(() => {
-  return store.samples.filter(s => {
+  return fileStore.samples.filter(s => {
     //console.log(s.name, sampleName.value)
     if (s.name.toLowerCase() === sampleName.value.toLowerCase()) {
       return true

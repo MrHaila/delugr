@@ -48,20 +48,20 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useFiles } from '../deluge/files'
+import { useFileStore } from '../composables/useFileStore'
 import { DateTime } from 'luxon'
 import SoundSamplesListItem from '../components/SoundSamplesListItem.vue'
 import { MusicalNoteIcon } from '@heroicons/vue/20/solid'
 import { ArchiveBoxIcon } from '@heroicons/vue/24/solid'
 import TechnicalDetails from '../components/TechnicalDetails.vue'
 
-const store = useFiles()
+const { fileStore } = useFileStore()
 
 const props = defineProps([
   'name'
 ])
 
-const kit = computed(() => props.name ? store.kits.find(kit => kit.name.split('.')[0] === props.name) : null)
+const kit = computed(() => props.name ? fileStore.kits.find(kit => kit.name.split('.')[0] === props.name) : null)
 
 // const file = computed(() => props.name ? store.kits[props.name]?.file : null)
 // const parsedKit = computed(() => props.name ? store.kits[props.name]?.data : null)

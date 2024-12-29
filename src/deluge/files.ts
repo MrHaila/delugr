@@ -1,179 +1,9 @@
+import { useFileStore, type ParsedAssetFile, type ParsedKitFile, type ParsedSongFile, type ParsedSoundFile, type SampleFile, type SkippedFile } from "../composables/useFileStore"
 import type { Kit, Song, Sound } from "./core"
 import { parseKitv1, parseSoundv1 } from "./v1-2"
 import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3-4"
-import { type ShallowReactive, shallowReactive } from "vue"
 
-/**
- * Base type for all parsed XML files.
- */
-export type ParsedFile = {
-  /**
-   * File name. For example, "KIT001.xml" or "Some Song Name.xml".
-   */
-  name: string,
-  /**
-   * Path to the file relative to the selected root folder.
-   */
-  path: string,
-  /**
-   * File system handle to access the file.
-   */
-  fileHandle: FileSystemFileHandle,
-  /**
-   * Last modified date of the file.
-   */
-  lastModified: number,
-  /**
-   * Detected firmware version of the file.
-   */
-  firmware: string,
-  /**
-   * URL to the file's details page.
-   */
-  url: string,
-  /**
-   * Type of the file. Helps with type narrowing.
-   */
-  type: FileType,
-  /**
-   * Parsed file contents.
-   */
-  data: Song | Sound | Kit,
-  /**
-   * Usage stats for the file.
-   */
-  usage: {
-    songs: { [key: string]: boolean },
-    sounds: { [key: string]: boolean },
-    kits: { [key: string]: boolean },
-    total: number,
-  },
-  /**
-   * Raw XML text contents. Kinda redundant, but helps a lot with debugging parsing errors or missing data.
-   */
-  xml: string,
-}
-
-/**
- * Type of the file. Helps with type narrowing.
- */
-export type FileType = 'song' | 'sound' | 'kit'
-
-/**
- * Parsed song file.
- */
-export interface ParsedSongFile extends ParsedFile {
-  type: 'song',
-  data: Song
-}
-
-/**
- * Parsed sound file.
- */
-export interface ParsedSoundFile extends ParsedFile {
-  type: 'sound',
-  data: Sound
-}
-
-/**
- * Parsed kit file.
- */
-export interface ParsedKitFile extends ParsedFile {
-  type: 'kit',
-  data: Kit
-}
-
-/**
- * Detected sample file.
- */
-export type SampleFile = {
-  /**
-   * File name. For example, "Super Clap.wav".
-   */
-  name: string,
-  /**
-   * Path to the file relative to the selected root folder.
-   */
-  path: string,
-  /**
-   * File system handle to access the file.
-   */
-  fileHandle: FileSystemFileHandle,
-  /**
-   * Size of the file in bytes.
-   */
-  size: number,
-  /**
-   * Last modified date of the file.
-   */
-  lastModified: number,
-  /**
-   * URL to the file's details page.
-   */
-  url: string,
-  /**
-   * Unique ID for the file. Used in URLs.
-   */
-  id: Number,
-  /**
-   * Usage stats for the file.
-   */
-  usage: {
-    songs: { [key: string]: UsageReference },
-    sounds: { [key: string]: UsageReference },
-    kits: { [key: string]: UsageReference },
-    total: number,
-  },
-}
-
-export type UsageReference = {
-  instrumentType: string,
-  instrumentName: string,
-}
-
-/**
- * Info about a file that could not be parsed.
- */
-export type SkippedFile = {
-  name: string,
-  path: string,
-  reason: string,
-  fileHandle: FileSystemFileHandle,
-}
-
-export type DelugrFileStore = {
-  isParsed: boolean,
-  isParsing: boolean,
-  parseError: string | null,
-  parsingMessage: string,
-  filesScanned: number,
-  songs: ParsedSongFile[],
-  sounds: ParsedSoundFile[],
-  kits: ParsedKitFile[],
-  samples: SampleFile[],
-  skippedFiles: SkippedFile[],
-  missingSamples: string[],
-  folderHandle?: FileSystemDirectoryHandle,
-}
-
-const fileStore: ShallowReactive<DelugrFileStore> = shallowReactive({
-  isParsed: false,
-  isParsing: false,
-  parseError: null,
-  parsingMessage: '',
-  filesScanned: 0,
-  songs: [],
-  sounds: [],
-  kits: [],
-  samples: [],
-  skippedFiles: [],
-  missingSamples: [],
-  folderHandle: undefined,
-})
-
-export function useFiles() {
-  return fileStore
-}
+const { fileStore } = useFileStore()
 
 async function verifyFolderPermission(folderHandle: FileSystemDirectoryHandle, write = false) {
   // Check if permission was already granted. If so, return true.
@@ -412,20 +242,20 @@ export async function parseFolder(folder: FileSystemDirectoryHandle) {
     }
   }
   
-  function countSoundUsageInKit(sound: ParsedFile, name: string) {
+  function countSoundUsageInKit(sound: ParsedAssetFile, name: string) {
     if (!sound.usage.kits[name]) {
       sound.usage.kits[name] = true
     }
   }
   
-  function countSoundUsageInSong(sound: ParsedFile, name: string) {
+  function countSoundUsageInSong(sound: ParsedAssetFile, name: string) {
     if (!sound.usage.songs[name]) {
       sound.usage.songs[name] = true
       sound.usage.total++
     }
   }
 
-  function countKitUsageInSong(kit: ParsedFile, name: string) {
+  function countKitUsageInSong(kit: ParsedAssetFile, name: string) {
     if (!kit.usage.songs[name]) {
       kit.usage.songs[name] = true
       kit.usage.total++
@@ -639,7 +469,7 @@ function similarityScore(str1: string, str2: string): number {
   return score;
 }
 
-export async function remapSampleInParsedFile(parsedFile: ParsedFile, oldPath: string, newPath: string) {
+export async function remapSampleInParsedFile(parsedFile: ParsedAssetFile, oldPath: string, newPath: string) {
   newPath = newPath.replace(/\\/g, '/') // Normalize path separators. Deluge does not start with a backslash, while the file system does.
 
   console.log(`Remapping sample in ${parsedFile.name}: ${oldPath} -> ${newPath}`)
