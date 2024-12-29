@@ -4,6 +4,8 @@ import { parseKitv1, parseSoundv1 } from "./v1-2"
 import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3-4"
 import { parseKitvCommunity, parseSongvCommunity, parseSoundvCommunity } from "./vCommunity"
 
+let debugFilesWithSamplePaths: string[] = []
+
 /**
  * One-stop-shop for parsing a folder of files. Intended for the root folder of a Deluge SD card.
  * @param folder The folder to parse.
@@ -92,6 +94,8 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
   fileStore.parsingMessage = 'Done!'
   fileStore.isParsed = true
   fileStore.isParsing = false
+
+  console.log('debugFilesWithSamplePaths', debugFilesWithSamplePaths)
 
   // Processing utilities ---------------------------------------------------------------------------------------------
 
@@ -345,6 +349,11 @@ async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): P
   const name = fileHandle.name
 
   if (['song', 'sound', 'kit'].includes(root.nodeName)) {
+    // If the raw file text contains a sample path, store it for debugging
+    if (xml.includes('SAMPLES/') || xml.includes('samples/')) {
+      debugFilesWithSamplePaths.push(name)
+    }
+
     let data
     if (root.nodeName === 'song') {
       if (firmware.startsWith('3') || firmware.startsWith('4')) data = parseSongv3(root, name)
