@@ -24,77 +24,35 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
   if (fileStore.isParsed) fileStore.isParsed = false
   fileStore.isParsing = true
   
+  // For each XML or wav/aiff file in the folder structure, process it and add it to the store
   async function scanFolder(folder: FileSystemDirectoryHandle, path: string) {
-    // For each XML or wav file in the folder structure, parse it and add it to the store
+    // Iterate over the folder contents
     for await (const entry of folder.values()) {
+      // Recurse into directories
       if (entry.kind === 'directory') {
         const folder = entry as FileSystemDirectoryHandle
         await scanFolder(folder, path + entry.name + '/')
+
+      // Parse files
       } else if (entry.kind === 'file') {
         const fileHandle = entry as FileSystemFileHandle
+
+         // Skip all dot files
+        if (fileHandle.name.startsWith('.')) continue
+
         const name = fileHandle.name
         const fullPath = path + fileHandle.name
-        
+
         // Parse XML
-        if (fileHandle.name.startsWith('.')) continue // Skip all dot files
-        else if (fileHandle.name.toLowerCase().endsWith('.xml')) {
-          // console.log('Parsing XML file', fileHandle.name)
-          try {
-            const parsedFile = await parseAssetFile(fileHandle, fullPath)
-            
-            // Store results into arrays
-            if (typeof parsedFile !== 'string') {
-              if ('type' in parsedFile) {
-                if (parsedFile.type === 'song') {
-                  songs.push(parsedFile)
-                } else if (parsedFile.type === 'sound') {
-                  sounds.push(parsedFile)
-                } else if (parsedFile.type === 'kit') {
-                  kits.push(parsedFile)
-                }
-              } else skippedFiles.push({
-                name,
-                path: fullPath,
-                reason: 'Unknown file type. Was expecting a song, sound, or kit.',
-                fileHandle,
-              })
-            } else skippedFiles.push({
-              name,
-              path: fullPath,
-              reason: parsedFile,
-              fileHandle,
-            })
-          } catch (e) {
-            skippedFiles.push({
-              name,
-              path: fullPath,
-              reason: String(e),
-              fileHandle,
-            })
-          }
+        if (fileHandle.name.toLowerCase().endsWith('.xml')) {
+          // TODO: add support for special config files
+
+          await parseAssetXml(fileHandle, fullPath)
+
         // Parse WAV and AIFF
         } else if (fileHandle.name.toLowerCase().endsWith('.wav') || fileHandle.name.toLowerCase().endsWith('.aiff')) {
-          const file = await fileHandle.getFile()
-          const size = file.size
-          const lastModified = file.lastModified
-          samples.push({
-            name,
-            path: fullPath,
-            fileHandle,
-            size,
-            id,
-            lastModified,
-            url: encodeURI(`/samples/${id}`),
-            usage: {
-              songs: {},
-              sounds: {},
-              kits: {},
-              getTotal() {
-                return Object.keys(this.songs).length + Object.keys(this.sounds).length + Object.keys(this.kits).length
-              },
-            }
-          })
-          id++
+          await processAudioFile(fileHandle, fullPath)
+
         // Skip unsupported file types
         } else {
           skippedFiles.push({
@@ -171,6 +129,66 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
     }
   }
 
+  async function processAudioFile(fileHandle: FileSystemFileHandle, fullPath: string) {
+    const file = await fileHandle.getFile()
+    const size = file.size
+    const lastModified = file.lastModified
+    samples.push({
+      name: fileHandle.name,
+      path: fullPath,
+      fileHandle,
+      size,
+      id,
+      lastModified,
+      url: encodeURI(`/samples/${id}`),
+      usage: {
+        songs: {},
+        sounds: {},
+        kits: {},
+        getTotal() {
+          return Object.keys(this.songs).length + Object.keys(this.sounds).length + Object.keys(this.kits).length
+        },
+      }
+    })
+    id++
+  }
+
+  async function parseAssetXml(fileHandle: FileSystemFileHandle, fullPath: string) {
+    try {
+      const parsedFile = await parseAssetFile(fileHandle, fullPath)
+
+      // Store results into arrays
+      if (typeof parsedFile !== 'string') {
+        if ('type' in parsedFile) {
+          if (parsedFile.type === 'song') {
+            songs.push(parsedFile)
+          } else if (parsedFile.type === 'sound') {
+            sounds.push(parsedFile)
+          } else if (parsedFile.type === 'kit') {
+            kits.push(parsedFile)
+          }
+        } else skippedFiles.push({
+          name: fileHandle.name,
+          path: fullPath,
+          reason: 'Unknown file type. Was expecting a song, sound, or kit.',
+          fileHandle,
+        })
+      } else skippedFiles.push({
+        name: fileHandle.name,
+        path: fullPath,
+        reason: parsedFile,
+        fileHandle,
+      })
+    } catch (e) {
+      skippedFiles.push({
+        name: fileHandle.name,
+        path: fullPath,
+        reason: String(e),
+        fileHandle,
+      })
+    }
+  }
+
   function computeSampleUsageInSound(sound: Sound, kitName?: string, songName?: string) {
     const fileNames = []
     
@@ -206,12 +224,10 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
           countSampleUsageInKit(sample, kitName, sound.presetName, 'synth')
         }
       }
-      else addMissingSample(fileName)
-    }
-  }
 
-  function addMissingSample(samplePath: string) {
-    if (!missingSamples.includes(samplePath)) missingSamples.push(samplePath)
+      // Count missing samples
+      if (!missingSamples.includes(fileName)) missingSamples.push(fileName)
+    }
   }
 
   function countSampleUsageInSong(sample: SampleFile, name: string, instrumentName: string, instrumentType: string) {
@@ -238,13 +254,6 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
         instrumentName,
         instrumentType,
       }
-    }
-  }
-  
-
-  function countKitUsageInSong(kit: ParsedKitFile, name: string) {
-    if (!kit.usage.songs[name]) {
-      kit.usage.songs[name] = true
     }
   }
 
