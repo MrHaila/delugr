@@ -200,6 +200,7 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
         fileHandle,
       })
     } catch (e) {
+      // Failed to parse the file. Add it to the skipped files.
       skippedFiles.push({
         name: fileHandle.name,
         path: fullPath,
@@ -343,9 +344,7 @@ async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): P
   if (['song', 'sound', 'kit'].includes(root.nodeName)) {
     let data
     if (root.nodeName === 'song') {
-      //if (firmware.startsWith('1') || firmware.startsWith('2')) return `Firmware version ${firmware} is not supported for songs.`
-      if (firmware.startsWith('3') || firmware.startsWith('4')) data = parseSongv3(root, name)
-      //else if (firmware.startsWith('4')) throw Error(`Firmware version ${firmware} is not supported for song file ${name}`)
+      if (firmware.startsWith('3') || firmware.startsWith('4') || firmware.startsWith('c1')) data = parseSongv3(root, name)
       else return `Firmware version ${firmware} is not supported for songs.`
 
       return {
@@ -355,10 +354,8 @@ async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): P
       }
     }
     else if (root.nodeName === 'sound') {
-      if (firmware.startsWith('1')) data = parseSoundv1(root, name)
-      else if (firmware.startsWith('2')) data = parseSoundv1(root, name)
-      else if (firmware.startsWith('3') || firmware.startsWith('4')) data = parseSoundv3(root, name)
-      //else if (firmware.startsWith('4')) throw Error(`Firmware version ${firmware} is not supported for sound file ${name}`)
+      if (firmware.startsWith('1') || firmware.startsWith('2')) data = parseSoundv1(root, name)
+      else if (firmware.startsWith('3') || firmware.startsWith('4') || firmware.startsWith('c1')) data = parseSoundv3(root, name)
       else return `Firmware version ${firmware} is not supported for sounds.`
 
       return {
@@ -381,10 +378,8 @@ async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): P
       }
     }
     else if (root.nodeName === 'kit') {
-      if (firmware.startsWith('1')) data = parseKitv1(root, name)
-      else if (firmware.startsWith('2')) data = parseKitv1(root, name)
-      else if (firmware.startsWith('3') || firmware.startsWith('4')) data = parseKitv3(root, name)
-      //else if (firmware.startsWith('4')) return `Firmware version ${firmware} is not supported for kits.`
+      if (firmware.startsWith('1') || firmware.startsWith('2')) data = parseKitv1(root, name)
+      else if (firmware.startsWith('3') || firmware.startsWith('4') || firmware.startsWith('c1')) data = parseKitv3(root, name)
       else return `Firmware version ${firmware} is not supported for kits.`
 
       return {
@@ -405,8 +400,8 @@ async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): P
         },
       }
     }
-    else throw new Error(`Unknown node type '${root.nodeName}' in file '${name}' (was expecting 'song', 'sound', or 'kit')`)
+    else throw new Error(`Unknown root node '${root.nodeName}' in '${name}' (was expecting 'song', 'sound', or 'kit')`)
   } else {
-    throw new Error(`Unknown node type '${root.nodeName}' in file '${name}'`)
+    throw new Error(`Unknown root node '${root.nodeName}' in '${name}'. Not sure what to do with this file 🤷‍♂️`)
   }
 }

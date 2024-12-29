@@ -5,7 +5,7 @@ import type { FixPos50 } from "./dataTypes"
 export interface Song {
     name: string,
     // TODO: the rest of the owl
-    instruments: Array<Sound | Kit | AudioTrack>
+    instruments: Array<Sound | Kit | AudioTrack | MidiChannel>,
 }
 
 export interface Sound {
@@ -92,6 +92,17 @@ export type AudioTrack = {
   instrumentType: 'audio track'
 }
 
+export type MidiChannel = {
+  channel: number,
+  suffix: string,
+  defaultVelocity: number,
+  isArmedForRecording: number,
+  activeModFunction: number,
+
+  // Not part of the spec
+  instrumentType: 'midi track'
+}
+
 export type Modulator = {
   transpose: number,
   cents: number,
@@ -119,8 +130,8 @@ export type Compressor = {
 export type Equalizer = {
   bass: FixPos50,
   treble: FixPos50,
-  bassFrequenzy: FixPos50,
-  trebleFrequenzy: FixPos50
+  bassFrequency: FixPos50,
+  trebleFrequency: FixPos50
 }
 
 export type Oscillator = {
@@ -198,7 +209,7 @@ export function getFirmwareVersion(xml: Element): string {
 
 /**
  * A helper to get a display name for a sound or a kit of any firmware version.
- * @param xml The intrument's root element.
+ * @param xml The instrument's root element.
  */
 export function getInstrumentName(xml: Element): string | null {
   // Newer instruments have a presetName attribute

@@ -3,12 +3,16 @@
     "*.css": "tailwindcss"
   },
   "cSpell.words": [
+    "Arpeggiator",
     "Delugr",
     "Kitv",
     "luxon",
     "Millis",
+    "retrig",
     "Songv",
     "Soundv",
+    "substractive",
+    "SYNT",
     "wavesurfer"
   ]
 }

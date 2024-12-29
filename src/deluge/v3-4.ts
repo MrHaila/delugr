@@ -15,6 +15,7 @@ import {
   type Song,
   type Sound,
   type Unison,
+  type MidiChannel,
   type Zone } from "./core"
 import { FixPos50 } from "./dataTypes"
 import { defaultSynthPatch } from "./defaultSynthPatchv4"
@@ -39,6 +40,10 @@ export function parseSongv3(xml: Element, songName: string): Song {
       return parseKitv3(i, undefined, songName)
     } else if (i.tagName === 'audioTrack') {
       return parseAudioTrackv3(i, songName)
+    } else if (i.tagName === 'midiChannel') {
+      // TODO
+      console.log(i)
+      return parseMidiChannel(i, songName)
     } else {
       throw new Error(`Unknown instrument type '${i.tagName}' in instrument '${presetName}' of '${songName}'`)
     }
@@ -235,6 +240,31 @@ function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
   return audioTrack
 }
 
+function parseMidiChannel(xml: Element, songName: string): MidiChannel {
+  // Attributes
+  const channel = xml.getAttribute('channel')
+  const suffix = xml.getAttribute('suffix')
+  const defaultVelocity = xml.getAttribute('defaultVelocity')
+  const isArmedForRecording = xml.getAttribute('isArmedForRecording')
+  const activeModFunction = xml.getAttribute('activeModFunction')
+
+  if (!channel) throw new Error(`Missing 'channel' attribute on midi channel of song '${songName}'`)
+  if (!suffix) throw new Error(`Missing 'suffix' attribute on midi channel of song '${songName}'`)
+  if (!defaultVelocity) throw new Error(`Missing 'defaultVelocity' attribute on midi channel of song '${songName}'`)
+  if (!isArmedForRecording) throw new Error(`Missing 'isArmedForRecording' attribute on midi channel of song '${songName}'`)
+  if (!activeModFunction) throw new Error(`Missing 'activeModFunction' attribute on midi channel of song '${songName}'`)
+
+  return {
+    channel: Number(channel),
+    suffix: String(suffix),
+    defaultVelocity: Number(defaultVelocity),
+    isArmedForRecording: Number(isArmedForRecording),
+    activeModFunction: Number(activeModFunction),
+    instrumentType: 'midi track',
+  }
+}
+
+
 // TODO: remove the rest
 
 function parseAllAttributes(xmlElement: Element | null): { [key: string]: FixPos50 } {
@@ -415,8 +445,8 @@ function parseEqualizer(xml: Element): Equalizer {
   return {
       bass: new FixPos50(String(bass)),
       treble: new FixPos50(String(treble)),
-      bassFrequenzy: new FixPos50(String(bassFrequenzy)),
-      trebleFrequenzy: new FixPos50(String(trebleFrequenzy)),
+      bassFrequency: new FixPos50(String(bassFrequenzy)),
+      trebleFrequency: new FixPos50(String(trebleFrequenzy)),
   }
 }
 
