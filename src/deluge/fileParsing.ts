@@ -74,57 +74,76 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
   
   // Compute usage
   fileStore.parsingMessage = 'Computing usage stats...'
+  computeUsageStats()
 
-  // For every song...
-  for (const song of songs) {
-    const songName = song.name.split('.')[0] // Drop .xml from the name
+  // Save results to the store
+  fileStore.parsingMessage = 'Saving...'
+  // Note: Saving to the reactive store is done here instead of in the loops to save on mutations.
+  fileStore.songs = songs.sort((a, b) => a.name.localeCompare(b.name))
+  fileStore.sounds = sounds.sort((a, b) => a.name.localeCompare(b.name))
+  fileStore.kits = kits.sort((a, b) => a.name.localeCompare(b.name))
+  fileStore.samples = samples.sort((a, b) => a.name.localeCompare(b.name))
+  fileStore.skippedFiles = skippedFiles
+  fileStore.missingSamples = missingSamples.sort((a, b) => a.localeCompare(b))
 
-    // For every instrument in the song...
-    for (const instrument of song.data.instruments) {
-      // Sounds
-      if (instrument.instrumentType === 'sound') {
-        const sound = sounds.find(sound => sound.data.presetName === instrument.presetName)
-        if (sound) {
-          // Count sound usage in the song
-          if (!sound.usage.songs[songName]) {
-            sound.usage.songs[songName] = true
+  fileStore.parsingMessage = 'Done!'
+  fileStore.isParsed = true
+  fileStore.isParsing = false
+
+  // Processing utilities ---------------------------------------------------------------------------------------------
+
+  function computeUsageStats() {
+    // For every song...
+    for (const song of songs) {
+      const songName = song.name.split('.')[0] // Drop .xml from the name
+
+      // For every instrument in the song...
+      for (const instrument of song.data.instruments) {
+        // Sounds
+        if (instrument.instrumentType === 'sound') {
+          const sound = sounds.find(sound => sound.data.presetName === instrument.presetName)
+          if (sound) {
+            // Count sound/synth usage in the song
+            if (!sound.usage.songs[songName]) {
+              sound.usage.songs[songName] = true
+            }
+            computeSampleUsageInSound(sound.data, undefined, songName)
           }
-          computeSampleUsageInSound(sound.data, undefined, songName)
-        }
 
-      // Kits
-      } else if (instrument.instrumentType === 'kit') {
-        // TODO: consider kit instances vs presets
-        const kit = kits.find(kit => kit.data.presetName === instrument.presetName)
-        if (kit) {
-          // Count kit usage in the song
-          if (!kit.usage.songs[songName]) {
-            kit.usage.songs[songName] = true
-          }
-
-          // Sounds inside kits
-          for (const soundSource of Object.values(kit.data.soundSources)) {
-            // Each kit sound is an instance that may or may not relate to a preset
-            const sound = sounds.find(sound => sound.data.presetName === soundSource.presetName)
-            if (sound) {
-              // Found a preset with the same name. Let's assume it's the same sound.
-              // Count sound usage in the kit
-              if (!sound.usage.kits[kit.data.presetName]) {
-                sound.usage.kits[kit.data.presetName] = true
-              }
+          // Kits
+        } else if (instrument.instrumentType === 'kit') {
+          // TODO: consider kit instances vs presets
+          const kit = kits.find(kit => kit.data.presetName === instrument.presetName)
+          if (kit) {
+            // Count kit usage in the song
+            if (!kit.usage.songs[songName]) {
+              kit.usage.songs[songName] = true
             }
 
-            // Count sample usage regardless of whether we found a preset or not
-            computeSampleUsageInSound(soundSource, kit.data.presetName, songName)
+            // Sounds inside kits
+            for (const soundSource of Object.values(kit.data.soundSources)) {
+              // Each kit sound is an instance that may or may not relate to a preset
+              const sound = sounds.find(sound => sound.data.presetName === soundSource.presetName)
+              if (sound) {
+                // Found a preset with the same name. Let's assume it's the same sound.
+                // Count sound usage in the kit
+                if (!sound.usage.kits[kit.data.presetName]) {
+                  sound.usage.kits[kit.data.presetName] = true
+                }
+              }
+
+              // Count sample usage regardless of whether we found a preset or not
+              computeSampleUsageInSound(soundSource, kit.data.presetName, songName)
+            }
           }
+          // Audio tracks
+        } else if (instrument.instrumentType === 'audio track') {
+          console.log('TODO: audio track usage for', instrument.presetName)
+          // const sample = samples.find(sample => sample.name === instrument.presetName)
+          // if (sample) {
+          //   sample.usage.songs[song.name] = true
+          // }
         }
-      // Audio tracks
-      } else if (instrument.instrumentType === 'audio track') {
-        console.log('TODO: audio track usage for', instrument.presetName)
-        // const sample = samples.find(sample => sample.name === instrument.presetName)
-        // if (sample) {
-        //   sample.usage.songs[song.name] = true
-        // }
       }
     }
   }
@@ -256,20 +275,6 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
       }
     }
   }
-
-  // Save results to the store
-  fileStore.parsingMessage = 'Saving...'
-  // Note: these are done here instead of in the loops to save on mutations in the reactive store.
-  fileStore.songs = songs.sort((a, b) => a.name.localeCompare(b.name))
-  fileStore.sounds = sounds.sort((a, b) => a.name.localeCompare(b.name))
-  fileStore.kits = kits.sort((a, b) => a.name.localeCompare(b.name))
-  fileStore.samples = samples.sort((a, b) => a.name.localeCompare(b.name))
-  fileStore.skippedFiles = skippedFiles
-  fileStore.missingSamples = missingSamples.sort((a, b) => a.localeCompare(b))
-
-  fileStore.parsingMessage = 'Done!'
-  fileStore.isParsed = true
-  fileStore.isParsing = false
 }
 
 async function verifyFolderPermission(folderHandle: FileSystemDirectoryHandle, write = false) {
