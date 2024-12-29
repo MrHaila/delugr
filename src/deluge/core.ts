@@ -87,6 +87,10 @@ export type AudioTrack = {
   delay: Delay,
   compressor?: Compressor,
 
+  // Community spec
+  audioCompressor?: AudioCompressor,
+  sidechain?: Sidechain,
+
   // Not part of the spec
   problem: boolean,
   instrumentType: 'audio track'
@@ -125,6 +129,21 @@ export type Compressor = {
   syncLevel: Number,
   attack: Number,
   release: Number
+}
+
+export type AudioCompressor = {
+  attack: FixPos50,
+  release: FixPos50,
+  thresh: FixPos50,
+  ratio: FixPos50,
+  compHPF: FixPos50
+}
+
+export type Sidechain = {
+  attack: FixPos50,
+  release: FixPos50,
+  syncLevel: FixPos50,
+  syncType: Number
 }
 
 export type Equalizer = {
