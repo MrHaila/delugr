@@ -10,17 +10,22 @@ div(class="space-y-5 p-3 overflow-y-auto w-full")
       p Kits: {{ fileStore.kits.length }}
       p Samples: {{ fileStore.samples.length }}
 
-    p The Deluge has three types of entities: songs, kits and synths (internally called 'sounds'). Synths and kits can be saved as presets. Songs and kits actually contain full instances (modified copies) of the original preset instead of just a reference to the used preset.
-    
-    p(class="text-gray-400") There are sure to be obvious bugs and missing stuff. Feel free to report them in the repo and maybe even help out by leaving a PR!
-    p(class="text-gray-400") P.S. I don't have any firmware v1 or v2 songs to test with. Send me one if you have one!
-
   div(class="flex space-x-3")
     //HCard(
       title="Folders"
       class="max-w-3xl flex-1"
       )
       pre {{ folders }}
+
+    HCard(
+      title="Nerdy Details"
+      class="max-w-3xl flex-1"
+      )
+      div(class="space-y-3")
+        p The Deluge has three types of entities: songs, kits and synths (internally called 'sounds'). Synths and kits can be saved as presets, but when used, they are duplicated and saved as a part of the song or kit to allow for local modifications. This makes them a bit tricky to keep track of.
+        
+        p(class="text-gray-400") There are sure to be obvious bugs and missing stuff. Feel free to report them in the repo and maybe even help out by leaving a PR!
+        p(class="text-gray-400") P.S. I don't have any firmware v1 or v2 songs to test with. Send me one if you have one!
 
     HListCard(
       title="Skipped Files"

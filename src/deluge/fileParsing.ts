@@ -47,6 +47,8 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
         // Parse XML
         if (fileHandle.name.toLowerCase().endsWith('.xml')) {
           // TODO: add support for special config files
+          if (name.toLowerCase() === 'communityfeatures.xml') continue
+          if (name.toLowerCase() === 'midifollow.xml') continue
 
           await parseAssetXml(fileHandle, fullPath)
 
@@ -404,8 +406,8 @@ async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): P
         },
       }
     }
-    else throw new Error(`Unknown root node '${root.nodeName}' in '${name}' (was expecting 'song', 'sound', or 'kit')`)
+    else throw new Error(`Unknown root node '${root.nodeName}' (was expecting 'song', 'sound', or 'kit')`)
   } else {
-    throw new Error(`Unknown root node '${root.nodeName}' in '${name}'. Not sure what to do with this file 🤷‍♂️`)
+    throw new Error(`Unknown root node '${root.nodeName}'. Don't know what to do with this file 🤷‍♂️`)
   }
 }
