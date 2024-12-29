@@ -172,12 +172,15 @@ export type SampleRange = {
   rangeTopNote: Number,
   fileName: string,
   transpose: Number,
+  cents?: Number,
   zone: Zone
 }
 
 export type Zone = {
   startSamplePos: Number,
   endSamplePos: Number,
+  startLoopPos?: Number,
+  endLoopPos?: Number
 }
 
 export type Lfo = {

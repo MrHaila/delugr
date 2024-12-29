@@ -140,7 +140,7 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
           }
           // Audio tracks
         } else if (instrument.instrumentType === 'audio track') {
-          console.log('TODO: audio track usage for', instrument.presetName)
+          // console.log('TODO: audio track usage for', instrument.presetName)
           // const sample = samples.find(sample => sample.name === instrument.presetName)
           // if (sample) {
           //   sample.usage.songs[song.name] = true

@@ -15,7 +15,8 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         p Last modified: {{ DateTime.fromMillis(song.lastModified).toFormat('yyyy-MM-dd') }}
 
     div(class="flex space-x-3")
-      h-list-card(
+      //- Instrument list
+      HListCard(
         v-if="song.data.instruments"
         title="Instruments"
         :items="song.data.instruments"
@@ -28,12 +29,14 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             MicrophoneIcon(v-else-if="item.instrumentType === 'audio track'" class="h-3 inline mb-1")
             span(v-else class="text-xs") {{ item }}
 
-            span {{ item.presetName }}
+            span(v-if="item.instrumentType === 'midi track'") MIDI Track
+            span(v-else) {{ item.presetName }}
 
-            span(class="flex-grow text-right")
-              RouterLink(v-if="item.instrumentType === 'sound' && fileStore.sounds.find(sound => sound.name.split('.')[0] === item.presetName)" :to="'/synths/' + item.presetName" class="text-xs") View preset
-              RouterLink(v-else-if="item.instrumentType === 'kit' && fileStore.kits.find(kit => kit.name.split('.')[0] === item.presetName)" :to="'/kits/' + item.presetName" class="text-xs") View preset
-              span(v-else class="text-xs text-gray-400") No preset found
+            span(class="flex-grow text-right text-xs")
+              RouterLink(v-if="item.instrumentType === 'sound' && fileStore.sounds.find(sound => sound.name.split('.')[0] === item.presetName)" :to="'/synths/' + item.presetName") View preset
+              RouterLink(v-else-if="item.instrumentType === 'kit' && fileStore.kits.find(kit => kit.name.split('.')[0] === item.presetName)" :to="'/kits/' + item.presetName") View preset
+              span(v-else-if="item.instrumentType === 'audio track'") Input channel: {{ item.inputChannel }}
+              span(v-else-if="item.instrumentType !== 'midi track'" class="text-gray-400") No preset found
 
             // exclamation-circle-icon(v-if="item.problem" class="h-4 text-red-400")
       

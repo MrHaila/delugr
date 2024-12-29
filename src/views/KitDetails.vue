@@ -15,9 +15,9 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         p Last modified: {{ DateTime.fromMillis(kit.lastModified).toFormat('yyyy-MM-dd') }}
 
     div(class="flex space-x-3")
-      h-list-card(
+      HListCard(
         title="Usage"
-        :items="kitUsage"
+        :items="kit.usage.songs"
         class="max-w-md md:flex-1"
         emptyLabel="Not used in any songs."
         )
@@ -62,10 +62,4 @@ const props = defineProps([
 ])
 
 const kit = computed(() => props.name ? fileStore.kits.find(kit => kit.name.split('.')[0] === props.name) : null)
-
-// const file = computed(() => props.name ? store.kits[props.name]?.file : null)
-// const parsedKit = computed(() => props.name ? store.kits[props.name]?.data : null)
-//const usedKits = computed(() => store.kits?.usage ? Object.keys(store.kits.usage).length : 0)
-const kitSongUsageCount = computed(() => kit.value ? Object.keys(kit.value.usage.songs).length : null)
-const kitUsage = computed(() => kit.value?.usage?.songs ? Object.keys(kit.value.usage.songs) : [])
 </script>

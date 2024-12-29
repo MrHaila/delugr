@@ -20,7 +20,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         p Last modified: {{ DateTime.fromMillis(sound.lastModified).toFormat('yyyy-MM-dd') }}
 
     div(class="flex space-x-3")
-      h-list-card(
+      HListCard(
         title="Usage"
         :items="usageList"
         class="max-w-md md:flex-1"
@@ -110,7 +110,6 @@ import { DateTime } from 'luxon'
 import { getSampleUrlByPath } from '../deluge/files'
 import { MusicalNoteIcon, ArchiveBoxIcon } from '@heroicons/vue/20/solid'
 import { AdjustmentsVerticalIcon } from '@heroicons/vue/24/solid'
-import SoundSamplesListItem from '../components/SoundSamplesListItem.vue'
 import MultisampleSampleListItem from '../components/MultisampleSampleListItem.vue'
 import TechnicalDetails from '../components/TechnicalDetails.vue'
 
@@ -125,8 +124,8 @@ const sound = computed(() => props.name ? fileStore.sounds.find(sound => sound.n
 
 const usageList = computed(() => {
   if (!sound.value?.usage) return []
-  const songs = Object.keys(sound.value.usage.songs).map(name => ({ type: 'song', name }))
-  const kits = Object.keys(sound.value.usage.kits).map(name => ({ type: 'kit', name }))
+  const songs = sound.value.usage.songs.map(name => ({ type: 'song', name }))
+  const kits = sound.value.usage.kits.map(name => ({ type: 'kit', name }))
   return songs.concat(kits)
 })
 </script>
