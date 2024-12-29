@@ -20,7 +20,7 @@ import {
 import { FixPos50 } from "./dataTypes"
 import { defaultSynthPatch } from "./defaultSynthPatchv4"
 
-export function parseSongv3(xml: Element, songName: string): Song {
+export function parseSongvCommunity(xml: Element, songName: string): Song {
   // Only parse the instruments node for now. Could do more later.
   const xmlInstruments = findDirectChildNodeByTagName(xml, 'instruments')?.children
   
@@ -35,11 +35,11 @@ export function parseSongv3(xml: Element, songName: string): Song {
     const presetName = getInstrumentName(i)
 
     if (i.tagName === 'sound') {
-      return parseSoundv3(i, undefined, songName)
+      return parseSoundvCommunity(i, undefined, songName)
     } else if (i.tagName === 'kit') {
-      return parseKitv3(i, undefined, songName)
+      return parseKitvCommunity(i, undefined, songName)
     } else if (i.tagName === 'audioTrack') {
-      return parseAudioTrackv3(i, songName)
+      return parseAudioTrackvCommunity(i, songName)
     } else if (i.tagName === 'midiChannel') {
       return parseMidiChannel(i, songName)
     } else {
@@ -55,7 +55,7 @@ export function parseSongv3(xml: Element, songName: string): Song {
   return song
 }
 
-export function parseKitv3 (xml: Element, fileName?: string, songName?: string): Kit {
+export function parseKitvCommunity (xml: Element, fileName?: string, songName?: string): Kit {
   // TODO: default kit -> overrides
   
   let presetName = getInstrumentName(xml)
@@ -84,7 +84,7 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
     for (let i = 0; i < soundNodes.length; i++) {
       const xmlSound = soundNodes.item(i)
       if (xmlSound) {
-        const sound = parseSoundv3(xmlSound, fileName, songName, presetName)
+        const sound = parseSoundvCommunity(xmlSound, fileName, songName, presetName)
         sounds[sound.presetName] = sound
       }
     }
@@ -115,7 +115,7 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
   return kit
 }
 
-export function parseSoundv3 (xml: Element, fileName?: string, songName?: string, kitName?: string): Sound {
+export function parseSoundvCommunity (xml: Element, fileName?: string, songName?: string, kitName?: string): Sound {
   // Init to default values
   const sound: Sound = JSON.parse(JSON.stringify(defaultSynthPatch))
   
@@ -191,7 +191,7 @@ export function parseSoundv3 (xml: Element, fileName?: string, songName?: string
   return sound
 }
 
-function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
+function parseAudioTrackvCommunity (xml: Element, songName: string): AudioTrack {
   // Attributes
   const name = xml.getAttribute('name')
   const echoingInput = xml.getAttribute('echoingInput')
@@ -207,6 +207,8 @@ function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
   const delay = findDirectChildNodeByTagName(xml, 'delay')
   const compressor = findDirectChildNodeByTagName(xml, 'compressor')
 
+  console.log('audio track', name, songName, xml)
+
   if (!name) throw new Error(`Missing 'name' attribute on audio track of song '${songName}'`)
   if (!inputChannel) throw new Error(`Missing 'inputChannel' attribute on audio track of song '${songName}'`)
   if (!isArmedForRecording) throw new Error(`Missing 'isArmedForRecording' attribute on audio track of song '${songName}'`)
@@ -216,7 +218,6 @@ function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
   if (!modFxCurrentParam) throw new Error(`Missing 'modFXCurrentParam' attribute on audio track of song '${songName}'`)
   if (!currentFilterType) throw new Error(`Missing 'currentFilterType' attribute on audio track of song '${songName}'`)
   if (!delay) throw new Error(`Missing 'delay' element on audio track of song '${songName}'`)
-  if (!compressor) throw new Error(`Missing 'compressor' element on audio track of song '${songName}'`)
 
   const audioTrack: AudioTrack = {
     presetName: String(name),
@@ -228,12 +229,12 @@ function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
     modFxCurrentParam: String(modFxCurrentParam),
     currentFilterType: String(currentFilterType),
     delay: parseDelay(delay),
-    compressor: parseCompressor(compressor),
     instrumentType: 'audio track',
     problem: false,
   }
 
   if (echoingInput) audioTrack.echoingInput = Number(echoingInput)
+  if (compressor) audioTrack.compressor = parseCompressor(compressor)
 
   return audioTrack
 }

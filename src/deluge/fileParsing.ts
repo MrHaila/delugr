@@ -2,6 +2,7 @@ import { useFileStore, type ParsedKitFile, type ParsedSongFile, type ParsedSound
 import type { Sound } from "./core"
 import { parseKitv1, parseSoundv1 } from "./v1-2"
 import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3-4"
+import { parseKitvCommunity, parseSongvCommunity, parseSoundvCommunity } from "./vCommunity"
 
 /**
  * One-stop-shop for parsing a folder of files. Intended for the root folder of a Deluge SD card.
@@ -344,7 +345,8 @@ async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): P
   if (['song', 'sound', 'kit'].includes(root.nodeName)) {
     let data
     if (root.nodeName === 'song') {
-      if (firmware.startsWith('3') || firmware.startsWith('4') || firmware.startsWith('c1')) data = parseSongv3(root, name)
+      if (firmware.startsWith('3') || firmware.startsWith('4')) data = parseSongv3(root, name)
+      else if (firmware.startsWith('c1')) data = parseSongvCommunity(root, name)
       else return `Firmware version ${firmware} is not supported for songs.`
 
       return {
@@ -355,7 +357,8 @@ async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): P
     }
     else if (root.nodeName === 'sound') {
       if (firmware.startsWith('1') || firmware.startsWith('2')) data = parseSoundv1(root, name)
-      else if (firmware.startsWith('3') || firmware.startsWith('4') || firmware.startsWith('c1')) data = parseSoundv3(root, name)
+      else if (firmware.startsWith('3') || firmware.startsWith('4')) data = parseSoundv3(root, name)
+      else if (firmware.startsWith('c1')) data = parseSoundvCommunity(root, name)
       else return `Firmware version ${firmware} is not supported for sounds.`
 
       return {
@@ -379,7 +382,8 @@ async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): P
     }
     else if (root.nodeName === 'kit') {
       if (firmware.startsWith('1') || firmware.startsWith('2')) data = parseKitv1(root, name)
-      else if (firmware.startsWith('3') || firmware.startsWith('4') || firmware.startsWith('c1')) data = parseKitv3(root, name)
+      else if (firmware.startsWith('3') || firmware.startsWith('4')) data = parseKitv3(root, name)
+      else if (firmware.startsWith('c1')) data = parseKitvCommunity(root, name)
       else return `Firmware version ${firmware} is not supported for kits.`
 
       return {
