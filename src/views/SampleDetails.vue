@@ -3,7 +3,7 @@ div(v-if="!props.name") No name prop... What?
 
 div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
   div(v-if="!sample" class="flex justify-center my-auto")
-    h1(class="font-bold text-xl text-gray-400") Sample not found! {{ store.samples.length }} samples in total
+    h1(class="font-bold text-xl text-gray-400") Sample not found! {{ fileStore.samples.length }} samples in total
 
   div(v-else class="space-y-5")
     div(class="flex flex-row justify-between")
@@ -13,64 +13,65 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
       div(class="text-right text-sm mt-3")
         p Last modified: {{ DateTime.fromMillis(sample.lastModified).toFormat('yyyy-MM-dd') }}
 
-    h-card(
+    HCard(
       class="w-full"
       title="Preview"
+      @click="wavesurfer.seekTo(0)"
       )
-      div#wavesurfer
+      div(@click.stop)#wavesurfer
 
     div(class="flex space-x-3")
-      h-card(class="max-w-3xl flex-1")
+      HCard(class="max-w-3xl flex-1")
         template(#title) Usage
-        div(v-if="sample.usage.total" class="flex justify-between space-x-3")
+        div(v-if="sample.usage.getTotal()" class="flex justify-between space-x-3")
           div(class="flex-1")
-            h-list(
+            HList(
               title="Songs"
               :object="sample.usage.songs"
               )
               template(#item="{ item }")
                 MusicalNoteIcon(class="h-3 inline mb-1 mr-1")
-                router-link(:to="'/songs/' + item.key") {{ item.key }}
+                RouterLink(:to="'/songs/' + item.key") {{ item.key }}
                 span(class="text-xs text-gray-400")  via {{ item.value.instrumentName }}
           
           div(class="flex-1")
-            h-list(
+            HList(
               title="Kits"
               :object="sample.usage.kits"
               )
               template(#item="{ item }")
                 ArchiveBoxIcon(class="h-3 inline mb-1 mr-1")
-                router-link(:to="'/kits/' + item.key") {{ item.key }}
+                RouterLink(:to="'/kits/' + item.key") {{ item.key }}
                 span(class="text-xs text-gray-400")  via {{ item.value.instrumentName }}
           
           div(class="flex-1")
-            h-list(
+            HList(
               title="Synths"
               :object="sample.usage.sounds"
               )
               template(#item="{ item }")
                 AdjustmentsVerticalIcon(class="h-3 inline mb-1 mr-1")
-                router-link(:to="'/synths/' + item.key") {{ item.key }}
+                RouterLink(:to="'/synths/' + item.key") {{ item.key }}
         
         div(v-else class="italic text-gray-400") Not used in any songs, kits or synths.
 </template>
 
 <script lang="ts" setup>
+import { MusicalNoteIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon } from '@heroicons/vue/24/solid'
 import { computed, onMounted, watch } from 'vue'
+import { useFileStore } from '../composables/useFileStore'
 import { DateTime } from 'luxon'
-import { useFiles } from '../deluge/files'
-import { filesize } from 'filesize'
-import { ExclamationCircleIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon, MusicalNoteIcon } from '@heroicons/vue/20/solid'
 import WaveSurfer from 'wavesurfer.js'
+import { filesize } from 'filesize'
 
-const store = useFiles()
+const { fileStore } = useFileStore()
 
 const props = defineProps([
   'name'
 ])
 
 const idAsNumber = computed(() => parseInt(props.name))
-const sample = computed(() => props.name ? store.samples.find(sample => sample.id === idAsNumber.value) : null)
+const sample = computed(() => props.name ? fileStore.samples.find(sample => sample.id === idAsNumber.value) : null)
 
 let wavesurfer: WaveSurfer
 
@@ -97,7 +98,7 @@ onMounted(async () => {
     // })
 
     // Play after seeking
-    wavesurfer.on('seek', function(e) {
+    wavesurfer.on('seeking', function(e) {
       wavesurfer.play()
     })
 

@@ -15,62 +15,51 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         p Last modified: {{ DateTime.fromMillis(kit.lastModified).toFormat('yyyy-MM-dd') }}
 
     div(class="flex space-x-3")
-      h-list-card(
+      HListCard(
         title="Usage"
-        :items="kitUsage"
+        :items="kit.usage.songs"
         class="max-w-md md:flex-1"
         emptyLabel="Not used in any songs."
         )
         template(#item="{ item }")
           div(class="flex flex-row space-x-1 items-baseline")
             MusicalNoteIcon(class="h-3 inline mb-1")
-            router-link(:to="`/songs/${item}`") {{ item }}
+            RouterLink(:to="`/songs/${item}`") {{ item }}
 
-      //- h-card(class="max-w-md md:flex-1")
+      //- HCard(class="max-w-md md:flex-1")
       //-   template(#title) Song usage #[h-badge {{ kitSongUsageCount }}]
       //-   div(v-if="kitSongUsageCount" class="divide-y divide-gray-200")
       //-     div(v-for="(bool, key) in kit.usage.songs" :key="key" class="py-2")
-      //-       router-link(:to="'/songs/' + key") {{ key }}
+      //-       RouterLink(:to="'/songs/' + key") {{ key }}
       //-   div(v-else class="italic text-gray-400") Not used in any songs.
 
-      h-card(v-if="kit.data.soundSources" class="max-w-md md:flex-1")
+      HCard(v-if="kit.data.soundSources" class="max-w-md md:flex-1")
         template(#title) Samples #[h-badge {{ Object.keys(kit.data.soundSources).length }}]
         div(class="divide-y divide-gray-200")
           SoundSamplesListItem(v-for="(sound, index) in Object.values(kit.data.soundSources)" :key="index" :sound="sound")
 
-    div
-      h2(class="font-bold text-gray-500") Technical Details
-      p(class="text-sm mb-4 text-gray-500") The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's a dump of what I've managed to parse so far:
+    TechnicalDetails(leftTitle="Parsed Kit Data" rightTitle="Raw Kit Data")
+      template(#left)
+        pre {{ kit.data }}
 
-      div(class="flex space-x-3" style="font-size: 60%;")
-        div(class="rounded bg-gray-100 p-3 font-mono max-w-xl text-gray-600")
-          h3(class="font-bold") PARSED KIT DATA
-          pre {{ kit.data }}
-
-        div(class="rounded bg-gray-100 p-3 font-mono max-w-xl text-gray-600")
-          h3(class="font-bold") RAW KIT DATA
-          pre(class="break-all whitespace-pre-wrap") {{ kit.xml }}
+      template(#right)
+        pre {{ kit.xml }}
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useFiles } from '../deluge/files'
+import { useFileStore } from '../composables/useFileStore'
 import { DateTime } from 'luxon'
 import SoundSamplesListItem from '../components/SoundSamplesListItem.vue'
 import { MusicalNoteIcon } from '@heroicons/vue/20/solid'
 import { ArchiveBoxIcon } from '@heroicons/vue/24/solid'
+import TechnicalDetails from '../components/TechnicalDetails.vue'
 
-const store = useFiles()
+const { fileStore } = useFileStore()
 
 const props = defineProps([
   'name'
 ])
 
-const kit = computed(() => props.name ? store.kits.find(kit => kit.name.split('.')[0] === props.name) : null)
-
-// const file = computed(() => props.name ? store.kits[props.name]?.file : null)
-// const parsedKit = computed(() => props.name ? store.kits[props.name]?.data : null)
-//const usedKits = computed(() => store.kits?.usage ? Object.keys(store.kits.usage).length : 0)
-const kitSongUsageCount = computed(() => kit.value ? Object.keys(kit.value.usage.songs).length : null)
-const kitUsage = computed(() => kit.value?.usage?.songs ? Object.keys(kit.value.usage.songs) : [])
+const kit = computed(() => props.name ? fileStore.kits.find(kit => kit.name.split('.')[0] === props.name) : null)
 </script>

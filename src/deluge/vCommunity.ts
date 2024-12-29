@@ -16,11 +16,13 @@ import {
   type Sound,
   type Unison,
   type MidiChannel,
-  type Zone } from "./core"
+  type Zone, 
+  type AudioCompressor,
+  type Sidechain} from "./core"
 import { FixPos50 } from "./dataTypes"
 import { defaultSynthPatch } from "./defaultSynthPatchv4"
 
-export function parseSongv3(xml: Element, songName: string): Song {
+export function parseSongvCommunity(xml: Element, songName: string): Song {
   // Only parse the instruments node for now. Could do more later.
   const xmlInstruments = findDirectChildNodeByTagName(xml, 'instruments')?.children
   
@@ -35,11 +37,11 @@ export function parseSongv3(xml: Element, songName: string): Song {
     const presetName = getInstrumentName(i)
 
     if (i.tagName === 'sound') {
-      return parseSoundv3(i, undefined, songName)
+      return parseSoundvCommunity(i, undefined, songName)
     } else if (i.tagName === 'kit') {
-      return parseKitv3(i, undefined, songName)
+      return parseKitvCommunity(i, undefined, songName)
     } else if (i.tagName === 'audioTrack') {
-      return parseAudioTrackv3(i, songName)
+      return parseAudioTrackvCommunity(i, songName)
     } else if (i.tagName === 'midiChannel') {
       return parseMidiChannel(i, songName)
     } else {
@@ -55,7 +57,7 @@ export function parseSongv3(xml: Element, songName: string): Song {
   return song
 }
 
-export function parseKitv3 (xml: Element, fileName?: string, songName?: string): Kit {
+export function parseKitvCommunity (xml: Element, fileName?: string, songName?: string): Kit {
   // TODO: default kit -> overrides
   
   let presetName = getInstrumentName(xml)
@@ -63,7 +65,7 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
   if (!presetName) {
     if (fileName) presetName = fileName.split('.')[0]
     else {
-      presetName = 'Unknown v3 kit 🤔'
+      presetName = 'Unknown community kit 🤔'
       problem = true
     }
   }
@@ -84,7 +86,7 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
     for (let i = 0; i < soundNodes.length; i++) {
       const xmlSound = soundNodes.item(i)
       if (xmlSound) {
-        const sound = parseSoundv3(xmlSound, fileName, songName, presetName)
+        const sound = parseSoundvCommunity(xmlSound, fileName, songName, presetName)
         sounds[sound.presetName] = sound
       }
     }
@@ -115,7 +117,7 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
   return kit
 }
 
-export function parseSoundv3 (xml: Element, fileName?: string, songName?: string, kitName?: string): Sound {
+export function parseSoundvCommunity (xml: Element, fileName?: string, songName?: string, kitName?: string): Sound {
   // Init to default values
   const sound: Sound = JSON.parse(JSON.stringify(defaultSynthPatch))
   
@@ -191,7 +193,7 @@ export function parseSoundv3 (xml: Element, fileName?: string, songName?: string
   return sound
 }
 
-function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
+function parseAudioTrackvCommunity (xml: Element, songName: string): AudioTrack {
   // Attributes
   const name = xml.getAttribute('name')
   const echoingInput = xml.getAttribute('echoingInput')
@@ -205,7 +207,8 @@ function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
 
   // Child elements
   const delay = findDirectChildNodeByTagName(xml, 'delay')
-  const compressor = findDirectChildNodeByTagName(xml, 'compressor')
+  const audioCompressor = findDirectChildNodeByTagName(xml, 'audioCompressor')
+  const sidechain = findDirectChildNodeByTagName(xml, 'sidechain')
 
   if (!name) throw new Error(`Missing 'name' attribute on audio track of song '${songName}'`)
   if (!inputChannel) throw new Error(`Missing 'inputChannel' attribute on audio track of song '${songName}'`)
@@ -216,7 +219,8 @@ function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
   if (!modFxCurrentParam) throw new Error(`Missing 'modFXCurrentParam' attribute on audio track of song '${songName}'`)
   if (!currentFilterType) throw new Error(`Missing 'currentFilterType' attribute on audio track of song '${songName}'`)
   if (!delay) throw new Error(`Missing 'delay' element on audio track of song '${songName}'`)
-  if (!compressor) throw new Error(`Missing 'compressor' element on audio track of song '${songName}'`)
+  if (!audioCompressor) throw new Error(`Missing 'audioCompressor' element on audio track of song '${songName}'`)
+  if (!sidechain) throw new Error(`Missing 'sidechain' element on audio track of song '${songName}'`)
 
   const audioTrack: AudioTrack = {
     presetName: String(name),
@@ -228,12 +232,13 @@ function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
     modFxCurrentParam: String(modFxCurrentParam),
     currentFilterType: String(currentFilterType),
     delay: parseDelay(delay),
-    compressor: parseCompressor(compressor),
     instrumentType: 'audio track',
     problem: false,
   }
 
   if (echoingInput) audioTrack.echoingInput = Number(echoingInput)
+  if (audioCompressor) audioTrack.audioCompressor = parseAudioCompressor(audioCompressor)
+  if (sidechain) audioTrack.sidechain = parseSidechain(sidechain)
 
   return audioTrack
 }
@@ -299,6 +304,43 @@ function parseCompressor(xml: Element): Compressor {
     syncLevel: Number(syncLevel),
     attack: Number(attack),
     release: Number(release),
+  }
+}
+
+function parseAudioCompressor(xml: Element): AudioCompressor {
+  const attack = xml.getAttribute('attack')
+  const release = xml.getAttribute('release')
+  const thresh = xml.getAttribute('thresh')
+  const ratio = xml.getAttribute('ratio')
+  const compHPF = xml.getAttribute('compHPF')
+
+  if (attack === null || release === null || thresh === null || ratio === null || compHPF === null) {
+    throw new Error(`Audio compressor missing attributes! XML: ${xml.outerHTML}`)
+  }
+  return {
+    attack: new FixPos50(String(attack)),
+    release: new FixPos50(String(release)),
+    thresh: new FixPos50(String(thresh)),
+    ratio: new FixPos50(String(ratio)),
+    compHPF: new FixPos50(String(compHPF)),
+  }
+}
+
+function parseSidechain(xml: Element): Sidechain {  
+  const attack = xml.getAttribute('attack')
+  const release = xml.getAttribute('release')
+  const syncLevel = xml.getAttribute('syncLevel')
+  const syncType = xml.getAttribute('syncType')
+
+  if (attack === null || release === null || syncLevel === null || syncType === null) {
+    throw new Error(`Sidechain missing attributes! XML: ${xml.outerHTML}`)
+  }
+
+  return {
+    attack: new FixPos50(String(attack)),
+    release: new FixPos50(String(release)),
+    syncLevel: new FixPos50(String(syncLevel)),
+    syncType: Number(syncType),
   }
 }
 

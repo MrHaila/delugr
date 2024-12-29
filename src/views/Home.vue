@@ -5,10 +5,10 @@ div(class="space-y-5 p-3 overflow-y-auto w-full")
     p Alright, so we got the folder parsed. Here's what we know so far.
 
     div
-      p Songs: {{ store.songs.length }}
-      p Synths: {{ store.sounds.length }}
-      p Kits: {{ store.kits.length }}
-      p Samples: {{ store.samples.length }}
+      p Songs: {{ fileStore.songs.length }}
+      p Synths: {{ fileStore.sounds.length }}
+      p Kits: {{ fileStore.kits.length }}
+      p Samples: {{ fileStore.samples.length }}
 
     p The Deluge has three types of entities: songs, kits and synths (internally called 'sounds'). Synths and kits can be saved as presets. Songs and kits actually contain full instances (modified copies) of the original preset instead of just a reference to the used preset.
     
@@ -24,7 +24,7 @@ div(class="space-y-5 p-3 overflow-y-auto w-full")
 
     HListCard(
       title="Skipped Files"
-      :items="store.skippedFiles"
+      :items="fileStore.skippedFiles"
       class="max-w-3xl flex-1"
       )
       template(#item="{ item }")
@@ -50,17 +50,17 @@ FileDeletionModal(
 
 <script lang="ts" setup>
 import { nextTick, onMounted, ref } from 'vue'
-import { useFiles } from '../deluge/files'
+import { useFileStore } from '../composables/useFileStore'
 import { TrashIcon } from '@heroicons/vue/20/solid'
 import FileDeletionModal from '../components/FileDeletionModal.vue'
 
-const store = useFiles()
+const { fileStore } = useFileStore()
 
 // Async function to list all folders in the folderHandle
 const listFolders = async () => {
-  if (!store.folderHandle) return
+  if (!fileStore.folderHandle) return
 
-  const entries = await store.folderHandle.keys()
+  const entries = await fileStore.folderHandle.keys()
   const folders: string[] = []
 
   for await (const entry of entries) {

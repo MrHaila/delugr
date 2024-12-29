@@ -5,7 +5,7 @@ import type { FixPos50 } from "./dataTypes"
 export interface Song {
     name: string,
     // TODO: the rest of the owl
-    instruments: Array<Sound | Kit | AudioTrack>
+    instruments: Array<Sound | Kit | AudioTrack | MidiChannel>,
 }
 
 export interface Sound {
@@ -85,11 +85,26 @@ export type AudioTrack = {
   modFxCurrentParam: string,
   currentFilterType: string,
   delay: Delay,
-  compressor: Compressor,
+  compressor?: Compressor,
+
+  // Community spec
+  audioCompressor?: AudioCompressor,
+  sidechain?: Sidechain,
 
   // Not part of the spec
   problem: boolean,
   instrumentType: 'audio track'
+}
+
+export type MidiChannel = {
+  channel: number,
+  suffix: string,
+  defaultVelocity: number,
+  isArmedForRecording: number,
+  activeModFunction: number,
+
+  // Not part of the spec
+  instrumentType: 'midi track'
 }
 
 export type Modulator = {
@@ -116,11 +131,26 @@ export type Compressor = {
   release: Number
 }
 
+export type AudioCompressor = {
+  attack: FixPos50,
+  release: FixPos50,
+  thresh: FixPos50,
+  ratio: FixPos50,
+  compHPF: FixPos50
+}
+
+export type Sidechain = {
+  attack: FixPos50,
+  release: FixPos50,
+  syncLevel: FixPos50,
+  syncType: Number
+}
+
 export type Equalizer = {
   bass: FixPos50,
   treble: FixPos50,
-  bassFrequenzy: FixPos50,
-  trebleFrequenzy: FixPos50
+  bassFrequency: FixPos50,
+  trebleFrequency: FixPos50
 }
 
 export type Oscillator = {
@@ -139,15 +169,18 @@ export type Oscillator = {
 }
 
 export type SampleRange = {
-  rangeTopNote: Number,
+  rangeTopNote?: Number,
   fileName: string,
-  transpose: Number,
+  transpose?: Number,
+  cents?: Number,
   zone: Zone
 }
 
 export type Zone = {
   startSamplePos: Number,
   endSamplePos: Number,
+  startLoopPos?: Number,
+  endLoopPos?: Number
 }
 
 export type Lfo = {
@@ -198,7 +231,7 @@ export function getFirmwareVersion(xml: Element): string {
 
 /**
  * A helper to get a display name for a sound or a kit of any firmware version.
- * @param xml The intrument's root element.
+ * @param xml The instrument's root element.
  */
 export function getInstrumentName(xml: Element): string | null {
   // Newer instruments have a presetName attribute
@@ -211,11 +244,11 @@ export function getInstrumentName(xml: Element): string | null {
   if (xml.hasAttribute('name')) presetName = xml.getAttribute('name')
 
   // Old instruments had slot numbers instead of names
-  if (xml.hasAttribute('presetSlot')) {
+  if (xml.hasAttribute('presetSlot') || presetName?.match(/^\d{3}$/)) {
     const prefix = xml.tagName === 'sound' ? 'SYNT' : 'KIT'
-    const slot = Number(xml.getAttribute('presetSlot'))
-    if (slot < 10) presetName = `${prefix}00${slot}`
-    else if (slot < 99) presetName = `${prefix}0${slot}`
+    const slot = presetName || Number(xml.getAttribute('presetSlot'))
+    if (typeof slot === 'number' && slot < 10) presetName = `${prefix}00${slot}`
+    else if (typeof slot === 'number' && slot < 99) presetName = `${prefix}0${slot}`
     else presetName = `${prefix}${slot}`
 
     // Also might have a sub slot

@@ -1,5 +1,21 @@
 {
   "files.associations": {
     "*.css": "tailwindcss"
-  }
+  },
+  "cSpell.words": [
+    "Arpeggiator",
+    "Delugr",
+    "Kitv",
+    "luxon",
+    "Millis",
+    "Patchv",
+    "retrig",
+    "sidechain",
+    "Songv",
+    "Soundv",
+    "substractive",
+    "SYNT",
+    "Trackv",
+    "wavesurfer"
+  ]
 }

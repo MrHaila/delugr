@@ -1,6 +1,6 @@
 <template lang="pug">
 //- Landing page
-div(v-if="store.parseError || !store.parsed" class="pt-20 space-y-20 h-screen overflow-y-auto")
+div(v-if="fileStore.parseError || !fileStore.isParsed" class="pt-20 space-y-20 h-screen overflow-y-auto")
   //- Header
   div(class="text-center")
     h1(class="text-8xl font-bold mb-5 text-gray-900") Delugr
@@ -10,14 +10,14 @@ div(v-if="store.parseError || !store.parsed" class="pt-20 space-y-20 h-screen ov
   div(class="space-y-20")
     div(class="flex justify-center text-center")
       div(
-        :class="['p-8 rounded-xl border-dashed border-gray-400 bg-sky-50/50 backdrop-blur-md border-4 h-44 flex flex-col justify-center', { 'border-sky-500 bg-sky-100/50': isOverDropZone, 'border-red-300 bg-red-50/50': store.parseError && !isOverDropZone }]"
+        :class="['p-8 rounded-xl border-dashed border-gray-400 bg-sky-50/50 backdrop-blur-md border-4 h-44 flex flex-col justify-center', { 'border-sky-500 bg-sky-100/50': isOverDropZone, 'border-red-300 bg-red-50/50': fileStore.parseError && !isOverDropZone }]"
         style="width: 32rem"
         ref="dropzone"
         )
         //- Parsing
-        div(v-if="isParsing")
-          h1(class="mb-6") {{ store.parsingMessage }}
-          p(class="text-xl font-bold") {{ store.filesScanned }} files scanned
+        div(v-if="fileStore.isParsing")
+          h1(class="mb-6") {{ fileStore.parsingMessage }}
+          p(class="text-xl font-bold") {{ fileStore.filesScanned }} files scanned
 
         //- Drag and drop
         div(
@@ -26,9 +26,9 @@ div(v-if="store.parseError || !store.parsed" class="pt-20 space-y-20 h-screen ov
           ) ...aaaand drop!
 
         //- Error
-        div(v-else-if="store.parseError" class="space-y-3")
+        div(v-else-if="fileStore.parseError" class="space-y-3")
           h1(class="text-lg font-bold text-red-900") Something went wrong while parsing the folder 😱
-          p(class="text-red-800") {{ store.parseError }}
+          p(class="text-red-800") {{ fileStore.parseError }}
           h-button(@click="askAndParseFolder") Pick another folder
 
 
@@ -39,9 +39,9 @@ div(v-if="store.parseError || !store.parsed" class="pt-20 space-y-20 h-screen ov
             p(class="text-gray-500 text-sm italic") {{ dragAndDropMessage }}
           div(class="flex justify-center space-x-3")
             h-button(
-              v-if="store.folderHandle"
-              @click="store.folderHandle ? parseFolder(store.folderHandle) : null"
-              ) Re-open {{ store.folderHandle.name }}
+              v-if="fileStore.folderHandle"
+              @click="fileStore.folderHandle ? parseFolder(fileStore.folderHandle) : null"
+              ) Re-open {{ fileStore.folderHandle.name }}
             h-button(@click="askAndParseFolder") Select folder
 
   //- App description
@@ -49,15 +49,15 @@ div(v-if="store.parseError || !store.parsed" class="pt-20 space-y-20 h-screen ov
     div(class="shadow rounded p-5 space-y-3 backdrop-blur-md bg-white/30" style="width: 42rem")
       h3(class="font-bold") 👋 Greetings, stranger!
       p Delugr is a web-app that lets you browse the contents of your Deluge memory card.
-      p It uses the new #[a(href="https://web.dev/file-system-access/") File System Access API] to read the contents of your memory card, so there's no need to install anything! As of May 2022, the API is not yet supported by Firefox, Safari or any of the mobile browsers.
-      p Made with ❤️ by #[a(href="https://haila.fi") Teemu Haila] as #[a(href="https://github.com/MrHaila/delugr") open source]. Contributions welcome!
+      p It uses the new #[a(href="https://web.dev/file-system-access/" target="blank") File System Access API] to read the contents of your memory card, so there's no need to install anything! As of December 2024, the API is not yet supported by #[a(href="https://caniuse.com/native-filesystem-api" target="blank") Firefox, Safari or any of the mobile browsers].
+      p Made with ❤️ by #[a(href="https://haila.fi" target="blank") Teemu Haila] as #[a(href="https://github.com/MrHaila/delugr" target="blank") open source]. Contributions welcome!
 
 //- Actual thing
 div(v-else class="flex h-screen")
   nav(aria-label="Sidebar" class="flex-shrink-0 bg-gray-800 flex flex-col justify-between text-gray-400")
     div(class="space-y-3 py-3")
       div(class="flex justify-center font-bold")
-        router-link(to="/" class="text-gray-400 hover:text-gray-50 hover:no-underline") Delugr
+        RouterLink(to="/" class="text-gray-400 hover:text-gray-50 hover:no-underline") Delugr
 
       div.w-20.p-3.space-y-3
         sidebar-link(variant="songs")
@@ -79,13 +79,13 @@ div(v-else class="flex h-screen")
 <script lang="ts" setup>
 import HLogo from './components/HLogo.vue'
 import SidebarLink from './components/SidebarLink.vue'
-import { parseFolder as actuallyParseFolder, useFiles } from './deluge/files'
 import { ref } from 'vue'
 import { get, set } from 'idb-keyval'
 import { useDragAndDrop } from './useDragAndDrop'
+import { useFileStore } from './composables/useFileStore'
+import { parseFolderIntoFileStore } from './deluge/fileParsing'
 
-const store = useFiles()
-const isParsing = ref(false)
+const { fileStore } = useFileStore()
 
 const dragAndDropMessage = ref('You can also drag and drop the folder here.')
 const dropzone = ref<HTMLDivElement>()
@@ -101,7 +101,7 @@ async function onDrop(items: DataTransferItemList | null) {
 
   if (handle.kind === 'directory') {
     parseFolder(handle)
-    store.folderHandle = handle
+    fileStore.folderHandle = handle
     set('folderHandle', handle)
   } else {
     dragAndDropMessage.value = 'Please drop a folder, not a file.'
@@ -110,30 +110,12 @@ async function onDrop(items: DataTransferItemList | null) {
 
 const { isOverDropZone } = useDragAndDrop(dropzone, onDrop)
 
-// async function onDrop (event: DragEvent) {
-//   const item = event.dataTransfer?.items[0] // Get the dropped items from the event dataTransfer object
-//   if (!item) {
-//     dragAndDropMessage.value = 'No item dropped.'
-//     return
-//   }
-    
-//   const handle = await item.getAsFileSystemHandle() as FileSystemDirectoryHandle | FileSystemFileHandle
-
-//   if (handle.kind === 'directory') {
-//     await parseFolder(handle)
-//     store.folderHandle = handle
-//     set('folderHandle', handle)
-//   } else {
-//     dragAndDropMessage.value = 'Please drop a folder, not a file.'
-//   }
-// }
-
 // Load previously selected folder from IndexedDB
 getStoredHandle()
 async function getStoredHandle() {
   const storedHandle = await get('folderHandle') as FileSystemDirectoryHandle
   if (storedHandle) {
-    store.folderHandle = storedHandle
+    fileStore.folderHandle = storedHandle
   }
 }
 
@@ -145,13 +127,13 @@ async function askAndParseFolder() {
     const rootFolder = await window.showDirectoryPicker()
     if (rootFolder) {
       await parseFolder(rootFolder)
-      store.folderHandle = rootFolder
+      fileStore.folderHandle = rootFolder
       set('folderHandle', rootFolder)
     }
     else throw new Error('No folder selected')
   } catch (e) {
     console.error(e)
-    store.parseError = String(e)
+    fileStore.parseError = String(e)
   }
 }
 
@@ -160,20 +142,18 @@ async function askAndParseFolder() {
  */
 async function parseFolder(rootFolder: FileSystemDirectoryHandle) {
   try {
-    store.parsed = false
-    store.parseError = null
-    isParsing.value = true
-    await actuallyParseFolder(rootFolder)
-    isParsing.value = false
+    fileStore.isParsed = false
+    fileStore.parseError = null
+    await parseFolderIntoFileStore(rootFolder)
     document.getElementById('animation-root')?.remove()
   } catch (e) {
     console.error(e)
-    store.parseError = String(e)
+    fileStore.parseError = String(e)
   }
 }
 
 // Animation shenanigans
-if (!store.parsed) {
+if (!fileStore.isParsed) {
   // Root div for all animations
   document.getElementById('animation-root')?.remove() // Delete old stuff during HMR
   const animationRoot = document.createElement('div')

@@ -6,9 +6,9 @@ The missing asset manager for the Synthstrom Deluge. Maybe. Some day. With more 
 
 Huge credit to:
 
-- Rohan for making his [Deluge file format documentation](https://docs.google.com/document/d/11DUuuE1LBYOVlluPA9McT1_dT4AofZ5jnUD5eHvj7Vs/edit) available
-- Jamie Fenton for open-sourcing [Downrush](https://github.com/jamiefaye/downrush)
-- Fabio Barbon for open-sourcing [Deluge Commander](https://github.com/drbourbon/deluge-commander)
+- Rohan for making his [Deluge file format documentation](https://docs.google.com/document/d/11DUuuE1LBYOVlluPA9McT1_dT4AofZ5jnUD5eHvj7Vs/edit) available (when this project got started) and later open sourcing [the whole firmware](https://github.com/SynthstromAudible/DelugeFirmware).
+- Jamie Fenton for open-sourcing [Downrush](https://github.com/jamiefaye/downrush).
+- Fabio Barbon for open-sourcing [Deluge Commander](https://github.com/drbourbon/deluge-commander).
 
 Probably would have already stopped trying to parse the Deluge file format(s) otherwise.
 

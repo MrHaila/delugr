@@ -31,7 +31,7 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 overflow-y-auto 
       archive-box-icon(v-else-if="title === 'Kits'" class="h-3 mr-1")
       microphone-icon(v-else-if="title === 'Samples'" class="h-3 mr-1")
       | {{ title }} #[span(class="text-gray-400 ml-2 font-normal") {{ Number(currentNavigationLevel.files?.length) | 0 }}]
-    router-link(
+    RouterLink(
       v-for="file in currentNavigationLevel.files"
       :to="file.url"
       :class="['flex justify-between p-3 cursor-pointer text-sm hover:no-underline', getBackgroundClass(file)]"
@@ -47,8 +47,7 @@ div(v-if="props.listItems.length === 0 || (currentNavigationLevel.files?.length 
 </template>
 
 <script lang="ts" setup>
-import type { SampleFile, ParsedFile } from '../deluge/files'
-import { FileType } from '../deluge/files'
+import type { SampleFile, ParsedAssetFile } from '../composables/useFileStore'
 import { DateTime } from 'luxon'
 import { ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
@@ -58,13 +57,13 @@ import { ChevronLeftIcon, ExclamationCircleIcon, MusicalNoteIcon, ArchiveBoxIcon
 type NavigationLevel = {
   name: string,
   folders: NavigationLevel[],
-  files: (ParsedFile | SampleFile)[],
+  files: (ParsedAssetFile | SampleFile)[],
   allFilesUnused: boolean,
 }
 
 type Props = {
   title: string,
-  listItems: (ParsedFile | SampleFile)[],
+  listItems: (ParsedAssetFile | SampleFile)[],
 }
 const props = defineProps<Props>()
 
@@ -93,8 +92,13 @@ function buildNavigationLevelForPath(path: string): NavigationLevel {
   }
 }
 
-function isNavigationLevelUnused(files: (ParsedFile | SampleFile)[], folders: NavigationLevel[]): boolean {
-  return files.every(file => file.usage.total === 0) && folders.every(folder => isNavigationLevelUnused(folder.files, folder.folders))
+function isNavigationLevelUnused(files: (ParsedAssetFile | SampleFile)[], folders: NavigationLevel[]): boolean {
+  const filesUnused = files.every(file => {
+    if ('usage' in file) return file.usage.getTotal() === 0
+    else return false // Songs can't be un-used
+  })
+  const foldersUnused = folders.every(folder => isNavigationLevelUnused(folder.files, folder.folders))
+  return filesUnused && foldersUnused
 
 }
 
@@ -170,17 +174,17 @@ watch(
  * Figure out if an item should be flagged as un-used.
  * @param item Item to check.
  */
-const isUnused = (item: ParsedFile | SampleFile | any): boolean => {
+const isUnused = (item: ParsedAssetFile | SampleFile | any): boolean => {
   // Non-samples have a type.
   if ('type' in item) {
     // Songs can't be un-used
-    if (item.type === FileType.Song) return false
+    if (item.type === 'song') return false
   }
-  if ((Object.keys(item.usage.kits).length === 0 && Object.keys(item.usage.sounds).length === 0 && Object.keys(item.usage.songs).length === 0)) return true
+  if (item.usage.getTotal() === 0) return true
   return false
 }
 
-function isItemActive(item: ParsedFile | SampleFile | any) {
+function isItemActive(item: ParsedAssetFile | SampleFile | any) {
   if ('id' in item) {
     return active.value === item.id.toString()
   } else {
@@ -188,7 +192,7 @@ function isItemActive(item: ParsedFile | SampleFile | any) {
   }
 }
 
-function getBackgroundClass(item: ParsedFile | SampleFile | any) {
+function getBackgroundClass(item: ParsedAssetFile | SampleFile | any) {
   if (isItemActive(item)) {
     return 'bg-amber-400 active'
   } else if (isUnused(item)) {

@@ -20,7 +20,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         p Last modified: {{ DateTime.fromMillis(sound.lastModified).toFormat('yyyy-MM-dd') }}
 
     div(class="flex space-x-3")
-      h-list-card(
+      HListCard(
         title="Usage"
         :items="usageList"
         class="max-w-md md:flex-1"
@@ -30,9 +30,9 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
           div(class="flex flex-row space-x-1 items-baseline")
             MusicalNoteIcon(v-if="item.type === 'song'" class="h-3 inline mb-1")
             ArchiveBoxIcon(v-else-if="item.type === 'kit'" class="h-3 inline mb-1")
-            router-link(:to="`/${item.type}s/${item.name}`") {{ item.name }}
+            RouterLink(:to="`/${item.type}s/${item.name}`") {{ item.name }}
 
-      h-card(class="max-w-md flex-1")
+      //HCard(class="max-w-md flex-1")
         template(#title) Synth Settings
         div(class="divide-y divide-gray-200")
           div(class="py-2 flex flex-row")
@@ -46,46 +46,30 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             div {{ sound.data.polyphonic }}
 
     div(class="flex space-x-3")
-      h-card(class="max-w-md flex-1")
-        template(#title) Oscillator 1
-        div(class="divide-y divide-gray-200")
-          div(class="py-2 flex flex-row")
-            div(class="basis-20") Type
-            div {{ sound.data.osc1.sampleRanges ? 'multisample' : sound.data.osc1.type }}
-          div(class="py-2 flex flex-row" v-if="sound.data.osc1.transpose")
-            div(class="basis-20") Transpose
-            div {{ sound.data.osc1.transpose }}
-          div(class="py-2 flex flex-row" v-if="sound.data.osc1.fileName")
-            div(class="basis-20") Sample
-            div(class="text-xs")
-              router-link(v-if="sound.data.osc1.fileName" :to="String(getSampleUrlByPath(sound.data.osc1.fileName))") {{ sound.data.osc1.fileName }}
-          div(v-if="sound.data.osc1.sampleRanges" class="pt-2")
-            h3 Multisamples
-            div(class="divide-y divide-gray-200")
-              MultisampleSampleListItem(
-                v-for="sampleRange in Object.values(sound.data.osc1.sampleRanges)"
-                :sampleRange="sampleRange"
-                )
+      HCard(v-for="(oscillator, index) in [sound.data.osc1, sound.data.osc2]" class="flex-1")
+        template(#title) Oscillator {{ index + 1 }}
 
-      h-card(class="max-w-md flex-1")
-        template(#title) Oscillator 2
         div(class="divide-y divide-gray-200")
-          div(class="py-2 flex flex-row")
+          div(class="py-2 flex flex-row justify-between")
             div(class="basis-20") Type
-            div {{ sound.data.osc2.sampleRanges ? 'multisample' : sound.data.osc2.type }}
-          div(class="py-2 flex flex-row" v-if="sound.data.osc2.transpose")
+            div {{ oscillator.sampleRanges ? 'multisample' : oscillator.type }}
+
+          //div(class="py-2 flex flex-row justify-between" v-if="oscillator.transpose")
             div(class="basis-20") Transpose
-            div {{ sound.data.osc2.transpose }}
-          div(class="py-2 flex flex-row" v-if="sound.data.osc2.fileName")
+            div {{ oscillator.transpose }}
+
+          div(class="py-2 flex flex-row justify-between" v-if="oscillator.fileName")
             div(class="basis-20") Sample
             div(class="text-xs")
-              router-link(v-if="sound.data.osc2.fileName" :to="String(getSampleUrlByPath(sound.data.osc2.fileName))") {{ sound.data.osc2.fileName }}
-          div(v-if="sound.data.osc2.sampleRanges" class="pt-2")
-            h3 Multisamples
+              RouterLink(v-if="oscillator.fileName" :to="String(getSampleUrlByPath(oscillator.fileName))") {{ oscillator.fileName }}
+            
+          div(v-if="oscillator.sampleRanges" class="pt-2")
+            h3 Samples
             div(class="divide-y divide-gray-200")
               MultisampleSampleListItem(
-                v-for="sampleRange in Object.values(sound.data.osc2.sampleRanges)"
+                v-for="sampleRange in Object.values(oscillator.sampleRanges)"
                 :sampleRange="sampleRange"
+                :sourceFile="sound"
                 )
     
     div(class="flex space-x-3")
@@ -105,50 +89,43 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             div(class="basis-40") Release
             div {{ sound.data.env1?.release.decimal }} - {{ sound.data.env1?.release.fixh }}
 
-      //h-card(class="max-w-md md:flex-1")
+      //HCard(class="max-w-md md:flex-1")
         template(#title) Actions (TBD)
         div(class="space-x-3")
           h-button(variant="primary") Rename Synth
           h-button(variant="primary") Delete Synth
 
-    div
-      h2(class="font-bold text-gray-500") Technical Details
-      p(class="text-sm mb-4 text-gray-500") The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's a dump of what I've managed to parse so far:
+    TechnicalDetails(leftTitle="Parsed Synth Data" rightTitle="Raw Synth Data")
+      template(#left)
+        pre {{ sound.data }}
 
-      div(class="flex space-x-3" style="font-size: 60%;")
-        div(class="rounded bg-gray-100 p-3 font-mono max-w-xl text-gray-600")
-          h3(class="font-bold") PARSED SYNTH DATA
-          pre {{ sound.data }}
-
-        div(class="rounded bg-gray-100 p-3 font-mono max-w-xl text-gray-600")
-          h3(class="font-bold") RAW SYNTH DATA
-          pre(class="break-all whitespace-pre-wrap") {{ sound.xml }}
+      template(#right)
+        pre {{ sound.xml }}
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useFiles } from '../deluge/files'
+import { useFileStore } from '../composables/useFileStore'
 import { DateTime } from 'luxon'
 import { getSampleUrlByPath } from '../deluge/files'
 import { MusicalNoteIcon, ArchiveBoxIcon } from '@heroicons/vue/20/solid'
 import { AdjustmentsVerticalIcon } from '@heroicons/vue/24/solid'
-import SoundSamplesListItem from '../components/SoundSamplesListItem.vue'
 import MultisampleSampleListItem from '../components/MultisampleSampleListItem.vue'
+import TechnicalDetails from '../components/TechnicalDetails.vue'
 
-const store = useFiles()
+const { fileStore } = useFileStore()
 
 const props = defineProps([
   'name'
 ])
 
 
-const sound = computed(() => props.name ? store.sounds.find(sound => sound.name.split('.')[0] === props.name) : null)
-const synthSongUsageCount = computed(() => sound.value?.usage ? Object.keys(sound.value.usage.songs).length : null)
+const sound = computed(() => props.name ? fileStore.sounds.find(sound => sound.name.split('.')[0] === props.name) : null)
 
 const usageList = computed(() => {
   if (!sound.value?.usage) return []
-  const songs = Object.keys(sound.value.usage.songs).map(name => ({ type: 'song', name }))
-  const kits = Object.keys(sound.value.usage.kits).map(name => ({ type: 'kit', name }))
+  const songs = sound.value.usage.songs.map(name => ({ type: 'song', name }))
+  const kits = sound.value.usage.kits.map(name => ({ type: 'kit', name }))
   return songs.concat(kits)
 })
 </script>

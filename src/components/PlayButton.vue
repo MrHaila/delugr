@@ -11,7 +11,7 @@ button(
 <script lang="ts" setup>
 import { PlayIcon, PauseIcon } from '@heroicons/vue/20/solid'
 import { computed, onUnmounted, ref } from 'vue'
-import { useFiles } from '../deluge/files'
+import { useFileStore } from '../composables/useFileStore'
 
 interface Props {
   id: Number
@@ -20,9 +20,9 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const store = useFiles()
+const { fileStore } = useFileStore()
 
-const sample = computed(() => props.id ? store.samples.find(sample => sample.id === props.id) : null)
+const sample = computed(() => props.id ? fileStore.samples.find(sample => sample.id === props.id) : null)
 
 let audioContext: AudioContext | null = null
 let audioSource: AudioBufferSourceNode | null = null

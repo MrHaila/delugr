@@ -4,12 +4,13 @@ HModal(
   title="Delete File"
   okButtonLabel="Delete"
   :onOk="deleteFile"
+  variant="danger"
   )
   p(v-if="!file") Loading...
   div(v-else)
-    p(class="mb-1") You are about to delete #[HBadge(inline variant="warning") {{ file }}].
+    p(class="mb-1") You are about to delete #[HBadge(inline variant="danger") {{ file }}].
     p(class="text-sm text-gray-500") This action cannot be undone. All good?
-    p(class="mt-2 text-sm text-gray-500") Note: As of June 2023, the #[a(href="https://developer.mozilla.org/en-US/docs/Web/API/FileSystemHandle/remove" target="black") API for removing files] is not yet implemented in all browsers.
+    p(class="mt-2 text-sm text-gray-500") Note: As of December 2024, the #[a(href="https://developer.mozilla.org/en-US/docs/Web/API/FileSystemHandle/remove" target="blank") API for removing files] is not yet implemented in #[a(href="https://caniuse.com/mdn-api_filesystemhandle_remove" target="blank") all browsers].
     //- div(class="bg-gray-200 text-gray-600 rounded-sm p-3 border")
       p {{ file.name }}
       p {{ file.size }} bytes
@@ -20,7 +21,7 @@ HModal(
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
 import HModal from './HModal.vue'
-import { useFiles } from '../deluge/files'
+import { useFileStore } from '../composables/useFileStore'
 
 const props = defineProps<{
   fileHandle: FileSystemFileHandle
@@ -34,7 +35,7 @@ watch(() => props.fileHandle, async () => {
 
 const modal = ref<typeof HModal>()
 
-const store = useFiles()
+const { fileStore } = useFileStore()
 
 async function deleteFile() {
   try {
@@ -48,7 +49,7 @@ async function deleteFile() {
       throw error
     } else {
       // Remove from the list of skipped files.
-      store.skippedFiles = store.skippedFiles.filter(f => f.fileHandle !== props.fileHandle)
+      fileStore.skippedFiles = fileStore.skippedFiles.filter(f => f.fileHandle !== props.fileHandle)
     }
   }
 }

@@ -5,8 +5,10 @@ import {
   type Kit,
   type Lfo,
   type Oscillator,
+  type SampleRange,
   type Sound,
-  type Unison
+  type Unison,
+  type Zone
 } from "./core"
 import { defaultSynthPatch } from "./defaultSynthPatchv4"
 
@@ -151,6 +153,7 @@ function parseOscillator (xml: Element): Oscillator {
   const reversed = findDirectChildNodeByTagName(xml, 'reversed')?.textContent
   const timeStretchAmount = findDirectChildNodeByTagName(xml, 'timeStretchAmount')?.textContent
   const timeStretchEnable = findDirectChildNodeByTagName(xml, 'timeStretchEnabled')?.textContent
+  const sampleRanges = findDirectChildNodeByTagName(xml, 'sampleRanges')?.children
 
   // TODO:
   // zone?: {
@@ -170,8 +173,52 @@ function parseOscillator (xml: Element): Oscillator {
   if (reversed) oscillator.reversed = Number(reversed)
   if (timeStretchAmount) oscillator.timeStretchAmount = Number(timeStretchAmount)
   if (timeStretchEnable) oscillator.timeStretchEnable = Number(timeStretchEnable)
+  if (sampleRanges) {
+    oscillator.sampleRanges = Array.from(sampleRanges).map(sampleRange => {
+      const fileName = findDirectChildNodeByTagName(sampleRange, 'fileName')?.textContent
+      const rangeTopNote = findDirectChildNodeByTagName(sampleRange, 'rangeTopNote')?.textContent
+      const transpose = findDirectChildNodeByTagName(sampleRange, 'transpose')?.textContent
+      const cents = findDirectChildNodeByTagName(sampleRange, 'cents')?.textContent
+
+      if (!fileName) throw new Error('Missing fileName child element on sampleRange')
+
+      const returnValue: SampleRange = {
+        fileName: fileName,
+        zone: parseZone(sampleRange),
+      }
+
+      if (rangeTopNote) returnValue.rangeTopNote = Number(rangeTopNote)
+      if (transpose) returnValue.transpose = Number(transpose)
+      if (cents) returnValue.cents = Number(cents)
+
+      return returnValue
+    })
+  }
 
   return oscillator
+}
+
+function parseZone(xml: Element): Zone {
+  const zoneElement = findDirectChildNodeByTagName(xml, 'zone')
+  if (!zoneElement) throw new Error(`Zone missing 'zone' element! XML: ${xml.outerHTML}`)
+  const startSamplePos = findDirectChildNodeByTagName(zoneElement, 'startSamplePos')?.textContent
+  const endSamplePos = findDirectChildNodeByTagName(zoneElement, 'endSamplePos')?.textContent
+  const startLoopPos = findDirectChildNodeByTagName(zoneElement, 'startLoopPos')?.textContent
+  const endLoopPos = findDirectChildNodeByTagName(zoneElement, 'endLoopPos')?.textContent
+
+  if (startSamplePos === null || endSamplePos === null) {
+    throw new Error(`Zone missing child elements! XML: ${xml.outerHTML}`)
+  }
+
+  const zone: Zone = {
+    startSamplePos: Number(startSamplePos),
+    endSamplePos: Number(endSamplePos),
+  }
+
+  if (startLoopPos) zone.startLoopPos = Number(startLoopPos)
+  if (endLoopPos) zone.endLoopPos = Number(endLoopPos)
+
+  return zone
 }
 
 function parseLfo (xml: Element): Lfo {

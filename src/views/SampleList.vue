@@ -2,18 +2,18 @@
 main(class="min-w-0 flex-1 flex")
   navigation-list(
     title="Samples"
-    :listItems="store.samples"
+    :listItems="fileStore.samples"
   )
 
   router-view
 </template>
 
 <script lang="ts" setup>
-import { useFiles } from '../deluge/files'
+import { useFileStore } from '../composables/useFileStore'
 
 const props = defineProps([
   'name'
 ])
 
-const store = useFiles()
+const { fileStore } = useFileStore()
 </script>

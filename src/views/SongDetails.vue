@@ -15,7 +15,8 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         p Last modified: {{ DateTime.fromMillis(song.lastModified).toFormat('yyyy-MM-dd') }}
 
     div(class="flex space-x-3")
-      h-list-card(
+      //- Instrument list
+      HListCard(
         v-if="song.data.instruments"
         title="Instruments"
         :items="song.data.instruments"
@@ -26,18 +27,20 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             AdjustmentsVerticalIcon(v-if="item.instrumentType === 'sound'" class="h-3 inline mb-1")
             ArchiveBoxIcon(v-else-if="item.instrumentType === 'kit'" class="h-3 inline mb-1")
             MicrophoneIcon(v-else-if="item.instrumentType === 'audio track'" class="h-3 inline mb-1")
-            span(v-else class="text-xs") {{ item }}
+            EllipsisHorizontalIcon(v-else-if="item.instrumentType === 'midi track'" class="h-3 inline mb-1")
 
-            span {{ item.presetName }}
+            span(v-if="item.instrumentType === 'midi track'") MIDI Track
+            span(v-else) {{ item.presetName }}
 
-            span(class="flex-grow text-right")
-              router-link(v-if="item.instrumentType === 'sound' && store.sounds.find(sound => sound.name.split('.')[0] === item.presetName)" :to="'/synths/' + item.presetName" class="text-xs") View preset
-              router-link(v-else-if="item.instrumentType === 'kit' && store.kits.find(kit => kit.name.split('.')[0] === item.presetName)" :to="'/kits/' + item.presetName" class="text-xs") View preset
-              span(v-else class="text-xs text-gray-400") No preset found
+            span(class="flex-grow text-right text-xs")
+              RouterLink(v-if="item.instrumentType === 'sound' && fileStore.sounds.find(sound => sound.name.split('.')[0] === item.presetName)" :to="'/synths/' + item.presetName") View preset
+              RouterLink(v-else-if="item.instrumentType === 'kit' && fileStore.kits.find(kit => kit.name.split('.')[0] === item.presetName)" :to="'/kits/' + item.presetName") View preset
+              span(v-else-if="item.instrumentType === 'audio track'") Input channel: {{ item.inputChannel }}
+              span(v-else-if="item.instrumentType !== 'midi track'" class="text-gray-400") No preset found
 
             // exclamation-circle-icon(v-if="item.problem" class="h-4 text-red-400")
       
-      //h-card(class="max-w-md md:flex-1")
+      //HCard(class="max-w-md md:flex-1")
         template(#title) Actions
         div(class="space-x-3")
           h-button(@click="renameModal?.openModal()") Rename Song
@@ -54,29 +57,24 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
           template(#message) Are you sure you want to permanently delete this song? This action can't be undone.
 
 
-    div
-      h2(class="font-bold text-gray-500") Technical Details
-      p(class="text-sm mb-4 text-gray-500") The Deluge saves things into XML files. You could open them up in a normal text editor and edit the data manually if you know what you are doing. Here's a dump of what I've managed to parse so far:
+    TechnicalDetails(leftTitle="Parsed Song Data" rightTitle="Raw Song Data")
+      template(#left)
+        pre {{ song.data }}
 
-      div(class="flex space-x-3" style="font-size: 60%;")
-        div(class="rounded bg-gray-100 p-3 font-mono max-w-xl text-gray-600")
-          h3(class="font-bold") PARSED SONG DATA
-          pre {{ song.data }}
-
-        div(class="rounded bg-gray-100 p-3 font-mono max-w-xl text-gray-600")
-          h3(class="font-bold") RAW SONG DATA
-          pre(class="break-all whitespace-pre-wrap") {{ song.xml }}
+      template(#right)
+        pre {{ song.xml }}
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { useFiles } from '../deluge/files'
+import { useFileStore } from '../composables/useFileStore'
 import { DateTime } from 'luxon'
-import { ExclamationCircleIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon } from '@heroicons/vue/20/solid'
+import { ExclamationCircleIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon, EllipsisHorizontalIcon } from '@heroicons/vue/20/solid'
 // import HModal from '../components/HModal.vue'
 import { MusicalNoteIcon } from '@heroicons/vue/24/solid'
+import TechnicalDetails from '../components/TechnicalDetails.vue'
 
-const store = useFiles()
+const { fileStore } = useFileStore()
 
 const props = defineProps([
   'name'
@@ -85,5 +83,5 @@ const props = defineProps([
 // const renameModal = ref<InstanceType<typeof HModal> | null>(null)
 // const deleteModal = ref<InstanceType<typeof HModal> | null>(null)
 
-const song = computed(() => props.name ? store.songs.find(song => song.name.split('.')[0] === props.name) : null)
+const song = computed(() => props.name ? fileStore.songs.find(song => song.name.split('.')[0] === props.name) : null)
 </script>
