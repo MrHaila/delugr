@@ -22,6 +22,21 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
               RouterLink(:to="'/samples/' + sample.id") {{ sample.name.split('.')[0] }}
             play-button(:id="sample.id")
 
+      HCard(
+        class="max-w-md md:flex-1"
+        title="Most Used Samples in Kits"
+        )
+        div(class="divide-y divide-gray-200")
+          div(
+            v-for="sample in Object.values(fileStore.samples).sort((a, b) => Object.keys(b.usage.kits).length - Object.keys(a.usage.kits).length).slice(0, 39).filter(sample => Object.keys(sample.usage.kits).length > 0)"
+            :key="sample.path"
+            class="py-2 flex justify-between items-baseline"
+            )
+            span {{ Object.keys(sample.usage.kits).length }} kits - 
+              MicrophoneIcon(class="h-3 inline mb-1 mr-1")
+              RouterLink(:to="'/samples/' + sample.id") {{ sample.name.split('.')[0] }}
+            play-button(:id="sample.id")
+
       HListCard(
         v-if="fileStore.missingSamples.length > 0"
         class="max-w-md md:flex-1"

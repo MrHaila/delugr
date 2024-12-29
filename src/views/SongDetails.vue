@@ -27,7 +27,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             AdjustmentsVerticalIcon(v-if="item.instrumentType === 'sound'" class="h-3 inline mb-1")
             ArchiveBoxIcon(v-else-if="item.instrumentType === 'kit'" class="h-3 inline mb-1")
             MicrophoneIcon(v-else-if="item.instrumentType === 'audio track'" class="h-3 inline mb-1")
-            span(v-else class="text-xs") {{ item }}
+            EllipsisHorizontalIcon(v-else-if="item.instrumentType === 'midi track'" class="h-3 inline mb-1")
 
             span(v-if="item.instrumentType === 'midi track'") MIDI Track
             span(v-else) {{ item.presetName }}
@@ -69,7 +69,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 import { computed, ref } from 'vue'
 import { useFileStore } from '../composables/useFileStore'
 import { DateTime } from 'luxon'
-import { ExclamationCircleIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon } from '@heroicons/vue/20/solid'
+import { ExclamationCircleIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon, EllipsisHorizontalIcon } from '@heroicons/vue/20/solid'
 // import HModal from '../components/HModal.vue'
 import { MusicalNoteIcon } from '@heroicons/vue/24/solid'
 import TechnicalDetails from '../components/TechnicalDetails.vue'
