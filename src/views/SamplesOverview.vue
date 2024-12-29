@@ -13,7 +13,7 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
         )
         div(class="divide-y divide-gray-200")
           div(
-            v-for="sample in Object.values(fileStore.samples).sort((a, b) => b.usage.getTotal() - a.usage.getTotal()).slice(0, 19).filter(sample => sample.usage.getTotal() > 0)"
+            v-for="sample in Object.values(fileStore.samples).sort((a, b) => b.usage.getTotal() - a.usage.getTotal()).slice(0, 39).filter(sample => sample.usage.getTotal() > 0)"
             :key="sample.path"
             class="py-2 flex justify-between items-baseline"
             )
@@ -46,7 +46,10 @@ import { MicrophoneIcon } from '@heroicons/vue/20/solid'
 
 const { fileStore } = useFileStore()
 
+/**
+ * Count of all samples that have a usage count greater than 0
+ */
 const usedSamplesCount = computed(() => {
-  return fileStore.samples.map(s => s.usage.getTotal()).reduce((a, b) => a + b, 0)
+  return fileStore.samples.filter(sample => sample.usage.getTotal() > 0).length
 })
 </script>
