@@ -41,8 +41,6 @@ export function parseSongv3(xml: Element, songName: string): Song {
     } else if (i.tagName === 'audioTrack') {
       return parseAudioTrackv3(i, songName)
     } else if (i.tagName === 'midiChannel') {
-      // TODO
-      console.log(i)
       return parseMidiChannel(i, songName)
     } else {
       throw new Error(`Unknown instrument type '${i.tagName}' in instrument '${presetName}' of '${songName}'`)
