@@ -216,7 +216,6 @@ function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
   if (!modFxCurrentParam) throw new Error(`Missing 'modFXCurrentParam' attribute on audio track of song '${songName}'`)
   if (!currentFilterType) throw new Error(`Missing 'currentFilterType' attribute on audio track of song '${songName}'`)
   if (!delay) throw new Error(`Missing 'delay' element on audio track of song '${songName}'`)
-  if (!compressor) throw new Error(`Missing 'compressor' element on audio track of song '${songName}'`)
 
   const audioTrack: AudioTrack = {
     presetName: String(name),
@@ -228,12 +227,12 @@ function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
     modFxCurrentParam: String(modFxCurrentParam),
     currentFilterType: String(currentFilterType),
     delay: parseDelay(delay),
-    compressor: parseCompressor(compressor),
     instrumentType: 'audio track',
     problem: false,
   }
 
   if (echoingInput) audioTrack.echoingInput = Number(echoingInput)
+  if (compressor) audioTrack.compressor = parseCompressor(compressor)
 
   return audioTrack
 }

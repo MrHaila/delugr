@@ -85,7 +85,7 @@ export type AudioTrack = {
   modFxCurrentParam: string,
   currentFilterType: string,
   delay: Delay,
-  compressor: Compressor,
+  compressor?: Compressor,
 
   // Not part of the spec
   problem: boolean,
