@@ -257,7 +257,7 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
       }
 
       // Count missing samples
-      if (!missingSamples.includes(fileName)) missingSamples.push(fileName)
+      else if (!missingSamples.includes(fileName)) missingSamples.push(fileName)
     }
   }
 
