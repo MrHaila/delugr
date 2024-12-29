@@ -244,11 +244,11 @@ export function getInstrumentName(xml: Element): string | null {
   if (xml.hasAttribute('name')) presetName = xml.getAttribute('name')
 
   // Old instruments had slot numbers instead of names
-  if (xml.hasAttribute('presetSlot')) {
+  if (xml.hasAttribute('presetSlot') || presetName?.match(/^\d{3}$/)) {
     const prefix = xml.tagName === 'sound' ? 'SYNT' : 'KIT'
-    const slot = Number(xml.getAttribute('presetSlot'))
-    if (slot < 10) presetName = `${prefix}00${slot}`
-    else if (slot < 99) presetName = `${prefix}0${slot}`
+    const slot = presetName || Number(xml.getAttribute('presetSlot'))
+    if (typeof slot === 'number' && slot < 10) presetName = `${prefix}00${slot}`
+    else if (typeof slot === 'number' && slot < 99) presetName = `${prefix}0${slot}`
     else presetName = `${prefix}${slot}`
 
     // Also might have a sub slot

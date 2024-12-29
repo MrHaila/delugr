@@ -175,7 +175,6 @@ function parseOscillator (xml: Element): Oscillator {
   if (timeStretchEnable) oscillator.timeStretchEnable = Number(timeStretchEnable)
   if (sampleRanges) {
     oscillator.sampleRanges = Array.from(sampleRanges).map(sampleRange => {
-      console.log('sampleRange', sampleRange)
       const fileName = findDirectChildNodeByTagName(sampleRange, 'fileName')?.textContent
       const rangeTopNote = findDirectChildNodeByTagName(sampleRange, 'rangeTopNote')?.textContent
       const transpose = findDirectChildNodeByTagName(sampleRange, 'transpose')?.textContent

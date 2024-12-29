@@ -65,7 +65,7 @@ export function parseKitvCommunity (xml: Element, fileName?: string, songName?: 
   if (!presetName) {
     if (fileName) presetName = fileName.split('.')[0]
     else {
-      presetName = 'Unknown v3 kit 🤔'
+      presetName = 'Unknown community kit 🤔'
       problem = true
     }
   }
