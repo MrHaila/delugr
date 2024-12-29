@@ -1,5 +1,6 @@
 import { shallowReactive, type ShallowReactive } from "vue"
 import type { Kit, Song, Sound } from "../deluge/core"
+import { parseFolderIntoFileStore } from "../deluge/fileParsing"
 
 /**
  * Base type for all parsed asset (song/kit/synth) XML files.
@@ -39,15 +40,6 @@ export type ParsedAssetFile = {
    */
   data: Song | Sound | Kit,
   /**
-   * Usage stats for the file.
-   */
-  usage: {
-    songs: { [key: string]: boolean },
-    sounds: { [key: string]: boolean },
-    kits: { [key: string]: boolean },
-    total: number,
-  },
-  /**
    * Raw XML text contents. Kinda redundant, but helps a lot with debugging parsing errors or missing data.
    */
   xml: string,
@@ -58,7 +50,7 @@ export type ParsedAssetFile = {
  */
 export interface ParsedSongFile extends ParsedAssetFile {
   type: 'song',
-  data: Song
+  data: Song,
 }
 
 /**
@@ -66,7 +58,15 @@ export interface ParsedSongFile extends ParsedAssetFile {
  */
 export interface ParsedSoundFile extends ParsedAssetFile {
   type: 'sound',
-  data: Sound
+  data: Sound,
+  /**
+   * Usage stats for the synth.
+   */
+  usage: {
+    songs: { [key: string]: boolean },
+    kits: { [key: string]: boolean },
+    getTotal(): number,
+  },
 }
 
 /**
@@ -74,7 +74,14 @@ export interface ParsedSoundFile extends ParsedAssetFile {
  */
 export interface ParsedKitFile extends ParsedAssetFile {
   type: 'kit',
-  data: Kit
+  data: Kit,
+  /**
+   * Usage stats for the kit.
+   */
+  usage: {
+    songs: { [key: string]: boolean },
+    getTotal(): number,
+  },
 }
 
 /**
@@ -110,13 +117,22 @@ export type SampleFile = {
    */
   id: Number,
   /**
-   * Usage stats for the file.
+   * Usage stats for the sample.
    */
   usage: {
+    /**
+     * Used as audio clips in songs.
+     */
     songs: { [key: string]: UsageReference },
+    /**
+     * Used as samples or multi samples in synths.
+     */
     sounds: { [key: string]: UsageReference },
+    /**
+     * Used in individual instruments (synths) in kits.
+     */
     kits: { [key: string]: UsageReference },
-    total: number,
+    getTotal(): number,
   },
 }
 
@@ -168,8 +184,19 @@ const fileStore: ShallowReactive<DelugrFileStore> = shallowReactive({
   folderHandle: undefined,
 })
 
+/**
+ * Re-parse the current folder. Used for refreshing the file store when we know files have changed on disk.
+ */
+async function reParseFileStore() {
+  if (fileStore.folderHandle) {
+    await parseFolderIntoFileStore(fileStore.folderHandle)
+  }
+}
+
+
 export function useFileStore() {
   return {
-    fileStore
+    fileStore,
+    reParseFileStore
   }
 }

@@ -8,8 +8,8 @@ section(ria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex-
       HCard(class="max-w-md md:flex-1")
         template(#title) Leaderboard
         div(class="divide-y divide-gray-200")
-          div(v-for="kit in Object.values(fileStore.kits).sort((a, b) => b.usage.total - a.usage.total).slice(0, 19).filter(kit => kit.usage.total > 0)" :key="kit.path" class="py-2")
-            span {{ kit.usage.total }} - 
+          div(v-for="kit in Object.values(fileStore.kits).sort((a, b) => b.usage.getTotal() - a.usage.getTotal()).slice(0, 19).filter(kit => kit.usage.getTotal() > 0)" :key="kit.path" class="py-2")
+            span {{ kit.usage.getTotal() }} - 
             RouterLink(:to="'/kits/' + kit.name.split('.')[0]") {{ kit.name.split('.')[0] }}
 </template>
 
@@ -20,6 +20,6 @@ import { useFileStore } from '../composables/useFileStore'
 const { fileStore } = useFileStore()
 
 const usedKitsCount = computed(() => {
-  return fileStore.kits.map(s => s.usage.total).reduce((a, b) => a + b, 0)
+  return fileStore.kits.map(s => s.usage.getTotal()).reduce((a, b) => a + b, 0)
 })
 </script>

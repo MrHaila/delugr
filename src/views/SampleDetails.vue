@@ -23,7 +23,7 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
     div(class="flex space-x-3")
       HCard(class="max-w-3xl flex-1")
         template(#title) Usage
-        div(v-if="sample.usage.total" class="flex justify-between space-x-3")
+        div(v-if="sample.usage.getTotal()" class="flex justify-between space-x-3")
           div(class="flex-1")
             HList(
               title="Songs"

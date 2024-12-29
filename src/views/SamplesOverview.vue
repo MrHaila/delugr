@@ -13,11 +13,11 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
         )
         div(class="divide-y divide-gray-200")
           div(
-            v-for="sample in Object.values(fileStore.samples).sort((a, b) => b.usage.total - a.usage.total).slice(0, 19).filter(sample => sample.usage.total > 0)"
+            v-for="sample in Object.values(fileStore.samples).sort((a, b) => b.usage.getTotal() - a.usage.getTotal()).slice(0, 19).filter(sample => sample.usage.getTotal() > 0)"
             :key="sample.path"
             class="py-2 flex justify-between items-baseline"
             )
-            span {{ sample.usage.total }} points - 
+            span {{ sample.usage.getTotal() }} points - 
               MicrophoneIcon(class="h-3 inline mb-1 mr-1")
               RouterLink(:to="'/samples/' + sample.id") {{ sample.name.split('.')[0] }}
             play-button(:id="sample.id")
@@ -47,6 +47,6 @@ import { MicrophoneIcon } from '@heroicons/vue/20/solid'
 const { fileStore } = useFileStore()
 
 const usedSamplesCount = computed(() => {
-  return fileStore.samples.map(s => s.usage.total).reduce((a, b) => a + b, 0)
+  return fileStore.samples.map(s => s.usage.getTotal()).reduce((a, b) => a + b, 0)
 })
 </script>

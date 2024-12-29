@@ -28,13 +28,13 @@ div(class="py-2")
 
 <script lang="ts" setup>
 import type { SampleRange } from '../deluge/core'
-import { getSampleByPath, remapSampleInParsedFile, reParseFileStore } from '../deluge/files'
+import { getSampleByPath, remapSampleInParsedAssetFile } from '../deluge/files'
 import { ExclamationCircleIcon, MicrophoneIcon } from '@heroicons/vue/20/solid'
 import PlayButton from './PlayButton.vue'
 import { computed, ref } from 'vue'
 import { useFileStore, type ParsedAssetFile, type SampleFile } from '../composables/useFileStore'
 
-const { fileStore } = useFileStore()
+const { fileStore, reParseFileStore } = useFileStore()
 
 const props = defineProps<{
   sampleRange: SampleRange
@@ -56,7 +56,7 @@ const samplesWithSimilarNames = computed(() => {
 const isRemapped = ref(false)
 
 function remapSample(newSample: SampleFile) {
-  remapSampleInParsedFile(props.sourceFile, props.sampleRange.fileName, newSample.path)
+  remapSampleInParsedAssetFile(props.sourceFile, props.sampleRange.fileName, newSample.path)
   isRemapped.value = true
 }
   

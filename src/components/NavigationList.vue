@@ -93,7 +93,12 @@ function buildNavigationLevelForPath(path: string): NavigationLevel {
 }
 
 function isNavigationLevelUnused(files: (ParsedAssetFile | SampleFile)[], folders: NavigationLevel[]): boolean {
-  return files.every(file => file.usage.total === 0) && folders.every(folder => isNavigationLevelUnused(folder.files, folder.folders))
+  const filesUnused = files.every(file => {
+    if ('usage' in file) return file.usage.getTotal() === 0
+    else return false // Songs can't be un-used
+  })
+  const foldersUnused = folders.every(folder => isNavigationLevelUnused(folder.files, folder.folders))
+  return filesUnused && foldersUnused
 
 }
 
@@ -175,7 +180,7 @@ const isUnused = (item: ParsedAssetFile | SampleFile | any): boolean => {
     // Songs can't be un-used
     if (item.type === 'song') return false
   }
-  if ((Object.keys(item.usage.kits).length === 0 && Object.keys(item.usage.sounds).length === 0 && Object.keys(item.usage.songs).length === 0)) return true
+  if (item.usage.getTotal() === 0) return true
   return false
 }
 

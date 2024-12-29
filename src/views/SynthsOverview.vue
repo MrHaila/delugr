@@ -8,8 +8,8 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
       HCard(class="max-w-md md:flex-1")
         template(#title) Leaderboard
         div(class="divide-y divide-gray-200")
-          div(v-for="sound in Object.values(fileStore.sounds).sort((a, b) => b.usage.total - a.usage.total).slice(0, 19).filter(sound => sound.usage.total > 0)" :key="sound.path" class="py-2")
-            span {{ sound.usage.total }} - 
+          div(v-for="sound in Object.values(fileStore.sounds).sort((a, b) => b.usage.getTotal() - a.usage.getTotal()).slice(0, 19).filter(sound => sound.usage.getTotal() > 0)" :key="sound.path" class="py-2")
+            span {{ sound.usage.getTotal() }} - 
             RouterLink(:to="'/synths/' + sound.name.split('.')[0]") {{ sound.name.split('.')[0] }}
 </template>
 
@@ -20,6 +20,6 @@ import { useFileStore } from '../composables/useFileStore'
 const { fileStore } = useFileStore()
 
 const usedSynthsCount = computed(() => {
-  return fileStore.sounds.map(s => s.usage.total).reduce((a, b) => a + b, 0)
+  return fileStore.sounds.map(s => s.usage.getTotal()).reduce((a, b) => a + b, 0)
 })
 </script>

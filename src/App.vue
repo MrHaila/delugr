@@ -79,11 +79,11 @@ div(v-else class="flex h-screen")
 <script lang="ts" setup>
 import HLogo from './components/HLogo.vue'
 import SidebarLink from './components/SidebarLink.vue'
-import { parseFolder as actuallyParseFolder } from './deluge/files'
 import { ref } from 'vue'
 import { get, set } from 'idb-keyval'
 import { useDragAndDrop } from './useDragAndDrop'
 import { useFileStore } from './composables/useFileStore'
+import { parseFolderIntoFileStore } from './deluge/fileParsing'
 
 const { fileStore } = useFileStore()
 
@@ -144,7 +144,7 @@ async function parseFolder(rootFolder: FileSystemDirectoryHandle) {
   try {
     fileStore.isParsed = false
     fileStore.parseError = null
-    await actuallyParseFolder(rootFolder)
+    await parseFolderIntoFileStore(rootFolder)
     document.getElementById('animation-root')?.remove()
   } catch (e) {
     console.error(e)
