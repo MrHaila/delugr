@@ -169,9 +169,9 @@ export type Oscillator = {
 }
 
 export type SampleRange = {
-  rangeTopNote: Number,
+  rangeTopNote?: Number,
   fileName: string,
-  transpose: Number,
+  transpose?: Number,
   cents?: Number,
   zone: Zone
 }

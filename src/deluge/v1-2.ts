@@ -175,14 +175,24 @@ function parseOscillator (xml: Element): Oscillator {
   if (timeStretchEnable) oscillator.timeStretchEnable = Number(timeStretchEnable)
   if (sampleRanges) {
     oscillator.sampleRanges = Array.from(sampleRanges).map(sampleRange => {
-      //console.log('sampleRange', sampleRange)
-      return {
-        fileName: String(sampleRange.getAttribute('fileName')),
-        rangeTopNote: Number(sampleRange.getAttribute('rangeTopNote')),
-        transpose: Number(sampleRange.getAttribute('transpose')),
-        zone: parseZone(sampleRange),
+      console.log('sampleRange', sampleRange)
+      const fileName = findDirectChildNodeByTagName(sampleRange, 'fileName')?.textContent
+      const rangeTopNote = findDirectChildNodeByTagName(sampleRange, 'rangeTopNote')?.textContent
+      const transpose = findDirectChildNodeByTagName(sampleRange, 'transpose')?.textContent
+      const cents = findDirectChildNodeByTagName(sampleRange, 'cents')?.textContent
 
-      } satisfies SampleRange
+      if (!fileName) throw new Error('Missing fileName child element on sampleRange')
+
+      const returnValue: SampleRange = {
+        fileName: fileName,
+        zone: parseZone(sampleRange),
+      }
+
+      if (rangeTopNote) returnValue.rangeTopNote = Number(rangeTopNote)
+      if (transpose) returnValue.transpose = Number(transpose)
+      if (cents) returnValue.cents = Number(cents)
+
+      return returnValue
     })
   }
 
@@ -198,7 +208,7 @@ function parseZone(xml: Element): Zone {
   const endLoopPos = findDirectChildNodeByTagName(zoneElement, 'endLoopPos')?.textContent
 
   if (startSamplePos === null || endSamplePos === null) {
-    throw new Error(`Zone missing attributes! XML: ${xml.outerHTML}`)
+    throw new Error(`Zone missing child elements! XML: ${xml.outerHTML}`)
   }
 
   const zone: Zone = {
