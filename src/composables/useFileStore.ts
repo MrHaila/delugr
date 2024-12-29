@@ -63,8 +63,8 @@ export interface ParsedSoundFile extends ParsedAssetFile {
    * Usage stats for the synth.
    */
   usage: {
-    songs: { [key: string]: boolean },
-    kits: { [key: string]: boolean },
+    songs: string[],
+    kits: string[],
     getTotal(): number,
   },
 }
@@ -79,7 +79,7 @@ export interface ParsedKitFile extends ParsedAssetFile {
    * Usage stats for the kit.
    */
   usage: {
-    songs: { [key: string]: boolean },
+    songs: string[],
     getTotal(): number,
   },
 }
@@ -123,20 +123,20 @@ export type SampleFile = {
     /**
      * Used as audio clips in songs.
      */
-    songs: { [key: string]: UsageReference },
+    songs: { [key: string]: SampleUsageRecord },
     /**
      * Used as samples or multi samples in synths.
      */
-    sounds: { [key: string]: UsageReference },
+    sounds: { [key: string]: SampleUsageRecord },
     /**
      * Used in individual instruments (synths) in kits.
      */
-    kits: { [key: string]: UsageReference },
+    kits: { [key: string]: SampleUsageRecord },
     getTotal(): number,
   },
 }
 
-export type UsageReference = {
+export type SampleUsageRecord = {
   instrumentType: string,
   instrumentName: string,
 }

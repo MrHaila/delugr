@@ -1,4 +1,4 @@
-import { useFileStore, type ParsedAssetFile, type ParsedKitFile, type ParsedSongFile, type ParsedSoundFile, type SampleFile, type SkippedFile } from "../composables/useFileStore"
+import { useFileStore, type ParsedKitFile, type ParsedSongFile, type ParsedSoundFile, type SampleFile, type SkippedFile } from "../composables/useFileStore"
 import type { Sound } from "./core"
 import { parseKitv1, parseSoundv1 } from "./v1-2"
 import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3-4"
@@ -103,10 +103,11 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
         if (instrument.instrumentType === 'sound') {
           const sound = sounds.find(sound => sound.data.presetName === instrument.presetName)
           if (sound) {
-            // Count sound/synth usage in the song
-            if (!sound.usage.songs[songName]) {
-              sound.usage.songs[songName] = true
+            // Count sound/synth usage in the song if not already counted
+            if (!sound.usage.songs.includes(songName)) {
+              sound.usage.songs.push(songName)
             }
+
             computeSampleUsageInSound(sound.data, undefined, songName)
           }
 
@@ -115,9 +116,9 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
           // TODO: consider kit instances vs presets
           const kit = kits.find(kit => kit.data.presetName === instrument.presetName)
           if (kit) {
-            // Count kit usage in the song
-            if (!kit.usage.songs[songName]) {
-              kit.usage.songs[songName] = true
+            // Count kit usage in the song if not already counted
+            if (!kit.usage.songs.includes(songName)) {
+              kit.usage.songs.push(songName)
             }
 
             // Sounds inside kits
@@ -126,9 +127,9 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
               const sound = sounds.find(sound => sound.data.presetName === soundSource.presetName)
               if (sound) {
                 // Found a preset with the same name. Let's assume it's the same sound.
-                // Count sound usage in the kit
-                if (!sound.usage.kits[kit.data.presetName]) {
-                  sound.usage.kits[kit.data.presetName] = true
+                // Count sound usage in the kit if not already counted
+                if (!sound.usage.kits.includes(kit.data.presetName)) {
+                  sound.usage.kits.push(kit.data.presetName)
                 }
               }
 
@@ -229,16 +230,25 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
 
     // Find the samples in the store and count usage
     for (const fileName of fileNames) {
-      const sample = samples.find(sample => sample.path.toLowerCase() === '/' + fileName.toLocaleLowerCase())
+      const sample = samples.find(sample => sample.path.toLowerCase() === '/' + fileName.toLowerCase())
+
+      // If sample is found in the store, count usage.
+      // This is complex because we keep track of attribution for UI purposes.
       if (sample) {
+        // Always count usage in the sound (synth)
         countSampleUsageInSound(sample, sound.presetName, sound.presetName, 'synth')
+
+        // If this was in a kit that was in a song, count usage in the kit and song
         if (kitName && songName) {
+          // TODO: how to check if the the specific sound was actually used in the song?
           countSampleUsageInKit(sample, kitName, sound.presetName, 'synth')
           countSampleUsageInSong(sample, songName, kitName, 'kit')
         }
+        // If this was in a song, but not in a kit, count usage in the song in addition to the sound
         else if (!kitName && songName) {
           countSampleUsageInSong(sample, songName, sound.presetName, 'synth')
         }
+        // If this was in a kit, but not in a song, count usage in the kit in addition to the sound
         else if (kitName && !songName) {
           countSampleUsageInKit(sample, kitName, sound.presetName, 'synth')
         }
@@ -362,8 +372,8 @@ async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): P
         type: 'sound',
         url: encodeURI(`/synths/${name.split('.')[0]}`),
         usage: {
-          songs: {},
-          kits: {},
+          songs: [],
+          kits: [],
           getTotal() {
             return Object.keys(this.songs).length + Object.keys(this.kits).length
           },
@@ -388,7 +398,7 @@ async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): P
         type: 'kit',
         url: encodeURI(`/kits/${name.split('.')[0]}`),
         usage: {
-          songs: {},
+          songs: [],
           getTotal() {
             return Object.keys(this.songs).length
           },
