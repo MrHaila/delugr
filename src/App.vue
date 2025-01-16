@@ -81,7 +81,7 @@ import HLogo from './components/HLogo.vue'
 import SidebarLink from './components/SidebarLink.vue'
 import { ref } from 'vue'
 import { get, set } from 'idb-keyval'
-import { useDragAndDrop } from './useDragAndDrop'
+import { useDragAndDrop } from './composables/useDragAndDrop'
 import { useFileStore } from './composables/useFileStore'
 import { parseFolderIntoFileStore } from './deluge/fileParsing'
 
