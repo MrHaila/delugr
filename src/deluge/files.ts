@@ -100,6 +100,71 @@ function similarityScore(str1: string, str2: string): number {
   return score;
 }
 
+/**
+ * Renames a sample file and updates all XML files that reference it.
+ * Uses pre-computed usage data to quickly find all files that need updating.
+ * @param sample The sample file to rename
+ * @param newName The new name for the sample file (just the filename, not the full path)
+ */
+export async function renameSample(sample: SampleFile, newName: string) {
+  const oldPath = sample.path
+  const newPath = oldPath.substring(0, oldPath.lastIndexOf('/') + 1) + newName
+
+  // Get the relative parent directory path
+  const parentDir = oldPath.substring(0, oldPath.lastIndexOf('/'))
+  const startDir = parentDir ? await fileStore.folderHandle!.getDirectoryHandle(parentDir, { create: false }) : fileStore.folderHandle
+
+  // First rename the actual file on disk
+  const newFileHandle = await window.showSaveFilePicker({
+    suggestedName: newName,
+    startIn: startDir
+  });
+  
+  // Copy the contents of the old file to the new location
+  const oldFile = await sample.fileHandle.getFile();
+  const writable = await newFileHandle.createWritable();
+  await writable.write(oldFile);
+  await writable.close();
+  
+  // Remove the old file
+  await startDir?.removeEntry(sample.name)
+
+  // Update the sample object
+  sample.name = newName
+  sample.path = newPath
+  sample.fileHandle = newFileHandle
+
+  // Update all XML files that reference this sample
+  const updatePromises: Promise<void>[] = []
+
+  // Update song references
+  for (const songPath in sample.usage.songs) {
+    const song = fileStore.songs.find(s => s.path === songPath)
+    if (song) {
+      updatePromises.push(remapSampleInParsedAssetFile(song, oldPath, newPath))
+    }
+  }
+
+  // Update sound references
+  for (const soundPath in sample.usage.sounds) {
+    const sound = fileStore.sounds.find(s => s.path === soundPath)
+    if (sound) {
+      updatePromises.push(remapSampleInParsedAssetFile(sound, oldPath, newPath))
+    }
+  }
+
+  // Update kit references
+  for (const kitPath in sample.usage.kits) {
+    const kit = fileStore.kits.find(k => k.path === kitPath)
+    if (kit) {
+      updatePromises.push(remapSampleInParsedAssetFile(kit, oldPath, newPath))
+    }
+  }
+
+  // Wait for all file updates to complete
+  await Promise.all(updatePromises)
+}
+
 export async function remapSampleInParsedAssetFile(parsedFile: ParsedAssetFile, oldPath: string, newPath: string) {
   newPath = newPath.replace(/\\/g, '/') // Normalize path separators. Deluge does not start with a backslash, while the file system does.
 
@@ -118,4 +183,3 @@ export async function remapSampleInParsedAssetFile(parsedFile: ParsedAssetFile, 
 
   // TODO: Update the sample usage. Maybe show a notification to trigger re-scanning all files at once to avoid monkeying around with individual files?
 }
-
