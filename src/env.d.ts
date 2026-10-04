@@ -10,7 +10,7 @@ import HListCard from './components/HListCard.vue'
 import HModal from './components/HModal.vue'
 import HTextField from './components/HTextField.vue'
 
-declare module '@vue/runtime-core' {
+declare module 'vue' {
   export interface GlobalComponents {
     RouterLink: typeof RouterLink
     RouterView: typeof RouterView

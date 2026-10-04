@@ -10,28 +10,35 @@
   },
   "dependencies": {
     "filesize": "^10.1.6",
-    "vue": "^3.5.13"
+    "vue": "^3.5.43"
   },
   "devDependencies": {
     "@heroicons/vue": "^2.2.0",
-    "@tailwindcss/forms": "^0.5.9",
-    "@types/luxon": "^3.4.2",
+    "@tailwindcss/forms": "^0.5.11",
+    "@types/luxon": "^3.7.6",
     "@types/wavesurfer.js": "^6.0.12",
-    "@types/wicg-file-system-access": "^2023.10.5",
-    "@vitejs/plugin-vue": "^5.2.1",
-    "@vue/language-plugin-pug": "latest",
-    "@vue/tsconfig": "^0.7.0",
-    "@vueuse/core": "^12.2.0",
-    "autoprefixer": "^10.4.20",
-    "idb-keyval": "^6.2.1",
-    "luxon": "^3.5.0",
-    "postcss": "^8.4.49",
-    "pug": "^3.0.3",
-    "tailwindcss": "^3.4.17",
-    "typescript": "^5.7.2",
-    "vite": "^6.0.6",
-    "vue-router": "^4.5.0",
-    "vue-tsc": "latest",
-    "wavesurfer.js": "^7.8.14"
+    "@types/wicg-file-system-access": "^2023.10.7",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "@vue/language-plugin-pug": "^3.3.12",
+    "@vue/tsconfig": "^0.9.1",
+    "@vueuse/core": "^12.8.2",
+    "autoprefixer": "^10.6.1",
+    "idb-keyval": "^6.3.0",
+    "luxon": "^3.7.2",
+    "postcss": "^8.5.28",
+    "pug": "^3.0.4",
+    "tailwindcss": "^3.4.19",
+    "typescript": "~5.9.3",
+    "vite": "^6.4.3",
+    "vue-router": "^4.6.4",
+    "vue-tsc": "^3.3.12",
+    "wavesurfer.js": "^7.12.12"
+  },
+  "optionalDependencies": {
+    "node-linux-x64": "^22.23.3",
+    "node-linux-arm64": "^22.23.3",
+    "node-darwin-x64": "^22.23.3",
+    "node-darwin-arm64": "^22.23.3",
+    "node-win32-x64": "^22.23.3"
   }
 }
