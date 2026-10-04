@@ -30,13 +30,6 @@
         "vue-tsc": "^3.3.12",
         "wavesurfer.js": "^7.12.12",
       },
-      "optionalDependencies": {
-        "node-darwin-arm64": "^22.23.3",
-        "node-darwin-x64": "^22.23.3",
-        "node-linux-arm64": "^22.23.3",
-        "node-linux-x64": "^22.23.3",
-        "node-win32-x64": "^22.23.3",
-      },
     },
   },
   "packages": {
@@ -369,12 +362,6 @@
     "mz": ["mz@2.7.0", "", { "dependencies": { "any-promise": "^1.0.0", "object-assign": "^4.0.1", "thenify-all": "^1.0.0" } }, "sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q=="],
 
     "nanoid": ["nanoid@3.3.19", "", { "bin": { "nanoid": "bin/nanoid.cjs" } }, "sha512-Y2tUNy4ouw6tq5oDSKeQYGOyhkUBhNOcGV/02KC+6kd9eDGqdZd++mjMiIDilrBYvjEnCYvVtsuHCuP+okSfug=="],
-
-    "node-darwin-x64": ["node-darwin-x64@22.23.3", "", { "os": "darwin", "cpu": "x64", "bin": { "node": "bin/node" } }, "sha512-V6W/fNXsKFF0DMrBrpLNp9meU45Qbe6tQ3HlzrpdiPWW+zlbmTGou1LE8aGHOghVWXJFexvi7RDCQVQi1I1t8w=="],
-
-    "node-linux-arm64": ["node-linux-arm64@22.23.3", "", { "os": "linux", "cpu": "arm64", "bin": { "node": "bin/node" } }, "sha512-l3DAHZreylo+p9QXDtsOrjG2JXJqVzYXnAGmIQNOUNARcMppTO2cmewVQP+36tjJnSE+dzpMNtgW+c3oiDvXtA=="],
-
-    "node-linux-x64": ["node-linux-x64@22.23.3", "", { "os": "linux", "cpu": "x64", "bin": { "node": "bin/node" } }, "sha512-qHnz5tFsHoj/WM+uRENVjWONi5hVvmwrgq8A4V76KpuVNAc4+jwK8x4gwbobE9BtHNg/AKR2583eYorLF/c7ng=="],
 
     "node-releases": ["node-releases@2.0.57", "", {}, "sha512-kQK9LGGFiHtrWiNhZtA7Qbw17AQz+dmsEKODRIVTXA9+e5MS/2gZEBhYJt13GrAz5/IOZKddH/0Z3TP/Zgo+yw=="],
 
