@@ -32,7 +32,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             span(v-if="item.instrumentType === 'midi track'") MIDI Track
             span(v-else) {{ item.presetName }}
 
-            span(class="flex-grow text-right text-xs")
+            span(class="grow text-right text-xs")
               RouterLink(v-if="item.instrumentType === 'sound' && fileStore.sounds.find(sound => sound.name.split('.')[0] === item.presetName)" :to="'/synths/' + item.presetName") View preset
               RouterLink(v-else-if="item.instrumentType === 'kit' && fileStore.kits.find(kit => kit.name.split('.')[0] === item.presetName)" :to="'/kits/' + item.presetName") View preset
               span(v-else-if="item.instrumentType === 'audio track'") Input channel: {{ item.inputChannel }}

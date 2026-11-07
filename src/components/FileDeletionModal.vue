@@ -11,7 +11,7 @@ HModal(
     p(class="mb-1") You are about to delete #[HBadge(inline variant="danger") {{ file }}].
     p(class="text-sm text-gray-500") This action cannot be undone. All good?
     p(class="mt-2 text-sm text-gray-500") Note: As of December 2024, the #[a(href="https://developer.mozilla.org/en-US/docs/Web/API/FileSystemHandle/remove" target="blank") API for removing files] is not yet implemented in #[a(href="https://caniuse.com/mdn-api_filesystemhandle_remove" target="blank") all browsers].
-    //- div(class="bg-gray-200 text-gray-600 rounded-sm p-3 border")
+    //- div(class="bg-gray-200 text-gray-600 rounded-xs p-3 border border-gray-200")
       p {{ file.name }}
       p {{ file.size }} bytes
       p {{ file.lastModified }}

@@ -1,5 +1,5 @@
 <template lang="pug">
-span(:class="['py-0.5 px-1 ml-0.5 font-normal text-xs rounded align-middle', { 'relative bottom-0.5': inline }, variantClass]")
+span(:class="['py-0.5 px-1 ml-0.5 font-normal text-xs rounded-sm align-middle', { 'relative bottom-0.5': inline }, variantClass]")
   slot
 </template>
 

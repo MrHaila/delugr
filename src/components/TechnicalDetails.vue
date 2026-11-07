@@ -7,11 +7,11 @@ div
       p Here's a dump of what I've managed to parse so far:
 
     div(class="flex space-x-3 w-full" style="font-size: 60%;")
-      div(class="rounded bg-gray-100 p-3 font-mono w-full overflow-x-auto text-gray-600")
+      div(class="rounded-sm bg-gray-100 p-3 font-mono w-full overflow-x-auto text-gray-600")
         h3(class="font-bold") {{ leftTitle }}
         slot(name="left")
 
-      div(class="rounded bg-gray-100 p-3 font-mono w-full overflow-x-auto text-gray-600")
+      div(class="rounded-sm bg-gray-100 p-3 font-mono w-full overflow-x-auto text-gray-600")
         h3(class="font-bold") {{ rightTitle }}
         slot(name="right")
 </template>

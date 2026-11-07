@@ -2,8 +2,8 @@
 div
   label(for="email" class="block text-sm font-medium") {{ label }}
 
-  div(class="mt-1 relative rounded-md shadow-sm")
-    input(class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md" v-model="internalValue" type="text")
+  div(class="mt-1 relative rounded-md shadow-xs")
+    input(class="block w-full pr-10 focus:outline-hidden sm:text-sm rounded-md" v-model="internalValue" type="text")
     div(class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none")
       ExclamationCircleIcon(class="h-5 w-5 text-red-500" aria-hidden="true")
 

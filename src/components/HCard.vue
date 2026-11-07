@@ -1,5 +1,5 @@
 <template lang="pug">
-div(class="bg-white shadow overflow-hidden sm:rounded-lg")
+div(class="bg-white shadow-sm overflow-hidden sm:rounded-lg")
   //- Header
   div(class="px-5 py-4")
     h3(class="text-lg leading-6 font-semibold text-gray-900")

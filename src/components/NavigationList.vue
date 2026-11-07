@@ -4,7 +4,7 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 overflow-y-auto 
   div(class="flex m-2 mb-0")
     div(
       @click="navigateBack"
-      :class="['py-1 text-sm cursor-pointer hover:bg-gray-300 active:bg-gray-400 flex items-center rounded select-none border border-gray-300', { 'text-gray-300 disabled pointer-events-none': currentNavigationLevel.name === '/' } ]"
+      :class="['py-1 text-sm cursor-pointer hover:bg-gray-300 active:bg-gray-400 flex items-center rounded-sm select-none border border-gray-300', { 'text-gray-300 disabled pointer-events-none': currentNavigationLevel.name === '/' } ]"
       )
       chevron-left-icon(class="h-5")
       span(class="mr-2") Back

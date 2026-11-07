@@ -46,7 +46,7 @@ div(v-if="fileStore.parseError || !fileStore.isParsed" class="pt-20 space-y-20 h
 
   //- App description
   div(class="flex justify-center pb-20")
-    div(class="shadow rounded p-5 space-y-3 backdrop-blur-md bg-white/30" style="width: 42rem")
+    div(class="shadow-sm rounded-sm p-5 space-y-3 backdrop-blur-md bg-white/30" style="width: 42rem")
       h3(class="font-bold") 👋 Greetings, stranger!
       p Delugr is a web-app that lets you browse the contents of your Deluge memory card.
       p It uses the new #[a(href="https://web.dev/file-system-access/" target="blank") File System Access API] to read the contents of your memory card, so there's no need to install anything! As of December 2024, the API is not yet supported by #[a(href="https://caniuse.com/native-filesystem-api" target="blank") Firefox, Safari or any of the mobile browsers].
@@ -54,7 +54,7 @@ div(v-if="fileStore.parseError || !fileStore.isParsed" class="pt-20 space-y-20 h
 
 //- Actual thing
 div(v-else class="flex h-screen")
-  nav(aria-label="Sidebar" class="flex-shrink-0 bg-gray-800 flex flex-col justify-between text-gray-400")
+  nav(aria-label="Sidebar" class="shrink-0 bg-gray-800 flex flex-col justify-between text-gray-400")
     div(class="space-y-3 py-3")
       div(class="flex justify-center font-bold")
         RouterLink(to="/" class="text-gray-400 hover:text-gray-50 hover:no-underline") Delugr
@@ -66,7 +66,7 @@ div(v-else class="flex h-screen")
         sidebar-link(variant="samples")
 
       //div(class="flex justify-center")
-        RefreshIcon(aria-hidden="true" @click="parseFolder(store.folderHandle)" class="border border-gray-700 h-7 w-7 p-1 text-gray-400 hover:bg-gray-700 rounded")
+        RefreshIcon(aria-hidden="true" @click="parseFolder(store.folderHandle)" class="border border-gray-700 h-7 w-7 p-1 text-gray-400 hover:bg-gray-700 rounded-sm")
 
     div(class="flex justify-center")
       a(href="https://haila.fi" target="_blank" class="h-4 mb-4 fill-current text-gray-400 hover:text-gray-50")
