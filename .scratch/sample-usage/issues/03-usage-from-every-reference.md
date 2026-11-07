@@ -23,7 +23,7 @@ Spec: `.scratch/sample-usage/spec.md` · ADR: `docs/adr/0001-usage-from-all-samp
 
 ## Acceptance
 
-- Fixture card: every Sample referenced by any fixture file has Usage > 0. The 4 deliberately unreferenced samples (`config.unusedSamples`) are the only Unused samples.
+- Fixture card: every Sample referenced by any fixture file has Usage > 0. Unused samples are the 4 deliberately unreferenced samples (`config.unusedSamples`) plus `SAMPLES/D012/D020/S0066.wav`, which is only referenced past the parse error in Malformed `KITS/KIT041.XML` (covered by Incomplete usage).
 - `SYNTHS/Edge missing sample.XML`'s reference `SAMPLES/MISSING/S9999.wav` is a Missing sample owned by that file.
 - A Sample referenced only by a Song Instance (no matching Preset) is used.
 - A Sample referenced only by a Preset that is Not in any song is used.

@@ -29,7 +29,7 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
             ArchiveBoxIcon(v-else-if="file.fileType === 'kit'" class="h-3 inline mb-1 mr-1")
             AdjustmentsVerticalIcon(v-else class="h-3 inline mb-1 mr-1")
             RouterLink(:to="file.fileUrl") {{ file.fileName.split('.')[0] }}
-            div(v-for="line in file.lines" class="text-xs text-gray-400 pl-4") {{ line }}
+            div(v-for="line in file.lines" :key="line" class="text-xs text-gray-400 pl-4") {{ line }}
 
         div(v-else class="italic text-gray-400") Unused sample: no song, synth or kit references it.
 
