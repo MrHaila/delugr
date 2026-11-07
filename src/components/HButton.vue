@@ -1,7 +1,7 @@
 <template lang="pug">
 button(
   type="button"
-  :class="['focus:outline-none focus:ring-2 focus:ring-offset-2 inline-flex justify-center items-center border border-transparent font-medium shadow-sm select-none text-white', variantClasses, sizeClasses]"
+  :class="['cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-offset-2 inline-flex justify-center items-center border border-transparent font-medium shadow-xs select-none text-white', variantClasses, sizeClasses]"
   )
   slot Button TBD
 </template>
@@ -33,7 +33,7 @@ const variantClasses = computed(() => {
 const sizeClasses = computed(() => {
   switch (props.size) {
     case 'xs':
-      return 'text-xs px-1 py-0.5 rounded-sm'
+      return 'text-xs px-1 py-0.5 rounded-xs'
     default:
       return 'text-sm px-4 py-2 rounded-md'
   }

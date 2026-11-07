@@ -33,7 +33,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             span(v-if="item.instrumentType === 'midi track'") MIDI Track
             span(v-else) {{ item.presetName }}
 
-            span(class="flex-grow text-right text-xs")
+            span(class="grow text-right text-xs")
               RouterLink(v-if="derivedFrom(item)" :to="derivedFrom(item)!.url" title="A preset with the same name. The song keeps its own copy, which may differ.") Derived from preset
               span(v-else-if="item.instrumentType === 'audio track'") Input channel: {{ item.inputChannel }}
               span(v-else-if="item.instrumentType !== 'midi track'" class="text-gray-400") No preset with this name
