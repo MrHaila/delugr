@@ -1,9 +1,10 @@
-import { readdirSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { beforeAll, describe, expect, test, vi } from 'vitest'
 import { parseAssetFile, parseFolderIntoFileStore } from '../src/deluge/fileParsing'
 import { useFileStore } from '../src/composables/useFileStore'
-import { directoryHandleFromDisk, fileHandleFromDisk } from './helpers/diskHandles'
+import { directoryHandleFromDisk, fileHandleFromDisk, memoryFileHandle } from './helpers/diskHandles'
+import { remapSampleInParsedAssetFile } from '../src/deluge/files'
 
 const cardRoot = resolve(__dirname, 'fixtures/card')
 const assetFiles = ['SONGS', 'SYNTHS', 'KITS'].flatMap(dir =>
@@ -35,6 +36,37 @@ describe('fixture card: individual files', () => {
     const result = await parseAssetFile(fileHandleFromDisk(join(cardRoot, 'SYNTHS/SYNT001.XML')), '/x')
     if (typeof result === 'string') throw new Error(`Expected parsed file, got: ${result}`)
     expect(result.xmlError).toBeNull()
+  })
+
+  test.each(['SYNTHS/SYNT042.XML', 'SYNTHS/SYNT001.XML', 'KITS/KIT022.XML', 'SONGS/Song 001.XML', 'SYNTHS/Synth 002.XML'])(
+    '%s keeps the original file text', async (rel) => {
+      const result = await parseAssetFile(fileHandleFromDisk(join(cardRoot, rel)), `/${rel}`)
+      if (typeof result === 'string') throw new Error(result)
+      expect(result.xml).toBe(readFileSync(join(cardRoot, rel), 'utf8'))
+    })
+
+  test('rewriting a 2.x file keeps its firmware version', async () => {
+    const text = readFileSync(join(cardRoot, 'SYNTHS/SYNT168.XML'), 'utf8')
+    const handle = memoryFileHandle('SYNT168.XML', text)
+    const result = await parseAssetFile(handle, '/SYNTHS/SYNT168.XML')
+    if (typeof result === 'string') throw new Error(result)
+    const oldPath = text.match(/SAMPLES\/[^"<]+/)![0]
+    await remapSampleInParsedAssetFile(result, oldPath, 'SAMPLES/NEW/renamed.wav')
+    expect(handle.writes).toBe(1)
+    expect(handle.text()).toContain('<firmwareVersion>2.1.0</firmwareVersion>')
+    expect(handle.text()).toContain('SAMPLES/NEW/renamed.wav')
+  })
+
+  test('songs list their Recordings', async () => {
+    const parse = async (rel: string) => {
+      const result = await parseAssetFile(fileHandleFromDisk(join(cardRoot, rel)), `/${rel}`)
+      if (typeof result === 'string' || result.type !== 'song') throw new Error(`Expected song: ${rel}`)
+      return result.data.recordings
+    }
+    expect(await parse('SONGS/Song 004.XML')).toContainEqual(expect.objectContaining({ filePath: 'SAMPLES/D038/S0297.WAV' }))
+    // An armed clip with nothing recorded is kept, but its path is absent.
+    expect(await parse('SONGS/Song 002.XML')).toContainEqual(expect.objectContaining({ filePath: null }))
+    // No community firmware song fixture exists yet, so parseSongvCommunity's Recordings are untested.
   })
 
   test('unsupported firmware is reported, not thrown', async () => {

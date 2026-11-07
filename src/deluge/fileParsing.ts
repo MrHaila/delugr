@@ -317,7 +317,9 @@ const parser = new DOMParser()
 export async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): Promise<ParsedSongFile | ParsedSoundFile | ParsedKitFile | SampleFile | string> {
   const file = await fileHandle.getFile()
   const lastModified = file.lastModified
-  let xml = await file.text()
+  // Keep the original text for writes; parse from a copy that may be fixed up below.
+  const xml = await file.text()
+  let parseableXml = xml
   let firmware
 
   // Old firmware versions don't have the firmware version in the XML file
@@ -330,9 +332,9 @@ export async function parseAssetFile(fileHandle: FileSystemFileHandle, path: str
     let to = xml.indexOf('</firmwareVersion>')
     firmware = xml.substring(from + 17, to)
 
-    // Fix the XML to make it valid
+    // Drop the extra top-level nodes so the parsing copy has a single root element
     to = xml.indexOf('</earliestCompatibleFirmware>') + 30
-    xml = xml.substring(0, from) + xml.substring(to)
+    parseableXml = xml.substring(0, from) + xml.substring(to)
   }
   // 3.x and 4.x have a firmwareVersion attribute on the root node
   else if (xml.includes('firmwareVersion="')) {
@@ -342,7 +344,7 @@ export async function parseAssetFile(fileHandle: FileSystemFileHandle, path: str
   } else throw Error(`Failed to decide what firmware version to use for file ${fileHandle.name}`)
   
   // Parse the file
-  const xmlDoc = parser.parseFromString(xml, 'text/xml')
+  const xmlDoc = parser.parseFromString(parseableXml, 'text/xml')
 
   // DOMParser does not throw on malformed XML. Instead it inserts a <parsererror> element (Chrome: inside the partial
   // document, Firefox: as the root) and the document only contains what was parsed before the error.
