@@ -6,6 +6,18 @@ export interface Song {
     name: string,
     // TODO: the rest of the owl
     instruments: Array<Sound | Kit | AudioTrack | MidiChannel>,
+    recordings: Recording[],
+}
+
+/**
+ * An audio clip in a Song's audio track (`<audioClip>`), wherever it sits in the song.
+ */
+export type Recording = {
+  trackName: string,
+  /** Sample reference. `null` for an armed clip with nothing recorded (empty `filePath`). */
+  filePath: string | null,
+  startSamplePos: number,
+  endSamplePos: number,
 }
 
 export interface Sound {
@@ -213,6 +225,19 @@ export type ModKnob = {
 }
 
 // Core Functions ---------------------------------------------------------------------
+
+/**
+ * Read every `<audioClip>` in a song (session clips and arrangement-only clips alike).
+ * @param xml The song's root element.
+ */
+export function parseRecordings(xml: Element): Recording[] {
+  return Array.from(xml.getElementsByTagName('audioClip')).map(clip => ({
+    trackName: clip.getAttribute('trackName') ?? '',
+    filePath: clip.getAttribute('filePath') || null,
+    startSamplePos: Number(clip.getAttribute('startSamplePos') ?? 0),
+    endSamplePos: Number(clip.getAttribute('endSamplePos') ?? 0),
+  }))
+}
 
 export function getFirmwareVersion(xml: Element): string {
   let version: string = '1'

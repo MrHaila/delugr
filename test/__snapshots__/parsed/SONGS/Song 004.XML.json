@@ -6544,6 +6544,14 @@
         "problem": false,
         "isInstance": true
       }
+    ],
+    "recordings": [
+      {
+        "trackName": "Track 001",
+        "filePath": "SAMPLES/D038/S0297.WAV",
+        "startSamplePos": 35,
+        "endSamplePos": 300
+      }
     ]
   },
   "type": "song",

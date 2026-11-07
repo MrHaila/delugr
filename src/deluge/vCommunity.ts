@@ -1,6 +1,7 @@
 import {
   findDirectChildNodeByTagName,
   getInstrumentName,
+  parseRecordings,
   type Arpeggiator,
   type AudioTrack,
   type Compressor,
@@ -52,6 +53,7 @@ export function parseSongvCommunity(xml: Element, songName: string): Song {
   const song: Song = {
     name: 'TODO',
     instruments,
+    recordings: parseRecordings(xml),
   }
 
   return song

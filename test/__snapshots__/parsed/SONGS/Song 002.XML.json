@@ -3691,6 +3691,14 @@
         "problem": false,
         "isInstance": true
       }
+    ],
+    "recordings": [
+      {
+        "trackName": "Track 001",
+        "filePath": null,
+        "startSamplePos": 0,
+        "endSamplePos": 9999999
+      }
     ]
   },
   "type": "song",
