@@ -1,0 +1,5495 @@
+{
+  "name": "Song 005.XML",
+  "path": "/SONGS/Song 005.XML",
+  "lastModified": 1794089017635,
+  "firmware": "3.1.5",
+  "data": {
+    "name": "TODO",
+    "instruments": [
+      {
+        "presetName": "Preset 009",
+        "polyphonic": "poly",
+        "voicePriority": 1,
+        "mode": "subtractive",
+        "lpfMode": "24dB",
+        "modFXType": "phaser",
+        "osc1": {
+          "type": "sample",
+          "loopMode": 0,
+          "reversed": 0,
+          "timeStretchAmount": 0,
+          "timeStretchEnable": 0,
+          "sampleRanges": [
+            {
+              "fileName": "SAMPLES/D024/D025/D031/S0272.wav",
+              "rangeTopNote": 42,
+              "transpose": 24,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D031/S0273.wav",
+              "rangeTopNote": 54,
+              "transpose": 12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D031/S0274.wav",
+              "rangeTopNote": 66,
+              "transpose": 0,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D031/S0275.wav",
+              "rangeTopNote": 78,
+              "transpose": -12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D031/S0276.wav",
+              "rangeTopNote": 90,
+              "transpose": -24,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D031/S0277.wav",
+              "rangeTopNote": 0,
+              "transpose": -36,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            }
+          ]
+        },
+        "osc2": {
+          "type": "square",
+          "transpose": 8,
+          "cents": -14,
+          "retrigPhase": -1
+        },
+        "lfo1": {
+          "type": "sine",
+          "syncLevel": 5
+        },
+        "lfo2": {
+          "type": "sine"
+        },
+        "unison": {
+          "num": 1,
+          "detune": 30
+        },
+        "delay": {
+          "pingPong": 1,
+          "analog": 0,
+          "syncLevel": 4
+        },
+        "compressor": {
+          "syncLevel": 1,
+          "attack": 772455660,
+          "release": 531896991
+        },
+        "defaultParams": {
+          "arpeggiatorGate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "portamento": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "compressorShape": {
+            "_fixh": "0xDC28F5B2",
+            "_decimal": 18
+          },
+          "oscAVolume": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "oscAPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscAWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "oscBPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "noiseVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "volume": {
+            "_fixh": "0x4CCCCCA8",
+            "_decimal": 40
+          },
+          "pan": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "lpfFrequency": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "lpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfFrequency": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "lfo1Rate": {
+            "_fixh": "0x1999997E",
+            "_decimal": 30
+          },
+          "lfo2Rate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modulator1Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXDepth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayFeedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "reverbAmount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "arpeggiatorRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "stutterRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "sampleRateReduction": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "bitCrush": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXOffset": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXFeedback": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          }
+        },
+        "arpeggiator": {
+          "mode": "off",
+          "numOctaves": 2,
+          "syncLevel": 7
+        },
+        "modKnobs": [
+          {
+            "controlsParam": "pan"
+          },
+          {
+            "controlsParam": "volumePostFX"
+          },
+          {
+            "controlsParam": "lpfResonance"
+          },
+          {
+            "controlsParam": "lpfFrequency"
+          },
+          {
+            "controlsParam": "env1Release"
+          },
+          {
+            "controlsParam": "env1Attack"
+          },
+          {
+            "controlsParam": "delayFeedback"
+          },
+          {
+            "controlsParam": "delayRate"
+          },
+          {
+            "controlsParam": "reverbAmount"
+          },
+          {
+            "controlsParam": "volumePostReverbSend",
+            "patchAmountFromSource": "compressor"
+          },
+          {
+            "controlsParam": "pitch",
+            "patchAmountFromSource": "lfo1"
+          },
+          {
+            "controlsParam": "lfo1Rate"
+          },
+          {
+            "controlsParam": "portamento"
+          },
+          {
+            "controlsParam": "stutterRate"
+          },
+          {
+            "controlsParam": "oscBVolume"
+          },
+          {
+            "controlsParam": "oscBPhaseWidth"
+          }
+        ],
+        "instrumentType": "sound",
+        "problem": false,
+        "isInstance": true
+      },
+      {
+        "presetName": "Synth 003",
+        "polyphonic": "poly",
+        "voicePriority": 1,
+        "mode": "subtractive",
+        "lpfMode": "24dB",
+        "modFXType": "none",
+        "osc1": {
+          "type": "sample",
+          "loopMode": 0,
+          "reversed": 0,
+          "timeStretchAmount": 0,
+          "timeStretchEnable": 0,
+          "sampleRanges": [
+            {
+              "fileName": "SAMPLES/D024/D025/D039/S0298.wav",
+              "rangeTopNote": 30,
+              "transpose": 36,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D039/S0299.wav",
+              "rangeTopNote": 42,
+              "transpose": 24,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D039/S0300.wav",
+              "rangeTopNote": 54,
+              "transpose": 12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D039/S0301.wav",
+              "rangeTopNote": 66,
+              "transpose": 0,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D039/S0302.wav",
+              "rangeTopNote": 78,
+              "transpose": -12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D039/S0303.wav",
+              "rangeTopNote": 0,
+              "transpose": -24,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            }
+          ]
+        },
+        "osc2": {
+          "type": "square",
+          "transpose": -27,
+          "cents": 38,
+          "retrigPhase": -1
+        },
+        "lfo1": {
+          "type": "sine",
+          "syncLevel": 2
+        },
+        "lfo2": {
+          "type": "sine"
+        },
+        "unison": {
+          "num": 5,
+          "detune": 43
+        },
+        "delay": {
+          "pingPong": 1,
+          "analog": 1,
+          "syncLevel": 5
+        },
+        "compressor": {
+          "syncLevel": 6,
+          "attack": 182574736,
+          "release": 577039431
+        },
+        "defaultParams": {
+          "arpeggiatorGate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "portamento": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "compressorShape": {
+            "_fixh": "0xDC28F5B2",
+            "_decimal": 18
+          },
+          "oscAVolume": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "oscAPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscAWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "oscBPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "noiseVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "volume": {
+            "_fixh": "0x4CCCCCA8",
+            "_decimal": 40
+          },
+          "pan": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "lpfFrequency": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "lpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfFrequency": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "lfo1Rate": {
+            "_fixh": "0x1999997E",
+            "_decimal": 30
+          },
+          "lfo2Rate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modulator1Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXDepth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayFeedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "reverbAmount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "arpeggiatorRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "stutterRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "sampleRateReduction": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "bitCrush": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXOffset": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXFeedback": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          }
+        },
+        "arpeggiator": {
+          "mode": "off",
+          "numOctaves": 2,
+          "syncLevel": 7
+        },
+        "modKnobs": [
+          {
+            "controlsParam": "pan"
+          },
+          {
+            "controlsParam": "volumePostFX"
+          },
+          {
+            "controlsParam": "lpfResonance"
+          },
+          {
+            "controlsParam": "lpfFrequency"
+          },
+          {
+            "controlsParam": "env1Release"
+          },
+          {
+            "controlsParam": "env1Attack"
+          },
+          {
+            "controlsParam": "delayFeedback"
+          },
+          {
+            "controlsParam": "delayRate"
+          },
+          {
+            "controlsParam": "reverbAmount"
+          },
+          {
+            "controlsParam": "volumePostReverbSend",
+            "patchAmountFromSource": "compressor"
+          },
+          {
+            "controlsParam": "pitch",
+            "patchAmountFromSource": "lfo1"
+          },
+          {
+            "controlsParam": "lfo1Rate"
+          },
+          {
+            "controlsParam": "portamento"
+          },
+          {
+            "controlsParam": "stutterRate"
+          },
+          {
+            "controlsParam": "oscBVolume"
+          },
+          {
+            "controlsParam": "oscBPhaseWidth"
+          }
+        ],
+        "instrumentType": "sound",
+        "problem": false,
+        "isInstance": true
+      },
+      {
+        "presetName": "Preset 010",
+        "polyphonic": "poly",
+        "voicePriority": 1,
+        "mode": "subtractive",
+        "lpfMode": "24dB",
+        "modFXType": "none",
+        "osc1": {
+          "type": "sample",
+          "loopMode": 0,
+          "reversed": 0,
+          "timeStretchAmount": 0,
+          "timeStretchEnable": 0,
+          "sampleRanges": [
+            {
+              "fileName": "SAMPLES/D024/D025/D040/S0304.wav",
+              "rangeTopNote": 42,
+              "transpose": 24,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D040/S0305.wav",
+              "rangeTopNote": 54,
+              "transpose": 12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D040/S0306.wav",
+              "rangeTopNote": 66,
+              "transpose": 0,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D040/S0307.wav",
+              "rangeTopNote": 78,
+              "transpose": -12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D040/S0308.wav",
+              "rangeTopNote": 90,
+              "transpose": -24,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D040/S0309.wav",
+              "rangeTopNote": 0,
+              "transpose": -36,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            }
+          ]
+        },
+        "osc2": {
+          "type": "square",
+          "transpose": 29,
+          "cents": -28,
+          "retrigPhase": -1
+        },
+        "lfo1": {
+          "type": "sine",
+          "syncLevel": 7
+        },
+        "lfo2": {
+          "type": "sine"
+        },
+        "unison": {
+          "num": 2,
+          "detune": 17
+        },
+        "delay": {
+          "pingPong": 0,
+          "analog": 1,
+          "syncLevel": 4
+        },
+        "compressor": {
+          "syncLevel": 5,
+          "attack": 522089627,
+          "release": 470261000
+        },
+        "defaultParams": {
+          "arpeggiatorGate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "portamento": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "compressorShape": {
+            "_fixh": "0xDC28F5B2",
+            "_decimal": 18
+          },
+          "oscAVolume": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "oscAPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscAWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "oscBPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "noiseVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "volume": {
+            "_fixh": "0x4CCCCCA8",
+            "_decimal": 40
+          },
+          "pan": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "lpfFrequency": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "lpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfFrequency": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "lfo1Rate": {
+            "_fixh": "0x1999997E",
+            "_decimal": 30
+          },
+          "lfo2Rate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modulator1Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXDepth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayFeedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "reverbAmount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "arpeggiatorRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "stutterRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "sampleRateReduction": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "bitCrush": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXOffset": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXFeedback": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          }
+        },
+        "arpeggiator": {
+          "mode": "off",
+          "numOctaves": 2,
+          "syncLevel": 7
+        },
+        "modKnobs": [
+          {
+            "controlsParam": "pan"
+          },
+          {
+            "controlsParam": "volumePostFX"
+          },
+          {
+            "controlsParam": "lpfResonance"
+          },
+          {
+            "controlsParam": "lpfFrequency"
+          },
+          {
+            "controlsParam": "env1Release"
+          },
+          {
+            "controlsParam": "env1Attack"
+          },
+          {
+            "controlsParam": "delayFeedback"
+          },
+          {
+            "controlsParam": "delayRate"
+          },
+          {
+            "controlsParam": "reverbAmount"
+          },
+          {
+            "controlsParam": "volumePostReverbSend",
+            "patchAmountFromSource": "compressor"
+          },
+          {
+            "controlsParam": "pitch",
+            "patchAmountFromSource": "lfo1"
+          },
+          {
+            "controlsParam": "lfo1Rate"
+          },
+          {
+            "controlsParam": "portamento"
+          },
+          {
+            "controlsParam": "stutterRate"
+          },
+          {
+            "controlsParam": "oscBVolume"
+          },
+          {
+            "controlsParam": "oscBPhaseWidth"
+          }
+        ],
+        "instrumentType": "sound",
+        "problem": false,
+        "isInstance": true
+      },
+      {
+        "presetName": "Kit 003",
+        "lpfMode": "24dB",
+        "modFXType": "flanger",
+        "modFXCurrentParam": "feedback",
+        "currentFilterType": "lpf",
+        "soundSources": {
+          "Drum 053": {
+            "presetName": "Drum 053",
+            "polyphonic": "auto",
+            "voicePriority": 1,
+            "mode": "subtractive",
+            "lpfMode": "24dB",
+            "modFXType": "none",
+            "osc1": {
+              "type": "sample",
+              "fileName": "SAMPLES/D012/D021/D022/S0067.wav",
+              "loopMode": 1,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "osc2": {
+              "type": "sample",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "lfo1": {
+              "type": "triangle",
+              "syncLevel": 9
+            },
+            "lfo2": {
+              "type": "triangle"
+            },
+            "unison": {
+              "num": 4,
+              "detune": 8
+            },
+            "delay": {
+              "pingPong": 1,
+              "analog": 1,
+              "syncLevel": 7
+            },
+            "compressor": {
+              "syncLevel": 0,
+              "attack": 494025243,
+              "release": 1215336914
+            },
+            "defaultParams": {
+              "arpeggiatorGate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "portamento": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "compressorShape": {
+                "_fixh": "0xDC28F5B2",
+                "_decimal": 18
+              },
+              "oscAVolume": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "oscAPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscAWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "oscBPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "noiseVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "volume": {
+                "_fixh": "0x4CCCCCA8",
+                "_decimal": 40
+              },
+              "pan": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "lpfFrequency": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "lpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfFrequency": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "lfo1Rate": {
+                "_fixh": "0x1999997E",
+                "_decimal": 30
+              },
+              "lfo2Rate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modulator1Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXDepth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayFeedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "reverbAmount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "arpeggiatorRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "stutterRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "sampleRateReduction": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "bitCrush": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXOffset": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXFeedback": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              }
+            },
+            "arpeggiator": {
+              "mode": "off",
+              "numOctaves": 1,
+              "syncLevel": 7
+            },
+            "modKnobs": [
+              {
+                "controlsParam": "pan"
+              },
+              {
+                "controlsParam": "volumePostFX"
+              },
+              {
+                "controlsParam": "lpfResonance"
+              },
+              {
+                "controlsParam": "lpfFrequency"
+              },
+              {
+                "controlsParam": "env1Release"
+              },
+              {
+                "controlsParam": "env1Attack"
+              },
+              {
+                "controlsParam": "delayFeedback"
+              },
+              {
+                "controlsParam": "delayRate"
+              },
+              {
+                "controlsParam": "reverbAmount"
+              },
+              {
+                "controlsParam": "volumePostReverbSend",
+                "patchAmountFromSource": "compressor"
+              },
+              {
+                "controlsParam": "pitch",
+                "patchAmountFromSource": "lfo1"
+              },
+              {
+                "controlsParam": "lfo1Rate"
+              },
+              {
+                "controlsParam": "pitch"
+              },
+              {
+                "controlsParam": "stutterRate"
+              },
+              {
+                "controlsParam": "bitcrushAmount"
+              },
+              {
+                "controlsParam": "sampleRateReduction"
+              }
+            ],
+            "instrumentType": "sound",
+            "problem": false,
+            "isInstance": true
+          },
+          "Drum 054": {
+            "presetName": "Drum 054",
+            "polyphonic": "auto",
+            "voicePriority": 1,
+            "mode": "subtractive",
+            "lpfMode": "24dB",
+            "modFXType": "none",
+            "osc1": {
+              "type": "sample",
+              "fileName": "SAMPLES/D012/D021/D022/S0068.wav",
+              "loopMode": 1,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "osc2": {
+              "type": "sample",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "lfo1": {
+              "type": "triangle",
+              "syncLevel": 6
+            },
+            "lfo2": {
+              "type": "triangle"
+            },
+            "unison": {
+              "num": 3,
+              "detune": 42
+            },
+            "delay": {
+              "pingPong": 1,
+              "analog": 1,
+              "syncLevel": 2
+            },
+            "compressor": {
+              "syncLevel": 3,
+              "attack": 413077898,
+              "release": 566001094
+            },
+            "defaultParams": {
+              "arpeggiatorGate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "portamento": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "compressorShape": {
+                "_fixh": "0xDC28F5B2",
+                "_decimal": 18
+              },
+              "oscAVolume": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "oscAPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscAWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "oscBPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "noiseVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "volume": {
+                "_fixh": "0x4CCCCCA8",
+                "_decimal": 40
+              },
+              "pan": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "lpfFrequency": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "lpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfFrequency": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "lfo1Rate": {
+                "_fixh": "0x1999997E",
+                "_decimal": 30
+              },
+              "lfo2Rate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modulator1Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXDepth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayFeedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "reverbAmount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "arpeggiatorRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "stutterRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "sampleRateReduction": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "bitCrush": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXOffset": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXFeedback": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              }
+            },
+            "arpeggiator": {
+              "mode": "off",
+              "numOctaves": 3,
+              "syncLevel": 8
+            },
+            "modKnobs": [
+              {
+                "controlsParam": "pan"
+              },
+              {
+                "controlsParam": "volumePostFX"
+              },
+              {
+                "controlsParam": "lpfResonance"
+              },
+              {
+                "controlsParam": "lpfFrequency"
+              },
+              {
+                "controlsParam": "env1Release"
+              },
+              {
+                "controlsParam": "env1Attack"
+              },
+              {
+                "controlsParam": "delayFeedback"
+              },
+              {
+                "controlsParam": "delayRate"
+              },
+              {
+                "controlsParam": "reverbAmount"
+              },
+              {
+                "controlsParam": "volumePostReverbSend",
+                "patchAmountFromSource": "compressor"
+              },
+              {
+                "controlsParam": "pitch",
+                "patchAmountFromSource": "lfo1"
+              },
+              {
+                "controlsParam": "lfo1Rate"
+              },
+              {
+                "controlsParam": "pitch"
+              },
+              {
+                "controlsParam": "stutterRate"
+              },
+              {
+                "controlsParam": "bitcrushAmount"
+              },
+              {
+                "controlsParam": "sampleRateReduction"
+              }
+            ],
+            "instrumentType": "sound",
+            "problem": false,
+            "isInstance": true
+          },
+          "Drum 055": {
+            "presetName": "Drum 055",
+            "polyphonic": "auto",
+            "voicePriority": 1,
+            "mode": "subtractive",
+            "lpfMode": "24dB",
+            "modFXType": "none",
+            "osc1": {
+              "type": "sample",
+              "fileName": "SAMPLES/D012/D021/D022/S0069.wav",
+              "loopMode": 1,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "osc2": {
+              "type": "sample",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "lfo1": {
+              "type": "triangle",
+              "syncLevel": 2
+            },
+            "lfo2": {
+              "type": "triangle"
+            },
+            "unison": {
+              "num": 5,
+              "detune": 27
+            },
+            "delay": {
+              "pingPong": 1,
+              "analog": 1,
+              "syncLevel": 6
+            },
+            "compressor": {
+              "syncLevel": 6,
+              "attack": 584535195,
+              "release": 544246172
+            },
+            "defaultParams": {
+              "arpeggiatorGate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "portamento": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "compressorShape": {
+                "_fixh": "0xDC28F5B2",
+                "_decimal": 18
+              },
+              "oscAVolume": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "oscAPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscAWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "oscBPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "noiseVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "volume": {
+                "_fixh": "0x4CCCCCA8",
+                "_decimal": 40
+              },
+              "pan": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "lpfFrequency": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "lpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfFrequency": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "lfo1Rate": {
+                "_fixh": "0x1999997E",
+                "_decimal": 30
+              },
+              "lfo2Rate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modulator1Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXDepth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayFeedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "reverbAmount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "arpeggiatorRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "stutterRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "sampleRateReduction": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "bitCrush": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXOffset": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXFeedback": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              }
+            },
+            "arpeggiator": {
+              "mode": "off",
+              "numOctaves": 3,
+              "syncLevel": 5
+            },
+            "modKnobs": [
+              {
+                "controlsParam": "pan"
+              },
+              {
+                "controlsParam": "volumePostFX"
+              },
+              {
+                "controlsParam": "lpfResonance"
+              },
+              {
+                "controlsParam": "lpfFrequency"
+              },
+              {
+                "controlsParam": "env1Release"
+              },
+              {
+                "controlsParam": "env1Attack"
+              },
+              {
+                "controlsParam": "delayFeedback"
+              },
+              {
+                "controlsParam": "delayRate"
+              },
+              {
+                "controlsParam": "reverbAmount"
+              },
+              {
+                "controlsParam": "volumePostReverbSend",
+                "patchAmountFromSource": "compressor"
+              },
+              {
+                "controlsParam": "pitch",
+                "patchAmountFromSource": "lfo1"
+              },
+              {
+                "controlsParam": "lfo1Rate"
+              },
+              {
+                "controlsParam": "pitch"
+              },
+              {
+                "controlsParam": "stutterRate"
+              },
+              {
+                "controlsParam": "bitcrushAmount"
+              },
+              {
+                "controlsParam": "sampleRateReduction"
+              }
+            ],
+            "instrumentType": "sound",
+            "problem": false,
+            "isInstance": true
+          },
+          "Drum 056": {
+            "presetName": "Drum 056",
+            "polyphonic": "choke",
+            "voicePriority": 1,
+            "mode": "subtractive",
+            "lpfMode": "24dB",
+            "modFXType": "none",
+            "osc1": {
+              "type": "sample",
+              "fileName": "SAMPLES/D012/D021/D022/S0070.wav",
+              "loopMode": 1,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "osc2": {
+              "type": "sample",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "lfo1": {
+              "type": "triangle",
+              "syncLevel": 9
+            },
+            "lfo2": {
+              "type": "triangle"
+            },
+            "unison": {
+              "num": 1,
+              "detune": 32
+            },
+            "delay": {
+              "pingPong": 0,
+              "analog": 1,
+              "syncLevel": 1
+            },
+            "compressor": {
+              "syncLevel": 2,
+              "attack": 4425565,
+              "release": 1126051909
+            },
+            "defaultParams": {
+              "arpeggiatorGate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "portamento": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "compressorShape": {
+                "_fixh": "0xDC28F5B2",
+                "_decimal": 18
+              },
+              "oscAVolume": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "oscAPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscAWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "oscBPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "noiseVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "volume": {
+                "_fixh": "0x4CCCCCA8",
+                "_decimal": 40
+              },
+              "pan": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "lpfFrequency": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "lpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfFrequency": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "lfo1Rate": {
+                "_fixh": "0x1999997E",
+                "_decimal": 30
+              },
+              "lfo2Rate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modulator1Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXDepth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayFeedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "reverbAmount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "arpeggiatorRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "stutterRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "sampleRateReduction": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "bitCrush": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXOffset": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXFeedback": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              }
+            },
+            "arpeggiator": {
+              "mode": "off",
+              "numOctaves": 2,
+              "syncLevel": 6
+            },
+            "modKnobs": [
+              {
+                "controlsParam": "pan"
+              },
+              {
+                "controlsParam": "volumePostFX"
+              },
+              {
+                "controlsParam": "lpfResonance"
+              },
+              {
+                "controlsParam": "lpfFrequency"
+              },
+              {
+                "controlsParam": "env1Release"
+              },
+              {
+                "controlsParam": "env1Attack"
+              },
+              {
+                "controlsParam": "delayFeedback"
+              },
+              {
+                "controlsParam": "delayRate"
+              },
+              {
+                "controlsParam": "reverbAmount"
+              },
+              {
+                "controlsParam": "volumePostReverbSend",
+                "patchAmountFromSource": "compressor"
+              },
+              {
+                "controlsParam": "pitch",
+                "patchAmountFromSource": "lfo1"
+              },
+              {
+                "controlsParam": "lfo1Rate"
+              },
+              {
+                "controlsParam": "pitch"
+              },
+              {
+                "controlsParam": "stutterRate"
+              },
+              {
+                "controlsParam": "bitcrushAmount"
+              },
+              {
+                "controlsParam": "sampleRateReduction"
+              }
+            ],
+            "instrumentType": "sound",
+            "problem": false,
+            "isInstance": true
+          },
+          "Drum 022": {
+            "presetName": "Drum 022",
+            "polyphonic": "choke",
+            "voicePriority": 1,
+            "mode": "subtractive",
+            "lpfMode": "24dB",
+            "modFXType": "none",
+            "osc1": {
+              "type": "sample",
+              "fileName": "SAMPLES/D012/D021/D022/S0071.wav",
+              "loopMode": 1,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "osc2": {
+              "type": "sample",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "lfo1": {
+              "type": "triangle",
+              "syncLevel": 0
+            },
+            "lfo2": {
+              "type": "triangle"
+            },
+            "unison": {
+              "num": 8,
+              "detune": 46
+            },
+            "delay": {
+              "pingPong": 0,
+              "analog": 1,
+              "syncLevel": 8
+            },
+            "compressor": {
+              "syncLevel": 2,
+              "attack": 389503727,
+              "release": 1151081764
+            },
+            "defaultParams": {
+              "arpeggiatorGate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "portamento": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "compressorShape": {
+                "_fixh": "0xDC28F5B2",
+                "_decimal": 18
+              },
+              "oscAVolume": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "oscAPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscAWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "oscBPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "noiseVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "volume": {
+                "_fixh": "0x4CCCCCA8",
+                "_decimal": 40
+              },
+              "pan": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "lpfFrequency": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "lpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfFrequency": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "lfo1Rate": {
+                "_fixh": "0x1999997E",
+                "_decimal": 30
+              },
+              "lfo2Rate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modulator1Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXDepth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayFeedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "reverbAmount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "arpeggiatorRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "stutterRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "sampleRateReduction": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "bitCrush": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXOffset": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXFeedback": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              }
+            },
+            "arpeggiator": {
+              "mode": "off",
+              "numOctaves": 4,
+              "syncLevel": 8
+            },
+            "modKnobs": [
+              {
+                "controlsParam": "pan"
+              },
+              {
+                "controlsParam": "volumePostFX"
+              },
+              {
+                "controlsParam": "lpfResonance"
+              },
+              {
+                "controlsParam": "lpfFrequency"
+              },
+              {
+                "controlsParam": "env1Release"
+              },
+              {
+                "controlsParam": "env1Attack"
+              },
+              {
+                "controlsParam": "delayFeedback"
+              },
+              {
+                "controlsParam": "delayRate"
+              },
+              {
+                "controlsParam": "reverbAmount"
+              },
+              {
+                "controlsParam": "volumePostReverbSend",
+                "patchAmountFromSource": "compressor"
+              },
+              {
+                "controlsParam": "pitch",
+                "patchAmountFromSource": "lfo1"
+              },
+              {
+                "controlsParam": "lfo1Rate"
+              },
+              {
+                "controlsParam": "pitch"
+              },
+              {
+                "controlsParam": "stutterRate"
+              },
+              {
+                "controlsParam": "bitcrushAmount"
+              },
+              {
+                "controlsParam": "sampleRateReduction"
+              }
+            ],
+            "instrumentType": "sound",
+            "problem": false,
+            "isInstance": true
+          },
+          "Drum 057": {
+            "presetName": "Drum 057",
+            "polyphonic": "choke",
+            "voicePriority": 1,
+            "mode": "subtractive",
+            "lpfMode": "24dB",
+            "modFXType": "none",
+            "osc1": {
+              "type": "sample",
+              "fileName": "SAMPLES/D012/D021/D022/S0072.wav",
+              "loopMode": 1,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "osc2": {
+              "type": "sample",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "lfo1": {
+              "type": "triangle",
+              "syncLevel": 2
+            },
+            "lfo2": {
+              "type": "triangle"
+            },
+            "unison": {
+              "num": 6,
+              "detune": 23
+            },
+            "delay": {
+              "pingPong": 0,
+              "analog": 0,
+              "syncLevel": 1
+            },
+            "compressor": {
+              "syncLevel": 8,
+              "attack": 728471767,
+              "release": 1060778565
+            },
+            "defaultParams": {
+              "arpeggiatorGate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "portamento": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "compressorShape": {
+                "_fixh": "0xDC28F5B2",
+                "_decimal": 18
+              },
+              "oscAVolume": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "oscAPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscAWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "oscBPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "noiseVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "volume": {
+                "_fixh": "0x4CCCCCA8",
+                "_decimal": 40
+              },
+              "pan": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "lpfFrequency": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "lpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfFrequency": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "lfo1Rate": {
+                "_fixh": "0x1999997E",
+                "_decimal": 30
+              },
+              "lfo2Rate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modulator1Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXDepth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayFeedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "reverbAmount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "arpeggiatorRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "stutterRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "sampleRateReduction": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "bitCrush": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXOffset": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXFeedback": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              }
+            },
+            "arpeggiator": {
+              "mode": "off",
+              "numOctaves": 2,
+              "syncLevel": 9
+            },
+            "modKnobs": [
+              {
+                "controlsParam": "pan"
+              },
+              {
+                "controlsParam": "volumePostFX"
+              },
+              {
+                "controlsParam": "lpfResonance"
+              },
+              {
+                "controlsParam": "lpfFrequency"
+              },
+              {
+                "controlsParam": "env1Release"
+              },
+              {
+                "controlsParam": "env1Attack"
+              },
+              {
+                "controlsParam": "delayFeedback"
+              },
+              {
+                "controlsParam": "delayRate"
+              },
+              {
+                "controlsParam": "reverbAmount"
+              },
+              {
+                "controlsParam": "volumePostReverbSend",
+                "patchAmountFromSource": "compressor"
+              },
+              {
+                "controlsParam": "pitch",
+                "patchAmountFromSource": "lfo1"
+              },
+              {
+                "controlsParam": "lfo1Rate"
+              },
+              {
+                "controlsParam": "pitch"
+              },
+              {
+                "controlsParam": "stutterRate"
+              },
+              {
+                "controlsParam": "bitcrushAmount"
+              },
+              {
+                "controlsParam": "sampleRateReduction"
+              }
+            ],
+            "instrumentType": "sound",
+            "problem": false,
+            "isInstance": true
+          },
+          "Drum 058": {
+            "presetName": "Drum 058",
+            "polyphonic": "auto",
+            "voicePriority": 1,
+            "mode": "subtractive",
+            "lpfMode": "24dB",
+            "modFXType": "none",
+            "osc1": {
+              "type": "sample",
+              "fileName": "SAMPLES/D012/D021/D022/S0073.wav",
+              "loopMode": 1,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "osc2": {
+              "type": "sample",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "lfo1": {
+              "type": "triangle",
+              "syncLevel": 4
+            },
+            "lfo2": {
+              "type": "triangle"
+            },
+            "unison": {
+              "num": 5,
+              "detune": 49
+            },
+            "delay": {
+              "pingPong": 1,
+              "analog": 0,
+              "syncLevel": 5
+            },
+            "compressor": {
+              "syncLevel": 4,
+              "attack": 308335797,
+              "release": 37057188
+            },
+            "defaultParams": {
+              "arpeggiatorGate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "portamento": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "compressorShape": {
+                "_fixh": "0xDC28F5B2",
+                "_decimal": 18
+              },
+              "oscAVolume": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "oscAPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscAWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "oscBPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "noiseVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "volume": {
+                "_fixh": "0x4CCCCCA8",
+                "_decimal": 40
+              },
+              "pan": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "lpfFrequency": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "lpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfFrequency": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "lfo1Rate": {
+                "_fixh": "0x1999997E",
+                "_decimal": 30
+              },
+              "lfo2Rate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modulator1Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXDepth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayFeedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "reverbAmount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "arpeggiatorRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "stutterRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "sampleRateReduction": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "bitCrush": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXOffset": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXFeedback": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              }
+            },
+            "arpeggiator": {
+              "mode": "off",
+              "numOctaves": 4,
+              "syncLevel": 8
+            },
+            "modKnobs": [
+              {
+                "controlsParam": "pan"
+              },
+              {
+                "controlsParam": "volumePostFX"
+              },
+              {
+                "controlsParam": "lpfResonance"
+              },
+              {
+                "controlsParam": "lpfFrequency"
+              },
+              {
+                "controlsParam": "env1Release"
+              },
+              {
+                "controlsParam": "env1Attack"
+              },
+              {
+                "controlsParam": "delayFeedback"
+              },
+              {
+                "controlsParam": "delayRate"
+              },
+              {
+                "controlsParam": "reverbAmount"
+              },
+              {
+                "controlsParam": "volumePostReverbSend",
+                "patchAmountFromSource": "compressor"
+              },
+              {
+                "controlsParam": "pitch",
+                "patchAmountFromSource": "lfo1"
+              },
+              {
+                "controlsParam": "lfo1Rate"
+              },
+              {
+                "controlsParam": "pitch"
+              },
+              {
+                "controlsParam": "stutterRate"
+              },
+              {
+                "controlsParam": "bitcrushAmount"
+              },
+              {
+                "controlsParam": "sampleRateReduction"
+              }
+            ],
+            "instrumentType": "sound",
+            "problem": false,
+            "isInstance": true
+          },
+          "Drum 059": {
+            "presetName": "Drum 059",
+            "polyphonic": "auto",
+            "voicePriority": 1,
+            "mode": "subtractive",
+            "lpfMode": "24dB",
+            "modFXType": "none",
+            "osc1": {
+              "type": "sample",
+              "fileName": "SAMPLES/D012/D021/D022/S0074.wav",
+              "loopMode": 1,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "osc2": {
+              "type": "sample",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "lfo1": {
+              "type": "triangle",
+              "syncLevel": 1
+            },
+            "lfo2": {
+              "type": "triangle"
+            },
+            "unison": {
+              "num": 5,
+              "detune": 13
+            },
+            "delay": {
+              "pingPong": 0,
+              "analog": 1,
+              "syncLevel": 0
+            },
+            "compressor": {
+              "syncLevel": 4,
+              "attack": 803879164,
+              "release": 325154470
+            },
+            "defaultParams": {
+              "arpeggiatorGate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "portamento": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "compressorShape": {
+                "_fixh": "0xDC28F5B2",
+                "_decimal": 18
+              },
+              "oscAVolume": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "oscAPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscAWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "oscBPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "noiseVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "volume": {
+                "_fixh": "0x4CCCCCA8",
+                "_decimal": 40
+              },
+              "pan": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "lpfFrequency": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "lpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfFrequency": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "lfo1Rate": {
+                "_fixh": "0x1999997E",
+                "_decimal": 30
+              },
+              "lfo2Rate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modulator1Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXDepth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayFeedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "reverbAmount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "arpeggiatorRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "stutterRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "sampleRateReduction": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "bitCrush": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXOffset": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXFeedback": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              }
+            },
+            "arpeggiator": {
+              "mode": "off",
+              "numOctaves": 3,
+              "syncLevel": 5
+            },
+            "modKnobs": [
+              {
+                "controlsParam": "pan"
+              },
+              {
+                "controlsParam": "volumePostFX"
+              },
+              {
+                "controlsParam": "lpfResonance"
+              },
+              {
+                "controlsParam": "lpfFrequency"
+              },
+              {
+                "controlsParam": "env1Release"
+              },
+              {
+                "controlsParam": "env1Attack"
+              },
+              {
+                "controlsParam": "delayFeedback"
+              },
+              {
+                "controlsParam": "delayRate"
+              },
+              {
+                "controlsParam": "reverbAmount"
+              },
+              {
+                "controlsParam": "volumePostReverbSend",
+                "patchAmountFromSource": "compressor"
+              },
+              {
+                "controlsParam": "pitch",
+                "patchAmountFromSource": "lfo1"
+              },
+              {
+                "controlsParam": "lfo1Rate"
+              },
+              {
+                "controlsParam": "pitch"
+              },
+              {
+                "controlsParam": "stutterRate"
+              },
+              {
+                "controlsParam": "bitcrushAmount"
+              },
+              {
+                "controlsParam": "sampleRateReduction"
+              }
+            ],
+            "instrumentType": "sound",
+            "problem": false,
+            "isInstance": true
+          }
+        },
+        "instrumentType": "kit",
+        "problem": false,
+        "isInstance": true,
+        "delay": {
+          "pingPong": 0,
+          "analog": 1,
+          "syncLevel": 5
+        },
+        "compressor": {
+          "syncLevel": 1,
+          "attack": 523401439,
+          "release": 838279610
+        }
+      },
+      {
+        "presetName": "KIT904",
+        "lpfMode": "24dB",
+        "modFXType": "flanger",
+        "modFXCurrentParam": "feedback",
+        "currentFilterType": "lpf",
+        "soundSources": {
+          "Drum 069": {
+            "presetName": "Drum 069",
+            "polyphonic": "auto",
+            "voicePriority": 1,
+            "mode": "subtractive",
+            "lpfMode": "24dB",
+            "modFXType": "none",
+            "osc1": {
+              "type": "sample",
+              "fileName": "SAMPLES/D012/D021/D022/S0310.wav",
+              "loopMode": 1,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "osc2": {
+              "type": "sample",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "lfo1": {
+              "type": "triangle",
+              "syncLevel": 8
+            },
+            "lfo2": {
+              "type": "triangle"
+            },
+            "unison": {
+              "num": 4,
+              "detune": 32
+            },
+            "delay": {
+              "pingPong": 0,
+              "analog": 0,
+              "syncLevel": 0
+            },
+            "compressor": {
+              "syncLevel": 2,
+              "attack": 205413040,
+              "release": 727386935
+            },
+            "defaultParams": {
+              "arpeggiatorGate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "portamento": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "compressorShape": {
+                "_fixh": "0xDC28F5B2",
+                "_decimal": 18
+              },
+              "oscAVolume": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "oscAPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscAWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "oscBPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "noiseVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "volume": {
+                "_fixh": "0x4CCCCCA8",
+                "_decimal": 40
+              },
+              "pan": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "lpfFrequency": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "lpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfFrequency": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "lfo1Rate": {
+                "_fixh": "0x1999997E",
+                "_decimal": 30
+              },
+              "lfo2Rate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modulator1Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXDepth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayFeedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "reverbAmount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "arpeggiatorRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "stutterRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "sampleRateReduction": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "bitCrush": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXOffset": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXFeedback": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              }
+            },
+            "arpeggiator": {
+              "mode": "off",
+              "numOctaves": 1,
+              "syncLevel": 6
+            },
+            "modKnobs": [
+              {
+                "controlsParam": "pan"
+              },
+              {
+                "controlsParam": "volumePostFX"
+              },
+              {
+                "controlsParam": "lpfResonance"
+              },
+              {
+                "controlsParam": "lpfFrequency"
+              },
+              {
+                "controlsParam": "env1Release"
+              },
+              {
+                "controlsParam": "env1Attack"
+              },
+              {
+                "controlsParam": "delayFeedback"
+              },
+              {
+                "controlsParam": "delayRate"
+              },
+              {
+                "controlsParam": "reverbAmount"
+              },
+              {
+                "controlsParam": "volumePostReverbSend",
+                "patchAmountFromSource": "compressor"
+              },
+              {
+                "controlsParam": "pitch",
+                "patchAmountFromSource": "lfo1"
+              },
+              {
+                "controlsParam": "lfo1Rate"
+              },
+              {
+                "controlsParam": "pitch"
+              },
+              {
+                "controlsParam": "stutterRate"
+              },
+              {
+                "controlsParam": "bitcrushAmount"
+              },
+              {
+                "controlsParam": "sampleRateReduction"
+              }
+            ],
+            "instrumentType": "sound",
+            "problem": false,
+            "isInstance": true
+          },
+          "Drum 070": {
+            "presetName": "Drum 070",
+            "polyphonic": "auto",
+            "voicePriority": 1,
+            "mode": "subtractive",
+            "lpfMode": "24dB",
+            "modFXType": "none",
+            "osc1": {
+              "type": "sample",
+              "fileName": "SAMPLES/D012/D021/D022/S0311.wav",
+              "loopMode": 1,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "osc2": {
+              "type": "sample",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "lfo1": {
+              "type": "triangle",
+              "syncLevel": 1
+            },
+            "lfo2": {
+              "type": "triangle"
+            },
+            "unison": {
+              "num": 1,
+              "detune": 16
+            },
+            "delay": {
+              "pingPong": 0,
+              "analog": 1,
+              "syncLevel": 0
+            },
+            "compressor": {
+              "syncLevel": 6,
+              "attack": 260888215,
+              "release": 293807902
+            },
+            "defaultParams": {
+              "arpeggiatorGate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "portamento": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "compressorShape": {
+                "_fixh": "0xDC28F5B2",
+                "_decimal": 18
+              },
+              "oscAVolume": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "oscAPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscAWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "oscBPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "noiseVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "volume": {
+                "_fixh": "0x4CCCCCA8",
+                "_decimal": 40
+              },
+              "pan": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "lpfFrequency": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "lpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfFrequency": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "lfo1Rate": {
+                "_fixh": "0x1999997E",
+                "_decimal": 30
+              },
+              "lfo2Rate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modulator1Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXDepth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayFeedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "reverbAmount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "arpeggiatorRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "stutterRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "sampleRateReduction": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "bitCrush": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXOffset": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXFeedback": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              }
+            },
+            "arpeggiator": {
+              "mode": "off",
+              "numOctaves": 1,
+              "syncLevel": 8
+            },
+            "modKnobs": [
+              {
+                "controlsParam": "pan"
+              },
+              {
+                "controlsParam": "volumePostFX"
+              },
+              {
+                "controlsParam": "lpfResonance"
+              },
+              {
+                "controlsParam": "lpfFrequency"
+              },
+              {
+                "controlsParam": "env1Release"
+              },
+              {
+                "controlsParam": "env1Attack"
+              },
+              {
+                "controlsParam": "delayFeedback"
+              },
+              {
+                "controlsParam": "delayRate"
+              },
+              {
+                "controlsParam": "reverbAmount"
+              },
+              {
+                "controlsParam": "volumePostReverbSend",
+                "patchAmountFromSource": "compressor"
+              },
+              {
+                "controlsParam": "pitch",
+                "patchAmountFromSource": "lfo1"
+              },
+              {
+                "controlsParam": "lfo1Rate"
+              },
+              {
+                "controlsParam": "pitch"
+              },
+              {
+                "controlsParam": "stutterRate"
+              },
+              {
+                "controlsParam": "bitcrushAmount"
+              },
+              {
+                "controlsParam": "sampleRateReduction"
+              }
+            ],
+            "instrumentType": "sound",
+            "problem": false,
+            "isInstance": true
+          },
+          "Drum 071": {
+            "presetName": "Drum 071",
+            "polyphonic": "auto",
+            "voicePriority": 1,
+            "mode": "subtractive",
+            "lpfMode": "24dB",
+            "modFXType": "none",
+            "osc1": {
+              "type": "sample",
+              "fileName": "SAMPLES/D012/D021/D022/S0312.wav",
+              "loopMode": 1,
+              "reversed": 1,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "osc2": {
+              "type": "sample",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "lfo1": {
+              "type": "triangle",
+              "syncLevel": 8
+            },
+            "lfo2": {
+              "type": "triangle"
+            },
+            "unison": {
+              "num": 1,
+              "detune": 31
+            },
+            "delay": {
+              "pingPong": 0,
+              "analog": 0,
+              "syncLevel": 3
+            },
+            "compressor": {
+              "syncLevel": 7,
+              "attack": 229970199,
+              "release": 894075656
+            },
+            "defaultParams": {
+              "arpeggiatorGate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "portamento": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "compressorShape": {
+                "_fixh": "0xDC28F5B2",
+                "_decimal": 18
+              },
+              "oscAVolume": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "oscAPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscAWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "oscBPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "noiseVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "volume": {
+                "_fixh": "0x4CCCCCA8",
+                "_decimal": 40
+              },
+              "pan": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "lpfFrequency": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "lpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfFrequency": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "lfo1Rate": {
+                "_fixh": "0x1999997E",
+                "_decimal": 30
+              },
+              "lfo2Rate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modulator1Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXDepth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayFeedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "reverbAmount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "arpeggiatorRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "stutterRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "sampleRateReduction": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "bitCrush": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXOffset": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXFeedback": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              }
+            },
+            "arpeggiator": {
+              "mode": "off",
+              "numOctaves": 2,
+              "syncLevel": 6
+            },
+            "modKnobs": [
+              {
+                "controlsParam": "pan"
+              },
+              {
+                "controlsParam": "volumePostFX"
+              },
+              {
+                "controlsParam": "lpfResonance"
+              },
+              {
+                "controlsParam": "lpfFrequency"
+              },
+              {
+                "controlsParam": "env1Release"
+              },
+              {
+                "controlsParam": "env1Attack"
+              },
+              {
+                "controlsParam": "delayFeedback"
+              },
+              {
+                "controlsParam": "delayRate"
+              },
+              {
+                "controlsParam": "reverbAmount"
+              },
+              {
+                "controlsParam": "volumePostReverbSend",
+                "patchAmountFromSource": "compressor"
+              },
+              {
+                "controlsParam": "pitch",
+                "patchAmountFromSource": "lfo1"
+              },
+              {
+                "controlsParam": "lfo1Rate"
+              },
+              {
+                "controlsParam": "pitch"
+              },
+              {
+                "controlsParam": "stutterRate"
+              },
+              {
+                "controlsParam": "bitcrushAmount"
+              },
+              {
+                "controlsParam": "sampleRateReduction"
+              }
+            ],
+            "instrumentType": "sound",
+            "problem": false,
+            "isInstance": true
+          },
+          "Drum 072": {
+            "presetName": "Drum 072",
+            "polyphonic": "auto",
+            "voicePriority": 1,
+            "mode": "subtractive",
+            "lpfMode": "24dB",
+            "modFXType": "none",
+            "osc1": {
+              "type": "sample",
+              "fileName": "SAMPLES/D012/D021/D022/S0313.wav",
+              "loopMode": 1,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "osc2": {
+              "type": "sample",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "lfo1": {
+              "type": "triangle",
+              "syncLevel": 7
+            },
+            "lfo2": {
+              "type": "triangle"
+            },
+            "unison": {
+              "num": 7,
+              "detune": 31
+            },
+            "delay": {
+              "pingPong": 1,
+              "analog": 1,
+              "syncLevel": 6
+            },
+            "compressor": {
+              "syncLevel": 4,
+              "attack": 467866747,
+              "release": 852645962
+            },
+            "defaultParams": {
+              "arpeggiatorGate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "portamento": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "compressorShape": {
+                "_fixh": "0xDC28F5B2",
+                "_decimal": 18
+              },
+              "oscAVolume": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "oscAPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscAWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "oscBPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "noiseVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "volume": {
+                "_fixh": "0x4CCCCCA8",
+                "_decimal": 40
+              },
+              "pan": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "lpfFrequency": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "lpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfFrequency": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "lfo1Rate": {
+                "_fixh": "0x1999997E",
+                "_decimal": 30
+              },
+              "lfo2Rate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modulator1Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXDepth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayFeedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "reverbAmount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "arpeggiatorRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "stutterRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "sampleRateReduction": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "bitCrush": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXOffset": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXFeedback": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              }
+            },
+            "arpeggiator": {
+              "mode": "off",
+              "numOctaves": 4,
+              "syncLevel": 8
+            },
+            "modKnobs": [
+              {
+                "controlsParam": "pan"
+              },
+              {
+                "controlsParam": "volumePostFX"
+              },
+              {
+                "controlsParam": "lpfResonance"
+              },
+              {
+                "controlsParam": "lpfFrequency"
+              },
+              {
+                "controlsParam": "env1Release"
+              },
+              {
+                "controlsParam": "env1Attack"
+              },
+              {
+                "controlsParam": "delayFeedback"
+              },
+              {
+                "controlsParam": "delayRate"
+              },
+              {
+                "controlsParam": "reverbAmount"
+              },
+              {
+                "controlsParam": "volumePostReverbSend",
+                "patchAmountFromSource": "compressor"
+              },
+              {
+                "controlsParam": "pitch",
+                "patchAmountFromSource": "lfo1"
+              },
+              {
+                "controlsParam": "lfo1Rate"
+              },
+              {
+                "controlsParam": "pitch"
+              },
+              {
+                "controlsParam": "stutterRate"
+              },
+              {
+                "controlsParam": "bitcrushAmount"
+              },
+              {
+                "controlsParam": "sampleRateReduction"
+              }
+            ],
+            "instrumentType": "sound",
+            "problem": false,
+            "isInstance": true
+          },
+          "Drum 073": {
+            "presetName": "Drum 073",
+            "polyphonic": "auto",
+            "voicePriority": 1,
+            "mode": "subtractive",
+            "lpfMode": "24dB",
+            "modFXType": "none",
+            "osc1": {
+              "type": "sample",
+              "fileName": "SAMPLES/D012/D021/D022/S0314.wav",
+              "loopMode": 1,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "osc2": {
+              "type": "sample",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "lfo1": {
+              "type": "triangle",
+              "syncLevel": 4
+            },
+            "lfo2": {
+              "type": "triangle"
+            },
+            "unison": {
+              "num": 1,
+              "detune": 36
+            },
+            "delay": {
+              "pingPong": 1,
+              "analog": 0,
+              "syncLevel": 8
+            },
+            "compressor": {
+              "syncLevel": 0,
+              "attack": 621335502,
+              "release": 40259305
+            },
+            "defaultParams": {
+              "arpeggiatorGate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "portamento": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "compressorShape": {
+                "_fixh": "0xDC28F5B2",
+                "_decimal": 18
+              },
+              "oscAVolume": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "oscAPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscAWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "oscBPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "noiseVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "volume": {
+                "_fixh": "0x4CCCCCA8",
+                "_decimal": 40
+              },
+              "pan": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "lpfFrequency": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "lpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfFrequency": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "lfo1Rate": {
+                "_fixh": "0x1999997E",
+                "_decimal": 30
+              },
+              "lfo2Rate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modulator1Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXDepth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayFeedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "reverbAmount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "arpeggiatorRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "stutterRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "sampleRateReduction": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "bitCrush": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXOffset": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXFeedback": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              }
+            },
+            "arpeggiator": {
+              "mode": "off",
+              "numOctaves": 3,
+              "syncLevel": 8
+            },
+            "modKnobs": [
+              {
+                "controlsParam": "pan"
+              },
+              {
+                "controlsParam": "volumePostFX"
+              },
+              {
+                "controlsParam": "lpfResonance"
+              },
+              {
+                "controlsParam": "lpfFrequency"
+              },
+              {
+                "controlsParam": "env1Release"
+              },
+              {
+                "controlsParam": "env1Attack"
+              },
+              {
+                "controlsParam": "delayFeedback"
+              },
+              {
+                "controlsParam": "delayRate"
+              },
+              {
+                "controlsParam": "reverbAmount"
+              },
+              {
+                "controlsParam": "volumePostReverbSend",
+                "patchAmountFromSource": "compressor"
+              },
+              {
+                "controlsParam": "pitch",
+                "patchAmountFromSource": "lfo1"
+              },
+              {
+                "controlsParam": "lfo1Rate"
+              },
+              {
+                "controlsParam": "pitch"
+              },
+              {
+                "controlsParam": "stutterRate"
+              },
+              {
+                "controlsParam": "bitcrushAmount"
+              },
+              {
+                "controlsParam": "sampleRateReduction"
+              }
+            ],
+            "instrumentType": "sound",
+            "problem": false,
+            "isInstance": true
+          },
+          "Drum 074": {
+            "presetName": "Drum 074",
+            "polyphonic": "auto",
+            "voicePriority": 1,
+            "mode": "subtractive",
+            "lpfMode": "24dB",
+            "modFXType": "none",
+            "osc1": {
+              "type": "sample",
+              "fileName": "SAMPLES/D012/D021/D022/S0315.wav",
+              "loopMode": 1,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "osc2": {
+              "type": "sample",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "lfo1": {
+              "type": "triangle",
+              "syncLevel": 2
+            },
+            "lfo2": {
+              "type": "triangle"
+            },
+            "unison": {
+              "num": 8,
+              "detune": 29
+            },
+            "delay": {
+              "pingPong": 0,
+              "analog": 0,
+              "syncLevel": 0
+            },
+            "compressor": {
+              "syncLevel": 7,
+              "attack": 624155901,
+              "release": 481463519
+            },
+            "defaultParams": {
+              "arpeggiatorGate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "portamento": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "compressorShape": {
+                "_fixh": "0xDC28F5B2",
+                "_decimal": 18
+              },
+              "oscAVolume": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "oscAPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscAWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "oscBPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "noiseVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "volume": {
+                "_fixh": "0x4CCCCCA8",
+                "_decimal": 40
+              },
+              "pan": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "lpfFrequency": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "lpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfFrequency": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "lfo1Rate": {
+                "_fixh": "0x1999997E",
+                "_decimal": 30
+              },
+              "lfo2Rate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modulator1Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXDepth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayFeedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "reverbAmount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "arpeggiatorRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "stutterRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "sampleRateReduction": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "bitCrush": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXOffset": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXFeedback": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              }
+            },
+            "arpeggiator": {
+              "mode": "off",
+              "numOctaves": 3,
+              "syncLevel": 9
+            },
+            "modKnobs": [
+              {
+                "controlsParam": "pan"
+              },
+              {
+                "controlsParam": "volumePostFX"
+              },
+              {
+                "controlsParam": "lpfResonance"
+              },
+              {
+                "controlsParam": "lpfFrequency"
+              },
+              {
+                "controlsParam": "env1Release"
+              },
+              {
+                "controlsParam": "env1Attack"
+              },
+              {
+                "controlsParam": "delayFeedback"
+              },
+              {
+                "controlsParam": "delayRate"
+              },
+              {
+                "controlsParam": "reverbAmount"
+              },
+              {
+                "controlsParam": "volumePostReverbSend",
+                "patchAmountFromSource": "compressor"
+              },
+              {
+                "controlsParam": "pitch",
+                "patchAmountFromSource": "lfo1"
+              },
+              {
+                "controlsParam": "lfo1Rate"
+              },
+              {
+                "controlsParam": "pitch"
+              },
+              {
+                "controlsParam": "stutterRate"
+              },
+              {
+                "controlsParam": "bitcrushAmount"
+              },
+              {
+                "controlsParam": "sampleRateReduction"
+              }
+            ],
+            "instrumentType": "sound",
+            "problem": false,
+            "isInstance": true
+          }
+        },
+        "instrumentType": "kit",
+        "problem": false,
+        "isInstance": true,
+        "delay": {
+          "pingPong": 0,
+          "analog": 0,
+          "syncLevel": 0
+        },
+        "compressor": {
+          "syncLevel": 1,
+          "attack": 665458767,
+          "release": 322111668
+        }
+      },
+      {
+        "presetName": "Preset 003",
+        "polyphonic": "poly",
+        "voicePriority": 1,
+        "mode": "subtractive",
+        "lpfMode": "24dB",
+        "modFXType": "none",
+        "osc1": {
+          "type": "sample",
+          "loopMode": 0,
+          "reversed": 0,
+          "timeStretchAmount": 0,
+          "timeStretchEnable": 0,
+          "sampleRanges": [
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0086.wav",
+              "rangeTopNote": 39,
+              "transpose": 24,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0087.wav",
+              "rangeTopNote": 45,
+              "transpose": 18,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0088.wav",
+              "rangeTopNote": 51,
+              "transpose": 12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0089.wav",
+              "rangeTopNote": 57,
+              "transpose": 6,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0090.wav",
+              "rangeTopNote": 63,
+              "transpose": 0,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0091.wav",
+              "rangeTopNote": 69,
+              "transpose": -6,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0092.wav",
+              "rangeTopNote": 75,
+              "transpose": -12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0093.wav",
+              "rangeTopNote": 81,
+              "transpose": -18,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0094.wav",
+              "rangeTopNote": 87,
+              "transpose": -24,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0095.wav",
+              "rangeTopNote": 93,
+              "transpose": -30,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0096.wav",
+              "rangeTopNote": 0,
+              "transpose": -36,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            }
+          ]
+        },
+        "osc2": {
+          "type": "square",
+          "transpose": 3,
+          "cents": 36,
+          "retrigPhase": -1
+        },
+        "lfo1": {
+          "type": "sine",
+          "syncLevel": 8
+        },
+        "lfo2": {
+          "type": "sine"
+        },
+        "unison": {
+          "num": 8,
+          "detune": 40
+        },
+        "delay": {
+          "pingPong": 1,
+          "analog": 1,
+          "syncLevel": 0
+        },
+        "compressor": {
+          "syncLevel": 3,
+          "attack": 335478411,
+          "release": 561066020
+        },
+        "defaultParams": {
+          "arpeggiatorGate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "portamento": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "compressorShape": {
+            "_fixh": "0xDC28F5B2",
+            "_decimal": 18
+          },
+          "oscAVolume": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "oscAPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscAWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "oscBPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "noiseVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "volume": {
+            "_fixh": "0x4CCCCCA8",
+            "_decimal": 40
+          },
+          "pan": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "lpfFrequency": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "lpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfFrequency": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "lfo1Rate": {
+            "_fixh": "0x1999997E",
+            "_decimal": 30
+          },
+          "lfo2Rate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modulator1Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXDepth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayFeedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "reverbAmount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "arpeggiatorRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "stutterRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "sampleRateReduction": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "bitCrush": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXOffset": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXFeedback": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          }
+        },
+        "arpeggiator": {
+          "mode": "off",
+          "numOctaves": 2,
+          "syncLevel": 7
+        },
+        "modKnobs": [
+          {
+            "controlsParam": "pan"
+          },
+          {
+            "controlsParam": "volumePostFX"
+          },
+          {
+            "controlsParam": "lpfResonance"
+          },
+          {
+            "controlsParam": "lpfFrequency"
+          },
+          {
+            "controlsParam": "env1Release"
+          },
+          {
+            "controlsParam": "env1Attack"
+          },
+          {
+            "controlsParam": "delayFeedback"
+          },
+          {
+            "controlsParam": "delayRate"
+          },
+          {
+            "controlsParam": "reverbAmount"
+          },
+          {
+            "controlsParam": "volumePostReverbSend",
+            "patchAmountFromSource": "compressor"
+          },
+          {
+            "controlsParam": "pitch",
+            "patchAmountFromSource": "lfo1"
+          },
+          {
+            "controlsParam": "lfo1Rate"
+          },
+          {
+            "controlsParam": "portamento"
+          },
+          {
+            "controlsParam": "stutterRate"
+          },
+          {
+            "controlsParam": "oscBVolume"
+          },
+          {
+            "controlsParam": "oscBPhaseWidth"
+          }
+        ],
+        "instrumentType": "sound",
+        "problem": false,
+        "isInstance": true
+      },
+      {
+        "presetName": "KIT901",
+        "lpfMode": "24dB",
+        "modFXType": "flanger",
+        "modFXCurrentParam": "feedback",
+        "currentFilterType": "lpf",
+        "soundSources": {
+          "Drum 075": {
+            "presetName": "Drum 075",
+            "polyphonic": "auto",
+            "voicePriority": 1,
+            "mode": "subtractive",
+            "lpfMode": "24dB",
+            "modFXType": "none",
+            "osc1": {
+              "type": "sample",
+              "fileName": "SAMPLES/D012/D021/D041/S0316.wav",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "osc2": {
+              "type": "sample",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "lfo1": {
+              "type": "triangle",
+              "syncLevel": 0
+            },
+            "lfo2": {
+              "type": "triangle"
+            },
+            "unison": {
+              "num": 7,
+              "detune": 10
+            },
+            "delay": {
+              "pingPong": 0,
+              "analog": 0,
+              "syncLevel": 4
+            },
+            "compressor": {
+              "syncLevel": 5,
+              "attack": 626674509,
+              "release": 328905350
+            },
+            "defaultParams": {
+              "arpeggiatorGate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "portamento": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "compressorShape": {
+                "_fixh": "0xDC28F5B2",
+                "_decimal": 18
+              },
+              "oscAVolume": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "oscAPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscAWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "oscBPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "noiseVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "volume": {
+                "_fixh": "0x4CCCCCA8",
+                "_decimal": 40
+              },
+              "pan": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "lpfFrequency": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "lpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfFrequency": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "lfo1Rate": {
+                "_fixh": "0x1999997E",
+                "_decimal": 30
+              },
+              "lfo2Rate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modulator1Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXDepth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayFeedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "reverbAmount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "arpeggiatorRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "stutterRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "sampleRateReduction": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "bitCrush": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXOffset": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXFeedback": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              }
+            },
+            "arpeggiator": {
+              "mode": "off",
+              "numOctaves": 4,
+              "syncLevel": 8
+            },
+            "modKnobs": [
+              {
+                "controlsParam": "pan"
+              },
+              {
+                "controlsParam": "volumePostFX"
+              },
+              {
+                "controlsParam": "lpfResonance"
+              },
+              {
+                "controlsParam": "lpfFrequency"
+              },
+              {
+                "controlsParam": "env1Release"
+              },
+              {
+                "controlsParam": "env1Attack"
+              },
+              {
+                "controlsParam": "delayFeedback"
+              },
+              {
+                "controlsParam": "delayRate"
+              },
+              {
+                "controlsParam": "reverbAmount"
+              },
+              {
+                "controlsParam": "volumePostReverbSend",
+                "patchAmountFromSource": "compressor"
+              },
+              {
+                "controlsParam": "pitch",
+                "patchAmountFromSource": "lfo1"
+              },
+              {
+                "controlsParam": "lfo1Rate"
+              },
+              {
+                "controlsParam": "pitch"
+              },
+              {
+                "controlsParam": "stutterRate"
+              },
+              {
+                "controlsParam": "bitcrushAmount"
+              },
+              {
+                "controlsParam": "sampleRateReduction"
+              }
+            ],
+            "instrumentType": "sound",
+            "problem": false,
+            "isInstance": true
+          },
+          "Drum 076": {
+            "presetName": "Drum 076",
+            "polyphonic": "auto",
+            "voicePriority": 1,
+            "mode": "subtractive",
+            "lpfMode": "24dB",
+            "modFXType": "none",
+            "osc1": {
+              "type": "sample",
+              "fileName": "SAMPLES/D012/D021/D041/S0317.wav",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "osc2": {
+              "type": "sample",
+              "loopMode": 0,
+              "reversed": 0,
+              "timeStretchAmount": 0,
+              "timeStretchEnable": 0
+            },
+            "lfo1": {
+              "type": "triangle",
+              "syncLevel": 5
+            },
+            "lfo2": {
+              "type": "triangle"
+            },
+            "unison": {
+              "num": 2,
+              "detune": 22
+            },
+            "delay": {
+              "pingPong": 0,
+              "analog": 1,
+              "syncLevel": 3
+            },
+            "compressor": {
+              "syncLevel": 1,
+              "attack": 661775183,
+              "release": 1086527538
+            },
+            "defaultParams": {
+              "arpeggiatorGate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "portamento": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "compressorShape": {
+                "_fixh": "0xDC28F5B2",
+                "_decimal": 18
+              },
+              "oscAVolume": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "oscAPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscAWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "oscBPulseWidth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "oscBWavetablePosition": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "noiseVolume": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "volume": {
+                "_fixh": "0x4CCCCCA8",
+                "_decimal": 40
+              },
+              "pan": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "lpfFrequency": {
+                "_fixh": "0x7FFFFFFF",
+                "_decimal": 50
+              },
+              "lpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfFrequency": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "hpfResonance": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "lfo1Rate": {
+                "_fixh": "0x1999997E",
+                "_decimal": 30
+              },
+              "lfo2Rate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modulator1Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Amount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modulator2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier1Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "carrier2Feedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXDepth": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "delayFeedback": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "reverbAmount": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "arpeggiatorRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "stutterRate": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "sampleRateReduction": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "bitCrush": {
+                "_fixh": "0x80000000",
+                "_decimal": 0
+              },
+              "modFXOffset": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              },
+              "modFXFeedback": {
+                "_fixh": "0x00000000",
+                "_decimal": 25
+              }
+            },
+            "arpeggiator": {
+              "mode": "off",
+              "numOctaves": 4,
+              "syncLevel": 5
+            },
+            "modKnobs": [
+              {
+                "controlsParam": "pan"
+              },
+              {
+                "controlsParam": "volumePostFX"
+              },
+              {
+                "controlsParam": "lpfResonance"
+              },
+              {
+                "controlsParam": "lpfFrequency"
+              },
+              {
+                "controlsParam": "env1Release"
+              },
+              {
+                "controlsParam": "env1Attack"
+              },
+              {
+                "controlsParam": "delayFeedback"
+              },
+              {
+                "controlsParam": "delayRate"
+              },
+              {
+                "controlsParam": "reverbAmount"
+              },
+              {
+                "controlsParam": "volumePostReverbSend",
+                "patchAmountFromSource": "compressor"
+              },
+              {
+                "controlsParam": "pitch",
+                "patchAmountFromSource": "lfo1"
+              },
+              {
+                "controlsParam": "lfo1Rate"
+              },
+              {
+                "controlsParam": "pitch"
+              },
+              {
+                "controlsParam": "stutterRate"
+              },
+              {
+                "controlsParam": "bitcrushAmount"
+              },
+              {
+                "controlsParam": "sampleRateReduction"
+              }
+            ],
+            "instrumentType": "sound",
+            "problem": false,
+            "isInstance": true
+          }
+        },
+        "instrumentType": "kit",
+        "problem": false,
+        "isInstance": true,
+        "delay": {
+          "pingPong": 0,
+          "analog": 1,
+          "syncLevel": 5
+        },
+        "compressor": {
+          "syncLevel": 0,
+          "attack": 462527135,
+          "release": 702421587
+        }
+      },
+      {
+        "presetName": "SYNT000",
+        "polyphonic": "poly",
+        "voicePriority": 1,
+        "mode": "subtractive",
+        "lpfMode": "24dB",
+        "modFXType": "none",
+        "osc1": {
+          "type": "saw",
+          "transpose": -20,
+          "cents": 6,
+          "retrigPhase": -1
+        },
+        "osc2": {
+          "type": "square",
+          "transpose": 18,
+          "cents": -10,
+          "retrigPhase": -1
+        },
+        "lfo1": {
+          "type": "sine",
+          "syncLevel": 8
+        },
+        "lfo2": {
+          "type": "sine"
+        },
+        "unison": {
+          "num": 2,
+          "detune": 32
+        },
+        "delay": {
+          "pingPong": 0,
+          "analog": 0,
+          "syncLevel": 6
+        },
+        "compressor": {
+          "syncLevel": 2,
+          "attack": 354935900,
+          "release": 450651628
+        },
+        "defaultParams": {
+          "arpeggiatorGate": {
+            "_fixh": "0x51A76B05",
+            "_decimal": 41
+          },
+          "portamento": {
+            "_fixh": "0xB1C4DAC7",
+            "_decimal": 10
+          },
+          "compressorShape": {
+            "_fixh": "0xFF18AC5B",
+            "_decimal": 25
+          },
+          "oscAVolume": {
+            "_fixh": "0x6D27EC3E",
+            "_decimal": 46
+          },
+          "oscAPulseWidth": {
+            "_fixh": "0x0DADB5A5",
+            "_decimal": 28
+          },
+          "oscBVolume": {
+            "_fixh": "0x36358396",
+            "_decimal": 36
+          },
+          "oscBPulseWidth": {
+            "_fixh": "0x00C4ACC2",
+            "_decimal": 25
+          },
+          "noiseVolume": {
+            "_fixh": "0x8EB03B16",
+            "_decimal": 3
+          },
+          "volume": {
+            "_fixh": "0x4E1951B3",
+            "_decimal": 40
+          },
+          "pan": {
+            "_fixh": "0x5E429EDC",
+            "_decimal": 43
+          },
+          "lpfFrequency": {
+            "_fixh": "0xE120DBE9",
+            "_decimal": 19
+          },
+          "lpfResonance": {
+            "_fixh": "0x756F29ED",
+            "_decimal": 48
+          },
+          "hpfFrequency": {
+            "_fixh": "0x6295980B",
+            "_decimal": 44
+          },
+          "hpfResonance": {
+            "_fixh": "0x9CB5CCA5",
+            "_decimal": 6
+          },
+          "lfo1Rate": {
+            "_fixh": "0x8FE39504",
+            "_decimal": 3
+          },
+          "lfo2Rate": {
+            "_fixh": "0x1B6CF25F",
+            "_decimal": 30
+          },
+          "modulator1Amount": {
+            "_fixh": "0x2CA98507",
+            "_decimal": 34
+          },
+          "modulator1Feedback": {
+            "_fixh": "0x31664B82",
+            "_decimal": 35
+          },
+          "modulator2Amount": {
+            "_fixh": "0xC795C160",
+            "_decimal": 14
+          },
+          "modulator2Feedback": {
+            "_fixh": "0xA7942020",
+            "_decimal": 8
+          },
+          "carrier1Feedback": {
+            "_fixh": "0xDCC62E95",
+            "_decimal": 18
+          },
+          "carrier2Feedback": {
+            "_fixh": "0x1D2BBB2B",
+            "_decimal": 31
+          },
+          "modFXRate": {
+            "_fixh": "0x02934F81",
+            "_decimal": 26
+          },
+          "modFXDepth": {
+            "_fixh": "0x5E7C67A3",
+            "_decimal": 43
+          },
+          "delayRate": {
+            "_fixh": "0xB8781D15",
+            "_decimal": 11
+          },
+          "delayFeedback": {
+            "_fixh": "0xFDDEE6B2",
+            "_decimal": 25
+          },
+          "reverbAmount": {
+            "_fixh": "0x6DBF8FCE",
+            "_decimal": 46
+          },
+          "arpeggiatorRate": {
+            "_fixh": "0x44A7F3A4",
+            "_decimal": 38
+          },
+          "stutterRate": {
+            "_fixh": "0x1227684C",
+            "_decimal": 29
+          },
+          "sampleRateReduction": {
+            "_fixh": "0x9C549C93",
+            "_decimal": 6
+          },
+          "bitCrush": {
+            "_fixh": "0x4D73051F",
+            "_decimal": 40
+          },
+          "modFXOffset": {
+            "_fixh": "0x468CCFBB",
+            "_decimal": 39
+          },
+          "modFXFeedback": {
+            "_fixh": "0xBF981941",
+            "_decimal": 12
+          }
+        },
+        "arpeggiator": {
+          "mode": "off",
+          "numOctaves": 2,
+          "syncLevel": 7
+        },
+        "modKnobs": [
+          {
+            "controlsParam": "pan"
+          },
+          {
+            "controlsParam": "volumePostFX"
+          },
+          {
+            "controlsParam": "lpfResonance"
+          },
+          {
+            "controlsParam": "lpfFrequency"
+          },
+          {
+            "controlsParam": "env1Release"
+          },
+          {
+            "controlsParam": "env1Attack"
+          },
+          {
+            "controlsParam": "delayFeedback"
+          },
+          {
+            "controlsParam": "delayRate"
+          },
+          {
+            "controlsParam": "reverbAmount"
+          },
+          {
+            "controlsParam": "volumePostReverbSend",
+            "patchAmountFromSource": "compressor"
+          },
+          {
+            "controlsParam": "pitch",
+            "patchAmountFromSource": "lfo1"
+          },
+          {
+            "controlsParam": "lfo1Rate"
+          },
+          {
+            "controlsParam": "portamento"
+          },
+          {
+            "controlsParam": "stutterRate"
+          },
+          {
+            "controlsParam": "oscBVolume"
+          },
+          {
+            "controlsParam": "oscBPhaseWidth"
+          }
+        ],
+        "instrumentType": "sound",
+        "problem": false,
+        "isInstance": true
+      }
+    ]
+  },
+  "type": "song",
+  "url": "/songs/Song%20005"
+}

@@ -314,7 +314,7 @@ const parser = new DOMParser()
  * @param path Full path to the file.
  * @returns The parsed file, or an error message.
  */
-async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): Promise<ParsedSongFile | ParsedSoundFile | ParsedKitFile | SampleFile | string> {
+export async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): Promise<ParsedSongFile | ParsedSoundFile | ParsedKitFile | SampleFile | string> {
   const file = await fileHandle.getFile()
   const lastModified = file.lastModified
   let xml = await file.text()

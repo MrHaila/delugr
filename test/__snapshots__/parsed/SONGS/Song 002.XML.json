@@ -1,0 +1,3697 @@
+{
+  "name": "Song 002.XML",
+  "path": "/SONGS/Song 002.XML",
+  "lastModified": 1794089017595,
+  "firmware": "3.1.5",
+  "data": {
+    "name": "TODO",
+    "instruments": [
+      {
+        "presetName": "Preset 003",
+        "polyphonic": "poly",
+        "voicePriority": 1,
+        "mode": "subtractive",
+        "lpfMode": "24dB",
+        "modFXType": "chorus",
+        "osc1": {
+          "type": "sample",
+          "loopMode": 0,
+          "reversed": 0,
+          "timeStretchAmount": 0,
+          "timeStretchEnable": 0,
+          "sampleRanges": [
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0086.wav",
+              "rangeTopNote": 39,
+              "transpose": 24,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0087.wav",
+              "rangeTopNote": 45,
+              "transpose": 18,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0088.wav",
+              "rangeTopNote": 51,
+              "transpose": 12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0089.wav",
+              "rangeTopNote": 57,
+              "transpose": 6,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0090.wav",
+              "rangeTopNote": 63,
+              "transpose": 0,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0091.wav",
+              "rangeTopNote": 69,
+              "transpose": -6,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0092.wav",
+              "rangeTopNote": 75,
+              "transpose": -12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0093.wav",
+              "rangeTopNote": 81,
+              "transpose": -18,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0094.wav",
+              "rangeTopNote": 87,
+              "transpose": -24,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0095.wav",
+              "rangeTopNote": 93,
+              "transpose": -30,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D025/D026/S0096.wav",
+              "rangeTopNote": 0,
+              "transpose": -36,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            }
+          ]
+        },
+        "osc2": {
+          "type": "square",
+          "transpose": 8,
+          "cents": 21,
+          "retrigPhase": -1
+        },
+        "lfo1": {
+          "type": "sine",
+          "syncLevel": 7
+        },
+        "lfo2": {
+          "type": "sine"
+        },
+        "unison": {
+          "num": 8,
+          "detune": 38
+        },
+        "delay": {
+          "pingPong": 0,
+          "analog": 0,
+          "syncLevel": 6
+        },
+        "compressor": {
+          "syncLevel": 0,
+          "attack": 267289521,
+          "release": 1192744617
+        },
+        "defaultParams": {
+          "arpeggiatorGate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "portamento": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "compressorShape": {
+            "_fixh": "0xDC28F5B2",
+            "_decimal": 18
+          },
+          "oscAVolume": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "oscAPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscAWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "oscBPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "noiseVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "volume": {
+            "_fixh": "0x4CCCCCA8",
+            "_decimal": 40
+          },
+          "pan": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "lpfFrequency": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "lpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfFrequency": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "lfo1Rate": {
+            "_fixh": "0x1999997E",
+            "_decimal": 30
+          },
+          "lfo2Rate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modulator1Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXDepth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayFeedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "reverbAmount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "arpeggiatorRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "stutterRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "sampleRateReduction": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "bitCrush": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXOffset": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXFeedback": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          }
+        },
+        "arpeggiator": {
+          "mode": "off",
+          "numOctaves": 2,
+          "syncLevel": 7
+        },
+        "modKnobs": [
+          {
+            "controlsParam": "pan"
+          },
+          {
+            "controlsParam": "volumePostFX"
+          },
+          {
+            "controlsParam": "lpfResonance"
+          },
+          {
+            "controlsParam": "lpfFrequency"
+          },
+          {
+            "controlsParam": "env1Release"
+          },
+          {
+            "controlsParam": "env1Attack"
+          },
+          {
+            "controlsParam": "delayFeedback"
+          },
+          {
+            "controlsParam": "delayRate"
+          },
+          {
+            "controlsParam": "reverbAmount"
+          },
+          {
+            "controlsParam": "volumePostReverbSend",
+            "patchAmountFromSource": "compressor"
+          },
+          {
+            "controlsParam": "pitch",
+            "patchAmountFromSource": "lfo1"
+          },
+          {
+            "controlsParam": "lfo1Rate"
+          },
+          {
+            "controlsParam": "portamento"
+          },
+          {
+            "controlsParam": "stutterRate"
+          },
+          {
+            "controlsParam": "oscBVolume"
+          },
+          {
+            "controlsParam": "oscBPhaseWidth"
+          }
+        ],
+        "instrumentType": "sound",
+        "problem": false,
+        "isInstance": true
+      },
+      {
+        "presetName": "Preset 004",
+        "polyphonic": "auto",
+        "voicePriority": 1,
+        "mode": "subtractive",
+        "lpfMode": "12dB",
+        "modFXType": "none",
+        "osc1": {
+          "type": "square",
+          "transpose": 15,
+          "cents": -2,
+          "retrigPhase": 0
+        },
+        "osc2": {
+          "type": "sine",
+          "transpose": 30,
+          "cents": 37,
+          "retrigPhase": 0
+        },
+        "lfo1": {
+          "type": "sine",
+          "syncLevel": 6
+        },
+        "lfo2": {
+          "type": "sine"
+        },
+        "unison": {
+          "num": 5,
+          "detune": 15
+        },
+        "delay": {
+          "pingPong": 1,
+          "analog": 0,
+          "syncLevel": 4
+        },
+        "compressor": {
+          "syncLevel": 4,
+          "attack": 616929701,
+          "release": 89508612
+        },
+        "defaultParams": {
+          "arpeggiatorGate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "portamento": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "compressorShape": {
+            "_fixh": "0xDC28F5B2",
+            "_decimal": 18
+          },
+          "oscAVolume": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "oscAPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscAWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "oscBPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "noiseVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "volume": {
+            "_fixh": "0x4CCCCCA8",
+            "_decimal": 40
+          },
+          "pan": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "lpfFrequency": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "lpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfFrequency": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "lfo1Rate": {
+            "_fixh": "0x1999997E",
+            "_decimal": 30
+          },
+          "lfo2Rate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modulator1Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXDepth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayFeedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "reverbAmount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "arpeggiatorRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "stutterRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "sampleRateReduction": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "bitCrush": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXOffset": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXFeedback": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          }
+        },
+        "arpeggiator": {
+          "mode": "off",
+          "numOctaves": 2,
+          "syncLevel": 7
+        },
+        "modKnobs": [
+          {
+            "controlsParam": "pan"
+          },
+          {
+            "controlsParam": "volumePostFX"
+          },
+          {
+            "controlsParam": "lpfResonance"
+          },
+          {
+            "controlsParam": "lpfFrequency"
+          },
+          {
+            "controlsParam": "env1Release"
+          },
+          {
+            "controlsParam": "env1Attack"
+          },
+          {
+            "controlsParam": "delayFeedback"
+          },
+          {
+            "controlsParam": "delayRate"
+          },
+          {
+            "controlsParam": "reverbAmount"
+          },
+          {
+            "controlsParam": "volumePostReverbSend",
+            "patchAmountFromSource": "compressor"
+          },
+          {
+            "controlsParam": "pitch",
+            "patchAmountFromSource": "lfo1"
+          },
+          {
+            "controlsParam": "lfo1Rate"
+          },
+          {
+            "controlsParam": "portamento"
+          },
+          {
+            "controlsParam": "stutterRate"
+          },
+          {
+            "controlsParam": "oscBVolume"
+          },
+          {
+            "controlsParam": "oscAPhaseWidth"
+          }
+        ],
+        "instrumentType": "sound",
+        "problem": false,
+        "isInstance": true
+      },
+      {
+        "presetName": "Preset 005",
+        "polyphonic": "poly",
+        "voicePriority": 1,
+        "mode": "subtractive",
+        "lpfMode": "24dB",
+        "modFXType": "none",
+        "osc1": {
+          "type": "sample",
+          "loopMode": 1,
+          "reversed": 0,
+          "timeStretchAmount": 0,
+          "timeStretchEnable": 0,
+          "sampleRanges": [
+            {
+              "fileName": "SAMPLES/D024/D027/S0097.wav",
+              "rangeTopNote": 43,
+              "transpose": 17,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0098.wav",
+              "rangeTopNote": 44,
+              "transpose": 16,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0099.wav",
+              "rangeTopNote": 45,
+              "transpose": 15,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0100.wav",
+              "rangeTopNote": 46,
+              "transpose": 14,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0101.wav",
+              "rangeTopNote": 47,
+              "transpose": 13,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0102.wav",
+              "rangeTopNote": 48,
+              "transpose": 12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0103.wav",
+              "rangeTopNote": 49,
+              "transpose": 11,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0104.wav",
+              "rangeTopNote": 50,
+              "transpose": 10,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0105.wav",
+              "rangeTopNote": 51,
+              "transpose": 9,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0106.wav",
+              "rangeTopNote": 52,
+              "transpose": 8,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0107.wav",
+              "rangeTopNote": 53,
+              "transpose": 7,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0108.wav",
+              "rangeTopNote": 54,
+              "transpose": 6,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0109.wav",
+              "rangeTopNote": 55,
+              "transpose": 5,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0110.wav",
+              "rangeTopNote": 56,
+              "transpose": 4,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0111.wav",
+              "rangeTopNote": 57,
+              "transpose": 3,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0112.wav",
+              "rangeTopNote": 58,
+              "transpose": 2,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0113.wav",
+              "rangeTopNote": 59,
+              "transpose": 1,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0114.wav",
+              "rangeTopNote": 60,
+              "transpose": 0,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0115.wav",
+              "rangeTopNote": 61,
+              "transpose": -1,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0116.wav",
+              "rangeTopNote": 62,
+              "transpose": -2,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0117.wav",
+              "rangeTopNote": 63,
+              "transpose": -3,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0118.wav",
+              "rangeTopNote": 64,
+              "transpose": -4,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0119.wav",
+              "rangeTopNote": 65,
+              "transpose": -5,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0120.wav",
+              "rangeTopNote": 66,
+              "transpose": -6,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0121.wav",
+              "rangeTopNote": 67,
+              "transpose": -7,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0122.wav",
+              "rangeTopNote": 68,
+              "transpose": -8,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0123.wav",
+              "rangeTopNote": 69,
+              "transpose": -9,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0124.wav",
+              "rangeTopNote": 70,
+              "transpose": -10,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0125.wav",
+              "rangeTopNote": 71,
+              "transpose": -11,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0126.wav",
+              "rangeTopNote": 72,
+              "transpose": -12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0127.wav",
+              "rangeTopNote": 73,
+              "transpose": -13,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0128.wav",
+              "rangeTopNote": 74,
+              "transpose": -14,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0129.wav",
+              "rangeTopNote": 75,
+              "transpose": -15,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0130.wav",
+              "rangeTopNote": 76,
+              "transpose": -16,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0131.wav",
+              "rangeTopNote": 77,
+              "transpose": -17,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0132.wav",
+              "rangeTopNote": 78,
+              "transpose": -18,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0133.wav",
+              "rangeTopNote": 79,
+              "transpose": -19,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0134.wav",
+              "rangeTopNote": 80,
+              "transpose": -20,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0135.wav",
+              "rangeTopNote": 81,
+              "transpose": -21,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0136.wav",
+              "rangeTopNote": 82,
+              "transpose": -22,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0137.wav",
+              "rangeTopNote": 83,
+              "transpose": -23,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0138.wav",
+              "rangeTopNote": 84,
+              "transpose": -24,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0139.wav",
+              "rangeTopNote": 85,
+              "transpose": -25,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0140.wav",
+              "rangeTopNote": 86,
+              "transpose": -26,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0141.wav",
+              "rangeTopNote": 87,
+              "transpose": -27,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0142.wav",
+              "rangeTopNote": 88,
+              "transpose": -28,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0143.wav",
+              "rangeTopNote": 89,
+              "transpose": -29,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0144.wav",
+              "rangeTopNote": 90,
+              "transpose": -30,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0145.wav",
+              "rangeTopNote": 91,
+              "transpose": -31,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0146.wav",
+              "rangeTopNote": 92,
+              "transpose": -32,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0147.wav",
+              "rangeTopNote": 93,
+              "transpose": -33,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0148.wav",
+              "rangeTopNote": 94,
+              "transpose": -34,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0149.wav",
+              "rangeTopNote": 95,
+              "transpose": -35,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0150.wav",
+              "rangeTopNote": 96,
+              "transpose": -36,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0151.wav",
+              "rangeTopNote": 97,
+              "transpose": -37,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0152.wav",
+              "rangeTopNote": 98,
+              "transpose": -38,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0153.wav",
+              "rangeTopNote": 99,
+              "transpose": -39,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D027/S0154.wav",
+              "rangeTopNote": 0,
+              "transpose": -40,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            }
+          ]
+        },
+        "osc2": {
+          "type": "sample",
+          "loopMode": 1,
+          "reversed": 0,
+          "timeStretchAmount": 0,
+          "timeStretchEnable": 0,
+          "sampleRanges": [
+            {
+              "fileName": "SAMPLES/D024/D028/S0155.wav",
+              "rangeTopNote": 43,
+              "transpose": 17,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0156.wav",
+              "rangeTopNote": 44,
+              "transpose": 16,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0157.wav",
+              "rangeTopNote": 45,
+              "transpose": 15,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0158.wav",
+              "rangeTopNote": 46,
+              "transpose": 14,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0159.wav",
+              "rangeTopNote": 47,
+              "transpose": 13,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0160.wav",
+              "rangeTopNote": 48,
+              "transpose": 12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0161.wav",
+              "rangeTopNote": 49,
+              "transpose": 11,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0162.wav",
+              "rangeTopNote": 50,
+              "transpose": 10,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0163.wav",
+              "rangeTopNote": 51,
+              "transpose": 9,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0164.wav",
+              "rangeTopNote": 52,
+              "transpose": 8,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0165.wav",
+              "rangeTopNote": 53,
+              "transpose": 7,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0166.wav",
+              "rangeTopNote": 54,
+              "transpose": 6,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0167.wav",
+              "rangeTopNote": 55,
+              "transpose": 5,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0168.wav",
+              "rangeTopNote": 56,
+              "transpose": 4,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0169.wav",
+              "rangeTopNote": 57,
+              "transpose": 3,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0170.wav",
+              "rangeTopNote": 58,
+              "transpose": 2,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0171.wav",
+              "rangeTopNote": 59,
+              "transpose": 1,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0172.wav",
+              "rangeTopNote": 60,
+              "transpose": 0,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0173.wav",
+              "rangeTopNote": 61,
+              "transpose": -1,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0174.wav",
+              "rangeTopNote": 62,
+              "transpose": -2,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0175.wav",
+              "rangeTopNote": 63,
+              "transpose": -3,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0176.wav",
+              "rangeTopNote": 64,
+              "transpose": -4,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0177.wav",
+              "rangeTopNote": 65,
+              "transpose": -5,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0178.wav",
+              "rangeTopNote": 66,
+              "transpose": -6,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0179.wav",
+              "rangeTopNote": 67,
+              "transpose": -7,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0180.wav",
+              "rangeTopNote": 68,
+              "transpose": -8,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0181.wav",
+              "rangeTopNote": 69,
+              "transpose": -9,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0182.wav",
+              "rangeTopNote": 70,
+              "transpose": -10,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0183.wav",
+              "rangeTopNote": 71,
+              "transpose": -11,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0184.wav",
+              "rangeTopNote": 72,
+              "transpose": -12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0185.wav",
+              "rangeTopNote": 73,
+              "transpose": -13,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0186.wav",
+              "rangeTopNote": 74,
+              "transpose": -14,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0187.wav",
+              "rangeTopNote": 75,
+              "transpose": -15,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0188.wav",
+              "rangeTopNote": 76,
+              "transpose": -16,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0189.wav",
+              "rangeTopNote": 77,
+              "transpose": -17,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0190.wav",
+              "rangeTopNote": 78,
+              "transpose": -18,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0191.wav",
+              "rangeTopNote": 79,
+              "transpose": -19,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0192.wav",
+              "rangeTopNote": 80,
+              "transpose": -20,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0193.wav",
+              "rangeTopNote": 81,
+              "transpose": -21,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0194.wav",
+              "rangeTopNote": 82,
+              "transpose": -22,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0195.wav",
+              "rangeTopNote": 83,
+              "transpose": -23,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0196.wav",
+              "rangeTopNote": 84,
+              "transpose": -24,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0197.wav",
+              "rangeTopNote": 85,
+              "transpose": -25,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0198.wav",
+              "rangeTopNote": 86,
+              "transpose": -26,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0199.wav",
+              "rangeTopNote": 87,
+              "transpose": -27,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0200.wav",
+              "rangeTopNote": 88,
+              "transpose": -28,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0201.wav",
+              "rangeTopNote": 89,
+              "transpose": -29,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0202.wav",
+              "rangeTopNote": 90,
+              "transpose": -30,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0203.wav",
+              "rangeTopNote": 91,
+              "transpose": -31,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0204.wav",
+              "rangeTopNote": 92,
+              "transpose": -32,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0205.wav",
+              "rangeTopNote": 93,
+              "transpose": -33,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0206.wav",
+              "rangeTopNote": 94,
+              "transpose": -34,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0207.wav",
+              "rangeTopNote": 95,
+              "transpose": -35,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0208.wav",
+              "rangeTopNote": 96,
+              "transpose": -36,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0209.wav",
+              "rangeTopNote": 97,
+              "transpose": -37,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0210.wav",
+              "rangeTopNote": 98,
+              "transpose": -38,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0211.wav",
+              "rangeTopNote": 99,
+              "transpose": -39,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0212.wav",
+              "rangeTopNote": 0,
+              "transpose": -40,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            }
+          ]
+        },
+        "lfo1": {
+          "type": "triangle",
+          "syncLevel": 4
+        },
+        "lfo2": {
+          "type": "triangle"
+        },
+        "unison": {
+          "num": 7,
+          "detune": 19
+        },
+        "delay": {
+          "pingPong": 1,
+          "analog": 0,
+          "syncLevel": 4
+        },
+        "compressor": {
+          "syncLevel": 1,
+          "attack": 272982317,
+          "release": 973213610
+        },
+        "defaultParams": {
+          "arpeggiatorGate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "portamento": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "compressorShape": {
+            "_fixh": "0xDC28F5B2",
+            "_decimal": 18
+          },
+          "oscAVolume": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "oscAPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscAWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "oscBPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "noiseVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "volume": {
+            "_fixh": "0x4CCCCCA8",
+            "_decimal": 40
+          },
+          "pan": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "lpfFrequency": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "lpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfFrequency": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "lfo1Rate": {
+            "_fixh": "0x1999997E",
+            "_decimal": 30
+          },
+          "lfo2Rate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modulator1Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXDepth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayFeedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "reverbAmount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "arpeggiatorRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "stutterRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "sampleRateReduction": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "bitCrush": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXOffset": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXFeedback": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          }
+        },
+        "arpeggiator": {
+          "mode": "off",
+          "numOctaves": 2,
+          "syncLevel": 7
+        },
+        "modKnobs": [
+          {
+            "controlsParam": "pan"
+          },
+          {
+            "controlsParam": "volumePostFX"
+          },
+          {
+            "controlsParam": "lpfResonance"
+          },
+          {
+            "controlsParam": "lpfFrequency"
+          },
+          {
+            "controlsParam": "env1Release"
+          },
+          {
+            "controlsParam": "env1Attack"
+          },
+          {
+            "controlsParam": "delayFeedback"
+          },
+          {
+            "controlsParam": "delayRate"
+          },
+          {
+            "controlsParam": "reverbAmount"
+          },
+          {
+            "controlsParam": "volumePostReverbSend",
+            "patchAmountFromSource": "compressor"
+          },
+          {
+            "controlsParam": "pitch",
+            "patchAmountFromSource": "lfo1"
+          },
+          {
+            "controlsParam": "lfo1Rate"
+          },
+          {
+            "controlsParam": "portamento"
+          },
+          {
+            "controlsParam": "stutterRate"
+          },
+          {
+            "controlsParam": "bitcrushAmount"
+          },
+          {
+            "controlsParam": "sampleRateReduction"
+          }
+        ],
+        "instrumentType": "sound",
+        "problem": false,
+        "isInstance": true
+      },
+      {
+        "presetName": "Preset 006",
+        "polyphonic": "poly",
+        "voicePriority": 1,
+        "mode": "subtractive",
+        "lpfMode": "24dB",
+        "modFXType": "none",
+        "osc1": {
+          "type": "sample",
+          "loopMode": 1,
+          "reversed": 0,
+          "timeStretchAmount": 0,
+          "timeStretchEnable": 0,
+          "sampleRanges": [
+            {
+              "fileName": "SAMPLES/D024/D029/S0213.wav",
+              "rangeTopNote": 43,
+              "transpose": 17,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0214.wav",
+              "rangeTopNote": 44,
+              "transpose": 16,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0215.wav",
+              "rangeTopNote": 45,
+              "transpose": 15,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0216.wav",
+              "rangeTopNote": 46,
+              "transpose": 14,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0217.wav",
+              "rangeTopNote": 47,
+              "transpose": 13,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0218.wav",
+              "rangeTopNote": 48,
+              "transpose": 12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0219.wav",
+              "rangeTopNote": 49,
+              "transpose": 11,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0220.wav",
+              "rangeTopNote": 50,
+              "transpose": 10,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0221.wav",
+              "rangeTopNote": 51,
+              "transpose": 9,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0222.wav",
+              "rangeTopNote": 52,
+              "transpose": 8,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0223.wav",
+              "rangeTopNote": 53,
+              "transpose": 7,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0224.wav",
+              "rangeTopNote": 54,
+              "transpose": 6,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0225.wav",
+              "rangeTopNote": 55,
+              "transpose": 5,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0226.wav",
+              "rangeTopNote": 56,
+              "transpose": 4,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0227.wav",
+              "rangeTopNote": 57,
+              "transpose": 3,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0228.wav",
+              "rangeTopNote": 58,
+              "transpose": 2,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0229.wav",
+              "rangeTopNote": 59,
+              "transpose": 1,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0230.wav",
+              "rangeTopNote": 60,
+              "transpose": 0,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0231.wav",
+              "rangeTopNote": 61,
+              "transpose": -1,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0232.wav",
+              "rangeTopNote": 62,
+              "transpose": -2,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0233.wav",
+              "rangeTopNote": 63,
+              "transpose": -3,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0234.wav",
+              "rangeTopNote": 64,
+              "transpose": -4,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0235.wav",
+              "rangeTopNote": 65,
+              "transpose": -5,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0236.wav",
+              "rangeTopNote": 66,
+              "transpose": -6,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0237.wav",
+              "rangeTopNote": 67,
+              "transpose": -7,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0238.wav",
+              "rangeTopNote": 68,
+              "transpose": -8,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0239.wav",
+              "rangeTopNote": 69,
+              "transpose": -9,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0240.wav",
+              "rangeTopNote": 70,
+              "transpose": -10,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0241.wav",
+              "rangeTopNote": 71,
+              "transpose": -11,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0242.wav",
+              "rangeTopNote": 72,
+              "transpose": -12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0243.wav",
+              "rangeTopNote": 73,
+              "transpose": -13,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0244.wav",
+              "rangeTopNote": 74,
+              "transpose": -14,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0245.wav",
+              "rangeTopNote": 75,
+              "transpose": -15,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0246.wav",
+              "rangeTopNote": 76,
+              "transpose": -16,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0247.wav",
+              "rangeTopNote": 77,
+              "transpose": -17,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0248.wav",
+              "rangeTopNote": 78,
+              "transpose": -18,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0249.wav",
+              "rangeTopNote": 79,
+              "transpose": -19,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0250.wav",
+              "rangeTopNote": 80,
+              "transpose": -20,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0251.wav",
+              "rangeTopNote": 81,
+              "transpose": -21,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0252.wav",
+              "rangeTopNote": 82,
+              "transpose": -22,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0253.wav",
+              "rangeTopNote": 83,
+              "transpose": -23,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0254.wav",
+              "rangeTopNote": 84,
+              "transpose": -24,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0255.wav",
+              "rangeTopNote": 85,
+              "transpose": -25,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0256.wav",
+              "rangeTopNote": 86,
+              "transpose": -26,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0257.wav",
+              "rangeTopNote": 87,
+              "transpose": -27,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0258.wav",
+              "rangeTopNote": 88,
+              "transpose": -28,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0259.wav",
+              "rangeTopNote": 89,
+              "transpose": -29,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0260.wav",
+              "rangeTopNote": 90,
+              "transpose": -30,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0261.wav",
+              "rangeTopNote": 91,
+              "transpose": -31,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0262.wav",
+              "rangeTopNote": 92,
+              "transpose": -32,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0263.wav",
+              "rangeTopNote": 93,
+              "transpose": -33,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0264.wav",
+              "rangeTopNote": 94,
+              "transpose": -34,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0265.wav",
+              "rangeTopNote": 95,
+              "transpose": -35,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0266.wav",
+              "rangeTopNote": 96,
+              "transpose": -36,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0267.wav",
+              "rangeTopNote": 97,
+              "transpose": -37,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0268.wav",
+              "rangeTopNote": 98,
+              "transpose": -38,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0269.wav",
+              "rangeTopNote": 99,
+              "transpose": -39,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D029/S0270.wav",
+              "rangeTopNote": 0,
+              "transpose": -40,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            }
+          ]
+        },
+        "osc2": {
+          "type": "sample",
+          "loopMode": 1,
+          "reversed": 0,
+          "timeStretchAmount": 0,
+          "timeStretchEnable": 0,
+          "sampleRanges": [
+            {
+              "fileName": "SAMPLES/D024/D028/S0155.wav",
+              "rangeTopNote": 43,
+              "transpose": 17,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0156.wav",
+              "rangeTopNote": 44,
+              "transpose": 16,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0157.wav",
+              "rangeTopNote": 45,
+              "transpose": 15,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0158.wav",
+              "rangeTopNote": 46,
+              "transpose": 14,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0159.wav",
+              "rangeTopNote": 47,
+              "transpose": 13,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0160.wav",
+              "rangeTopNote": 48,
+              "transpose": 12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0161.wav",
+              "rangeTopNote": 49,
+              "transpose": 11,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0162.wav",
+              "rangeTopNote": 50,
+              "transpose": 10,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0163.wav",
+              "rangeTopNote": 51,
+              "transpose": 9,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0164.wav",
+              "rangeTopNote": 52,
+              "transpose": 8,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0165.wav",
+              "rangeTopNote": 53,
+              "transpose": 7,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0166.wav",
+              "rangeTopNote": 54,
+              "transpose": 6,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0167.wav",
+              "rangeTopNote": 55,
+              "transpose": 5,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0168.wav",
+              "rangeTopNote": 56,
+              "transpose": 4,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0169.wav",
+              "rangeTopNote": 57,
+              "transpose": 3,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0170.wav",
+              "rangeTopNote": 58,
+              "transpose": 2,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0171.wav",
+              "rangeTopNote": 59,
+              "transpose": 1,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0172.wav",
+              "rangeTopNote": 60,
+              "transpose": 0,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0173.wav",
+              "rangeTopNote": 61,
+              "transpose": -1,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0174.wav",
+              "rangeTopNote": 62,
+              "transpose": -2,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0175.wav",
+              "rangeTopNote": 63,
+              "transpose": -3,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0176.wav",
+              "rangeTopNote": 64,
+              "transpose": -4,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0177.wav",
+              "rangeTopNote": 65,
+              "transpose": -5,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0178.wav",
+              "rangeTopNote": 66,
+              "transpose": -6,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0179.wav",
+              "rangeTopNote": 67,
+              "transpose": -7,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0180.wav",
+              "rangeTopNote": 68,
+              "transpose": -8,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0181.wav",
+              "rangeTopNote": 69,
+              "transpose": -9,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0182.wav",
+              "rangeTopNote": 70,
+              "transpose": -10,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0183.wav",
+              "rangeTopNote": 71,
+              "transpose": -11,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0184.wav",
+              "rangeTopNote": 72,
+              "transpose": -12,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0185.wav",
+              "rangeTopNote": 73,
+              "transpose": -13,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0186.wav",
+              "rangeTopNote": 74,
+              "transpose": -14,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0187.wav",
+              "rangeTopNote": 75,
+              "transpose": -15,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0188.wav",
+              "rangeTopNote": 76,
+              "transpose": -16,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0189.wav",
+              "rangeTopNote": 77,
+              "transpose": -17,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0190.wav",
+              "rangeTopNote": 78,
+              "transpose": -18,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0191.wav",
+              "rangeTopNote": 79,
+              "transpose": -19,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0192.wav",
+              "rangeTopNote": 80,
+              "transpose": -20,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0193.wav",
+              "rangeTopNote": 81,
+              "transpose": -21,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0194.wav",
+              "rangeTopNote": 82,
+              "transpose": -22,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0195.wav",
+              "rangeTopNote": 83,
+              "transpose": -23,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0196.wav",
+              "rangeTopNote": 84,
+              "transpose": -24,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0197.wav",
+              "rangeTopNote": 85,
+              "transpose": -25,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0198.wav",
+              "rangeTopNote": 86,
+              "transpose": -26,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0199.wav",
+              "rangeTopNote": 87,
+              "transpose": -27,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0200.wav",
+              "rangeTopNote": 88,
+              "transpose": -28,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0201.wav",
+              "rangeTopNote": 89,
+              "transpose": -29,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0202.wav",
+              "rangeTopNote": 90,
+              "transpose": -30,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0203.wav",
+              "rangeTopNote": 91,
+              "transpose": -31,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0204.wav",
+              "rangeTopNote": 92,
+              "transpose": -32,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0205.wav",
+              "rangeTopNote": 93,
+              "transpose": -33,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0206.wav",
+              "rangeTopNote": 94,
+              "transpose": -34,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0207.wav",
+              "rangeTopNote": 95,
+              "transpose": -35,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0208.wav",
+              "rangeTopNote": 96,
+              "transpose": -36,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0209.wav",
+              "rangeTopNote": 97,
+              "transpose": -37,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0210.wav",
+              "rangeTopNote": 98,
+              "transpose": -38,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0211.wav",
+              "rangeTopNote": 99,
+              "transpose": -39,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            },
+            {
+              "fileName": "SAMPLES/D024/D028/S0212.wav",
+              "rangeTopNote": 0,
+              "transpose": -40,
+              "zone": {
+                "startSamplePos": 0,
+                "endSamplePos": 512
+              }
+            }
+          ]
+        },
+        "lfo1": {
+          "type": "triangle",
+          "syncLevel": 8
+        },
+        "lfo2": {
+          "type": "triangle"
+        },
+        "unison": {
+          "num": 5,
+          "detune": 47
+        },
+        "delay": {
+          "pingPong": 0,
+          "analog": 0,
+          "syncLevel": 0
+        },
+        "compressor": {
+          "syncLevel": 2,
+          "attack": 666291925,
+          "release": 1113254795
+        },
+        "defaultParams": {
+          "arpeggiatorGate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "portamento": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "compressorShape": {
+            "_fixh": "0xDC28F5B2",
+            "_decimal": 18
+          },
+          "oscAVolume": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "oscAPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscAWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "oscBPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "noiseVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "volume": {
+            "_fixh": "0x4CCCCCA8",
+            "_decimal": 40
+          },
+          "pan": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "lpfFrequency": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "lpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfFrequency": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "lfo1Rate": {
+            "_fixh": "0x1999997E",
+            "_decimal": 30
+          },
+          "lfo2Rate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modulator1Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXDepth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayFeedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "reverbAmount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "arpeggiatorRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "stutterRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "sampleRateReduction": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "bitCrush": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXOffset": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXFeedback": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          }
+        },
+        "arpeggiator": {
+          "mode": "off",
+          "numOctaves": 2,
+          "syncLevel": 7
+        },
+        "modKnobs": [
+          {
+            "controlsParam": "pan"
+          },
+          {
+            "controlsParam": "volumePostFX"
+          },
+          {
+            "controlsParam": "lpfResonance"
+          },
+          {
+            "controlsParam": "lpfFrequency"
+          },
+          {
+            "controlsParam": "env1Release"
+          },
+          {
+            "controlsParam": "env1Attack"
+          },
+          {
+            "controlsParam": "delayFeedback"
+          },
+          {
+            "controlsParam": "delayRate"
+          },
+          {
+            "controlsParam": "reverbAmount"
+          },
+          {
+            "controlsParam": "volumePostReverbSend",
+            "patchAmountFromSource": "compressor"
+          },
+          {
+            "controlsParam": "pitch",
+            "patchAmountFromSource": "lfo1"
+          },
+          {
+            "controlsParam": "lfo1Rate"
+          },
+          {
+            "controlsParam": "portamento"
+          },
+          {
+            "controlsParam": "stutterRate"
+          },
+          {
+            "controlsParam": "bitcrushAmount"
+          },
+          {
+            "controlsParam": "sampleRateReduction"
+          }
+        ],
+        "instrumentType": "sound",
+        "problem": false,
+        "isInstance": true
+      },
+      {
+        "presetName": "SYNT043",
+        "polyphonic": "auto",
+        "voicePriority": 1,
+        "mode": "subtractive",
+        "lpfMode": "24dB",
+        "modFXType": "none",
+        "osc1": {
+          "type": "square",
+          "transpose": -33,
+          "cents": -7,
+          "retrigPhase": -1
+        },
+        "osc2": {
+          "type": "square",
+          "transpose": -24,
+          "cents": -37,
+          "retrigPhase": -1
+        },
+        "lfo1": {
+          "type": "sine",
+          "syncLevel": 7
+        },
+        "lfo2": {
+          "type": "triangle"
+        },
+        "unison": {
+          "num": 2,
+          "detune": 10
+        },
+        "delay": {
+          "pingPong": 0,
+          "analog": 0,
+          "syncLevel": 6
+        },
+        "compressor": {
+          "syncLevel": 6,
+          "attack": 41405226,
+          "release": 905594373
+        },
+        "defaultParams": {
+          "arpeggiatorGate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "portamento": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "compressorShape": {
+            "_fixh": "0xDC28F5B2",
+            "_decimal": 18
+          },
+          "oscAVolume": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "oscAPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscAWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "oscBPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "noiseVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "volume": {
+            "_fixh": "0x4CCCCCA8",
+            "_decimal": 40
+          },
+          "pan": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "lpfFrequency": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "lpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfFrequency": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "lfo1Rate": {
+            "_fixh": "0x1999997E",
+            "_decimal": 30
+          },
+          "lfo2Rate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modulator1Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXDepth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayFeedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "reverbAmount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "arpeggiatorRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "stutterRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "sampleRateReduction": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "bitCrush": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXOffset": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXFeedback": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          }
+        },
+        "arpeggiator": {
+          "mode": "off",
+          "numOctaves": 2,
+          "syncLevel": 7
+        },
+        "modKnobs": [
+          {
+            "controlsParam": "pan"
+          },
+          {
+            "controlsParam": "volumePostFX"
+          },
+          {
+            "controlsParam": "lpfResonance"
+          },
+          {
+            "controlsParam": "lpfFrequency"
+          },
+          {
+            "controlsParam": "env1Release"
+          },
+          {
+            "controlsParam": "env1Attack"
+          },
+          {
+            "controlsParam": "delayFeedback"
+          },
+          {
+            "controlsParam": "delayRate"
+          },
+          {
+            "controlsParam": "reverbAmount"
+          },
+          {
+            "controlsParam": "volumePostReverbSend",
+            "patchAmountFromSource": "compressor"
+          },
+          {
+            "controlsParam": "pitch",
+            "patchAmountFromSource": "lfo1"
+          },
+          {
+            "controlsParam": "lfo1Rate"
+          },
+          {
+            "controlsParam": "portamento"
+          },
+          {
+            "controlsParam": "stutterRate"
+          },
+          {
+            "controlsParam": "oscBVolume"
+          },
+          {
+            "controlsParam": "oscAPhaseWidth"
+          }
+        ],
+        "instrumentType": "sound",
+        "problem": false,
+        "isInstance": true,
+        "clippingAmount": 2
+      },
+      {
+        "presetName": "Track 001",
+        "inputChannel": "stereo",
+        "isArmedForRecording": 0,
+        "activeModFunction": 1,
+        "lpfMode": "24dB",
+        "modFxType": "flanger",
+        "modFxCurrentParam": "feedback",
+        "currentFilterType": "lpf",
+        "delay": {
+          "pingPong": 0,
+          "analog": 0,
+          "syncLevel": 8
+        },
+        "compressor": {
+          "syncLevel": 2,
+          "attack": 321289543,
+          "release": 272184130
+        },
+        "instrumentType": "audio track",
+        "problem": false,
+        "echoingInput": 1
+      },
+      {
+        "presetName": "SYNT000",
+        "polyphonic": "poly",
+        "voicePriority": 1,
+        "mode": "subtractive",
+        "lpfMode": "24dB",
+        "modFXType": "none",
+        "osc1": {
+          "type": "saw",
+          "transpose": -25,
+          "cents": 8,
+          "retrigPhase": -1
+        },
+        "osc2": {
+          "type": "analogSquare",
+          "transpose": 32,
+          "cents": -16,
+          "retrigPhase": -1
+        },
+        "lfo1": {
+          "type": "sine",
+          "syncLevel": 8
+        },
+        "lfo2": {
+          "type": "sine"
+        },
+        "unison": {
+          "num": 7,
+          "detune": 33
+        },
+        "delay": {
+          "pingPong": 1,
+          "analog": 0,
+          "syncLevel": 8
+        },
+        "compressor": {
+          "syncLevel": 0,
+          "attack": 329944001,
+          "release": 612333250
+        },
+        "defaultParams": {
+          "arpeggiatorGate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "portamento": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "compressorShape": {
+            "_fixh": "0xDC28F5B2",
+            "_decimal": 18
+          },
+          "oscAVolume": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "oscAPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscAWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "oscBPulseWidth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "oscBWavetablePosition": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "noiseVolume": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "volume": {
+            "_fixh": "0x4CCCCCA8",
+            "_decimal": 40
+          },
+          "pan": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "lpfFrequency": {
+            "_fixh": "0x7FFFFFFF",
+            "_decimal": 50
+          },
+          "lpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfFrequency": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "hpfResonance": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "lfo1Rate": {
+            "_fixh": "0x1999997E",
+            "_decimal": 30
+          },
+          "lfo2Rate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modulator1Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Amount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modulator2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier1Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "carrier2Feedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXDepth": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "delayFeedback": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "reverbAmount": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "arpeggiatorRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "stutterRate": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "sampleRateReduction": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "bitCrush": {
+            "_fixh": "0x80000000",
+            "_decimal": 0
+          },
+          "modFXOffset": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          },
+          "modFXFeedback": {
+            "_fixh": "0x00000000",
+            "_decimal": 25
+          }
+        },
+        "arpeggiator": {
+          "mode": "off",
+          "numOctaves": 2,
+          "syncLevel": 7
+        },
+        "modKnobs": [
+          {
+            "controlsParam": "pan"
+          },
+          {
+            "controlsParam": "volumePostFX"
+          },
+          {
+            "controlsParam": "hpfFrequency"
+          },
+          {
+            "controlsParam": "lpfFrequency"
+          },
+          {
+            "controlsParam": "env1Release"
+          },
+          {
+            "controlsParam": "arpGate"
+          },
+          {
+            "controlsParam": "delayFeedback"
+          },
+          {
+            "controlsParam": "delayRate"
+          },
+          {
+            "controlsParam": "reverbAmount"
+          },
+          {
+            "controlsParam": "volumePostReverbSend",
+            "patchAmountFromSource": "compressor"
+          },
+          {
+            "controlsParam": "pitch",
+            "patchAmountFromSource": "lfo1"
+          },
+          {
+            "controlsParam": "lfo1Rate"
+          },
+          {
+            "controlsParam": "portamento"
+          },
+          {
+            "controlsParam": "stutterRate"
+          },
+          {
+            "controlsParam": "oscBVolume"
+          },
+          {
+            "controlsParam": "arpGate"
+          }
+        ],
+        "instrumentType": "sound",
+        "problem": false,
+        "isInstance": true
+      }
+    ]
+  },
+  "type": "song",
+  "url": "/songs/Song%20002"
+}

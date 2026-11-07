@@ -1,0 +1,2982 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<song
+	firmwareVersion="3.1.5"
+	earliestCompatibleFirmware="3.1.0-beta"
+	previewNumPads="144"
+	preview="3CFE231F71F94042A1F7058704FEBF50003A02476EC779862EBCB61C3DA204488C3A298BC47A6FD63EFA26EB117F3E0A85D34377EA5E45EED852F448323516B9C92C86A120A4193195C4BECF93695C786C12CE83C778160B9D70C0CEDBD0572A9E10D98E93B3136F085DAA0BFC5D880E15A1B74CED3DDEBD0E25185DE8A8E1AECF0245BB3A41B2A69D29DD3276D4455F7E5E2F28BF4A850AE96617CD0C5AC8976EA7BAFE3F204233B0BCF8ADD6126EEC04153C4DEBAD962039C4CECFD924F3ED10DBBCB54455D3A651FDC276AE9ED42F5D060831F312E84C15F9A713D41F4487E76DB97F437321B67B97F683111C1E07EC19F681511A2E18707A6E578C6D757B8D8A55D79D01196F6B3FAFEE545B93DC8C8427817EA192D54A3DF589737C96F0E043BB7EEBDC0781546FFEFFF607BA02A8C953013DB66B0985AB477C11BFFA71C46EBA39995194BD9C6A1BF7FCE636036BFBBDA62AC46A651000DE9613D5AC38FBE29545B1E9F6F513C7B7292A867D412027F2B1318482552B6D8928AC2652417A095D89E17B6C6C097A3A76CE63EDB246E0B911B441F6EBC6621A9B80A96520CBD7B2AF46D4B6F8C25706E9C1E67A30"
+	arrangementAutoScrollOn="0"
+	xScroll="0"
+	xZoom="48"
+	yScrollSongView="-1"
+	yScrollArrangementView="-1"
+	xScrollArrangementView="0"
+	xZoomArrangementView="192"
+	timePerTimerTick="218"
+	timerTickFraction="-1073741824"
+	rootNote="76"
+	inputTickMagnitude="2"
+	swingAmount="5"
+	swingInterval="7"
+	affectEntire="0"
+	activeModFunction="1"
+	lpfMode="24dB"
+	modFXType="flanger"
+	modFXCurrentParam="feedback"
+	currentFilterType="lpf">
+	<modeNotes>
+		<modeNote>0</modeNote>
+		<modeNote>2</modeNote>
+		<modeNote>4</modeNote>
+		<modeNote>5</modeNote>
+		<modeNote>7</modeNote>
+		<modeNote>9</modeNote>
+		<modeNote>11</modeNote>
+	</modeNotes>
+	<reverb
+		roomSize="781934195"
+		dampening="1867319333"
+		width="2097545493"
+		pan="-263657660">
+		<compressor
+			attack="357888136"
+			release="505538519"
+			volume="-21474836"
+			shape="-601295438"
+			syncLevel="3" />
+	</reverb>
+	<delay
+		pingPong="0"
+		analog="1"
+		syncLevel="7" />
+	<compressor
+		syncLevel="7"
+		attack="722826001"
+		release="96429299" />
+	<songParams
+		reverbAmount="0xAA7397D6"
+		volume="0x43A78354"
+		pan="0x0B49C788"
+		sidechainCompressorShape="0xDC28F5B2"
+		modFXDepth="0xBE8C575F"
+		modFXRate="0x8C30DFB5"
+		stutterRate="0x0DC7814F"
+		sampleRateReduction="0x80000000"
+		bitCrush="0x80000000"
+		modFXOffset="0xF4C11D4E"
+		modFXFeedback="0x8350C5E3">
+		<delay
+			rate="0xD6E7E5B6"
+			feedback="0xC11E1FC6" />
+		<lpf
+			frequency="0x4614D34B"
+			resonance="0x33B0B4F8" />
+		<hpf
+			frequency="0xCB121091"
+			resonance="0x9334ECF3" />
+		<equalizer
+			bass="0x02AEEB84"
+			treble="0xC620963D"
+			bassFrequency="0x56FE2D46"
+			trebleFrequency="0xC47F29E7" />
+	</songParams>
+	<instruments>
+		<sound
+			presetName="Preset 003"
+			defaultVelocity="64"
+			isArmedForRecording="0"
+			activeModFunction="1"
+			polyphonic="poly"
+			voicePriority="1"
+			mode="subtractive"
+			transpose="-10"
+			lpfMode="24dB"
+			modFXType="chorus">
+			<osc1
+				type="sample"
+				loopMode="0"
+				reversed="0"
+				timeStretchEnable="0"
+				timeStretchAmount="0">
+				<sampleRanges>
+					<sampleRange
+						rangeTopNote="39"
+						fileName="SAMPLES/D024/D025/D026/S0086.wav"
+						transpose="24">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="45"
+						fileName="SAMPLES/D024/D025/D026/S0087.wav"
+						transpose="18">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="51"
+						fileName="SAMPLES/D024/D025/D026/S0088.wav"
+						transpose="12">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="57"
+						fileName="SAMPLES/D024/D025/D026/S0089.wav"
+						transpose="6">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="63"
+						fileName="SAMPLES/D024/D025/D026/S0090.wav">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="69"
+						fileName="SAMPLES/D024/D025/D026/S0091.wav"
+						transpose="-6">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="75"
+						fileName="SAMPLES/D024/D025/D026/S0092.wav"
+						transpose="-12">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="81"
+						fileName="SAMPLES/D024/D025/D026/S0093.wav"
+						transpose="-18">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="87"
+						fileName="SAMPLES/D024/D025/D026/S0094.wav"
+						transpose="-24">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="93"
+						fileName="SAMPLES/D024/D025/D026/S0095.wav"
+						transpose="-30">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						fileName="SAMPLES/D024/D025/D026/S0096.wav"
+						transpose="-36">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+				</sampleRanges>
+			</osc1>
+			<osc2
+				type="square"
+				transpose="8"
+				cents="21"
+				retrigPhase="-1" />
+			<lfo1 type="sine" syncLevel="7" />
+			<lfo2 type="sine" />
+			<unison num="8" detune="38" />
+			<delay
+				pingPong="0"
+				analog="0"
+				syncLevel="6" />
+			<compressor
+				syncLevel="0"
+				attack="267289521"
+				release="1192744617" />
+			<modKnobs>
+				<modKnob controlsParam="pan" />
+				<modKnob controlsParam="volumePostFX" />
+				<modKnob controlsParam="lpfResonance" />
+				<modKnob controlsParam="lpfFrequency" />
+				<modKnob controlsParam="env1Release" />
+				<modKnob controlsParam="env1Attack" />
+				<modKnob controlsParam="delayFeedback" />
+				<modKnob controlsParam="delayRate" />
+				<modKnob controlsParam="reverbAmount" />
+				<modKnob controlsParam="volumePostReverbSend" patchAmountFromSource="compressor" />
+				<modKnob controlsParam="pitch" patchAmountFromSource="lfo1" />
+				<modKnob controlsParam="lfo1Rate" />
+				<modKnob controlsParam="portamento" />
+				<modKnob controlsParam="stutterRate" />
+				<modKnob controlsParam="oscBVolume" />
+				<modKnob controlsParam="oscBPhaseWidth" />
+			</modKnobs>
+		</sound>
+		<sound
+			presetName="Preset 004"
+			defaultVelocity="64"
+			isArmedForRecording="0"
+			activeModFunction="1"
+			polyphonic="auto"
+			voicePriority="1"
+			mode="subtractive"
+			transpose="-20"
+			lpfMode="12dB"
+			modFXType="none">
+			<osc1
+				type="square"
+				transpose="15"
+				cents="-2"
+				retrigPhase="0" />
+			<osc2
+				type="sine"
+				transpose="30"
+				cents="37"
+				retrigPhase="0" />
+			<lfo1 type="sine" syncLevel="6" />
+			<lfo2 type="sine" />
+			<unison num="5" detune="15" />
+			<delay
+				pingPong="1"
+				analog="0"
+				syncLevel="4" />
+			<compressor
+				syncLevel="4"
+				attack="616929701"
+				release="89508612" />
+			<modKnobs>
+				<modKnob controlsParam="pan" />
+				<modKnob controlsParam="volumePostFX" />
+				<modKnob controlsParam="lpfResonance" />
+				<modKnob controlsParam="lpfFrequency" />
+				<modKnob controlsParam="env1Release" />
+				<modKnob controlsParam="env1Attack" />
+				<modKnob controlsParam="delayFeedback" />
+				<modKnob controlsParam="delayRate" />
+				<modKnob controlsParam="reverbAmount" />
+				<modKnob controlsParam="volumePostReverbSend" patchAmountFromSource="compressor" />
+				<modKnob controlsParam="pitch" patchAmountFromSource="lfo1" />
+				<modKnob controlsParam="lfo1Rate" />
+				<modKnob controlsParam="portamento" />
+				<modKnob controlsParam="stutterRate" />
+				<modKnob controlsParam="oscBVolume" />
+				<modKnob controlsParam="oscAPhaseWidth" />
+			</modKnobs>
+		</sound>
+		<sound
+			presetName="Preset 005"
+			defaultVelocity="64"
+			isArmedForRecording="0"
+			activeModFunction="1"
+			polyphonic="poly"
+			voicePriority="1"
+			mode="subtractive"
+			lpfMode="24dB"
+			modFXType="none">
+			<osc1
+				type="sample"
+				loopMode="1"
+				reversed="0"
+				timeStretchEnable="0"
+				timeStretchAmount="0">
+				<sampleRanges>
+					<sampleRange
+						rangeTopNote="43"
+						fileName="SAMPLES/D024/D027/S0097.wav"
+						transpose="17">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="44"
+						fileName="SAMPLES/D024/D027/S0098.wav"
+						transpose="16">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="45"
+						fileName="SAMPLES/D024/D027/S0099.wav"
+						transpose="15">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="46"
+						fileName="SAMPLES/D024/D027/S0100.wav"
+						transpose="14">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="47"
+						fileName="SAMPLES/D024/D027/S0101.wav"
+						transpose="13">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="48"
+						fileName="SAMPLES/D024/D027/S0102.wav"
+						transpose="12">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="49"
+						fileName="SAMPLES/D024/D027/S0103.wav"
+						transpose="11">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="50"
+						fileName="SAMPLES/D024/D027/S0104.wav"
+						transpose="10">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="51"
+						fileName="SAMPLES/D024/D027/S0105.wav"
+						transpose="9">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="52"
+						fileName="SAMPLES/D024/D027/S0106.wav"
+						transpose="8">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="53"
+						fileName="SAMPLES/D024/D027/S0107.wav"
+						transpose="7">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="54"
+						fileName="SAMPLES/D024/D027/S0108.wav"
+						transpose="6">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="55"
+						fileName="SAMPLES/D024/D027/S0109.wav"
+						transpose="5">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="56"
+						fileName="SAMPLES/D024/D027/S0110.wav"
+						transpose="4">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="57"
+						fileName="SAMPLES/D024/D027/S0111.wav"
+						transpose="3">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="58"
+						fileName="SAMPLES/D024/D027/S0112.wav"
+						transpose="2">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="59"
+						fileName="SAMPLES/D024/D027/S0113.wav"
+						transpose="1">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="60"
+						fileName="SAMPLES/D024/D027/S0114.wav">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="61"
+						fileName="SAMPLES/D024/D027/S0115.wav"
+						transpose="-1">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="62"
+						fileName="SAMPLES/D024/D027/S0116.wav"
+						transpose="-2">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="63"
+						fileName="SAMPLES/D024/D027/S0117.wav"
+						transpose="-3">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="64"
+						fileName="SAMPLES/D024/D027/S0118.wav"
+						transpose="-4">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="65"
+						fileName="SAMPLES/D024/D027/S0119.wav"
+						transpose="-5">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="66"
+						fileName="SAMPLES/D024/D027/S0120.wav"
+						transpose="-6">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="67"
+						fileName="SAMPLES/D024/D027/S0121.wav"
+						transpose="-7">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="68"
+						fileName="SAMPLES/D024/D027/S0122.wav"
+						transpose="-8">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="69"
+						fileName="SAMPLES/D024/D027/S0123.wav"
+						transpose="-9">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="70"
+						fileName="SAMPLES/D024/D027/S0124.wav"
+						transpose="-10">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="71"
+						fileName="SAMPLES/D024/D027/S0125.wav"
+						transpose="-11">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="72"
+						fileName="SAMPLES/D024/D027/S0126.wav"
+						transpose="-12">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="73"
+						fileName="SAMPLES/D024/D027/S0127.wav"
+						transpose="-13">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="74"
+						fileName="SAMPLES/D024/D027/S0128.wav"
+						transpose="-14">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="75"
+						fileName="SAMPLES/D024/D027/S0129.wav"
+						transpose="-15">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="76"
+						fileName="SAMPLES/D024/D027/S0130.wav"
+						transpose="-16">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="77"
+						fileName="SAMPLES/D024/D027/S0131.wav"
+						transpose="-17">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="78"
+						fileName="SAMPLES/D024/D027/S0132.wav"
+						transpose="-18">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="79"
+						fileName="SAMPLES/D024/D027/S0133.wav"
+						transpose="-19">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="80"
+						fileName="SAMPLES/D024/D027/S0134.wav"
+						transpose="-20">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="81"
+						fileName="SAMPLES/D024/D027/S0135.wav"
+						transpose="-21">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="82"
+						fileName="SAMPLES/D024/D027/S0136.wav"
+						transpose="-22">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="83"
+						fileName="SAMPLES/D024/D027/S0137.wav"
+						transpose="-23">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="84"
+						fileName="SAMPLES/D024/D027/S0138.wav"
+						transpose="-24">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="85"
+						fileName="SAMPLES/D024/D027/S0139.wav"
+						transpose="-25">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="86"
+						fileName="SAMPLES/D024/D027/S0140.wav"
+						transpose="-26">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="87"
+						fileName="SAMPLES/D024/D027/S0141.wav"
+						transpose="-27">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="88"
+						fileName="SAMPLES/D024/D027/S0142.wav"
+						transpose="-28">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="89"
+						fileName="SAMPLES/D024/D027/S0143.wav"
+						transpose="-29">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="90"
+						fileName="SAMPLES/D024/D027/S0144.wav"
+						transpose="-30">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="91"
+						fileName="SAMPLES/D024/D027/S0145.wav"
+						transpose="-31">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="92"
+						fileName="SAMPLES/D024/D027/S0146.wav"
+						transpose="-32">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="93"
+						fileName="SAMPLES/D024/D027/S0147.wav"
+						transpose="-33">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="94"
+						fileName="SAMPLES/D024/D027/S0148.wav"
+						transpose="-34">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="95"
+						fileName="SAMPLES/D024/D027/S0149.wav"
+						transpose="-35">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="96"
+						fileName="SAMPLES/D024/D027/S0150.wav"
+						transpose="-36">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="97"
+						fileName="SAMPLES/D024/D027/S0151.wav"
+						transpose="-37">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="98"
+						fileName="SAMPLES/D024/D027/S0152.wav"
+						transpose="-38">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="99"
+						fileName="SAMPLES/D024/D027/S0153.wav"
+						transpose="-39">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						fileName="SAMPLES/D024/D027/S0154.wav"
+						transpose="-40">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+				</sampleRanges>
+			</osc1>
+			<osc2
+				type="sample"
+				loopMode="1"
+				reversed="0"
+				timeStretchEnable="0"
+				timeStretchAmount="0">
+				<sampleRanges>
+					<sampleRange
+						rangeTopNote="43"
+						fileName="SAMPLES/D024/D028/S0155.wav"
+						transpose="17">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="44"
+						fileName="SAMPLES/D024/D028/S0156.wav"
+						transpose="16">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="45"
+						fileName="SAMPLES/D024/D028/S0157.wav"
+						transpose="15">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="46"
+						fileName="SAMPLES/D024/D028/S0158.wav"
+						transpose="14">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="47"
+						fileName="SAMPLES/D024/D028/S0159.wav"
+						transpose="13">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="48"
+						fileName="SAMPLES/D024/D028/S0160.wav"
+						transpose="12">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="49"
+						fileName="SAMPLES/D024/D028/S0161.wav"
+						transpose="11">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="50"
+						fileName="SAMPLES/D024/D028/S0162.wav"
+						transpose="10">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="51"
+						fileName="SAMPLES/D024/D028/S0163.wav"
+						transpose="9">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="52"
+						fileName="SAMPLES/D024/D028/S0164.wav"
+						transpose="8">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="53"
+						fileName="SAMPLES/D024/D028/S0165.wav"
+						transpose="7">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="54"
+						fileName="SAMPLES/D024/D028/S0166.wav"
+						transpose="6">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="55"
+						fileName="SAMPLES/D024/D028/S0167.wav"
+						transpose="5">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="56"
+						fileName="SAMPLES/D024/D028/S0168.wav"
+						transpose="4">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="57"
+						fileName="SAMPLES/D024/D028/S0169.wav"
+						transpose="3">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="58"
+						fileName="SAMPLES/D024/D028/S0170.wav"
+						transpose="2">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="59"
+						fileName="SAMPLES/D024/D028/S0171.wav"
+						transpose="1">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="60"
+						fileName="SAMPLES/D024/D028/S0172.wav">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="61"
+						fileName="SAMPLES/D024/D028/S0173.wav"
+						transpose="-1">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="62"
+						fileName="SAMPLES/D024/D028/S0174.wav"
+						transpose="-2">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="63"
+						fileName="SAMPLES/D024/D028/S0175.wav"
+						transpose="-3">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="64"
+						fileName="SAMPLES/D024/D028/S0176.wav"
+						transpose="-4">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="65"
+						fileName="SAMPLES/D024/D028/S0177.wav"
+						transpose="-5">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="66"
+						fileName="SAMPLES/D024/D028/S0178.wav"
+						transpose="-6">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="67"
+						fileName="SAMPLES/D024/D028/S0179.wav"
+						transpose="-7">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="68"
+						fileName="SAMPLES/D024/D028/S0180.wav"
+						transpose="-8">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="69"
+						fileName="SAMPLES/D024/D028/S0181.wav"
+						transpose="-9">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="70"
+						fileName="SAMPLES/D024/D028/S0182.wav"
+						transpose="-10">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="71"
+						fileName="SAMPLES/D024/D028/S0183.wav"
+						transpose="-11">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="72"
+						fileName="SAMPLES/D024/D028/S0184.wav"
+						transpose="-12">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="73"
+						fileName="SAMPLES/D024/D028/S0185.wav"
+						transpose="-13">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="74"
+						fileName="SAMPLES/D024/D028/S0186.wav"
+						transpose="-14">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="75"
+						fileName="SAMPLES/D024/D028/S0187.wav"
+						transpose="-15">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="76"
+						fileName="SAMPLES/D024/D028/S0188.wav"
+						transpose="-16">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="77"
+						fileName="SAMPLES/D024/D028/S0189.wav"
+						transpose="-17">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="78"
+						fileName="SAMPLES/D024/D028/S0190.wav"
+						transpose="-18">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="79"
+						fileName="SAMPLES/D024/D028/S0191.wav"
+						transpose="-19">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="80"
+						fileName="SAMPLES/D024/D028/S0192.wav"
+						transpose="-20">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="81"
+						fileName="SAMPLES/D024/D028/S0193.wav"
+						transpose="-21">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="82"
+						fileName="SAMPLES/D024/D028/S0194.wav"
+						transpose="-22">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="83"
+						fileName="SAMPLES/D024/D028/S0195.wav"
+						transpose="-23">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="84"
+						fileName="SAMPLES/D024/D028/S0196.wav"
+						transpose="-24">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="85"
+						fileName="SAMPLES/D024/D028/S0197.wav"
+						transpose="-25">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="86"
+						fileName="SAMPLES/D024/D028/S0198.wav"
+						transpose="-26">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="87"
+						fileName="SAMPLES/D024/D028/S0199.wav"
+						transpose="-27">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="88"
+						fileName="SAMPLES/D024/D028/S0200.wav"
+						transpose="-28">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="89"
+						fileName="SAMPLES/D024/D028/S0201.wav"
+						transpose="-29">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="90"
+						fileName="SAMPLES/D024/D028/S0202.wav"
+						transpose="-30">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="91"
+						fileName="SAMPLES/D024/D028/S0203.wav"
+						transpose="-31">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="92"
+						fileName="SAMPLES/D024/D028/S0204.wav"
+						transpose="-32">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="93"
+						fileName="SAMPLES/D024/D028/S0205.wav"
+						transpose="-33">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="94"
+						fileName="SAMPLES/D024/D028/S0206.wav"
+						transpose="-34">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="95"
+						fileName="SAMPLES/D024/D028/S0207.wav"
+						transpose="-35">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="96"
+						fileName="SAMPLES/D024/D028/S0208.wav"
+						transpose="-36">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="97"
+						fileName="SAMPLES/D024/D028/S0209.wav"
+						transpose="-37">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="98"
+						fileName="SAMPLES/D024/D028/S0210.wav"
+						transpose="-38">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="99"
+						fileName="SAMPLES/D024/D028/S0211.wav"
+						transpose="-39">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						fileName="SAMPLES/D024/D028/S0212.wav"
+						transpose="-40">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+				</sampleRanges>
+			</osc2>
+			<lfo1 type="triangle" syncLevel="4" />
+			<lfo2 type="triangle" />
+			<unison num="7" detune="19" />
+			<delay
+				pingPong="1"
+				analog="0"
+				syncLevel="4" />
+			<compressor
+				syncLevel="1"
+				attack="272982317"
+				release="973213610" />
+			<modKnobs>
+				<modKnob controlsParam="pan" />
+				<modKnob controlsParam="volumePostFX" />
+				<modKnob controlsParam="lpfResonance" />
+				<modKnob controlsParam="lpfFrequency" />
+				<modKnob controlsParam="env1Release" />
+				<modKnob controlsParam="env1Attack" />
+				<modKnob controlsParam="delayFeedback" />
+				<modKnob controlsParam="delayRate" />
+				<modKnob controlsParam="reverbAmount" />
+				<modKnob controlsParam="volumePostReverbSend" patchAmountFromSource="compressor" />
+				<modKnob controlsParam="pitch" patchAmountFromSource="lfo1" />
+				<modKnob controlsParam="lfo1Rate" />
+				<modKnob controlsParam="portamento" />
+				<modKnob controlsParam="stutterRate" />
+				<modKnob controlsParam="bitcrushAmount" />
+				<modKnob controlsParam="sampleRateReduction" />
+			</modKnobs>
+		</sound>
+		<sound
+			presetName="Preset 006"
+			defaultVelocity="64"
+			isArmedForRecording="0"
+			activeModFunction="4"
+			polyphonic="poly"
+			voicePriority="1"
+			mode="subtractive"
+			lpfMode="24dB"
+			modFXType="none">
+			<osc1
+				type="sample"
+				loopMode="1"
+				reversed="0"
+				timeStretchEnable="0"
+				timeStretchAmount="0">
+				<sampleRanges>
+					<sampleRange
+						rangeTopNote="43"
+						fileName="SAMPLES/D024/D029/S0213.wav"
+						transpose="17">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="44"
+						fileName="SAMPLES/D024/D029/S0214.wav"
+						transpose="16">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="45"
+						fileName="SAMPLES/D024/D029/S0215.wav"
+						transpose="15">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="46"
+						fileName="SAMPLES/D024/D029/S0216.wav"
+						transpose="14">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="47"
+						fileName="SAMPLES/D024/D029/S0217.wav"
+						transpose="13">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="48"
+						fileName="SAMPLES/D024/D029/S0218.wav"
+						transpose="12">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="49"
+						fileName="SAMPLES/D024/D029/S0219.wav"
+						transpose="11">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="50"
+						fileName="SAMPLES/D024/D029/S0220.wav"
+						transpose="10">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="51"
+						fileName="SAMPLES/D024/D029/S0221.wav"
+						transpose="9">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="52"
+						fileName="SAMPLES/D024/D029/S0222.wav"
+						transpose="8">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="53"
+						fileName="SAMPLES/D024/D029/S0223.wav"
+						transpose="7">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="54"
+						fileName="SAMPLES/D024/D029/S0224.wav"
+						transpose="6">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="55"
+						fileName="SAMPLES/D024/D029/S0225.wav"
+						transpose="5">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="56"
+						fileName="SAMPLES/D024/D029/S0226.wav"
+						transpose="4">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="57"
+						fileName="SAMPLES/D024/D029/S0227.wav"
+						transpose="3">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="58"
+						fileName="SAMPLES/D024/D029/S0228.wav"
+						transpose="2">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="59"
+						fileName="SAMPLES/D024/D029/S0229.wav"
+						transpose="1">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="60"
+						fileName="SAMPLES/D024/D029/S0230.wav">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="61"
+						fileName="SAMPLES/D024/D029/S0231.wav"
+						transpose="-1">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="62"
+						fileName="SAMPLES/D024/D029/S0232.wav"
+						transpose="-2">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="63"
+						fileName="SAMPLES/D024/D029/S0233.wav"
+						transpose="-3">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="64"
+						fileName="SAMPLES/D024/D029/S0234.wav"
+						transpose="-4">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="65"
+						fileName="SAMPLES/D024/D029/S0235.wav"
+						transpose="-5">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="66"
+						fileName="SAMPLES/D024/D029/S0236.wav"
+						transpose="-6">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="67"
+						fileName="SAMPLES/D024/D029/S0237.wav"
+						transpose="-7">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="68"
+						fileName="SAMPLES/D024/D029/S0238.wav"
+						transpose="-8">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="69"
+						fileName="SAMPLES/D024/D029/S0239.wav"
+						transpose="-9">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="70"
+						fileName="SAMPLES/D024/D029/S0240.wav"
+						transpose="-10">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="71"
+						fileName="SAMPLES/D024/D029/S0241.wav"
+						transpose="-11">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="72"
+						fileName="SAMPLES/D024/D029/S0242.wav"
+						transpose="-12">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="73"
+						fileName="SAMPLES/D024/D029/S0243.wav"
+						transpose="-13">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="74"
+						fileName="SAMPLES/D024/D029/S0244.wav"
+						transpose="-14">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="75"
+						fileName="SAMPLES/D024/D029/S0245.wav"
+						transpose="-15">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="76"
+						fileName="SAMPLES/D024/D029/S0246.wav"
+						transpose="-16">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="77"
+						fileName="SAMPLES/D024/D029/S0247.wav"
+						transpose="-17">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="78"
+						fileName="SAMPLES/D024/D029/S0248.wav"
+						transpose="-18">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="79"
+						fileName="SAMPLES/D024/D029/S0249.wav"
+						transpose="-19">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="80"
+						fileName="SAMPLES/D024/D029/S0250.wav"
+						transpose="-20">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="81"
+						fileName="SAMPLES/D024/D029/S0251.wav"
+						transpose="-21">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="82"
+						fileName="SAMPLES/D024/D029/S0252.wav"
+						transpose="-22">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="83"
+						fileName="SAMPLES/D024/D029/S0253.wav"
+						transpose="-23">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="84"
+						fileName="SAMPLES/D024/D029/S0254.wav"
+						transpose="-24">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="85"
+						fileName="SAMPLES/D024/D029/S0255.wav"
+						transpose="-25">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="86"
+						fileName="SAMPLES/D024/D029/S0256.wav"
+						transpose="-26">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="87"
+						fileName="SAMPLES/D024/D029/S0257.wav"
+						transpose="-27">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="88"
+						fileName="SAMPLES/D024/D029/S0258.wav"
+						transpose="-28">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="89"
+						fileName="SAMPLES/D024/D029/S0259.wav"
+						transpose="-29">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="90"
+						fileName="SAMPLES/D024/D029/S0260.wav"
+						transpose="-30">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="91"
+						fileName="SAMPLES/D024/D029/S0261.wav"
+						transpose="-31">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="92"
+						fileName="SAMPLES/D024/D029/S0262.wav"
+						transpose="-32">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="93"
+						fileName="SAMPLES/D024/D029/S0263.wav"
+						transpose="-33">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="94"
+						fileName="SAMPLES/D024/D029/S0264.wav"
+						transpose="-34">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="95"
+						fileName="SAMPLES/D024/D029/S0265.wav"
+						transpose="-35">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="96"
+						fileName="SAMPLES/D024/D029/S0266.wav"
+						transpose="-36">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="97"
+						fileName="SAMPLES/D024/D029/S0267.wav"
+						transpose="-37">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="98"
+						fileName="SAMPLES/D024/D029/S0268.wav"
+						transpose="-38">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="99"
+						fileName="SAMPLES/D024/D029/S0269.wav"
+						transpose="-39">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						fileName="SAMPLES/D024/D029/S0270.wav"
+						transpose="-40">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+				</sampleRanges>
+			</osc1>
+			<osc2
+				type="sample"
+				loopMode="1"
+				reversed="0"
+				timeStretchEnable="0"
+				timeStretchAmount="0">
+				<sampleRanges>
+					<sampleRange
+						rangeTopNote="43"
+						fileName="SAMPLES/D024/D028/S0155.wav"
+						transpose="17">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="44"
+						fileName="SAMPLES/D024/D028/S0156.wav"
+						transpose="16">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="45"
+						fileName="SAMPLES/D024/D028/S0157.wav"
+						transpose="15">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="46"
+						fileName="SAMPLES/D024/D028/S0158.wav"
+						transpose="14">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="47"
+						fileName="SAMPLES/D024/D028/S0159.wav"
+						transpose="13">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="48"
+						fileName="SAMPLES/D024/D028/S0160.wav"
+						transpose="12">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="49"
+						fileName="SAMPLES/D024/D028/S0161.wav"
+						transpose="11">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="50"
+						fileName="SAMPLES/D024/D028/S0162.wav"
+						transpose="10">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="51"
+						fileName="SAMPLES/D024/D028/S0163.wav"
+						transpose="9">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="52"
+						fileName="SAMPLES/D024/D028/S0164.wav"
+						transpose="8">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="53"
+						fileName="SAMPLES/D024/D028/S0165.wav"
+						transpose="7">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="54"
+						fileName="SAMPLES/D024/D028/S0166.wav"
+						transpose="6">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="55"
+						fileName="SAMPLES/D024/D028/S0167.wav"
+						transpose="5">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="56"
+						fileName="SAMPLES/D024/D028/S0168.wav"
+						transpose="4">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="57"
+						fileName="SAMPLES/D024/D028/S0169.wav"
+						transpose="3">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="58"
+						fileName="SAMPLES/D024/D028/S0170.wav"
+						transpose="2">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="59"
+						fileName="SAMPLES/D024/D028/S0171.wav"
+						transpose="1">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="60"
+						fileName="SAMPLES/D024/D028/S0172.wav">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="61"
+						fileName="SAMPLES/D024/D028/S0173.wav"
+						transpose="-1">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="62"
+						fileName="SAMPLES/D024/D028/S0174.wav"
+						transpose="-2">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="63"
+						fileName="SAMPLES/D024/D028/S0175.wav"
+						transpose="-3">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="64"
+						fileName="SAMPLES/D024/D028/S0176.wav"
+						transpose="-4">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="65"
+						fileName="SAMPLES/D024/D028/S0177.wav"
+						transpose="-5">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="66"
+						fileName="SAMPLES/D024/D028/S0178.wav"
+						transpose="-6">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="67"
+						fileName="SAMPLES/D024/D028/S0179.wav"
+						transpose="-7">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="68"
+						fileName="SAMPLES/D024/D028/S0180.wav"
+						transpose="-8">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="69"
+						fileName="SAMPLES/D024/D028/S0181.wav"
+						transpose="-9">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="70"
+						fileName="SAMPLES/D024/D028/S0182.wav"
+						transpose="-10">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="71"
+						fileName="SAMPLES/D024/D028/S0183.wav"
+						transpose="-11">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="72"
+						fileName="SAMPLES/D024/D028/S0184.wav"
+						transpose="-12">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="73"
+						fileName="SAMPLES/D024/D028/S0185.wav"
+						transpose="-13">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="74"
+						fileName="SAMPLES/D024/D028/S0186.wav"
+						transpose="-14">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="75"
+						fileName="SAMPLES/D024/D028/S0187.wav"
+						transpose="-15">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="76"
+						fileName="SAMPLES/D024/D028/S0188.wav"
+						transpose="-16">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="77"
+						fileName="SAMPLES/D024/D028/S0189.wav"
+						transpose="-17">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="78"
+						fileName="SAMPLES/D024/D028/S0190.wav"
+						transpose="-18">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="79"
+						fileName="SAMPLES/D024/D028/S0191.wav"
+						transpose="-19">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="80"
+						fileName="SAMPLES/D024/D028/S0192.wav"
+						transpose="-20">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="81"
+						fileName="SAMPLES/D024/D028/S0193.wav"
+						transpose="-21">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="82"
+						fileName="SAMPLES/D024/D028/S0194.wav"
+						transpose="-22">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="83"
+						fileName="SAMPLES/D024/D028/S0195.wav"
+						transpose="-23">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="84"
+						fileName="SAMPLES/D024/D028/S0196.wav"
+						transpose="-24">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="85"
+						fileName="SAMPLES/D024/D028/S0197.wav"
+						transpose="-25">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="86"
+						fileName="SAMPLES/D024/D028/S0198.wav"
+						transpose="-26">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="87"
+						fileName="SAMPLES/D024/D028/S0199.wav"
+						transpose="-27">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="88"
+						fileName="SAMPLES/D024/D028/S0200.wav"
+						transpose="-28">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="89"
+						fileName="SAMPLES/D024/D028/S0201.wav"
+						transpose="-29">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="90"
+						fileName="SAMPLES/D024/D028/S0202.wav"
+						transpose="-30">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="91"
+						fileName="SAMPLES/D024/D028/S0203.wav"
+						transpose="-31">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="92"
+						fileName="SAMPLES/D024/D028/S0204.wav"
+						transpose="-32">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="93"
+						fileName="SAMPLES/D024/D028/S0205.wav"
+						transpose="-33">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="94"
+						fileName="SAMPLES/D024/D028/S0206.wav"
+						transpose="-34">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="95"
+						fileName="SAMPLES/D024/D028/S0207.wav"
+						transpose="-35">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="96"
+						fileName="SAMPLES/D024/D028/S0208.wav"
+						transpose="-36">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="97"
+						fileName="SAMPLES/D024/D028/S0209.wav"
+						transpose="-37">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="98"
+						fileName="SAMPLES/D024/D028/S0210.wav"
+						transpose="-38">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						rangeTopNote="99"
+						fileName="SAMPLES/D024/D028/S0211.wav"
+						transpose="-39">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+					<sampleRange
+						fileName="SAMPLES/D024/D028/S0212.wav"
+						transpose="-40">
+						<zone
+							startSamplePos="0"
+							endSamplePos="512" />
+					</sampleRange>
+				</sampleRanges>
+			</osc2>
+			<lfo1 type="triangle" syncLevel="8" />
+			<lfo2 type="triangle" />
+			<unison num="5" detune="47" />
+			<delay
+				pingPong="0"
+				analog="0"
+				syncLevel="0" />
+			<compressor
+				syncLevel="2"
+				attack="666291925"
+				release="1113254795" />
+			<modKnobs>
+				<modKnob controlsParam="pan" />
+				<modKnob controlsParam="volumePostFX" />
+				<modKnob controlsParam="lpfResonance" />
+				<modKnob controlsParam="lpfFrequency" />
+				<modKnob controlsParam="env1Release" />
+				<modKnob controlsParam="env1Attack" />
+				<modKnob controlsParam="delayFeedback" />
+				<modKnob controlsParam="delayRate" />
+				<modKnob controlsParam="reverbAmount" />
+				<modKnob controlsParam="volumePostReverbSend" patchAmountFromSource="compressor" />
+				<modKnob controlsParam="pitch" patchAmountFromSource="lfo1" />
+				<modKnob controlsParam="lfo1Rate" />
+				<modKnob controlsParam="portamento" />
+				<modKnob controlsParam="stutterRate" />
+				<modKnob controlsParam="bitcrushAmount" />
+				<modKnob controlsParam="sampleRateReduction" />
+			</modKnobs>
+		</sound>
+		<sound
+			presetSlot="43"
+			presetSubSlot="-1"
+			defaultVelocity="64"
+			isArmedForRecording="0"
+			activeModFunction="4"
+			polyphonic="auto"
+			voicePriority="1"
+			mode="subtractive"
+			lpfMode="24dB"
+			modFXType="none"
+			clippingAmount="2">
+			<osc1
+				type="square"
+				transpose="-33"
+				cents="-7"
+				retrigPhase="-1" />
+			<osc2
+				type="square"
+				transpose="-24"
+				cents="-37"
+				retrigPhase="-1" />
+			<lfo1 type="sine" syncLevel="7" />
+			<lfo2 type="triangle" />
+			<unison num="2" detune="10" />
+			<delay
+				pingPong="0"
+				analog="0"
+				syncLevel="6" />
+			<compressor
+				syncLevel="6"
+				attack="41405226"
+				release="905594373" />
+			<modKnobs>
+				<modKnob controlsParam="pan" />
+				<modKnob controlsParam="volumePostFX" />
+				<modKnob controlsParam="lpfResonance" />
+				<modKnob controlsParam="lpfFrequency" />
+				<modKnob controlsParam="env1Release" />
+				<modKnob controlsParam="env1Attack" />
+				<modKnob controlsParam="delayFeedback" />
+				<modKnob controlsParam="delayRate" />
+				<modKnob controlsParam="reverbAmount" />
+				<modKnob controlsParam="volumePostReverbSend" patchAmountFromSource="compressor" />
+				<modKnob controlsParam="pitch" patchAmountFromSource="lfo1" />
+				<modKnob controlsParam="lfo1Rate" />
+				<modKnob controlsParam="portamento" />
+				<modKnob controlsParam="stutterRate" />
+				<modKnob controlsParam="oscBVolume" />
+				<modKnob controlsParam="oscAPhaseWidth" />
+			</modKnobs>
+		</sound>
+		<audioTrack
+			name="Track 001"
+			echoingInput="1"
+			inputChannel="stereo"
+			isArmedForRecording="0"
+			activeModFunction="1"
+			lpfMode="24dB"
+			modFXType="flanger"
+			modFXCurrentParam="feedback"
+			currentFilterType="lpf">
+			<delay
+				pingPong="0"
+				analog="0"
+				syncLevel="8" />
+			<compressor
+				syncLevel="2"
+				attack="321289543"
+				release="272184130" />
+		</audioTrack>
+		<sound
+			presetSlot="0"
+			presetSubSlot="-1"
+			defaultVelocity="64"
+			isArmedForRecording="0"
+			activeModFunction="1"
+			polyphonic="poly"
+			voicePriority="1"
+			mode="subtractive"
+			transpose="-25"
+			lpfMode="24dB"
+			modFXType="none">
+			<osc1
+				type="saw"
+				transpose="-25"
+				cents="8"
+				retrigPhase="-1" />
+			<osc2
+				type="analogSquare"
+				transpose="32"
+				cents="-16"
+				retrigPhase="-1" />
+			<lfo1 type="sine" syncLevel="8" />
+			<lfo2 type="sine" />
+			<unison num="7" detune="33" />
+			<delay
+				pingPong="1"
+				analog="0"
+				syncLevel="8" />
+			<compressor
+				syncLevel="0"
+				attack="329944001"
+				release="612333250" />
+			<modKnobs>
+				<modKnob controlsParam="pan" />
+				<modKnob controlsParam="volumePostFX" />
+				<modKnob controlsParam="hpfFrequency" />
+				<modKnob controlsParam="lpfFrequency" />
+				<modKnob controlsParam="env1Release" />
+				<modKnob controlsParam="arpGate" />
+				<modKnob controlsParam="delayFeedback" />
+				<modKnob controlsParam="delayRate" />
+				<modKnob controlsParam="reverbAmount" />
+				<modKnob controlsParam="volumePostReverbSend" patchAmountFromSource="compressor" />
+				<modKnob controlsParam="pitch" patchAmountFromSource="lfo1" />
+				<modKnob controlsParam="lfo1Rate" />
+				<modKnob controlsParam="portamento" />
+				<modKnob controlsParam="stutterRate" />
+				<modKnob controlsParam="oscBVolume" />
+				<modKnob controlsParam="arpGate" />
+			</modKnobs>
+		</sound>
+	</instruments>
+	<sections>
+		<section id="0" numRepeats="0" />
+		<section id="1" numRepeats="0" />
+		<section id="2" numRepeats="0" />
+		<section id="3" numRepeats="0" />
+		<section id="4" numRepeats="0" />
+		<section id="5" numRepeats="0" />
+		<section id="6" numRepeats="0" />
+		<section id="7" numRepeats="0" />
+		<section id="8" numRepeats="0" />
+		<section id="9" numRepeats="0" />
+		<section id="10" numRepeats="0" />
+		<section id="11" numRepeats="0" />
+	</sections>
+	<sessionClips>
+		<instrumentClip
+			inKeyMode="1"
+			yScroll="83"
+			yScrollKeyboard="50"
+			instrumentPresetName="Preset 003"
+			isPlaying="0"
+			isSoloing="0"
+			isArmedForRecording="1"
+			length="768"
+			colourOffset="28"
+			section="0">
+			<soundParams
+				arpeggiatorGate="0x13E79236"
+				portamento="0x3035E223"
+				compressorShape="0x4EC983F9"
+				oscAVolume="0x750EDD15"
+				oscAPulseWidth="0x51BC1F1A"
+				oscBVolume="0xD7E5209A"
+				oscBPulseWidth="0x14225E37"
+				noiseVolume="0x13B65C55"
+				volume="0xC3CEDD17"
+				pan="0x1EF13349"
+				lpfFrequency="0x7D50C3239A09EBC78000000C64F0D93C8000001BDB2375EB8000001F1B72891A80000025"
+				lpfResonance="0xE9DE9E1C"
+				hpfFrequency="0xB1B0E112"
+				hpfResonance="0x0B399D70"
+				lfo1Rate="0x91207EE5"
+				lfo2Rate="0xED215109"
+				modulator1Amount="0xD2976962"
+				modulator1Feedback="0x25A54A5C"
+				modulator2Amount="0xA32C995F"
+				modulator2Feedback="0x0336EF5D"
+				carrier1Feedback="0x5DB8E89D"
+				carrier2Feedback="0xC7AFEF0F"
+				modFXRate="0x0433AF68"
+				modFXDepth="0xBFED6244"
+				delayRate="0xC8EC312D"
+				delayFeedback="0xDEEEF0E3"
+				reverbAmount="0xAF149DE4"
+				arpeggiatorRate="0xF7946A95"
+				stutterRate="0x6527A196"
+				sampleRateReduction="0xDBC6BA4A"
+				bitCrush="0x835B2E9C"
+				modFXOffset="0x243D2A89"
+				modFXFeedback="0x90C69393">
+				<envelope1
+					attack="0x572F66CF"
+					decay="0x30E4D313"
+					sustain="0x562A69E6"
+					release="0x7FE2A440" />
+				<envelope2
+					attack="0x67D47669"
+					decay="0x255C02DD"
+					sustain="0x19DCE515"
+					release="0x91A1B610" />
+				<patchCables>
+					<patchCable
+						source="velocity"
+						destination="volume"
+						amount="0xF357FF04" />
+				</patchCables>
+				<equalizer
+					bass="0x48A41F9B"
+					treble="0xFFE50297"
+					bassFrequency="0x7AE5883A"
+					trebleFrequency="0x462643C8" />
+			</soundParams>
+			<noteRows>
+				<noteRow
+					y="90"
+					noteData="0x0000006B000000BA2B140000015800000085301400000293000000367514" />
+				<noteRow
+					y="95"
+					noteData="0x000000EA000000917F14000001B7000000393B140000028F000000395314000002D0000000294214" />
+				<noteRow
+					y="97"
+					noteData="0x000000670000004B72140000013F000000017514000001A3000000890E14000002FC000000012A14" />
+			</noteRows>
+		</instrumentClip>
+		<instrumentClip
+			inKeyMode="1"
+			yScroll="77"
+			yScrollKeyboard="50"
+			instrumentPresetName="Preset 004"
+			isPlaying="0"
+			isSoloing="0"
+			isArmedForRecording="1"
+			length="3072"
+			colourOffset="8"
+			section="0">
+			<soundParams
+				arpeggiatorGate="0x6CA2311D"
+				portamento="0xF8B0220E"
+				compressorShape="0x708BBA77"
+				oscAVolume="0x4E95CFA6"
+				oscAPulseWidth="0x50325480"
+				oscBVolume="0x52CB6B84"
+				oscBPulseWidth="0x153B8579"
+				noiseVolume="0xD6810683"
+				volume="0x1478D600"
+				pan="0x3EF8C1F0"
+				lpfFrequency="0xB344E32C3C608C4E8000004F9863E9A48000005998B7485880000075BA13F96C80000115"
+				lpfResonance="0x9A364E41"
+				hpfFrequency="0xCE6996AE"
+				hpfResonance="0xCD801C0D"
+				lfo1Rate="0x0C4CF300"
+				lfo2Rate="0xFE2CC2E1"
+				modulator1Amount="0x81E0DEEE"
+				modulator1Feedback="0x9D82036A"
+				modulator2Amount="0xCC59F1C2"
+				modulator2Feedback="0xF99C2DB1"
+				carrier1Feedback="0x38FDBE47"
+				carrier2Feedback="0x945D0698"
+				modFXRate="0xDC8B79CE"
+				modFXDepth="0xB81E6D81"
+				delayRate="0xDE4F4FC5"
+				delayFeedback="0xE26C413A"
+				reverbAmount="0xD1007335EF4AB37D8000000192297C1D8000000A9136EBB88000001F874E63548000002A"
+				arpeggiatorRate="0x10FE0D8D"
+				stutterRate="0x1FB92924"
+				sampleRateReduction="0xF59567EC"
+				bitCrush="0x99CEB1E5"
+				modFXOffset="0x4223CC36"
+				modFXFeedback="0xC1DDC34D">
+				<envelope1
+					attack="0xE187D965"
+					decay="0xC45A30E9"
+					sustain="0x1FA2D426"
+					release="0xBA100E9B" />
+				<envelope2
+					attack="0x63999395"
+					decay="0xB59658C0"
+					sustain="0x873FFAC6"
+					release="0xDF198EF6" />
+				<patchCables>
+					<patchCable
+						source="velocity"
+						destination="volume"
+						amount="0x341B31ED" />
+					<patchCable
+						source="compressor"
+						destination="volumePostReverbSend"
+						amount="0x049CA93D" />
+					<patchCable
+						source="envelope2"
+						destination="pitch"
+						amount="0xE416D76A" />
+					<patchCable
+						source="random"
+						destination="pan"
+						amount="0x09449CB4" />
+					<patchCable
+						source="note"
+						destination="lpfFrequency"
+						amount="0xCD87A2AF" />
+					<patchCable
+						source="envelope1"
+						destination="lpfFrequency"
+						amount="0x214454DA" />
+					<patchCable
+						source="compressor"
+						destination="lpfFrequency"
+						amount="0x109A2E4C" />
+					<patchCable
+						source="random"
+						destination="lpfFrequency"
+						amount="0xC8CE6D88" />
+				</patchCables>
+				<equalizer
+					bass="0x32867EE2"
+					treble="0x0C3E0896"
+					bassFrequency="0xBF0E7DD9"
+					trebleFrequency="0xDBE76A42" />
+			</soundParams>
+			<noteRows>
+				<noteRow
+					y="78"
+					noteData="0x000002B8000004A771140000078A000003B5201400000B410000005D0314" />
+				<noteRow
+					y="80"
+					noteData="0x000006D1000000D76114" />
+				<noteRow
+					y="83"
+					noteData="0x000002D4000002DD43140000063E0000000721140000066F0000029A0714" />
+				<noteRow
+					y="85"
+					noteData="0x0000012C0000014F68140000073F0000021C271400000B92000000216B1400000BB3000000286314" />
+				<noteRow
+					y="87"
+					noteData="0x000003F900000042511400000A0700000089251400000AD0000000743B14" />
+			</noteRows>
+		</instrumentClip>
+		<instrumentClip
+			inKeyMode="1"
+			yScroll="69"
+			yScrollKeyboard="50"
+			instrumentPresetName="Preset 005"
+			isPlaying="0"
+			isSoloing="0"
+			isArmedForRecording="1"
+			length="768"
+			colourOffset="13"
+			section="0">
+			<soundParams
+				arpeggiatorGate="0x0C47AD52"
+				portamento="0xC2F161B9"
+				compressorShape="0xF46CB5DA"
+				oscAVolume="0x1F805D13"
+				oscAPulseWidth="0x545C4D71"
+				oscBVolume="0xE9D00126"
+				oscBPulseWidth="0x4A6303B0"
+				noiseVolume="0xEBCB5435"
+				volume="0x1A9B5DCA"
+				pan="0x9689EA77"
+				lpfFrequency="0x0494E7BC"
+				lpfResonance="0xDC0087CC"
+				hpfFrequency="0x9A6F0380"
+				hpfResonance="0xDB59C82D"
+				lfo1Rate="0xA4FCF23A"
+				lfo2Rate="0x3128615E"
+				modulator1Amount="0xFE449559"
+				modulator1Feedback="0x91E7A891"
+				modulator2Amount="0xE931B96C"
+				modulator2Feedback="0xF1CE16CF"
+				carrier1Feedback="0x3C5AF755"
+				carrier2Feedback="0xC9FD2AC1"
+				modFXRate="0xB5118C97"
+				modFXDepth="0x753549BB"
+				delayRate="0x4C3BF925"
+				delayFeedback="0x8C278956"
+				reverbAmount="0x307CCB5A"
+				arpeggiatorRate="0xF72B8ADA"
+				stutterRate="0x04DD0DE9"
+				sampleRateReduction="0xA3C0014C"
+				bitCrush="0xA94DAF10"
+				modFXOffset="0xD7C56431"
+				modFXFeedback="0x9E8BB593">
+				<envelope1
+					attack="0xA155AFF4"
+					decay="0x7E4C4BDE"
+					sustain="0xECAD502E"
+					release="0xF5F0C0F1" />
+				<envelope2
+					attack="0x1E3C3708"
+					decay="0xE08301F0"
+					sustain="0xA8BCE383"
+					release="0x8F9B66AF" />
+				<patchCables>
+					<patchCable
+						source="velocity"
+						destination="volume"
+						amount="0xEE22BAAE" />
+				</patchCables>
+				<equalizer
+					bass="0xA6185883"
+					treble="0x4C8EC728"
+					bassFrequency="0x324AF0EF"
+					trebleFrequency="0x04B53513" />
+			</soundParams>
+			<noteRows>
+				<noteRow
+					y="68"
+					noteData="0x0000014C000000127414000002C90000000C4314" />
+				<noteRow
+					y="69"
+					noteData="0x0000028E0000002C2914" />
+			</noteRows>
+		</instrumentClip>
+		<instrumentClip
+			inKeyMode="1"
+			yScroll="71"
+			yScrollKeyboard="50"
+			instrumentPresetName="Preset 006"
+			isPlaying="1"
+			isSoloing="0"
+			isArmedForRecording="1"
+			length="1536"
+			colourOffset="9"
+			section="0"
+			selected="1">
+			<soundParams
+				arpeggiatorGate="0x55CF636E"
+				portamento="0xFF063999"
+				compressorShape="0x2B50D86A"
+				oscAVolume="0xF3D350F1"
+				oscAPulseWidth="0x6202D282"
+				oscBVolume="0x342ECDDC"
+				oscBPulseWidth="0x34CBBF99"
+				noiseVolume="0x8FB89FA5"
+				volume="0x65EECC48"
+				pan="0x669BE7EE"
+				lpfFrequency="0x75C6EE48"
+				lpfResonance="0xA0375040"
+				hpfFrequency="0x8914BF10"
+				hpfResonance="0xAC2DFFA9"
+				lfo1Rate="0xC56DC63C"
+				lfo2Rate="0xC188DADC"
+				modulator1Amount="0xC60E0E0A"
+				modulator1Feedback="0xF26E784D"
+				modulator2Amount="0x80F131FC"
+				modulator2Feedback="0xC8F987FA"
+				carrier1Feedback="0xAD17636C"
+				carrier2Feedback="0x86C7934A"
+				modFXRate="0x9980FDA1"
+				modFXDepth="0x0AEA484C"
+				delayRate="0xEB263EA9"
+				delayFeedback="0x8573F2E0"
+				reverbAmount="0x288E57E1"
+				arpeggiatorRate="0xFD475BB7"
+				stutterRate="0x1979DF7A"
+				sampleRateReduction="0xA316C9E6"
+				bitCrush="0x8C1DC7FD"
+				modFXOffset="0x0DF6FE4A"
+				modFXFeedback="0x04BF1B94">
+				<envelope1
+					attack="0x99B72AF0"
+					decay="0xF43B00EC"
+					sustain="0xAA6CD6B1"
+					release="0xFB6DD261" />
+				<envelope2
+					attack="0xE61FCDD0"
+					decay="0x74B53788"
+					sustain="0xAB61F1A8"
+					release="0x8F2D16D6" />
+				<patchCables>
+					<patchCable
+						source="velocity"
+						destination="volume"
+						amount="0xFBA7109B" />
+				</patchCables>
+				<equalizer
+					bass="0x3724E7F4"
+					treble="0xED5CEF39"
+					bassFrequency="0x96657314"
+					trebleFrequency="0xDC8F114E" />
+			</soundParams>
+			<noteRows>
+				<noteRow
+					y="71"
+					noteData="0x000003320000018F5D14000005D20000002C1F14" />
+				<noteRow
+					y="73"
+					noteData="0x00000231000000310E140000039A000000180714000003BF00000087171400000473000000C33014" />
+				<noteRow
+					y="75"
+					noteData="0x000002CE0000017F3914" />
+				<noteRow
+					y="80"
+					noteData="0x000004040000001F5F14000004B5000000281E14" />
+				<noteRow
+					y="81"
+					noteData="0x0000011800000194381400000386000001E91514" />
+			</noteRows>
+		</instrumentClip>
+		<instrumentClip
+			inKeyMode="1"
+			yScroll="51"
+			yScrollKeyboard="5"
+			instrumentPresetSlot="43"
+			instrumentPresetSubSlot="-1"
+			isPlaying="0"
+			isSoloing="0"
+			isArmedForRecording="1"
+			length="1536"
+			colourOffset="56"
+			section="0">
+			<soundParams
+				arpeggiatorGate="0xA2D3C490"
+				portamento="0x54C1005D"
+				compressorShape="0x5A9B415F"
+				oscAVolume="0x58F1E1E3"
+				oscAPulseWidth="0x03CB67F0"
+				oscBVolume="0x3A988659"
+				oscBPulseWidth="0x4252D70F"
+				noiseVolume="0xE9B3DCBD"
+				volume="0xD7D361FD"
+				pan="0x702500A8"
+				lpfFrequency="0x89158F97"
+				lpfResonance="0x9AB8D754"
+				hpfFrequency="0xF283144B"
+				hpfResonance="0x82C2FB94"
+				lfo1Rate="0x29D57783"
+				lfo2Rate="0xA98AF471"
+				modulator1Amount="0x18145EED"
+				modulator1Feedback="0x941ED8CB"
+				modulator2Amount="0xC8BED54A"
+				modulator2Feedback="0xA44D8199"
+				carrier1Feedback="0x4FC83C16"
+				carrier2Feedback="0x9F7012CE"
+				modFXRate="0x0B96E82D"
+				modFXDepth="0xBA735B8D"
+				delayRate="0x1410C07C"
+				delayFeedback="0x0B14A5DF"
+				reverbAmount="0x0B2A5BFF"
+				arpeggiatorRate="0x138BC43E"
+				stutterRate="0x1E8A826D"
+				sampleRateReduction="0x9141446B"
+				bitCrush="0x926ECDE5"
+				modFXOffset="0xD2E9A318"
+				modFXFeedback="0xB9FD5456">
+				<envelope1
+					attack="0x47608C19"
+					decay="0xB6BED1FF"
+					sustain="0xDA81F31A"
+					release="0x9A67D631" />
+				<envelope2
+					attack="0xF630D37E"
+					decay="0x38D8209E"
+					sustain="0x229307A8"
+					release="0x8835482A" />
+				<patchCables>
+					<patchCable
+						source="velocity"
+						destination="volume"
+						amount="0x3AB870AC" />
+					<patchCable
+						source="lfo2"
+						destination="lpfFrequency"
+						amount="0x0707299E" />
+					<patchCable
+						source="compressor"
+						destination="volumePostReverbSend"
+						amount="0xC94D399A" />
+				</patchCables>
+				<equalizer
+					bass="0x8B7C798E"
+					treble="0xF08F3BBC"
+					bassFrequency="0x74B8A936"
+					trebleFrequency="0x3FE263A7" />
+			</soundParams>
+			<noteRows>
+				<noteRow
+					y="35"
+					noteData="0x00000133000002095D14" />
+				<noteRow
+					y="37"
+					noteData="0x0000020E0000005E6F14000003A1000001785014" />
+				<noteRow
+					y="40"
+					noteData="0x00000347000001A36A14" />
+			</noteRows>
+		</instrumentClip>
+		<audioClip
+			trackName="Track 001"
+			filePath=""
+			startSamplePos="0"
+			endSamplePos="9999999"
+			pitchSpeedIndependent="1"
+			attack="-2147483648"
+			priority="1"
+			overdubsShouldCloneAudioTrack="1"
+			isPlaying="1"
+			isSoloing="0"
+			isArmedForRecording="1"
+			length="1536"
+			colourOffset="8"
+			section="0">
+			<params
+				reverbAmount="0xE98B0724"
+				volume="0x32F2B045"
+				pan="0x00000000"
+				sidechainCompressorShape="0xDC28F5B2"
+				modFXDepth="0x00000000"
+				modFXRate="0xE0000000"
+				stutterRate="0x00000000"
+				sampleRateReduction="0xA2988B3B"
+				bitCrush="0x86AC367F"
+				modFXOffset="0x00000000"
+				modFXFeedback="0x80000000">
+				<delay
+					rate="0x49ED11C6"
+					feedback="0xDAAD9F95" />
+				<lpf
+					frequency="0x48E60783"
+					resonance="0xBAEC8C76" />
+				<hpf
+					frequency="0x84016942"
+					resonance="0xAB94D89D" />
+				<equalizer
+					bass="0xE2276EBC"
+					treble="0x012D1750"
+					bassFrequency="0x5A4F7417"
+					trebleFrequency="0xEB1873E6" />
+			</params>
+		</audioClip>
+		<instrumentClip
+			inKeyMode="1"
+			yScroll="74"
+			yScrollKeyboard="50"
+			instrumentPresetSlot="0"
+			instrumentPresetSubSlot="-1"
+			isPlaying="1"
+			isSoloing="0"
+			isArmedForRecording="1"
+			length="1536"
+			colourOffset="-60"
+			section="0">
+			<arpeggiator
+				mode="up"
+				numOctaves="4"
+				syncLevel="7" />
+			<soundParams
+				arpeggiatorGate="0xC85DBA47"
+				portamento="0x5C204BFB"
+				compressorShape="0x01BC1EFA"
+				oscAVolume="0x55107946"
+				oscAPulseWidth="0x3ED44E22"
+				oscBVolume="0xF7C82EAA"
+				oscBPulseWidth="0x57CA30BD"
+				noiseVolume="0xACFF5946"
+				volume="0x322E8DF9"
+				pan="0xA8A0670F"
+				lpfFrequency="0xDB1F4087"
+				lpfResonance="0x1996BB96"
+				hpfFrequency="0x379F200F"
+				hpfResonance="0xCF32BD1E"
+				lfo1Rate="0xE0B89146"
+				lfo2Rate="0xDAB26A62"
+				modulator1Amount="0x8B0E4BD2"
+				modulator1Feedback="0x8198DE87"
+				modulator2Amount="0xC0CFEC47"
+				modulator2Feedback="0x80B1DDC8"
+				carrier1Feedback="0x9B0BDAF0"
+				carrier2Feedback="0xA467A024"
+				modFXRate="0xCDBD38F0"
+				modFXDepth="0xD96AF974"
+				delayRate="0xFB32191C"
+				delayFeedback="0xEAD0F805"
+				reverbAmount="0x4F32F6CD"
+				arpeggiatorRate="0x14CFB02A"
+				stutterRate="0x005B1FFE"
+				sampleRateReduction="0xAFF96A62"
+				bitCrush="0xB3BBBB0F"
+				modFXOffset="0x388A5E36"
+				modFXFeedback="0xCB61BCC8">
+				<envelope1
+					attack="0x5CEC81FC"
+					decay="0x5C9D01AB"
+					sustain="0x9F446BAA"
+					release="0x330D6854" />
+				<envelope2
+					attack="0x23FCED5C"
+					decay="0xB78BAE9D"
+					sustain="0x2C593C78"
+					release="0x8609462E" />
+				<patchCables>
+					<patchCable
+						source="velocity"
+						destination="volume"
+						amount="0x130D2C6C" />
+					<patchCable
+						source="lfo1"
+						destination="oscAPhaseWidth"
+						amount="0x0C695E8A" />
+					<patchCable
+						source="envelope2"
+						destination="oscAVolume"
+						amount="0x0906EAB0" />
+					<patchCable
+						source="envelope2"
+						destination="lpfFrequency"
+						amount="0xE44DD8CF" />
+					<patchCable
+						source="velocity"
+						destination="lpfFrequency"
+						amount="0x03C476E0" />
+					<patchCable
+						source="note"
+						destination="lpfFrequency"
+						amount="0x08A51C7D" />
+				</patchCables>
+				<equalizer
+					bass="0x24D62D44"
+					treble="0x61CBE25F"
+					bassFrequency="0x1A41D6EB"
+					trebleFrequency="0xAFF411EB" />
+			</soundParams>
+			<noteRows>
+				<noteRow
+					y="66" />
+				<noteRow
+					y="76"
+					noteData="0x0000006F0000000856140000008B000000B11014000001770000025759140000054B000000B07714" />
+				<noteRow
+					y="78"
+					noteData="0x0000004B000001937F14000002D9000001652014" />
+				<noteRow
+					y="81"
+					noteData="0x0000026A000000B87B14" />
+				<noteRow
+					y="83"
+					noteData="0x00000429000001616D14" />
+				<noteRow
+					y="85"
+					noteData="0x00000372000002436B14000005DC000000082614" />
+				<noteRow
+					y="88"
+					noteData="0x00000229000001734714" />
+				<noteRow
+					y="90"
+					noteData="0x000003F00000000A2114" />
+			</noteRows>
+		</instrumentClip>
+	</sessionClips>
+</song>

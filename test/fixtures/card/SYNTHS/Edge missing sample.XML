@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sound
+	firmwareVersion="3.1.5"
+	earliestCompatibleFirmware="3.1.0-beta"
+	polyphonic="poly"
+	voicePriority="1"
+	mode="subtractive"
+	transpose="-10"
+	lpfMode="24dB"
+	modFXType="none">
+	<osc1
+		type="sample"
+		loopMode="0"
+		reversed="0"
+		timeStretchEnable="0"
+		timeStretchAmount="0">
+		<sampleRanges>
+			<sampleRange
+				rangeTopNote="30"
+				fileName="SAMPLES/MISSING/S9999.wav"
+				transpose="36">
+				<zone
+					startSamplePos="0"
+					endSamplePos="512" />
+			</sampleRange>
+			<sampleRange
+				rangeTopNote="42"
+				fileName="SAMPLES/MISSING/S9999.wav"
+				transpose="24">
+				<zone
+					startSamplePos="0"
+					endSamplePos="512" />
+			</sampleRange>
+			<sampleRange
+				rangeTopNote="54"
+				fileName="SAMPLES/MISSING/S9999.wav"
+				transpose="12">
+				<zone
+					startSamplePos="0"
+					endSamplePos="512" />
+			</sampleRange>
+			<sampleRange
+				rangeTopNote="66"
+				fileName="SAMPLES/MISSING/S9999.wav">
+				<zone
+					startSamplePos="0"
+					endSamplePos="512" />
+			</sampleRange>
+			<sampleRange
+				rangeTopNote="78"
+				fileName="SAMPLES/MISSING/S9999.wav"
+				transpose="-12">
+				<zone
+					startSamplePos="0"
+					endSamplePos="512" />
+			</sampleRange>
+			<sampleRange
+				fileName="SAMPLES/MISSING/S9999.wav"
+				transpose="-24">
+				<zone
+					startSamplePos="0"
+					endSamplePos="512" />
+			</sampleRange>
+		</sampleRanges>
+	</osc1>
+	<osc2
+		type="square"
+		transpose="18"
+		cents="12"
+		retrigPhase="-1" />
+	<lfo1 type="sine" syncLevel="7" />
+	<lfo2 type="sine" />
+	<unison num="4" detune="11" />
+	<delay
+		pingPong="1"
+		analog="1"
+		syncLevel="5" />
+	<compressor
+		syncLevel="7"
+		attack="453378883"
+		release="721657944" />
+	<defaultParams
+		arpeggiatorGate="0xC08C682F"
+		portamento="0xE3AFA61B"
+		compressorShape="0x14EF6395"
+		oscAVolume="0x99F4BAA6"
+		oscAPulseWidth="0x17BF6913"
+		oscBVolume="0x8696DAD7"
+		oscBPulseWidth="0x46FF1E97"
+		noiseVolume="0x5965B543"
+		volume="0x54E96829"
+		pan="0x016D7B27"
+		lpfFrequency="0xE494BC56"
+		lpfResonance="0x1C86F032"
+		hpfFrequency="0x51BF22CD"
+		hpfResonance="0xEC9EB1D6"
+		lfo1Rate="0x2E2B8EA5"
+		lfo2Rate="0x3F55A57E"
+		modulator1Amount="0x30B1AF00"
+		modulator1Feedback="0xAF83F767"
+		modulator2Amount="0x86065B5B"
+		modulator2Feedback="0xC339F9BF"
+		carrier1Feedback="0x24273353"
+		carrier2Feedback="0x76029FC2"
+		modFXRate="0x7260A31E"
+		modFXDepth="0x3740EDF2"
+		delayRate="0x57E503CF"
+		delayFeedback="0x81C63AA2"
+		reverbAmount="0xB7220367"
+		arpeggiatorRate="0xFF24CA05"
+		stutterRate="0x43787B91"
+		sampleRateReduction="0xABD8B51C"
+		bitCrush="0x1750E655"
+		modFXOffset="0x4C311A9C"
+		modFXFeedback="0x30FD2A89">
+		<envelope1
+			attack="0x01E0B83C"
+			decay="0xBFFCC502"
+			sustain="0xE1275F08"
+			release="0x7CFED910" />
+		<envelope2
+			attack="0x5280A340"
+			decay="0xB98DEB12"
+			sustain="0xD3D7EB76"
+			release="0xCB49524B" />
+		<patchCables>
+			<patchCable
+				source="velocity"
+				destination="volume"
+				amount="0xC89E9795" />
+		</patchCables>
+		<equalizer
+			bass="0x8F661789"
+			treble="0xE04CF03E"
+			bassFrequency="0x16AB0398"
+			trebleFrequency="0xEE9DA6DF" />
+	</defaultParams>
+	<arpeggiator
+		mode="off"
+		numOctaves="2"
+		syncLevel="9" />
+	<modKnobs>
+		<modKnob controlsParam="pan" />
+		<modKnob controlsParam="volumePostFX" />
+		<modKnob controlsParam="lpfResonance" />
+		<modKnob controlsParam="lpfFrequency" />
+		<modKnob controlsParam="env1Release" />
+		<modKnob controlsParam="env1Attack" />
+		<modKnob controlsParam="delayFeedback" />
+		<modKnob controlsParam="delayRate" />
+		<modKnob controlsParam="reverbAmount" />
+		<modKnob controlsParam="volumePostReverbSend" patchAmountFromSource="compressor" />
+		<modKnob controlsParam="pitch" patchAmountFromSource="lfo1" />
+		<modKnob controlsParam="lfo1Rate" />
+		<modKnob controlsParam="portamento" />
+		<modKnob controlsParam="stutterRate" />
+		<modKnob controlsParam="oscBVolume" />
+		<modKnob controlsParam="oscBPhaseWidth" />
+	</modKnobs>
+</sound>

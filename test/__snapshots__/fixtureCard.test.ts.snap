@@ -1,0 +1,51 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`fixture card: whole folder scan > store summary 1`] = `
+{
+  "kits": [
+    "Kit 001.XML (3.1.5)",
+    "Kit 002.XML (4.0.1)",
+    "Kit 003.XML (3.1.5)",
+    "KIT012.XML (1)",
+    "KIT022.XML (2.1.0)",
+    "KIT025.XML (2.1.0)",
+    "KIT027.XML (2.1.0)",
+    "KIT039.XML (2.0.0)",
+    "KIT041.XML (1)",
+  ],
+  "missingSamples": [],
+  "samples": 362,
+  "skippedFiles": [
+    "/SONGS/Edge unsupported firmware.XML: Firmware version 9.0.0 is not supported for songs.",
+  ],
+  "songs": [
+    "Song 001.XML (4.0.0)",
+    "Song 002.XML (3.1.5)",
+    "Song 003.XML (4.0.1)",
+    "Song 004.XML (4.0.0)",
+    "Song 005.XML (3.1.5)",
+    "Song 006.XML (3.1.5)",
+  ],
+  "sounds": [
+    "Edge malformed.XML (3.0.2)",
+    "Edge missing sample.XML (3.1.5)",
+    "SYNT001.XML (2.0.0-beta)",
+    "SYNT042.XML (1)",
+    "SYNT065.XML (1)",
+    "SYNT070.XML (1)",
+    "SYNT153.XML (2.0.0-beta)",
+    "SYNT167.XML (2.0.0-beta)",
+    "SYNT168.XML (2.1.0)",
+    "SYNT169.XML (2.1.0)",
+    "SYNT170.XML (2.1.0)",
+    "Synth 001.XML (3.0.2)",
+    "Synth 002.XML (4.0.1)",
+    "Synth 003.XML (3.1.5)",
+    "Synth 004.XML (3.0.2)",
+    "Synth 005.XML (3.0.0)",
+    "Synth 006.XML (3.1.5)",
+    "Synth 007.XML (3.1.4)",
+  ],
+  "usedSamples": 14,
+}
+`;
