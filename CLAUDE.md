@@ -56,3 +56,17 @@ Vue 3 (`<script setup lang="ts">`), templates in **Pug** (`<template lang="pug">
 ## References
 
 Deluge XML format: Rohan's [format doc](https://docs.google.com/document/d/11DUuuE1LBYOVlluPA9McT1_dT4AofZ5jnUD5eHvj7Vs/edit), [DelugeFirmware](https://github.com/SynthstromAudible/DelugeFirmware), [Downrush](https://github.com/jamiefaye/downrush) (FixPos50 adapted from it), [Deluge Commander](https://github.com/drbourbon/deluge-commander).
+
+## Agent skills
+
+### Issue tracker
+
+Local markdown under `.scratch/<feature>/`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default five roles (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`) as `Status:` lines. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: root `GLOSSARY.md` + `docs/adr/`. See `docs/agents/domain.md`.
