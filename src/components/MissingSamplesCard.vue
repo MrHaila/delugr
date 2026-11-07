@@ -14,7 +14,7 @@ HListCard(
         |  → {{ [describeOwner(owner), `(${locations.map(describeLocation).join(', ')})`].filter(Boolean).join(' ') }}
       div(v-if="likelyMatches.get(item.path)" class="text-gray-500")
         | Likely match: 
-        RouterLink(:to="likelyMatches.get(item.path)!.url") {{ likelyMatches.get(item.path)!.path }}
+        RouterLink(:to="likelyMatches.get(item.path)?.url ?? ''") {{ likelyMatches.get(item.path)?.path }}
 </template>
 
 <script lang="ts" setup>

@@ -85,7 +85,8 @@ defineExpose({
 })
 
 // Events
-const emit = defineEmits(['ok', 'cancel', 'show', 'hide'])
+// No 'ok' event: the `onOk` prop would double as its listener and run twice.
+const emit = defineEmits(['cancel', 'show', 'hide'])
 onBeforeMount(() => {
   emit('show')
 })
@@ -97,7 +98,6 @@ onBeforeUnmount(() => {
 const okPromisePending = ref(false)
 const okPromiseError = ref<Error>()
 async function ok() {
-  emit('ok')
   if (props.onOk) {
     okPromisePending.value = true
     try {
