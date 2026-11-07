@@ -272,8 +272,6 @@
   },
   "type": "sound",
   "url": "/synths/SYNT168",
-  "usage": {
-    "songs": [],
-    "kits": []
-  }
+  "outsideAssetFolders": false,
+  "derivedInstances": []
 }

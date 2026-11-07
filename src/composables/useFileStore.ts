@@ -45,9 +45,55 @@ export type ParsedAssetFile = {
    */
   data: Song | Sound | Kit,
   /**
-   * Raw XML text contents. Kinda redundant, but helps a lot with debugging parsing errors or missing data.
+   * Original file text, byte-identical to the file on disk. Used for writes and debugging.
    */
   xml: string,
+  /**
+   * True when the file is not inside an Asset folder (`SONGS/`, `SYNTHS/`, `KITS/`). It still counts toward Usage.
+   */
+  outsideAssetFolders: boolean,
+}
+
+/**
+ * Where an instrument sits: a file, and within it an Instance (songs) and/or a Drum (kits).
+ */
+export type InstrumentOwner = {
+  filePath: string,
+  fileName: string,
+  fileUrl: string,
+  fileType: 'song' | 'sound' | 'kit',
+  /** Song Instance or Recording track name. `null` for a Preset file's own instrument. */
+  instrumentName: string | null,
+  /** Drum name, when inside a Kit. */
+  drumName: string | null,
+}
+
+/**
+ * A path inside a Preset, Instance, Drum or Recording that points to a Sample.
+ */
+export type SampleReference = {
+  /** Path as written in the file. */
+  samplePath: string,
+  owner: InstrumentOwner,
+  /** Where in the instrument, e.g. `osc1`, `osc2 sample range 3`, `recording 1`. */
+  location: string,
+}
+
+/**
+ * A Sample reference path that matches no Sample on the card, with every reference pointing to it.
+ */
+export type MissingSample = {
+  path: string,
+  references: SampleReference[],
+}
+
+/**
+ * An XML file in an Asset folder that wasn't fully read, making Usage possibly incomplete.
+ */
+export type IncompleteUsageFile = {
+  name: string,
+  path: string,
+  reason: string,
 }
 
 /**
@@ -65,13 +111,9 @@ export interface ParsedSoundFile extends ParsedAssetFile {
   type: 'sound',
   data: Sound,
   /**
-   * Usage stats for the synth.
+   * Instances and Drums Derived from this Preset (same name). Informational only.
    */
-  usage: {
-    songs: string[],
-    kits: string[],
-    getTotal(): number,
-  },
+  derivedInstances: InstrumentOwner[],
 }
 
 /**
@@ -81,12 +123,9 @@ export interface ParsedKitFile extends ParsedAssetFile {
   type: 'kit',
   data: Kit,
   /**
-   * Usage stats for the kit.
+   * Instances Derived from this Preset (same name). Informational only.
    */
-  usage: {
-    songs: string[],
-    getTotal(): number,
-  },
+  derivedInstances: InstrumentOwner[],
 }
 
 /**
@@ -122,28 +161,9 @@ export type SampleFile = {
    */
   id: Number,
   /**
-   * Usage stats for the sample.
+   * Usage: every Sample reference on the card pointing to this Sample. Empty for an Unused sample.
    */
-  usage: {
-    /**
-     * Used as audio clips in songs.
-     */
-    songs: { [key: string]: SampleUsageRecord },
-    /**
-     * Used as samples or multi samples in synths.
-     */
-    sounds: { [key: string]: SampleUsageRecord },
-    /**
-     * Used in individual instruments (synths) in kits.
-     */
-    kits: { [key: string]: SampleUsageRecord },
-    getTotal(): number,
-  },
-}
-
-export type SampleUsageRecord = {
-  instrumentType: string,
-  instrumentName: string,
+  usage: SampleReference[],
 }
 
 /**
@@ -167,7 +187,9 @@ export type DelugrFileStore = {
   kits: ParsedKitFile[],
   samples: SampleFile[],
   skippedFiles: SkippedFile[],
-  missingSamples: string[],
+  missingSamples: MissingSample[],
+  /** Asset folder XML files that weren't fully read. Non-empty means Incomplete usage. */
+  incompleteUsage: IncompleteUsageFile[],
   folderHandle?: FileSystemDirectoryHandle,
 }
 
@@ -186,6 +208,7 @@ const fileStore: ShallowReactive<DelugrFileStore> = shallowReactive({
   samples: [],
   skippedFiles: [],
   missingSamples: [],
+  incompleteUsage: [],
   folderHandle: undefined,
 })
 

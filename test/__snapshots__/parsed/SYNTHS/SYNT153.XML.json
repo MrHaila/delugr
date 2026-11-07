@@ -254,8 +254,6 @@
   },
   "type": "sound",
   "url": "/synths/SYNT153",
-  "usage": {
-    "songs": [],
-    "kits": []
-  }
+  "outsideAssetFolders": false,
+  "derivedInstances": []
 }

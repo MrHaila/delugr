@@ -5,6 +5,7 @@ import { parseAssetFile, parseFolderIntoFileStore } from '../src/deluge/filePars
 import { useFileStore } from '../src/composables/useFileStore'
 import { directoryHandleFromDisk, fileHandleFromDisk, memoryFileHandle } from './helpers/diskHandles'
 import { remapSampleInParsedAssetFile } from '../src/deluge/files'
+import { isPresetInAnySong } from '../src/deluge/usage'
 
 const cardRoot = resolve(__dirname, 'fixtures/card')
 const assetFiles = ['SONGS', 'SYNTHS', 'KITS'].flatMap(dir =>
@@ -89,17 +90,19 @@ describe('fixture card: whole folder scan', () => {
       sounds: fileStore.sounds.map(s => `${s.name} (${s.firmware})`),
       kits: fileStore.kits.map(k => `${k.name} (${k.firmware})`),
       samples: fileStore.samples.length,
-      usedSamples: fileStore.samples.filter(s => s.usage.getTotal() > 0).length,
+      usedSamples: fileStore.samples.filter(s => s.usage.length > 0).length,
       skippedFiles: fileStore.skippedFiles.map(f => `${f.path}: ${f.reason.slice(0, 80)}`),
-      missingSamples: fileStore.missingSamples,
+      missingSamples: fileStore.missingSamples.map(m => `${m.path} ← ${m.references.map(r => `${r.owner.filePath} (${r.location})`).join(', ')}`),
+      incompleteUsage: fileStore.incompleteUsage.map(f => f.path),
+      presetsInSongs: [...fileStore.sounds, ...fileStore.kits].filter(isPresetInAnySong).map(p => p.path),
       malformed: [...fileStore.songs, ...fileStore.sounds, ...fileStore.kits]
         .filter(f => f.xmlError)
         .map(f => `${f.path}: ${f.xmlError}`),
     }).toMatchSnapshot()
   })
 
-  test('every sample referenced by a song exists or is reported missing', () => {
+  test('missing samples match no sample on the card', () => {
     const known = new Set(fileStore.samples.map(s => s.path.toLowerCase()))
-    for (const missing of fileStore.missingSamples) expect(known.has(`/${missing.toLowerCase()}`)).toBe(false)
+    for (const missing of fileStore.missingSamples) expect(known.has(`/${missing.path.toLowerCase()}`)).toBe(false)
   })
 })

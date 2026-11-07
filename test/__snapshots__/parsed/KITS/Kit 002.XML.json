@@ -320,7 +320,6 @@
   },
   "type": "kit",
   "url": "/kits/Kit%20002",
-  "usage": {
-    "songs": []
-  }
+  "outsideAssetFolders": false,
+  "derivedInstances": []
 }

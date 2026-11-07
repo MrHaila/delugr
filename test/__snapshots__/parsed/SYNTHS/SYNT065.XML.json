@@ -250,8 +250,6 @@
   },
   "type": "sound",
   "url": "/synths/SYNT065",
-  "usage": {
-    "songs": [],
-    "kits": []
-  }
+  "outsideAssetFolders": false,
+  "derivedInstances": []
 }

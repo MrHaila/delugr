@@ -439,8 +439,6 @@
   },
   "type": "sound",
   "url": "/synths/SYNT169",
-  "usage": {
-    "songs": [],
-    "kits": []
-  }
+  "outsideAssetFolders": false,
+  "derivedInstances": []
 }

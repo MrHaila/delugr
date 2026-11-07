@@ -4,6 +4,8 @@ div(class="space-y-5 p-3 overflow-y-auto w-full")
     h1(class="font-bold text-4xl") Overview
     p Alright, so we got the folder parsed. Here's what we know so far.
 
+    IncompleteUsageWarning
+
     div
       p Songs: {{ fileStore.songs.length }}
       p Synths: {{ fileStore.sounds.length }}
@@ -22,7 +24,7 @@ div(class="space-y-5 p-3 overflow-y-auto w-full")
       class="max-w-3xl flex-1"
       )
       div(class="space-y-3")
-        p The Deluge has three types of entities: songs, kits and synths (internally called 'sounds'). Synths and kits can be saved as presets, but when used, they are duplicated and saved as a part of the song or kit to allow for local modifications. This makes them a bit tricky to keep track of.
+        p The Deluge has three types of entities: songs, kits and synths (internally called 'sounds'). Synths and kits can be saved as presets, but a song keeps its own copy of each instrument (an Instance), and a kit keeps its own copy of each Drum. Delugr counts sample usage from every one of these copies, and only links an Instance to the preset with the same name as "derived from".
         
         p(class="text-gray-400") There are sure to be obvious bugs and missing stuff. Feel free to report them in the repo and maybe even help out by leaving a PR!
         p(class="text-gray-400") P.S. I don't have any firmware v1 or v2 songs to test with. Send me one if you have one!
@@ -58,6 +60,7 @@ import { nextTick, onMounted, ref } from 'vue'
 import { useFileStore } from '../composables/useFileStore'
 import { TrashIcon } from '@heroicons/vue/20/solid'
 import FileDeletionModal from '../components/FileDeletionModal.vue'
+import IncompleteUsageWarning from '../components/IncompleteUsageWarning.vue'
 
 const { fileStore } = useFileStore()
 

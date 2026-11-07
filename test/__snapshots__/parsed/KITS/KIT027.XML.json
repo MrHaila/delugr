@@ -1983,7 +1983,6 @@
   },
   "type": "kit",
   "url": "/kits/KIT027",
-  "usage": {
-    "songs": []
-  }
+  "outsideAssetFolders": false,
+  "derivedInstances": []
 }

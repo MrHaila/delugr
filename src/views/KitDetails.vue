@@ -10,31 +10,17 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
       div
         h1(class="font-bold text-2xl") #[ArchiveBoxIcon(class="h-5 inline mb-1")] {{ kit.data.presetName }}
         p(class="text-gray-400 text-sm") {{ kit.path }}
+        OutsideAssetFoldersBadge(:file="kit")
       div(class="text-right text-sm mt-3")
         p Firmware: {{ kit.firmware }}
         p Last modified: {{ DateTime.fromMillis(kit.lastModified).toFormat('yyyy-MM-dd') }}
 
     div(class="flex space-x-3")
-      HListCard(
-        title="Usage"
-        :items="kit.usage.songs"
-        class="max-w-md md:flex-1"
-        emptyLabel="Not used in any songs."
-        )
-        template(#item="{ item }")
-          div(class="flex flex-row space-x-1 items-baseline")
-            MusicalNoteIcon(class="h-3 inline mb-1")
-            RouterLink(:to="`/songs/${item}`") {{ item }}
+      DerivedInstancesCard(:preset="kit" class="max-w-md md:flex-1")
 
-      //- HCard(class="max-w-md md:flex-1")
-      //-   template(#title) Song usage #[h-badge {{ kitSongUsageCount }}]
-      //-   div(v-if="kitSongUsageCount" class="divide-y divide-gray-200")
-      //-     div(v-for="(bool, key) in kit.usage.songs" :key="key" class="py-2")
-      //-       RouterLink(:to="'/songs/' + key") {{ key }}
-      //-   div(v-else class="italic text-gray-400") Not used in any songs.
 
       HCard(v-if="kit.data.soundSources" class="max-w-md md:flex-1")
-        template(#title) Samples #[h-badge {{ Object.keys(kit.data.soundSources).length }}]
+        template(#title) Drums #[h-badge {{ Object.keys(kit.data.soundSources).length }}]
         div(class="divide-y divide-gray-200")
           SoundSamplesListItem(v-for="(sound, index) in Object.values(kit.data.soundSources)" :key="index" :sound="sound")
 
@@ -51,7 +37,8 @@ import { computed } from 'vue'
 import { useFileStore } from '../composables/useFileStore'
 import { DateTime } from 'luxon'
 import SoundSamplesListItem from '../components/SoundSamplesListItem.vue'
-import { MusicalNoteIcon } from '@heroicons/vue/20/solid'
+import DerivedInstancesCard from '../components/DerivedInstancesCard.vue'
+import OutsideAssetFoldersBadge from '../components/OutsideAssetFoldersBadge.vue'
 import { ArchiveBoxIcon } from '@heroicons/vue/24/solid'
 import TechnicalDetails from '../components/TechnicalDetails.vue'
 

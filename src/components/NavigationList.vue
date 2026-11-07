@@ -21,7 +21,7 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 overflow-y-auto 
       @click="currentNavigationLevel = navLevel"
       :class="['flex justify-between p-3 cursor-pointer text-sm hover:bg-gray-300 active:bg-gray-400', { 'bg-gray-200': navLevel.allFilesUnused }]"
       )
-      dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ lastFolderFromPath(navLevel.name) }} #[span(v-if="navLevel.allFilesUnused" class="text-xs font-light text-gray-500") un-used]
+      dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ lastFolderFromPath(navLevel.name) }} #[span(v-if="navLevel.allFilesUnused" class="text-xs font-light text-gray-500") unused]
       chevron-right-icon(class="h-5")
 
     //- Files
@@ -37,7 +37,7 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 overflow-y-auto 
       :class="['flex justify-between p-3 cursor-pointer text-sm hover:no-underline', getBackgroundClass(file)]"
       )
       // dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name }} #[exclamation-circle-icon(v-if="file.problem" class="h-4 inline text-red-400 align-text-top")]
-      dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name.split('.')[0] }} #[span(v-if="isUnused(file)" class="text-xs font-light text-gray-500") un-used]
+      dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name.split('.')[0] }} #[span(v-if="isUnused(file)" class="text-xs font-light text-gray-500") unused] #[span(v-if="isOutsideAssetFolders(file)" class="text-xs font-light text-amber-700" title="Outside asset folders (SONGS, SYNTHS, KITS)") outside]
       dd(class="text-gray-500 mt-0 col-span-2")
         // play-button(:id="Number(file.url.split('/').pop())")
         | {{ DateTime.fromMillis(file.lastModified).toFormat('yyyy-MM-dd') }}
@@ -47,7 +47,8 @@ div(v-if="props.listItems.length === 0 || (currentNavigationLevel.files?.length 
 </template>
 
 <script lang="ts" setup>
-import type { SampleFile, ParsedAssetFile } from '../composables/useFileStore'
+import type { SampleFile, ParsedAssetFile, ParsedKitFile, ParsedSoundFile } from '../composables/useFileStore'
+import { isPresetInAnySong } from '../deluge/usage'
 import { DateTime } from 'luxon'
 import { ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
@@ -93,10 +94,7 @@ function buildNavigationLevelForPath(path: string): NavigationLevel {
 }
 
 function isNavigationLevelUnused(files: (ParsedAssetFile | SampleFile)[], folders: NavigationLevel[]): boolean {
-  const filesUnused = files.every(file => {
-    if ('usage' in file) return file.usage.getTotal() === 0
-    else return false // Songs can't be un-used
-  })
+  const filesUnused = files.every(isUnused)
   const foldersUnused = folders.every(folder => isNavigationLevelUnused(folder.files, folder.folders))
   return filesUnused && foldersUnused
 
@@ -171,17 +169,17 @@ watch(
 )
 
 /**
- * Figure out if an item should be flagged as un-used.
+ * Figure out if an item should be flagged as unused: an Unused sample, or a Preset that is Not in any song.
  * @param item Item to check.
  */
-const isUnused = (item: ParsedAssetFile | SampleFile | any): boolean => {
-  // Non-samples have a type.
-  if ('type' in item) {
-    // Songs can't be un-used
-    if (item.type === 'song') return false
-  }
-  if (item.usage.getTotal() === 0) return true
-  return false
+function isUnused(item: ParsedAssetFile | SampleFile | any): boolean {
+  if (!('type' in item)) return item.usage.length === 0
+  if (item.type === 'song') return false // Songs can't be unused
+  return !isPresetInAnySong(item as ParsedSoundFile | ParsedKitFile)
+}
+
+function isOutsideAssetFolders(item: ParsedAssetFile | SampleFile | any): boolean {
+  return 'outsideAssetFolders' in item && item.outsideAssetFolders
 }
 
 function isItemActive(item: ParsedAssetFile | SampleFile | any) {

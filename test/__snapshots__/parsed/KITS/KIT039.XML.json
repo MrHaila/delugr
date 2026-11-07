@@ -2005,7 +2005,6 @@
   },
   "type": "kit",
   "url": "/kits/KIT039",
-  "usage": {
-    "songs": []
-  }
+  "outsideAssetFolders": false,
+  "derivedInstances": []
 }

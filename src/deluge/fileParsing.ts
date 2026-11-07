@@ -1,10 +1,8 @@
 import { useFileStore, type ParsedKitFile, type ParsedSongFile, type ParsedSoundFile, type SampleFile, type SkippedFile } from "../composables/useFileStore"
-import type { Sound } from "./core"
+import { computeIncompleteUsage, computeUsage, isInAssetFolder } from "./usage"
 import { parseKitv1, parseSoundv1 } from "./v1-2"
 import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3-4"
 import { parseKitvCommunity, parseSongvCommunity, parseSoundvCommunity } from "./vCommunity"
-
-let debugFilesWithSamplePaths: string[] = []
 
 /**
  * One-stop-shop for parsing a folder of files. Intended for the root folder of a Deluge SD card.
@@ -18,7 +16,6 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
   const kits: ParsedKitFile[] = []
   const samples: SampleFile[] = []
   const skippedFiles: SkippedFile[] = []
-  const missingSamples: string[] = []
   let id = 0
 
   const { fileStore } = useFileStore()
@@ -79,7 +76,8 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
   
   // Compute usage
   fileStore.parsingMessage = 'Computing usage stats...'
-  computeUsageStats()
+  const missingSamples = computeUsage({ songs, sounds, kits, samples })
+  const incompleteUsage = computeIncompleteUsage([...songs, ...sounds, ...kits], skippedFiles)
 
   // Save results to the store
   fileStore.parsingMessage = 'Saving...'
@@ -89,72 +87,14 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
   fileStore.kits = kits.sort((a, b) => a.name.localeCompare(b.name))
   fileStore.samples = samples.sort((a, b) => a.name.localeCompare(b.name))
   fileStore.skippedFiles = skippedFiles
-  fileStore.missingSamples = missingSamples.sort((a, b) => a.localeCompare(b))
+  fileStore.missingSamples = missingSamples
+  fileStore.incompleteUsage = incompleteUsage
 
   fileStore.parsingMessage = 'Done!'
   fileStore.isParsed = true
   fileStore.isParsing = false
 
-  console.log('debugFilesWithSamplePaths', debugFilesWithSamplePaths)
-
   // Processing utilities ---------------------------------------------------------------------------------------------
-
-  function computeUsageStats() {
-    // For every song...
-    for (const song of songs) {
-      const songName = song.name.split('.')[0] // Drop .xml from the name
-
-      // For every instrument in the song...
-      for (const instrument of song.data.instruments) {
-        // Sounds
-        if (instrument.instrumentType === 'sound') {
-          const sound = sounds.find(sound => sound.data.presetName === instrument.presetName)
-          if (sound) {
-            // Count sound/synth usage in the song if not already counted
-            if (!sound.usage.songs.includes(songName)) {
-              sound.usage.songs.push(songName)
-            }
-
-            computeSampleUsageInSound(sound.data, undefined, songName)
-          }
-
-          // Kits
-        } else if (instrument.instrumentType === 'kit') {
-          // TODO: consider kit instances vs presets
-          const kit = kits.find(kit => kit.data.presetName === instrument.presetName)
-          if (kit) {
-            // Count kit usage in the song if not already counted
-            if (!kit.usage.songs.includes(songName)) {
-              kit.usage.songs.push(songName)
-            }
-
-            // Sounds inside kits
-            for (const soundSource of Object.values(kit.data.soundSources)) {
-              // Each kit sound is an instance that may or may not relate to a preset
-              const sound = sounds.find(sound => sound.data.presetName === soundSource.presetName)
-              if (sound) {
-                // Found a preset with the same name. Let's assume it's the same sound.
-                // Count sound usage in the kit if not already counted
-                if (!sound.usage.kits.includes(kit.data.presetName)) {
-                  sound.usage.kits.push(kit.data.presetName)
-                }
-              }
-
-              // Count sample usage regardless of whether we found a preset or not
-              computeSampleUsageInSound(soundSource, kit.data.presetName, songName)
-            }
-          }
-          // Audio tracks
-        } else if (instrument.instrumentType === 'audio track') {
-          // console.log('TODO: audio track usage for', instrument.presetName)
-          // const sample = samples.find(sample => sample.name === instrument.presetName)
-          // if (sample) {
-          //   sample.usage.songs[song.name] = true
-          // }
-        }
-      }
-    }
-  }
 
   async function processAudioFile(fileHandle: FileSystemFileHandle, fullPath: string) {
     const file = await fileHandle.getFile()
@@ -168,14 +108,7 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
       id,
       lastModified,
       url: encodeURI(`/samples/${id}`),
-      usage: {
-        songs: {},
-        sounds: {},
-        kits: {},
-        getTotal() {
-          return Object.keys(this.songs).length + Object.keys(this.sounds).length + Object.keys(this.kits).length
-        },
-      }
+      usage: [],
     })
     id++
   }
@@ -214,83 +147,6 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
         reason: String(e),
         fileHandle,
       })
-    }
-  }
-
-  function computeSampleUsageInSound(sound: Sound, kitName?: string, songName?: string) {
-    const fileNames = []
-    
-    // Individual samples
-    if (sound.osc1.fileName) fileNames.push(sound.osc1.fileName)
-    if (sound.osc2.fileName) fileNames.push(sound.osc2.fileName)
-
-    // Multi samples
-    if (sound.osc1.sampleRanges) {
-      for (const sampleRange of sound.osc1.sampleRanges) {
-        fileNames.push(sampleRange.fileName)
-      }
-    }
-    if (sound.osc2.sampleRanges) {
-      for (const sampleRange of sound.osc2.sampleRanges) {
-        fileNames.push(sampleRange.fileName)
-      }
-    }
-
-    // Find the samples in the store and count usage
-    for (const fileName of fileNames) {
-      const sample = samples.find(sample => sample.path.toLowerCase() === '/' + fileName.toLowerCase())
-
-      // If sample is found in the store, count usage.
-      // This is complex because we keep track of attribution for UI purposes.
-      if (sample) {
-        // Always count usage in the sound (synth)
-        countSampleUsageInSound(sample, sound.presetName, sound.presetName, 'synth')
-
-        // If this was in a kit that was in a song, count usage in the kit and song
-        if (kitName && songName) {
-          // TODO: how to check if the the specific sound was actually used in the song?
-          countSampleUsageInKit(sample, kitName, sound.presetName, 'synth')
-          countSampleUsageInSong(sample, songName, kitName, 'kit')
-        }
-        // If this was in a song, but not in a kit, count usage in the song in addition to the sound
-        else if (!kitName && songName) {
-          countSampleUsageInSong(sample, songName, sound.presetName, 'synth')
-        }
-        // If this was in a kit, but not in a song, count usage in the kit in addition to the sound
-        else if (kitName && !songName) {
-          countSampleUsageInKit(sample, kitName, sound.presetName, 'synth')
-        }
-      }
-
-      // Count missing samples
-      else if (!missingSamples.includes(fileName)) missingSamples.push(fileName)
-    }
-  }
-
-  function countSampleUsageInSong(sample: SampleFile, name: string, instrumentName: string, instrumentType: string) {
-    if (!sample.usage.songs[name]) {
-      sample.usage.songs[name] = {
-        instrumentName,
-        instrumentType,
-      }
-    }
-  }
-
-  function countSampleUsageInKit(sample: SampleFile, name: string, instrumentName: string, instrumentType: string) {
-    if (!sample.usage.kits[name]) {
-      sample.usage.kits[name] = {
-        instrumentName,
-        instrumentType,
-      }
-    }
-  }
-  
-  function countSampleUsageInSound(sample: SampleFile, name: string, instrumentName: string, instrumentType: string) {
-    if (!sample.usage.sounds[name]) {
-      sample.usage.sounds[name] = {
-        instrumentName,
-        instrumentType,
-      }
     }
   }
 }
@@ -360,13 +216,9 @@ export async function parseAssetFile(fileHandle: FileSystemFileHandle, path: str
   const root = xmlDoc.documentElement as Element
 
   const name = fileHandle.name
+  const outsideAssetFolders = !isInAssetFolder(path)
 
   if (['song', 'sound', 'kit'].includes(root.nodeName)) {
-    // If the raw file text contains a sample path, store it for debugging
-    if (xml.includes('SAMPLES/') || xml.includes('samples/')) {
-      debugFilesWithSamplePaths.push(name)
-    }
-
     let data
     if (root.nodeName === 'song') {
       if (firmware.startsWith('3') || firmware.startsWith('4')) data = parseSongv3(root, name)
@@ -374,7 +226,7 @@ export async function parseAssetFile(fileHandle: FileSystemFileHandle, path: str
       else return `Firmware version ${firmware} is not supported for songs.`
 
       return {
-        name, path, fileHandle, lastModified, firmware, xmlError, data, xml,
+        name, path, fileHandle, lastModified, firmware, xmlError, data, xml, outsideAssetFolders,
         type: 'song',
         url: encodeURI(`/songs/${name.split('.')[0]}`)
       }
@@ -396,13 +248,8 @@ export async function parseAssetFile(fileHandle: FileSystemFileHandle, path: str
         xml,
         type: 'sound',
         url: encodeURI(`/synths/${name.split('.')[0]}`),
-        usage: {
-          songs: [],
-          kits: [],
-          getTotal() {
-            return Object.keys(this.songs).length + Object.keys(this.kits).length
-          },
-        },
+        outsideAssetFolders,
+        derivedInstances: [],
       }
     }
     else if (root.nodeName === 'kit') {
@@ -422,12 +269,8 @@ export async function parseAssetFile(fileHandle: FileSystemFileHandle, path: str
         xml,
         type: 'kit',
         url: encodeURI(`/kits/${name.split('.')[0]}`),
-        usage: {
-          songs: [],
-          getTotal() {
-            return Object.keys(this.songs).length
-          },
-        },
+        outsideAssetFolders,
+        derivedInstances: [],
       }
     }
     else throw new Error(`Unknown root node '${root.nodeName}' (was expecting 'song', 'sound', or 'kit')`)

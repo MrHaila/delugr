@@ -2718,7 +2718,6 @@
   },
   "type": "kit",
   "url": "/kits/KIT022",
-  "usage": {
-    "songs": []
-  }
+  "outsideAssetFolders": false,
+  "derivedInstances": []
 }

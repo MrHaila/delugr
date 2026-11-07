@@ -445,8 +445,6 @@
   },
   "type": "sound",
   "url": "/synths/SYNT170",
-  "usage": {
-    "songs": [],
-    "kits": []
-  }
+  "outsideAssetFolders": false,
+  "derivedInstances": []
 }

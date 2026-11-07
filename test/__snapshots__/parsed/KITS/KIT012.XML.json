@@ -1263,7 +1263,6 @@
   },
   "type": "kit",
   "url": "/kits/KIT012",
-  "usage": {
-    "songs": []
-  }
+  "outsideAssetFolders": false,
+  "derivedInstances": []
 }

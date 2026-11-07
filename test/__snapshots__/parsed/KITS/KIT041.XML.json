@@ -1747,7 +1747,6 @@
   },
   "type": "kit",
   "url": "/kits/KIT041",
-  "usage": {
-    "songs": []
-  }
+  "outsideAssetFolders": false,
+  "derivedInstances": []
 }

@@ -10,6 +10,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
       div
         h1(class="font-bold text-2xl") #[MusicalNoteIcon(class="h-5 inline mb-1")] {{ props.name }}
         p(class="text-gray-400 text-sm") {{ song.path }}
+        OutsideAssetFoldersBadge(:file="song")
       div(class="text-right text-sm mt-3")
         p Firmware: {{ song.firmware }}
         p Last modified: {{ DateTime.fromMillis(song.lastModified).toFormat('yyyy-MM-dd') }}
@@ -33,10 +34,9 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             span(v-else) {{ item.presetName }}
 
             span(class="flex-grow text-right text-xs")
-              RouterLink(v-if="item.instrumentType === 'sound' && fileStore.sounds.find(sound => sound.name.split('.')[0] === item.presetName)" :to="'/synths/' + item.presetName") View preset
-              RouterLink(v-else-if="item.instrumentType === 'kit' && fileStore.kits.find(kit => kit.name.split('.')[0] === item.presetName)" :to="'/kits/' + item.presetName") View preset
+              RouterLink(v-if="derivedFrom(item)" :to="derivedFrom(item)!.url" title="A preset with the same name. The song keeps its own copy, which may differ.") Derived from preset
               span(v-else-if="item.instrumentType === 'audio track'") Input channel: {{ item.inputChannel }}
-              span(v-else-if="item.instrumentType !== 'midi track'" class="text-gray-400") No preset found
+              span(v-else-if="item.instrumentType !== 'midi track'" class="text-gray-400") No preset with this name
 
             // exclamation-circle-icon(v-if="item.problem" class="h-4 text-red-400")
       
@@ -73,8 +73,18 @@ import { ExclamationCircleIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, Microph
 // import HModal from '../components/HModal.vue'
 import { MusicalNoteIcon } from '@heroicons/vue/24/solid'
 import TechnicalDetails from '../components/TechnicalDetails.vue'
+import OutsideAssetFoldersBadge from '../components/OutsideAssetFoldersBadge.vue'
 
 const { fileStore } = useFileStore()
+
+/**
+ * The Preset this Instance is Derived from (same name), if any.
+ */
+function derivedFrom(instrument: { instrumentType: string, presetName?: string }) {
+  if (instrument.instrumentType === 'sound') return fileStore.sounds.find(s => s.data.presetName === instrument.presetName)
+  if (instrument.instrumentType === 'kit') return fileStore.kits.find(k => k.data.presetName === instrument.presetName)
+  return undefined
+}
 
 const props = defineProps([
   'name'

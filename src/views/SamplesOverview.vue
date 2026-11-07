@@ -3,68 +3,70 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
   div(class="space-y-5")
     h1.font-bold.text-2xl You have {{ fileStore.samples.length }} samples
     
-    p {{ usedSamplesCount }} of them are currently in use in a synth, kit or an audio track. That means {{ fileStore.samples.length - usedSamplesCount }} are not used at all.
+    p {{ usedSamplesCount }} of them are referenced by a preset, song Instance, Drum or Recording. The other {{ fileStore.samples.length - usedSamplesCount }} are unused samples: nothing on the card points to them.
     
     div(class="flex space-x-3")
       HCard(
         class="max-w-md md:flex-1"
         title="Most Used Samples"
-        subtitle="Samples get one point each for getting included in a synth, kit or a song. A widely used sample may only belong to one synth, but that synth may be used in lots of places!"
+        subtitle="Number of files (songs, synths and kits) that reference the sample."
         )
         div(class="divide-y divide-gray-200")
           div(
-            v-for="sample in Object.values(fileStore.samples).sort((a, b) => b.usage.getTotal() - a.usage.getTotal()).slice(0, 39).filter(sample => sample.usage.getTotal() > 0)"
+            v-for="{ sample, count } in mostUsed"
             :key="sample.path"
             class="py-2 flex justify-between items-baseline"
             )
-            span {{ sample.usage.getTotal() }} points - 
+            span {{ count }} files - 
               MicrophoneIcon(class="h-3 inline mb-1 mr-1")
-              RouterLink(:to="'/samples/' + sample.id") {{ sample.name.split('.')[0] }}
+              RouterLink(:to="sample.url") {{ sample.name.split('.')[0] }}
             play-button(:id="sample.id")
 
       HCard(
         class="max-w-md md:flex-1"
-        title="Most Used Samples in Kits"
+        title="Most Used Samples in Drums"
+        subtitle="Number of kits (presets and song Instances) with a Drum that references the sample."
         )
         div(class="divide-y divide-gray-200")
           div(
-            v-for="sample in Object.values(fileStore.samples).sort((a, b) => Object.keys(b.usage.kits).length - Object.keys(a.usage.kits).length).slice(0, 39).filter(sample => Object.keys(sample.usage.kits).length > 0)"
+            v-for="{ sample, count } in mostUsedInDrums"
             :key="sample.path"
             class="py-2 flex justify-between items-baseline"
             )
-            span {{ Object.keys(sample.usage.kits).length }} kits - 
+            span {{ count }} kits - 
               MicrophoneIcon(class="h-3 inline mb-1 mr-1")
-              RouterLink(:to="'/samples/' + sample.id") {{ sample.name.split('.')[0] }}
+              RouterLink(:to="sample.url") {{ sample.name.split('.')[0] }}
             play-button(:id="sample.id")
 
-      HListCard(
+      MissingSamplesCard(
         v-if="fileStore.missingSamples.length > 0"
         class="max-w-md md:flex-1"
-        title="Missing Samples"
-        subtitle="These samples were referenced in synths but could not be found."
-        :items="fileStore.missingSamples"
+        :missingSamples="fileStore.missingSamples"
         )
-        template(#item="{ item }")
-          div(class="text-xs")
-            div(class="text-red-800") {{ item }}
-            //div best guess for the correct path 👇
-            //div {{ findLikeliestMatchForMisplacedSample(item).path }}
-
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { findLikeliestMatchForMisplacedSample } from '../deluge/files'
-import { useFileStore } from '../composables/useFileStore'
+import { useFileStore, type SampleFile, type SampleReference } from '../composables/useFileStore'
 import PlayButton from '../components/PlayButton.vue'
+import MissingSamplesCard from '../components/MissingSamplesCard.vue'
 import { MicrophoneIcon } from '@heroicons/vue/20/solid'
 
 const { fileStore } = useFileStore()
 
+const usedSamplesCount = computed(() => fileStore.samples.filter(sample => sample.usage.length > 0).length)
+
 /**
- * Count of all samples that have a usage count greater than 0
+ * Top samples by the number of distinct owners (keyed by `ownerKey`) among references passing `filter`.
  */
-const usedSamplesCount = computed(() => {
-  return fileStore.samples.filter(sample => sample.usage.getTotal() > 0).length
-})
+function leaderboard(filter: (ref: SampleReference) => boolean, ownerKey: (ref: SampleReference) => string) {
+  return fileStore.samples
+    .map(sample => ({ sample, count: new Set(sample.usage.filter(filter).map(ownerKey)).size }))
+    .filter(entry => entry.count > 0)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 40) as { sample: SampleFile, count: number }[]
+}
+
+const mostUsed = computed(() => leaderboard(() => true, ref => ref.owner.filePath))
+const mostUsedInDrums = computed(() => leaderboard(ref => ref.owner.drumName !== null, ref => `${ref.owner.filePath}|${ref.owner.instrumentName}`))
 </script>

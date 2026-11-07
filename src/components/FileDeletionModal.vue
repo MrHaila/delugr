@@ -8,6 +8,7 @@ HModal(
   )
   p(v-if="!file") Loading...
   div(v-else)
+    IncompleteUsageWarning(class="mb-3")
     p(class="mb-1") You are about to delete #[HBadge(inline variant="danger") {{ file }}].
     p(class="text-sm text-gray-500") This action cannot be undone. All good?
     p(class="mt-2 text-sm text-gray-500") Note: As of December 2024, the #[a(href="https://developer.mozilla.org/en-US/docs/Web/API/FileSystemHandle/remove" target="blank") API for removing files] is not yet implemented in #[a(href="https://caniuse.com/mdn-api_filesystemhandle_remove" target="blank") all browsers].
@@ -22,6 +23,7 @@ HModal(
 import { ref, watch } from 'vue'
 import HModal from './HModal.vue'
 import { useFileStore } from '../composables/useFileStore'
+import IncompleteUsageWarning from './IncompleteUsageWarning.vue'
 
 const props = defineProps<{
   fileHandle: FileSystemFileHandle
@@ -35,9 +37,15 @@ watch(() => props.fileHandle, async () => {
 
 const modal = ref<typeof HModal>()
 
-const { fileStore } = useFileStore()
+const { fileStore, reParseFileStore } = useFileStore()
 
 async function deleteFile() {
+  await removeFile()
+  // Usage, missing samples and Incomplete usage may all change: re-scan.
+  await reParseFileStore()
+}
+
+async function removeFile() {
   try {
     // @ts-expect-error - TS doesn't know about remove() as of June 2023.
     await props.fileHandle.remove()

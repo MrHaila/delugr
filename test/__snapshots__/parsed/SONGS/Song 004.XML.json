@@ -6554,6 +6554,7 @@
       }
     ]
   },
+  "outsideAssetFolders": false,
   "type": "song",
   "url": "/songs/Song%20004"
 }

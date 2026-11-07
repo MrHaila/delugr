@@ -298,8 +298,6 @@
   },
   "type": "sound",
   "url": "/synths/Synth%20003",
-  "usage": {
-    "songs": [],
-    "kits": []
-  }
+  "outsideAssetFolders": false,
+  "derivedInstances": []
 }

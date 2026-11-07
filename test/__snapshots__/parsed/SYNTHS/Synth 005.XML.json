@@ -242,8 +242,6 @@
   },
   "type": "sound",
   "url": "/synths/Synth%20005",
-  "usage": {
-    "songs": [],
-    "kits": []
-  }
+  "outsideAssetFolders": false,
+  "derivedInstances": []
 }
