@@ -1,8 +1,9 @@
 {
   "name": "SYNT070.XML",
   "path": "/SYNTHS/SYNT070.XML",
-  "lastModified": 1794089017660,
+  "lastModified": 1704067200000,
   "firmware": "1",
+  "xmlError": null,
   "data": {
     "presetName": "SYNT070",
     "polyphonic": "1",

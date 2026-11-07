@@ -343,7 +343,18 @@ export async function parseAssetFile(fileHandle: FileSystemFileHandle, path: str
   
   // Parse the file
   const xmlDoc = parser.parseFromString(xml, 'text/xml')
-  //console.log(xmlDoc)
+
+  // DOMParser does not throw on malformed XML. Instead it inserts a <parsererror> element (Chrome: inside the partial
+  // document, Firefox: as the root) and the document only contains what was parsed before the error.
+  // Keep the partial data but record the error, and hide the error element from the parsers.
+  let xmlError: string | null = null
+  const parserError = xmlDoc.getElementsByTagName('parsererror')[0]
+  if (parserError) {
+    const text = parserError.textContent ?? ''
+    xmlError = text.match(/error on line \d+ at column \d+:[^\n]*/)?.[0].trim() ?? (text.trim().split('\n')[0] || 'Malformed XML')
+    if (parserError !== xmlDoc.documentElement) parserError.remove()
+  }
+
   const root = xmlDoc.documentElement as Element
 
   const name = fileHandle.name
@@ -361,7 +372,7 @@ export async function parseAssetFile(fileHandle: FileSystemFileHandle, path: str
       else return `Firmware version ${firmware} is not supported for songs.`
 
       return {
-        name, path, fileHandle, lastModified, firmware, data, xml,
+        name, path, fileHandle, lastModified, firmware, xmlError, data, xml,
         type: 'song',
         url: encodeURI(`/songs/${name.split('.')[0]}`)
       }
@@ -378,6 +389,7 @@ export async function parseAssetFile(fileHandle: FileSystemFileHandle, path: str
         fileHandle,
         lastModified,
         firmware,
+        xmlError,
         data,
         xml,
         type: 'sound',
@@ -403,6 +415,7 @@ export async function parseAssetFile(fileHandle: FileSystemFileHandle, path: str
         fileHandle,
         lastModified,
         firmware,
+        xmlError,
         data,
         xml,
         type: 'kit',

@@ -1,8 +1,9 @@
 {
   "name": "SYNT153.XML",
   "path": "/SYNTHS/SYNT153.XML",
-  "lastModified": 1794089017661,
+  "lastModified": 1704067200000,
   "firmware": "2.0.0-beta",
+  "xmlError": null,
   "data": {
     "presetName": "SYNT153",
     "polyphonic": "poly",

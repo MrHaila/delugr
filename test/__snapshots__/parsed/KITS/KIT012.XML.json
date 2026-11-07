@@ -1,8 +1,9 @@
 {
   "name": "KIT012.XML",
   "path": "/KITS/KIT012.XML",
-  "lastModified": 1794089017671,
+  "lastModified": 1704067200000,
   "firmware": "1",
+  "xmlError": null,
   "data": {
     "presetName": "KIT012",
     "lpfMode": "24dB",

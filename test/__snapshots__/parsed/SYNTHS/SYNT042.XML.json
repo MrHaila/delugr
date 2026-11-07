@@ -1,8 +1,9 @@
 {
   "name": "SYNT042.XML",
   "path": "/SYNTHS/SYNT042.XML",
-  "lastModified": 1794089017655,
+  "lastModified": 1704067200000,
   "firmware": "1",
+  "xmlError": null,
   "data": {
     "presetName": "SYNT042",
     "polyphonic": "1",

@@ -28,6 +28,11 @@ export type ParsedAssetFile = {
    */
   firmware: string,
   /**
+   * Set when the XML is malformed. `data` then holds whatever parsed before the error, since DOMParser stops there.
+   * Original Deluge firmwares wrote some malformed files that the device still loads, so these are kept, not skipped.
+   */
+  xmlError: string | null,
+  /**
    * URL to the file's details page.
    */
   url: string,

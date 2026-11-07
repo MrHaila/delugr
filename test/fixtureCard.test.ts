@@ -24,6 +24,19 @@ describe('fixture card: individual files', () => {
     await expect(JSON.stringify(rest, null, 2)).toMatchFileSnapshot(`__snapshots__/parsed/${rel}.json`)
   })
 
+  test('malformed XML keeps partial data and records the error', async () => {
+    const result = await parseAssetFile(fileHandleFromDisk(join(cardRoot, 'SYNTHS/Edge malformed.XML')), '/x')
+    if (typeof result === 'string') throw new Error(`Expected parsed file, got: ${result}`)
+    expect(result.type).toBe('sound')
+    expect(result.xmlError).toMatch(/^error on line \d+ at column \d+:/)
+  })
+
+  test('well-formed XML has no error', async () => {
+    const result = await parseAssetFile(fileHandleFromDisk(join(cardRoot, 'SYNTHS/SYNT001.XML')), '/x')
+    if (typeof result === 'string') throw new Error(`Expected parsed file, got: ${result}`)
+    expect(result.xmlError).toBeNull()
+  })
+
   test('unsupported firmware is reported, not thrown', async () => {
     const result = await parseAssetFile(fileHandleFromDisk(join(cardRoot, 'SONGS/Edge unsupported firmware.XML')), '/x')
     expect(result).toBe('Firmware version 9.0.0 is not supported for songs.')
@@ -47,6 +60,9 @@ describe('fixture card: whole folder scan', () => {
       usedSamples: fileStore.samples.filter(s => s.usage.getTotal() > 0).length,
       skippedFiles: fileStore.skippedFiles.map(f => `${f.path}: ${f.reason.slice(0, 80)}`),
       missingSamples: fileStore.missingSamples,
+      malformed: [...fileStore.songs, ...fileStore.sounds, ...fileStore.kits]
+        .filter(f => f.xmlError)
+        .map(f => `${f.path}: ${f.xmlError}`),
     }).toMatchSnapshot()
   })
 

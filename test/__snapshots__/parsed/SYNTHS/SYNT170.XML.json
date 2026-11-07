@@ -1,8 +1,9 @@
 {
   "name": "SYNT170.XML",
   "path": "/SYNTHS/SYNT170.XML",
-  "lastModified": 1794089017665,
+  "lastModified": 1704067200000,
   "firmware": "2.1.0",
+  "xmlError": null,
   "data": {
     "presetName": "SYNT170",
     "polyphonic": "poly",

@@ -1,8 +1,9 @@
 {
   "name": "KIT041.XML",
   "path": "/KITS/KIT041.XML",
-  "lastModified": 1794089017728,
+  "lastModified": 1704067200000,
   "firmware": "1",
+  "xmlError": "error on line 1191 at column 11: Opening and ending tag mismatch: modKnobs line 1189 and sound",
   "data": {
     "presetName": "KIT041",
     "lpfMode": "24dB",

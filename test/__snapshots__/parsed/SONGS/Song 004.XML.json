@@ -1,8 +1,9 @@
 {
   "name": "Song 004.XML",
   "path": "/SONGS/Song 004.XML",
-  "lastModified": 1794089017608,
+  "lastModified": 1704067200000,
   "firmware": "4.0.0",
+  "xmlError": null,
   "data": {
     "name": "TODO",
     "instruments": [

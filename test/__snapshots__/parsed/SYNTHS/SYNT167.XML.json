@@ -1,8 +1,9 @@
 {
   "name": "SYNT167.XML",
   "path": "/SYNTHS/SYNT167.XML",
-  "lastModified": 1794089017662,
+  "lastModified": 1704067200000,
   "firmware": "2.0.0-beta",
+  "xmlError": null,
   "data": {
     "presetName": "SYNT167",
     "polyphonic": "poly",

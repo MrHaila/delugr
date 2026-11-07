@@ -1,8 +1,9 @@
 {
   "name": "SYNT065.XML",
   "path": "/SYNTHS/SYNT065.XML",
-  "lastModified": 1794089017659,
+  "lastModified": 1704067200000,
   "firmware": "1",
+  "xmlError": null,
   "data": {
     "presetName": "SYNT065",
     "polyphonic": "1",

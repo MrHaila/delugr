@@ -1,8 +1,9 @@
 {
   "name": "Synth 001.XML",
   "path": "/SYNTHS/Synth 001.XML",
-  "lastModified": 1794089017667,
+  "lastModified": 1704067200000,
   "firmware": "3.0.2",
+  "xmlError": null,
   "data": {
     "presetName": "Synth 001",
     "polyphonic": "mono",

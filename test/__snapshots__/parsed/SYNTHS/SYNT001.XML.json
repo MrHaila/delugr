@@ -1,8 +1,9 @@
 {
   "name": "SYNT001.XML",
   "path": "/SYNTHS/SYNT001.XML",
-  "lastModified": 1794089017654,
+  "lastModified": 1704067200000,
   "firmware": "2.0.0-beta",
+  "xmlError": null,
   "data": {
     "presetName": "SYNT001",
     "polyphonic": "auto",
