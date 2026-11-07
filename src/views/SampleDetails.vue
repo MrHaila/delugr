@@ -24,16 +24,16 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
       HCard(class="max-w-3xl flex-1" subtitle="Every sample reference on the card that points to this sample.")
         template(#title) Usage #[h-badge {{ sample.usage.length }}]
         div(v-if="usageByFile.length" class="divide-y divide-gray-200")
-          div(v-for="file in usageByFile" :key="file.filePath" class="py-2")
-            MusicalNoteIcon(v-if="file.fileType === 'song'" class="h-3 inline mb-1 mr-1")
-            ArchiveBoxIcon(v-else-if="file.fileType === 'kit'" class="h-3 inline mb-1 mr-1")
+          div(v-for="{ owner, lines } in usageByFile" :key="owner.filePath" class="py-2")
+            MusicalNoteIcon(v-if="owner.fileType === 'song'" class="h-3 inline mb-1 mr-1")
+            ArchiveBoxIcon(v-else-if="owner.fileType === 'kit'" class="h-3 inline mb-1 mr-1")
             AdjustmentsVerticalIcon(v-else class="h-3 inline mb-1 mr-1")
-            RouterLink(:to="file.fileUrl") {{ file.fileName.split('.')[0] }}
-            div(v-for="line in file.lines" :key="line" class="text-xs text-gray-400 pl-4") {{ line }}
+            RouterLink(:to="owner.fileUrl") {{ owner.fileName.split('.')[0] }}
+            div(v-for="line in lines" :key="line" class="text-xs text-gray-400 pl-4") {{ line }}
 
         div(v-else class="italic text-gray-400") Unused sample: no song, synth or kit references it.
 
-    HModal(ref="renameModal" variant="warning" okButtonLabel="Rename" :onOk="renameSample")
+    HModal(ref="renameModal" variant="warning" okButtonLabel="Rename" :onOk="confirmRename")
       template(#title) Rename Sample
 
       div(class="space-y-3")
@@ -51,10 +51,10 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
 <script lang="ts" setup>
 import { MusicalNoteIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon } from '@heroicons/vue/24/solid'
 import { computed, onMounted, ref, watch } from 'vue'
-import { useFileStore } from '../composables/useFileStore'
+import { useFileStore, type InstrumentOwner } from '../composables/useFileStore'
 import { useRouter } from 'vue-router'
-import { planSampleRename, renameSample as doRenameSample, type PlannedRewrite } from '../deluge/files'
-import { describeOwner } from '../deluge/usage'
+import { planSampleRename, renameSample, renamedSamplePath, type PlannedRewrite } from '../deluge/files'
+import { describeLocation, describeOwner, groupReferencesByOwner } from '../deluge/usage'
 import IncompleteUsageWarning from '../components/IncompleteUsageWarning.vue'
 import { DateTime } from 'luxon'
 import WaveSurfer from 'wavesurfer.js'
@@ -94,10 +94,10 @@ watch(newSampleName, async (name) => {
   }
 })
 
-async function renameSample() {
+async function confirmRename() {
   if (!sample.value || !plan.value || !fileStore.folderHandle) throw new Error(planError.value ?? 'Nothing to rename.')
-  const newPath = sample.value.path.substring(0, sample.value.path.lastIndexOf('/') + 1) + newSampleName.value
-  await doRenameSample(fileStore.folderHandle, sample.value, newSampleName.value, plan.value)
+  const newPath = renamedSamplePath(sample.value, newSampleName.value)
+  await renameSample(fileStore.folderHandle, sample.value, newSampleName.value, plan.value)
   await reParseFileStore()
   const renamed = fileStore.samples.find(s => s.path === newPath)
   if (renamed) await router.push(renamed.url)
@@ -107,17 +107,13 @@ async function renameSample() {
  * References grouped by file, one line per Instance/Drum with its locations.
  */
 const usageByFile = computed(() => {
-  const files = new Map<string, { filePath: string, fileName: string, fileUrl: string, fileType: string, lines: Map<string, string[]> }>()
-  for (const ref of sample.value?.usage ?? []) {
-    const file = files.get(ref.owner.filePath) ?? { ...ref.owner, lines: new Map() }
-    const owner = describeOwner(ref.owner)
-    file.lines.set(owner, [...(file.lines.get(owner) ?? []), ref.location])
-    files.set(ref.owner.filePath, file)
+  const files = new Map<string, { owner: InstrumentOwner, lines: string[] }>()
+  for (const { owner, locations } of groupReferencesByOwner(sample.value?.usage ?? [])) {
+    const file = files.get(owner.filePath) ?? { owner, lines: [] }
+    file.lines.push([describeOwner(owner), locations.map(describeLocation).join(', ')].filter(Boolean).join(': '))
+    files.set(owner.filePath, file)
   }
-  return [...files.values()].map(file => ({
-    ...file,
-    lines: [...file.lines].map(([owner, locations]) => [owner, locations.join(', ')].filter(Boolean).join(': ')),
-  }))
+  return [...files.values()]
 })
 
 const idAsNumber = computed(() => parseInt(props.name))

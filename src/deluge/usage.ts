@@ -7,6 +7,7 @@ import type {
   ParsedSongFile,
   ParsedSoundFile,
   SampleFile,
+  SampleLocation,
   SampleReference,
   InstrumentOwner,
 } from '../composables/useFileStore'
@@ -26,10 +27,41 @@ export function isInAssetFolder(path: string): boolean {
 }
 
 /**
- * Normalize a sample path for matching: no leading slash, forward slashes, lower case (FAT is case-insensitive).
+ * Sample path as the Deluge writes it: forward slashes, no leading slash.
+ */
+export function normalizeSamplePath(path: string): string {
+  return path.replace(/\\/g, '/').replace(/^\//, '')
+}
+
+/**
+ * Sample path key for matching: normalized and lower case (FAT is case-insensitive).
  */
 export function samplePathKey(path: string): string {
-  return path.replace(/\\/g, '/').replace(/^\//, '').toLowerCase()
+  return normalizeSamplePath(path).toLowerCase()
+}
+
+/**
+ * One instrument inside a file, with its owner: a Preset file's own Synth or Kit, a song Instance, or a Drum.
+ */
+type InstrumentEntry = { owner: InstrumentOwner, instrument: Sound | Kit }
+
+/**
+ * Walk every instrument in a file: the Preset itself, song Instances, and the Drums of any Kit.
+ */
+function instrumentsIn(file: ParsedSongFile | ParsedSoundFile | ParsedKitFile): InstrumentEntry[] {
+  const owner = (instrumentName: string | null, drumName: string | null): InstrumentOwner => ({
+    filePath: file.path, fileName: file.name, fileUrl: file.url, fileType: file.type, instrumentName, drumName,
+  })
+  const withDrums = (instrument: Sound | Kit, instrumentName: string | null): InstrumentEntry[] => [
+    { owner: owner(instrumentName, null), instrument },
+    ...(instrument.instrumentType === 'kit'
+      ? Object.values(instrument.soundSources ?? {}).map(drum => ({ owner: owner(instrumentName, drum.presetName), instrument: drum }))
+      : []),
+  ]
+
+  if (file.type !== 'song') return withDrums(file.data, null)
+  return file.data.instruments.flatMap(instrument =>
+    instrument.instrumentType === 'sound' || instrument.instrumentType === 'kit' ? withDrums(instrument, instrument.presetName) : [])
 }
 
 /**
@@ -37,41 +69,25 @@ export function samplePathKey(path: string): string {
  */
 export function collectSampleReferences(file: ParsedSongFile | ParsedSoundFile | ParsedKitFile): SampleReference[] {
   const refs: SampleReference[] = []
-  const owner = (instrumentName: string | null, drumName: string | null): InstrumentOwner => ({
-    filePath: file.path,
-    fileName: file.name,
-    fileUrl: file.url,
-    fileType: file.type,
-    instrumentName,
-    drumName,
-  })
 
-  function fromSound(sound: Sound, o: InstrumentOwner) {
+  for (const { owner, instrument } of instrumentsIn(file)) {
+    if (instrument.instrumentType !== 'sound') continue
     for (const osc of ['osc1', 'osc2'] as const) {
-      const oscillator = sound[osc]
-      if (!oscillator) continue
-      if (oscillator.fileName) refs.push({ samplePath: oscillator.fileName, owner: o, location: osc })
-      oscillator.sampleRanges?.forEach((range, index) => {
-        if (range.fileName) refs.push({ samplePath: range.fileName, owner: o, location: `${osc} sample range ${index + 1}` })
+      const oscillator = instrument[osc]
+      if (oscillator?.fileName) refs.push({ samplePath: oscillator.fileName, owner, location: { kind: 'oscillator', osc } })
+      oscillator?.sampleRanges?.forEach((range, index) => {
+        if (range.fileName) refs.push({ samplePath: range.fileName, owner, location: { kind: 'sampleRange', osc, index } })
       })
     }
   }
 
-  function fromKit(kit: Kit, instrumentName: string | null) {
-    for (const drum of Object.values(kit.soundSources ?? {})) fromSound(drum, owner(instrumentName, drum.presetName))
-  }
-
-  if (file.type === 'sound') fromSound(file.data, owner(null, null))
-  else if (file.type === 'kit') fromKit(file.data, null)
-  else {
-    for (const instrument of file.data.instruments) {
-      if (instrument.instrumentType === 'sound') fromSound(instrument, owner(instrument.presetName, null))
-      else if (instrument.instrumentType === 'kit') fromKit(instrument, instrument.presetName)
-    }
+  if (file.type === 'song') {
     file.data.recordings?.forEach((recording, index) => {
-      if (recording.filePath) {
-        refs.push({ samplePath: recording.filePath, owner: owner(recording.trackName, null), location: `recording ${index + 1}` })
+      if (!recording.filePath) return
+      const owner: InstrumentOwner = {
+        filePath: file.path, fileName: file.name, fileUrl: file.url, fileType: file.type, instrumentName: recording.trackName, drumName: null,
       }
+      refs.push({ samplePath: recording.filePath, owner, location: { kind: 'recording', index } })
     })
   }
   return refs
@@ -86,6 +102,7 @@ export function collectSampleReferences(file: ParsedSongFile | ParsedSoundFile |
  */
 export function computeUsage(files: { songs: ParsedSongFile[], sounds: ParsedSoundFile[], kits: ParsedKitFile[], samples: SampleFile[] }): MissingSample[] {
   const { songs, sounds, kits, samples } = files
+  const allFiles = [...songs, ...sounds, ...kits]
 
   const samplesByKey = new Map<string, SampleFile>()
   for (const sample of samples) {
@@ -94,42 +111,24 @@ export function computeUsage(files: { songs: ParsedSongFile[], sounds: ParsedSou
   }
 
   const missing = new Map<string, MissingSample>()
-  for (const file of [...songs, ...sounds, ...kits]) {
-    for (const ref of collectSampleReferences(file)) {
-      const key = samplePathKey(ref.samplePath)
-      const sample = samplesByKey.get(key)
-      if (sample) sample.usage.push(ref)
-      else {
-        const entry = missing.get(key) ?? { path: ref.samplePath, references: [] }
-        entry.references.push(ref)
-        missing.set(key, entry)
-      }
+  for (const ref of allFiles.flatMap(collectSampleReferences)) {
+    const key = samplePathKey(ref.samplePath)
+    const sample = samplesByKey.get(key)
+    if (sample) sample.usage.push(ref)
+    else {
+      const entry = missing.get(key) ?? { path: ref.samplePath, references: [] }
+      entry.references.push(ref)
+      missing.set(key, entry)
     }
   }
 
-  // Derived from links
+  // Derived from links: every Instance and Drum, but not a Preset file's own instrument.
   for (const preset of [...sounds, ...kits]) preset.derivedInstances = []
-  const synthPresets = byPresetName(sounds)
-  const kitPresets = byPresetName(kits)
-  const link = (presets: Map<string, (ParsedSoundFile | ParsedKitFile)[]>, name: string | null | undefined, owner: InstrumentOwner) => {
-    if (name) for (const preset of presets.get(name) ?? []) preset.derivedInstances.push(owner)
+  const presetsByType = { sound: byPresetName<ParsedSoundFile | ParsedKitFile>(sounds), kit: byPresetName<ParsedSoundFile | ParsedKitFile>(kits) }
+  for (const { owner, instrument } of allFiles.flatMap(instrumentsIn)) {
+    if (!owner.instrumentName && !owner.drumName) continue
+    for (const preset of presetsByType[instrument.instrumentType].get(instrument.presetName) ?? []) preset.derivedInstances.push(owner)
   }
-  const owner = (file: ParsedAssetFile, instrumentName: string | null, drumName: string | null): InstrumentOwner => ({
-    filePath: file.path, fileName: file.name, fileUrl: file.url, fileType: file.type, instrumentName, drumName,
-  })
-  const linkDrums = (file: ParsedAssetFile, kit: Kit, instrumentName: string | null) => {
-    for (const drum of Object.values(kit.soundSources ?? {})) link(synthPresets, drum.presetName, owner(file, instrumentName, drum.presetName))
-  }
-  for (const song of songs) {
-    for (const instrument of song.data.instruments) {
-      if (instrument.instrumentType === 'sound') link(synthPresets, instrument.presetName, owner(song, instrument.presetName, null))
-      else if (instrument.instrumentType === 'kit') {
-        link(kitPresets, instrument.presetName, owner(song, instrument.presetName, null))
-        linkDrums(song, instrument, instrument.presetName)
-      }
-    }
-  }
-  for (const kit of kits) linkDrums(kit, kit.data, null)
 
   return [...missing.values()].sort((a, b) => a.path.localeCompare(b.path))
 }
@@ -160,10 +159,48 @@ export function songsDerivedFromPreset(preset: ParsedSoundFile | ParsedKitFile):
 }
 
 /**
+ * The Preset a song Instance is Derived from (same name), if any.
+ */
+export function presetDerivedBy(presets: (ParsedSoundFile | ParsedKitFile)[], song: ParsedSongFile, instanceName: string) {
+  return presets.find(preset =>
+    preset.derivedInstances.some(o => o.filePath === song.path && o.instrumentName === instanceName && o.drumName === null))
+}
+
+/**
  * Instrument part of an owner, e.g. `Preset 002 → Kick`. Empty for a Preset's own instrument.
  */
 export function describeOwner(owner: InstrumentOwner): string {
   return [owner.instrumentName, owner.drumName].filter(Boolean).join(' → ')
+}
+
+/**
+ * Where in the instrument a reference sits, e.g. `osc1`, `osc2 sample range 3`, `recording 1`.
+ */
+export function describeLocation(location: SampleLocation): string {
+  if (location.kind === 'oscillator') return location.osc
+  if (location.kind === 'sampleRange') return `${location.osc} sample range ${location.index + 1}`
+  return `recording ${location.index + 1}`
+}
+
+/**
+ * Identity of an owner (file + Instance + Drum), for grouping.
+ */
+export function ownerKey(owner: InstrumentOwner): string {
+  return JSON.stringify([owner.filePath, owner.instrumentName, owner.drumName])
+}
+
+/**
+ * References grouped by owner, in first-seen order, each with the locations it references.
+ */
+export function groupReferencesByOwner(refs: SampleReference[]): { owner: InstrumentOwner, locations: SampleLocation[] }[] {
+  const groups = new Map<string, { owner: InstrumentOwner, locations: SampleLocation[] }>()
+  for (const ref of refs) {
+    const key = ownerKey(ref.owner)
+    const group = groups.get(key) ?? { owner: ref.owner, locations: [] }
+    group.locations.push(ref.location)
+    groups.set(key, group)
+  }
+  return [...groups.values()]
 }
 
 /** Known settings files at the card root; never Song or Preset files. */

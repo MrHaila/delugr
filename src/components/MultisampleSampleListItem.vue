@@ -22,8 +22,7 @@ div(class="py-2")
             a(@click="remapSample(similarSample)" class="cursor-pointer") Remap to this
 
   div(v-else)
-    div(class="text-xs")
-      div Sample remapped and saved to disk! #[a(@click="reParseFileStore" class="cursor-pointer") Refresh the UI] to see the changes.
+    div(class="text-xs") Sample remapped and saved to disk. Re-scanning…
 </template>
 
 <script lang="ts" setup>
@@ -55,9 +54,10 @@ const samplesWithSimilarNames = computed(() => {
 
 const isRemapped = ref(false)
 
-function remapSample(newSample: SampleFile) {
-  remapSampleInParsedAssetFile(props.sourceFile, props.sampleRange.fileName, newSample.path)
+async function remapSample(newSample: SampleFile) {
+  await remapSampleInParsedAssetFile(props.sourceFile, props.sampleRange.fileName, newSample.path)
   isRemapped.value = true
+  await reParseFileStore()
 }
   
 </script>

@@ -14,7 +14,7 @@ Spec: `.scratch/sample-usage/spec.md`
 
 ## Do
 
-- Rename rewrites every asset file whose **raw text** contains the old path, ignoring case, including Malformed files. Use plain text matching with an escaped path; replace every occurrence and keep everything else in the file byte-for-byte.
+- Rename rewrites every asset file whose **raw text** contains the old path, ignoring case, including Malformed files. Use text matching with an escaped path, whole values only (between quotes or tags); replace every occurrence and keep everything else in the file byte-for-byte.
 - The rename confirm dialog lists every file that will change before anything is written.
 - The delete and rename confirm dialogs show the Incomplete usage warning from issue 04 when it applies, naming the affected files. The actions stay allowed.
 - After rename or delete, re-scan or update Usage so the UI isn't stale. The current TODO in `remapSampleInParsedAssetFile` covers this.

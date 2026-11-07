@@ -35,7 +35,7 @@ On the fixture card, 14 of 362 Samples show as used and no Missing samples are r
 
 ### Rename
 
-- Rewrites every asset file whose raw text contains the old path, ignoring case, including Malformed files. Plain text replace, with the path escaped.
+- Rewrites every asset file whose raw text contains the old path, ignoring case, including Malformed files. Text replace with the path escaped, matching whole values only: the path must sit between quotes or tags (an optional leading `/` in the file is kept), so `OLD/SAMPLES/x.wav` or `x.wav.bak` are not touched.
 - The confirm dialog lists every file that will change.
 - Writes keep the original file text: never the 2.x-stripped copy used for parsing.
 

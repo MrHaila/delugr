@@ -47,7 +47,7 @@ div(v-if="props.listItems.length === 0 || (currentNavigationLevel.files?.length 
 </template>
 
 <script lang="ts" setup>
-import type { SampleFile, ParsedAssetFile, ParsedKitFile, ParsedSoundFile } from '../composables/useFileStore'
+import type { SampleFile, ParsedAssetFile } from '../composables/useFileStore'
 import { isPresetInAnySong } from '../deluge/usage'
 import { DateTime } from 'luxon'
 import { ref, watch, computed } from 'vue'
@@ -175,7 +175,7 @@ watch(
 function isUnused(item: ParsedAssetFile | SampleFile | any): boolean {
   if (!('type' in item)) return item.usage.length === 0
   if (item.type === 'song') return false // Songs can't be unused
-  return !isPresetInAnySong(item as ParsedSoundFile | ParsedKitFile)
+  return !isPresetInAnySong(item)
 }
 
 function isOutsideAssetFolders(item: ParsedAssetFile | SampleFile | any): boolean {

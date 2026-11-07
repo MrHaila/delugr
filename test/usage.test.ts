@@ -3,7 +3,7 @@ import { join, resolve } from 'node:path'
 import { beforeAll, describe, expect, test, vi } from 'vitest'
 import { parseFolderIntoFileStore } from '../src/deluge/fileParsing'
 import { useFileStore, type ParsedAssetFile, type SampleFile } from '../src/composables/useFileStore'
-import { findLikeliestMatchForMisplacedSample } from '../src/deluge/files'
+import { findLikelyMatch } from '../src/deluge/files'
 import { collectSampleReferences, isInAssetFolder, isPresetInAnySong, samplePathKey } from '../src/deluge/usage'
 import { directoryHandleFromDisk, memoryCard } from './helpers/diskHandles'
 import { config } from '../scripts/fixtures/config'
@@ -65,7 +65,7 @@ describe('fixture card usage', () => {
 
   test('a Recording counts toward Usage', () => {
     expect(sampleByPath('SAMPLES/D038/S0297.WAV').usage).toContainEqual(expect.objectContaining({
-      location: 'recording 1',
+      location: { kind: 'recording', index: 0 },
       owner: expect.objectContaining({ filePath: '/SONGS/Song 004.XML', instrumentName: 'Track 001' }),
     }))
   })
@@ -121,19 +121,19 @@ describe('in-memory card', () => {
   })
 })
 
-describe('findLikeliestMatchForMisplacedSample', () => {
+describe('findLikelyMatch', () => {
   const sample = (path: string) => ({ path, name: path.split('/').pop()! }) as SampleFile
 
   test('finds the same file name in the most similar folder, ignoring case', () => {
     const samples = [sample('/SAMPLES/Other/kick.wav'), sample('/SAMPLES/Drums/Kick.WAV'), sample('/SAMPLES/Drums/snare.wav')]
-    expect(findLikeliestMatchForMisplacedSample('SAMPLES/Drumz/kick.wav', samples)?.path).toBe('/SAMPLES/Drums/Kick.WAV')
+    expect(findLikelyMatch('SAMPLES/Drumz/kick.wav', samples)?.path).toBe('/SAMPLES/Drums/Kick.WAV')
   })
 
   test('finds a match even in a completely different folder', () => {
-    expect(findLikeliestMatchForMisplacedSample('A/kick.wav', [sample('/XYZ/kick.wav')])?.path).toBe('/XYZ/kick.wav')
+    expect(findLikelyMatch('A/kick.wav', [sample('/XYZ/kick.wav')])?.path).toBe('/XYZ/kick.wav')
   })
 
   test('returns null when no sample has the same file name', () => {
-    expect(findLikeliestMatchForMisplacedSample('SAMPLES/kick.wav', [sample('/SAMPLES/snare.wav')])).toBeNull()
+    expect(findLikelyMatch('SAMPLES/kick.wav', [sample('/SAMPLES/snare.wav')])).toBeNull()
   })
 })

@@ -47,7 +47,8 @@ section(aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useFileStore, type SampleFile, type SampleReference } from '../composables/useFileStore'
+import { useFileStore, type SampleReference } from '../composables/useFileStore'
+import { ownerKey } from '../deluge/usage'
 import PlayButton from '../components/PlayButton.vue'
 import MissingSamplesCard from '../components/MissingSamplesCard.vue'
 import { MicrophoneIcon } from '@heroicons/vue/20/solid'
@@ -64,9 +65,10 @@ function leaderboard(filter: (ref: SampleReference) => boolean, ownerKey: (ref: 
     .map(sample => ({ sample, count: new Set(sample.usage.filter(filter).map(ownerKey)).size }))
     .filter(entry => entry.count > 0)
     .sort((a, b) => b.count - a.count)
-    .slice(0, 40) as { sample: SampleFile, count: number }[]
+    .slice(0, 40)
 }
 
 const mostUsed = computed(() => leaderboard(() => true, ref => ref.owner.filePath))
-const mostUsedInDrums = computed(() => leaderboard(ref => ref.owner.drumName !== null, ref => `${ref.owner.filePath}|${ref.owner.instrumentName}`))
+// Count Kits, not Drums: drop the Drum from the owner identity.
+const mostUsedInDrums = computed(() => leaderboard(ref => ref.owner.drumName !== null, ref => ownerKey({ ...ref.owner, drumName: null })))
 </script>

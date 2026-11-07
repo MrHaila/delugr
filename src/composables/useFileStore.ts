@@ -75,9 +75,16 @@ export type SampleReference = {
   /** Path as written in the file. */
   samplePath: string,
   owner: InstrumentOwner,
-  /** Where in the instrument, e.g. `osc1`, `osc2 sample range 3`, `recording 1`. */
-  location: string,
+  location: SampleLocation,
 }
+
+/**
+ * Where in an instrument a Sample reference sits. Indexes are 0-based.
+ */
+export type SampleLocation =
+  | { kind: 'oscillator', osc: 'osc1' | 'osc2' }
+  | { kind: 'sampleRange', osc: 'osc1' | 'osc2', index: number }
+  | { kind: 'recording', index: number }
 
 /**
  * A Sample reference path that matches no Sample on the card, with every reference pointing to it.

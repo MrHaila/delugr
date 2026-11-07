@@ -1,4 +1,5 @@
 import { useFileStore, type ParsedAssetFile, type SampleFile } from "../composables/useFileStore"
+import { normalizeSamplePath } from "./usage"
 
 const { fileStore } = useFileStore()
 
@@ -35,8 +36,8 @@ export function getSampleByPath(path: string | null | undefined) {
  * @param samples Samples to search. Defaults to the store.
  * @returns The best match, or null if no sample has the same file name.
  */
-export function findLikeliestMatchForMisplacedSample(movedPath: string, samples: SampleFile[] = fileStore.samples): SampleFile | null {
-  movedPath = '/' + movedPath.replace(/\\/g, '/').replace(/^\//, '')
+export function findLikelyMatch(movedPath: string, samples: SampleFile[] = fileStore.samples): SampleFile | null {
+  movedPath = '/' + normalizeSamplePath(movedPath)
   const movedFileName = movedPath.split('/').pop()?.toLowerCase()
   const movedFolderName = movedPath.substring(0, movedPath.lastIndexOf('/'))
 
@@ -126,9 +127,8 @@ function escapeRegExp(text: string) {
  * @param newPath Replacement path, with or without a leading `/`. Written without one, as the Deluge does.
  */
 export function replaceSamplePath(text: string, oldPath: string, newPath: string): string {
-  const strip = (path: string) => path.replace(/\\/g, '/').replace(/^\//, '')
-  const pattern = new RegExp(`(?<=["'>]/?)${escapeRegExp(strip(oldPath))}(?=["'<])`, 'gi')
-  return text.replace(pattern, () => strip(newPath))
+  const pattern = new RegExp(`(?<=["'>]/?)${escapeRegExp(normalizeSamplePath(oldPath))}(?=["'<])`, 'gi')
+  return text.replace(pattern, () => normalizeSamplePath(newPath))
 }
 
 /**
@@ -165,6 +165,13 @@ function validateNewSampleName(sample: SampleFile, newName: string) {
   if (!newName || /[\\/:*?"<>|]/.test(newName) || newName.startsWith('.')) throw new Error(`'${newName}' is not a valid file name.`)
   if (newName === sample.name) throw new Error('The new name is the same as the old one.')
   if (newName.toLowerCase() === sample.name.toLowerCase()) throw new Error('Changing only the case of a name is not supported (the card ignores case).')
+  return renamedSamplePath(sample, newName)
+}
+
+/**
+ * The card path a sample gets when renamed: same folder, new file name.
+ */
+export function renamedSamplePath(sample: SampleFile, newName: string): string {
   return sample.path.substring(0, sample.path.lastIndexOf('/') + 1) + newName
 }
 
@@ -209,12 +216,9 @@ async function writeText(fileHandle: FileSystemFileHandle, text: string) {
 
 /**
  * Re-point one file's references from one sample path to another, ignoring case. Writes only if something changed.
- * Usage is not updated: re-scan afterwards.
+ * The store is not updated: re-scan afterwards.
  */
 export async function remapSampleInParsedAssetFile(parsedFile: ParsedAssetFile, oldPath: string, newPath: string) {
   const newXml = replaceSamplePath(parsedFile.xml, oldPath, newPath)
-  if (newXml === parsedFile.xml) return
-
-  await writeText(parsedFile.fileHandle, newXml)
-  parsedFile.xml = newXml
+  if (newXml !== parsedFile.xml) await writeText(parsedFile.fileHandle, newXml)
 }

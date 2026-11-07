@@ -5,7 +5,7 @@ import { parseAssetFile, parseFolderIntoFileStore } from '../src/deluge/filePars
 import { useFileStore } from '../src/composables/useFileStore'
 import { directoryHandleFromDisk, fileHandleFromDisk, memoryFileHandle } from './helpers/diskHandles'
 import { remapSampleInParsedAssetFile } from '../src/deluge/files'
-import { isPresetInAnySong } from '../src/deluge/usage'
+import { describeLocation, isPresetInAnySong } from '../src/deluge/usage'
 
 const cardRoot = resolve(__dirname, 'fixtures/card')
 const assetFiles = ['SONGS', 'SYNTHS', 'KITS'].flatMap(dir =>
@@ -92,7 +92,7 @@ describe('fixture card: whole folder scan', () => {
       samples: fileStore.samples.length,
       usedSamples: fileStore.samples.filter(s => s.usage.length > 0).length,
       skippedFiles: fileStore.skippedFiles.map(f => `${f.path}: ${f.reason.slice(0, 80)}`),
-      missingSamples: fileStore.missingSamples.map(m => `${m.path} ← ${m.references.map(r => `${r.owner.filePath} (${r.location})`).join(', ')}`),
+      missingSamples: fileStore.missingSamples.map(m => `${m.path} ← ${m.references.map(r => `${r.owner.filePath} (${describeLocation(r.location)})`).join(', ')}`),
       incompleteUsage: fileStore.incompleteUsage.map(f => f.path),
       presetsInSongs: [...fileStore.sounds, ...fileStore.kits].filter(isPresetInAnySong).map(p => p.path),
       malformed: [...fileStore.songs, ...fileStore.sounds, ...fileStore.kits]

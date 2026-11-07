@@ -74,6 +74,7 @@ import { ExclamationCircleIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, Microph
 import { MusicalNoteIcon } from '@heroicons/vue/24/solid'
 import TechnicalDetails from '../components/TechnicalDetails.vue'
 import OutsideAssetFoldersBadge from '../components/OutsideAssetFoldersBadge.vue'
+import { presetDerivedBy } from '../deluge/usage'
 
 const { fileStore } = useFileStore()
 
@@ -81,8 +82,9 @@ const { fileStore } = useFileStore()
  * The Preset this Instance is Derived from (same name), if any.
  */
 function derivedFrom(instrument: { instrumentType: string, presetName?: string }) {
-  if (instrument.instrumentType === 'sound') return fileStore.sounds.find(s => s.data.presetName === instrument.presetName)
-  if (instrument.instrumentType === 'kit') return fileStore.kits.find(k => k.data.presetName === instrument.presetName)
+  if (!song.value || !instrument.presetName) return undefined
+  if (instrument.instrumentType === 'sound') return presetDerivedBy(fileStore.sounds, song.value, instrument.presetName)
+  if (instrument.instrumentType === 'kit') return presetDerivedBy(fileStore.kits, song.value, instrument.presetName)
   return undefined
 }
 
