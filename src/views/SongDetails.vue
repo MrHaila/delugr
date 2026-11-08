@@ -35,13 +35,13 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             span(v-else) {{ item.presetName }}
 
             span(class="grow text-right text-xs")
-              RouterLink(v-if="derivedFrom(item)" :to="derivedFrom(item)?.url ?? ''" title="A preset with the same name. The song keeps its own copy, which may differ.") Derived from preset
+              RouterLink(v-if="derivedFrom(item)" :to="derivedFrom(item)?.url ?? ''" title="A preset with the same name. The song keeps its own copy, which may differ.") View preset
               span(v-else-if="item.instrumentType === 'audio track'") Input channel: {{ item.inputChannel }}
               span(v-else-if="item.instrumentType === 'midi track' || item.instrumentType === 'cv track'") {{ trackDestination(item) }}
               span(v-else class="text-gray-400") No preset with this name
 
             // exclamation-circle-icon(v-if="item.problem" class="h-4 text-red-400")
-      
+
       //HCard(class="max-w-md md:flex-1")
         template(#title) Actions
         div(class="space-x-3")
@@ -51,7 +51,7 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
         h-modal(ref="renameModal" variant="warning" okLabel="Rename")
           template(#title) Rename Song
           template(#message) Renaming a song will change the actual file name on the memory card.
-          
+
           div FORM TBD
 
         h-modal(ref="deleteModal" variant="danger" okLabel="Delete")
@@ -68,41 +68,54 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
-import { useFileStore } from '../composables/useFileStore'
-import { DateTime } from 'luxon'
-import { ExclamationCircleIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon, EllipsisHorizontalIcon } from '@heroicons/vue/20/solid'
+import { computed, ref } from "vue";
+import { useFileStore } from "../composables/useFileStore";
+import { DateTime } from "luxon";
+import {
+  ExclamationCircleIcon,
+  ArchiveBoxIcon,
+  AdjustmentsVerticalIcon,
+  MicrophoneIcon,
+  EllipsisHorizontalIcon,
+} from "@heroicons/vue/20/solid";
 // import HModal from '../components/HModal.vue'
-import { MusicalNoteIcon } from '@heroicons/vue/24/solid'
-import TechnicalDetails from '../components/TechnicalDetails.vue'
-import OutsideAssetFoldersBadge from '../components/OutsideAssetFoldersBadge.vue'
-import { presetDerivedBy } from '../deluge/usage'
+import { MusicalNoteIcon } from "@heroicons/vue/24/solid";
+import TechnicalDetails from "../components/TechnicalDetails.vue";
+import OutsideAssetFoldersBadge from "../components/OutsideAssetFoldersBadge.vue";
+import { presetDerivedBy } from "../deluge/usage";
 
-const { fileStore } = useFileStore()
+const { fileStore } = useFileStore();
 
 /**
  * The Preset this Instance is Derived from (same name), if any.
  */
-function derivedFrom(instrument: { instrumentType: string, presetName?: string }) {
-  if (!song.value || !instrument.presetName) return undefined
-  if (instrument.instrumentType === 'sound') return presetDerivedBy(fileStore.sounds, song.value, instrument.presetName)
-  if (instrument.instrumentType === 'kit') return presetDerivedBy(fileStore.kits, song.value, instrument.presetName)
-  return undefined
+function derivedFrom(instrument: {
+  instrumentType: string;
+  presetName?: string;
+}) {
+  if (!song.value || !instrument.presetName) return undefined;
+  if (instrument.instrumentType === "sound")
+    return presetDerivedBy(fileStore.sounds, song.value, instrument.presetName);
+  if (instrument.instrumentType === "kit")
+    return presetDerivedBy(fileStore.kits, song.value, instrument.presetName);
+  return undefined;
 }
 
 /** Where a MIDI or CV track sends notes. Channels are 0-based in the file, 1-based on the Deluge. */
-function trackDestination(track: { channel?: number, internalDest?: string }) {
-  if (track.internalDest) return `Internal: ${track.internalDest}`
-  if (track.channel === undefined) return ''
-  return `Channel: ${track.channel + 1}`
+function trackDestination(track: { channel?: number; internalDest?: string }) {
+  if (track.internalDest) return `Internal: ${track.internalDest}`;
+  if (track.channel === undefined) return "";
+  return `Channel: ${track.channel + 1}`;
 }
 
-const props = defineProps([
-  'name'
-])
+const props = defineProps(["name"]);
 
 // const renameModal = ref<InstanceType<typeof HModal> | null>(null)
 // const deleteModal = ref<InstanceType<typeof HModal> | null>(null)
 
-const song = computed(() => props.name ? fileStore.songs.find(song => song.name.split('.')[0] === props.name) : null)
+const song = computed(() =>
+  props.name
+    ? fileStore.songs.find((song) => song.name.split(".")[0] === props.name)
+    : null,
+);
 </script>

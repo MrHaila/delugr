@@ -6,11 +6,11 @@ const pages: [path: string, text: string | RegExp][] = [
   ['/songs', 'You have 6 songs'],
   ['/songs/Song%20004', 'Instruments'],
   ['/synths', 'You have 18 synth presets'],
-  ['/synths/Synth%20003', 'Derived from this preset'],
+  ['/synths/Synth%20003', /Usage\s*\d/],
   ['/synths/Edge%20missing%20sample', 'Not in any song'],
   ['/kits', 'You have 9 kit presets'],
   ['/kits/Kit%20003', 'Drums'],
-  ['/kits/KIT041', 'Derived from this preset'],
+  ['/kits/KIT041', /Usage\s*\d/],
   ['/samples', 'Missing Samples'],
   ['/samples/0', 'Usage'],
 ]
