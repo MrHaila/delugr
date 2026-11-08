@@ -1,3 +1,4 @@
+import type { XmlElement } from './xml'
 import {
   findDirectChildNodeByTagName,
   getInstrumentName,
@@ -12,7 +13,7 @@ import {
 } from "./core"
 import { defaultSynthPatch } from "./defaultSynthPatchv4"
 
-export function parseKitv1 (xml: Element, fileName?: string, songName?: string): Kit {
+export function parseKitv1 (xml: XmlElement, fileName?: string, songName?: string): Kit {
   let presetName = getInstrumentName(xml)
   let problem = false
   if (!presetName) {
@@ -32,9 +33,9 @@ export function parseKitv1 (xml: Element, fileName?: string, songName?: string):
   
   const soundSources = (() => {
     const sounds: { [key: string]: Sound } = {}
-    const soundNodes = xml.querySelectorAll('sound')
+    const soundNodes = xml.getElementsByTagName('sound')
     for (let i = 0; i < soundNodes.length; i++) {
-      const xmlSound = soundNodes.item(i)
+      const xmlSound = soundNodes[i]
       if (xmlSound) {
         const sound = parseSoundv1(xmlSound)
         sounds[sound.presetName] = sound
@@ -65,7 +66,7 @@ export function parseKitv1 (xml: Element, fileName?: string, songName?: string):
   return kit
 }
 
-export function parseSoundv1 (xml: Element, fileName?: string, songName?: string, kitName?: string): Sound {
+export function parseSoundv1 (xml: XmlElement, fileName?: string, songName?: string, kitName?: string): Sound {
   // Init to default values
   const sound: Sound = JSON.parse(JSON.stringify(defaultSynthPatch))
 
@@ -142,7 +143,7 @@ export function parseSoundv1 (xml: Element, fileName?: string, songName?: string
   return sound
 }
 
-function parseOscillator (xml: Element): Oscillator {
+function parseOscillator (xml: XmlElement): Oscillator {
   const type = findDirectChildNodeByTagName(xml, 'type')?.textContent
   const transpose = findDirectChildNodeByTagName(xml, 'transpose')?.textContent
   const cents = findDirectChildNodeByTagName(xml, 'cents')?.textContent
@@ -198,7 +199,7 @@ function parseOscillator (xml: Element): Oscillator {
   return oscillator
 }
 
-function parseZone(xml: Element): Zone {
+function parseZone(xml: XmlElement): Zone {
   const zoneElement = findDirectChildNodeByTagName(xml, 'zone')
   if (!zoneElement) throw new Error(`Zone missing 'zone' element! XML: ${xml.outerHTML}`)
   const startSamplePos = findDirectChildNodeByTagName(zoneElement, 'startSamplePos')?.textContent
@@ -221,7 +222,7 @@ function parseZone(xml: Element): Zone {
   return zone
 }
 
-function parseLfo (xml: Element): Lfo {
+function parseLfo (xml: XmlElement): Lfo {
   const type = findDirectChildNodeByTagName(xml, 'type')?.textContent
   const syncLevel = findDirectChildNodeByTagName(xml, 'syncLevel')?.textContent
 
@@ -236,7 +237,7 @@ function parseLfo (xml: Element): Lfo {
   return lfo
 }
 
-function parseUnison (xml: Element): Unison {
+function parseUnison (xml: XmlElement): Unison {
   const num = findDirectChildNodeByTagName(xml, 'num')?.textContent
   const detune = findDirectChildNodeByTagName(xml, 'detune')?.textContent
 
@@ -251,7 +252,7 @@ function parseUnison (xml: Element): Unison {
   return unison
 }
 
-function parseDelay (xml: Element, fileName: string | undefined): Delay {
+function parseDelay (xml: XmlElement, fileName: string | undefined): Delay {
   const syncLevel = findDirectChildNodeByTagName(xml, 'syncLevel')?.textContent
   const pingPong = findDirectChildNodeByTagName(xml, 'pingPong')?.textContent
   const analog = findDirectChildNodeByTagName(xml, 'analog')?.textContent

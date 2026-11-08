@@ -1,3 +1,4 @@
+import type { XmlElement } from './xml'
 import {
   findDirectChildNodeByTagName,
   getInstrumentName,
@@ -21,7 +22,7 @@ import {
 import { FixPos50 } from "./dataTypes"
 import { defaultSynthPatch } from "./defaultSynthPatchv4"
 
-export function parseSongv3(xml: Element, songName: string): Song {
+export function parseSongv3(xml: XmlElement, songName: string): Song {
   // Only parse the instruments node for now. Could do more later.
   const xmlInstruments = findDirectChildNodeByTagName(xml, 'instruments')?.children
   
@@ -57,7 +58,7 @@ export function parseSongv3(xml: Element, songName: string): Song {
   return song
 }
 
-export function parseKitv3 (xml: Element, fileName?: string, songName?: string): Kit {
+export function parseKitv3 (xml: XmlElement, fileName?: string, songName?: string): Kit {
   // TODO: default kit -> overrides
   
   let presetName = getInstrumentName(xml)
@@ -82,9 +83,9 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
   const xmlDefaultParams = findDirectChildNodeByTagName(xml, 'defaultParams')
   const soundSources = (() => {
     const sounds: { [key: string]: Sound } = {}
-    const soundNodes = xml.querySelectorAll('sound')
+    const soundNodes = xml.getElementsByTagName('sound')
     for (let i = 0; i < soundNodes.length; i++) {
-      const xmlSound = soundNodes.item(i)
+      const xmlSound = soundNodes[i]
       if (xmlSound) {
         const sound = parseSoundv3(xmlSound, fileName, songName, presetName)
         sounds[sound.presetName] = sound
@@ -117,7 +118,7 @@ export function parseKitv3 (xml: Element, fileName?: string, songName?: string):
   return kit
 }
 
-export function parseSoundv3 (xml: Element, fileName?: string, songName?: string, kitName?: string): Sound {
+export function parseSoundv3 (xml: XmlElement, fileName?: string, songName?: string, kitName?: string): Sound {
   // Init to default values
   const sound: Sound = JSON.parse(JSON.stringify(defaultSynthPatch))
   
@@ -193,7 +194,7 @@ export function parseSoundv3 (xml: Element, fileName?: string, songName?: string
   return sound
 }
 
-function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
+function parseAudioTrackv3 (xml: XmlElement, songName: string): AudioTrack {
   // Attributes
   const name = xml.getAttribute('name')
   const echoingInput = xml.getAttribute('echoingInput')
@@ -240,7 +241,7 @@ function parseAudioTrackv3 (xml: Element, songName: string): AudioTrack {
   return audioTrack
 }
 
-function parseMidiChannel(xml: Element, songName: string): MidiChannel {
+function parseMidiChannel(xml: XmlElement, songName: string): MidiChannel {
   // Attributes
   const channel = xml.getAttribute('channel')
   const suffix = xml.getAttribute('suffix')
@@ -267,7 +268,7 @@ function parseMidiChannel(xml: Element, songName: string): MidiChannel {
 
 // TODO: remove the rest
 
-function parseAllAttributes(xmlElement: Element | null): { [key: string]: FixPos50 } {
+function parseAllAttributes(xmlElement: XmlElement | null): { [key: string]: FixPos50 } {
   return Object.fromEntries(Object.entries(getAttributesAsObject(xmlElement)).map((p: string[]) => [p[0], new FixPos50(p[1])]))
   // const attributes = xml.attributes
   // const result: { [key: string]: string } = {}
@@ -278,7 +279,7 @@ function parseAllAttributes(xmlElement: Element | null): { [key: string]: FixPos
   // return result
 }
 
-function getAttributesAsObject(element: Element | null) {
+function getAttributesAsObject(element: XmlElement | null) {
   if (!element) return {}
 
   const attributes = Array.from(element.attributes)
@@ -289,7 +290,7 @@ function getAttributesAsObject(element: Element | null) {
   return obj
 }
 
-function parseCompressor(xml: Element): Compressor {
+function parseCompressor(xml: XmlElement): Compressor {
   const syncLevel = xml.getAttribute('syncLevel')
   const attack = xml.getAttribute('attack')
   const release = xml.getAttribute('release')
@@ -304,7 +305,7 @@ function parseCompressor(xml: Element): Compressor {
   }
 }
 
-function parseArpeggiator(xml: Element): Arpeggiator {
+function parseArpeggiator(xml: XmlElement): Arpeggiator {
   const mode = xml.getAttribute('mode')
   const numOctaves = xml.getAttribute('numOctaves')
   const syncLevel = xml.getAttribute('syncLevel')
@@ -320,7 +321,7 @@ function parseArpeggiator(xml: Element): Arpeggiator {
   }
 }
 
-function parseOscillator(xml: Element): Oscillator {
+function parseOscillator(xml: XmlElement): Oscillator {
 
   const osc: Oscillator = {}
 
@@ -350,7 +351,7 @@ function parseOscillator(xml: Element): Oscillator {
   return osc
 }
 
-function parseZone(xml: Element): Zone {
+function parseZone(xml: XmlElement): Zone {
   const zone = findDirectChildNodeByTagName(xml, 'zone')
   if (!zone) throw new Error(`Zone missing 'zone' element! XML: ${xml.outerHTML}`)
   const startSamplePos = zone.getAttribute('startSamplePos')
@@ -367,7 +368,7 @@ function parseZone(xml: Element): Zone {
 }
 
 // TODO: more parameters
-function parseLfo(xml: Element): Lfo {
+function parseLfo(xml: XmlElement): Lfo {
   const type = xml.getAttribute('type')
 
   if (type === null) {
@@ -383,7 +384,7 @@ function parseLfo(xml: Element): Lfo {
   return lfo
 }
 
-function parseDelay(xml: Element): Delay {
+function parseDelay(xml: XmlElement): Delay {
   const pingPong = xml.getAttribute('pingPong')
   const analog = xml.getAttribute('analog')
   const syncLevel = xml.getAttribute('syncLevel')
@@ -399,7 +400,7 @@ function parseDelay(xml: Element): Delay {
   }
 }
 
-function parseUnison(xml: Element): Unison {
+function parseUnison(xml: XmlElement): Unison {
   const num = xml.getAttribute('num')
   const detune = xml.getAttribute('detune')
 
@@ -414,7 +415,7 @@ function parseUnison(xml: Element): Unison {
 }
 
 // TODO: check the types
-function parseEnvelope(xml: Element): Envelope {
+function parseEnvelope(xml: XmlElement): Envelope {
   const attack = xml.getAttribute('attack')
   const decay = xml.getAttribute('decay')
   const sustain = xml.getAttribute('sustain')
@@ -432,7 +433,7 @@ function parseEnvelope(xml: Element): Envelope {
   }
 }
 
-function parseEqualizer(xml: Element): Equalizer {
+function parseEqualizer(xml: XmlElement): Equalizer {
   const bass = xml.getAttribute('bass')
   const treble = xml.getAttribute('treble')
   const bassFrequenzy = xml.getAttribute('bassFrequenzy')
@@ -450,12 +451,12 @@ function parseEqualizer(xml: Element): Equalizer {
   }
 }
 
-function parsePatchCables(xml: Element): PatchCable[] {
-  const cables = xml.childNodes
+function parsePatchCables(xml: XmlElement): PatchCable[] {
+  const cables = xml.children
   if (cables.length === 0) return []
 
-  return Array.from(cables).filter((node) => node.nodeType == 1).map((node) => {
-    const element = node as Element
+  return Array.from(cables).map((node) => {
+    const element = node
 
     const source = element.getAttribute('source')
     const destination = element.getAttribute('destination')
@@ -478,12 +479,12 @@ function parsePatchCables(xml: Element): PatchCable[] {
   })
 }
 
-function parseModKnobs(xml: Element): ModKnob[] {
-  const knobs = xml.childNodes
+function parseModKnobs(xml: XmlElement): ModKnob[] {
+  const knobs = xml.children
   if (knobs.length === 0) return []
 
-  return Array.from(knobs).filter((knob) => knob.nodeType == 1).map((knob) => {
-    const element = knob as Element
+  return Array.from(knobs).map((knob) => {
+    const element = knob
 
     const controlsParam = element.getAttribute('controlsParam')
 
