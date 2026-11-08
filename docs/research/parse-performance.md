@@ -89,7 +89,7 @@ Final runs were sequential on an otherwise idle machine. `full` median, ms.
      - replace the spike's `parseTuning` knob with a constant (16);
      - add a Playwright test that checks fast-parser vs DOMParser tree equality on the fixture card (happy-dom's DOMParser differs from Chrome's);
      - count `filesScanned` during the walk.
-2. **Lazy sample metadata**: load `size`/`lastModified` per view or per visible folder. Gets to **6.4×** on SSD, and should give more on a real card.
+2. **Lazy sample metadata**: load `size`/`lastModified` per view or per visible folder. Gets to **6.4×** on SSD, and should give more on a real card. *Done: `useSampleMeta.ts`; measured x1 127 ms, x5 615 ms (5.8×).*
 3. **Measure on a real SD card** with `bench/index.html` to check the I/O assumptions and the pool size; above 16 may help there.
 4. Later and optional:
    - snapshot startup (H3, content hash only);

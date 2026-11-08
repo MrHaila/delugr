@@ -54,9 +54,7 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
         name: fileHandle.name,
         path,
         fileHandle,
-        size: r.size,
         id,
-        lastModified: r.lastModified,
         url: encodeURI(`/samples/${id}`),
         usage: [],
       })
@@ -96,7 +94,7 @@ type ScanResult =
   | { kind: 'song', file: ParsedSongFile }
   | { kind: 'sound', file: ParsedSoundFile }
   | { kind: 'kit', file: ParsedKitFile }
-  | { kind: 'sample', size: number, lastModified: number }
+  | { kind: 'sample' }
   | { kind: 'skipped', reason: string }
 
 /** Lists every relevant file under a folder in iteration order. Subfolders are listed concurrently. */
@@ -129,8 +127,8 @@ async function walkFolder(folder: FileSystemDirectoryHandle, path: string): Prom
 
 async function scanItem({ kind, fileHandle, path }: ScanItem): Promise<ScanResult> {
   if (kind === 'audio') {
-    const file = await fileHandle.getFile()
-    return { kind: 'sample', size: file.size, lastModified: file.lastModified }
+    // No getFile() here: size and date load lazily in the views (useSampleMeta).
+    return { kind: 'sample' }
   }
   if (kind === 'other') return { kind: 'skipped', reason: 'Not a supported file type.' }
   try {

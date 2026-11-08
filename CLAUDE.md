@@ -48,7 +48,7 @@ Vue 3 (`<script setup lang="ts">`), templates in **Pug** (`<template lang="pug">
    - `v3-4.ts` — firmware 3.x/4.x
    - `vCommunity.ts` — community firmware (`c1*`)
    Unsupported → returned as string reason → `skippedFiles`.
-3. `.wav`/`.aiff` → `SampleFile`.
+3. `.wav`/`.aiff` → `SampleFile`. No `getFile()` during the scan: size/date load lazily per view via `src/composables/useSampleMeta.ts` (reactive WeakMap keyed by file handle).
 4. `src/deluge/usage.ts` `computeUsage`: Usage = every Sample reference in every parsed file (Presets, song Instances, Drums, Recordings), each with its exact owner (`SampleFile.usage`). Unmatched paths → `missingSamples` (with references). Path match ignores case. Instance/Drum → Preset by name is only `derivedInstances` ("Derived from"), never Usage. `computeIncompleteUsage` lists Asset folder XML files not fully read (malformed/skipped) → `incompleteUsage`. Files outside `SONGS/`/`SYNTHS/`/`KITS/` get `outsideAssetFolders` but still count. Terms: `GLOSSARY.md`.
 
 **Data model:** `src/deluge/core.ts` — normalized types (`Song`, `Sound`, `Kit`, `AudioTrack`, `MidiChannel`, oscillators, envelopes, etc.) all versioned parsers output; plus XML helpers (`findDirectChildNodeByTagName`, `getInstrumentName`). Fields under "Not part of the spec" (`problem`, `instrumentType`, `isInstance`) are app-added. `dataTypes.ts` `FixPos50` converts Deluge hex fixed-point params to 0–50. `defaultSynthPatchv4.ts` supplies defaults. Parsed asset files keep original file text in `xml` (byte-identical; 2.x parse from a stripped copy) alongside parsed `data`.

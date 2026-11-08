@@ -152,14 +152,6 @@ export type SampleFile = {
    */
   fileHandle: FileSystemFileHandle,
   /**
-   * Size of the file in bytes.
-   */
-  size: number,
-  /**
-   * Last modified date of the file.
-   */
-  lastModified: number,
-  /**
    * URL to the file's details page.
    */
   url: string,

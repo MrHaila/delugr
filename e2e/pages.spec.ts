@@ -24,6 +24,13 @@ test('every page renders without errors', async ({ card }) => {
   }
 })
 
+test('sample size and date load lazily on the details page and in the list', async ({ card }) => {
+  await navigate(card, '/samples/0')
+  await expect(card.getByText(/Last modified: \d{4}-\d{2}-\d{2}/)).toBeVisible()
+  await expect(card.getByText(/\(\d+(\.\d+)? (B|kB|MB)\)/).first()).toBeVisible()
+  await expect(card.locator('aside a').first()).toContainText(/\d{4}-\d{2}-\d{2}/)
+})
+
 test('home warns about Incomplete usage, listing the affected files', async ({ card }) => {
   const warning = card.getByText('Sample usage may be incomplete').locator('..')
   await expect(warning).toContainText('/KITS/KIT041.XML')

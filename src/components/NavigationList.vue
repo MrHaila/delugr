@@ -40,7 +40,7 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 overflow-y-auto 
       dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name.split('.')[0] }} #[span(v-if="isUnused(file)" class="text-xs font-light text-gray-500") unused] #[span(v-if="isOutsideAssetFolders(file)" class="text-xs font-light text-amber-700" title="Outside asset folders (SONGS, SYNTHS, KITS)") outside]
       dd(class="text-gray-500 mt-0 col-span-2")
         // play-button(:id="Number(file.url.split('/').pop())")
-        | {{ DateTime.fromMillis(file.lastModified).toFormat('yyyy-MM-dd') }}
+        | {{ fileDate(file) }}
 
 div(v-if="props.listItems.length === 0 || (currentNavigationLevel.files?.length === 0 && currentNavigationLevel.folders?.length === 0)")
   h1(class="text-center text-gray-500 font-bold p-4") No items
@@ -51,6 +51,7 @@ import type { SampleFile, ParsedAssetFile } from '../composables/useFileStore'
 import { isPresetInAnySong } from '../deluge/usage'
 import { DateTime } from 'luxon'
 import { ref, watch, computed } from 'vue'
+import { loadSampleMeta, sampleMeta } from '../composables/useSampleMeta'
 import { useRoute } from 'vue-router'
 import { ChevronLeftIcon, ExclamationCircleIcon, MusicalNoteIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon, ChevronRightIcon, FolderIcon } from '@heroicons/vue/20/solid'
 // import PlayButton from './PlayButton.vue'
@@ -72,6 +73,19 @@ const props = defineProps<Props>()
 const root = computed(() => buildNavigationLevelForPath('/'))
 const firstFolderWithContent = computed(() => getFirstFolderWithContent(root.value))
 const currentNavigationLevel = ref(firstFolderWithContent.value)
+
+// Sample dates aren't read during the scan: load them for the samples in the folder shown.
+watch(
+  () => currentNavigationLevel.value.files,
+  files => loadSampleMeta(files.filter((file): file is SampleFile => !('type' in file))),
+  { immediate: true },
+)
+
+/** Last modified date, or empty while a sample's date is still loading. */
+function fileDate(file: ParsedAssetFile | SampleFile | any): string {
+  const lastModified = 'type' in file ? file.lastModified : sampleMeta(file)?.lastModified
+  return lastModified === undefined ? '' : DateTime.fromMillis(lastModified).toFormat('yyyy-MM-dd')
+}
 
 function buildNavigationLevelForPath(path: string): NavigationLevel {
   const files = props.listItems.filter(item => item.path.split('/').slice(0, -1).join('/') + '/' === path)

@@ -9,9 +9,9 @@ div(v-else class="flex-1 h-full overflow-y-auto p-5 bg-slate-50")
     div(class="flex flex-row justify-between")
       div
         h1.font-bold.text-2xl #[MicrophoneIcon(class="h-5 inline mb-1")] {{ sample.name.split('.')[0] }} #[HButton(@click="openRenameModal" size="xs") Rename]
-        p(class="text-gray-400 text-sm") {{ sample.path }} #[span(class="text-xs") ({{ filesize(sample.size) }})]
+        p(class="text-gray-400 text-sm") {{ sample.path }} #[span(v-if="meta" class="text-xs") ({{ filesize(meta.size) }})]
       div(class="text-right text-sm mt-3")
-        p Last modified: {{ DateTime.fromMillis(sample.lastModified).toFormat('yyyy-MM-dd') }}
+        p(v-if="meta") Last modified: {{ DateTime.fromMillis(meta.lastModified).toFormat('yyyy-MM-dd') }}
 
     HCard(
       class="w-full"
@@ -61,6 +61,7 @@ import WaveSurfer from 'wavesurfer.js'
 import { filesize } from 'filesize'
 import HModal from '../components/HModal.vue'
 import HTextField from '../components/HTextField.vue'
+import { loadSampleMeta, sampleMeta } from '../composables/useSampleMeta'
 
 const { fileStore, reParseFileStore } = useFileStore()
 
@@ -118,6 +119,10 @@ const usageByFile = computed(() => {
 
 const idAsNumber = computed(() => parseInt(props.name))
 const sample = computed(() => props.name ? fileStore.samples.find(sample => sample.id === idAsNumber.value) : null)
+
+// Size and date aren't read during the scan.
+watch(sample, s => { if (s) loadSampleMeta([s]) }, { immediate: true })
+const meta = computed(() => sample.value ? sampleMeta(sample.value) : undefined)
 
 let wavesurfer: WaveSurfer
 
