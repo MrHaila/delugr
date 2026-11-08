@@ -15,22 +15,13 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
       div
         h1(class="font-bold text-2xl") #[AdjustmentsVerticalIcon(class="h-5 inline mb-1")] {{ sound.data.presetName }}
         p(class="text-gray-400 text-sm") {{ sound.path }}
+        OutsideAssetFoldersBadge(:file="sound")
       div(class="text-right text-sm mt-3")
         p Firmware: {{ sound.firmware }}
         p Last modified: {{ DateTime.fromMillis(sound.lastModified).toFormat('yyyy-MM-dd') }}
 
     div(class="flex space-x-3")
-      HListCard(
-        title="Usage"
-        :items="usageList"
-        class="max-w-md md:flex-1"
-        emptyLabel="Not used in any songs or kits."
-        )
-        template(#item="{ item }")
-          div(class="flex flex-row space-x-1 items-baseline")
-            MusicalNoteIcon(v-if="item.type === 'song'" class="h-3 inline mb-1")
-            ArchiveBoxIcon(v-else-if="item.type === 'kit'" class="h-3 inline mb-1")
-            RouterLink(:to="`/${item.type}s/${item.name}`") {{ item.name }}
+      DerivedInstancesCard(:preset="sound" class="max-w-md md:flex-1")
 
       //HCard(class="max-w-md flex-1")
         template(#title) Synth Settings
@@ -108,7 +99,8 @@ import { computed } from 'vue'
 import { useFileStore } from '../composables/useFileStore'
 import { DateTime } from 'luxon'
 import { getSampleUrlByPath } from '../deluge/files'
-import { MusicalNoteIcon, ArchiveBoxIcon } from '@heroicons/vue/20/solid'
+import DerivedInstancesCard from '../components/DerivedInstancesCard.vue'
+import OutsideAssetFoldersBadge from '../components/OutsideAssetFoldersBadge.vue'
 import { AdjustmentsVerticalIcon } from '@heroicons/vue/24/solid'
 import MultisampleSampleListItem from '../components/MultisampleSampleListItem.vue'
 import TechnicalDetails from '../components/TechnicalDetails.vue'
@@ -121,11 +113,4 @@ const props = defineProps([
 
 
 const sound = computed(() => props.name ? fileStore.sounds.find(sound => sound.name.split('.')[0] === props.name) : null)
-
-const usageList = computed(() => {
-  if (!sound.value?.usage) return []
-  const songs = sound.value.usage.songs.map(name => ({ type: 'song', name }))
-  const kits = sound.value.usage.kits.map(name => ({ type: 'kit', name }))
-  return songs.concat(kits)
-})
 </script>

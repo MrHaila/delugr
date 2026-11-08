@@ -4,7 +4,7 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 overflow-y-auto 
   div(class="flex m-2 mb-0")
     div(
       @click="navigateBack"
-      :class="['py-1 text-sm cursor-pointer hover:bg-gray-300 active:bg-gray-400 flex items-center rounded select-none border border-gray-300', { 'text-gray-300 disabled pointer-events-none': currentNavigationLevel.name === '/' } ]"
+      :class="['py-1 text-sm cursor-pointer hover:bg-gray-300 active:bg-gray-400 flex items-center rounded-sm select-none border border-gray-300', { 'text-gray-300 disabled pointer-events-none': currentNavigationLevel.name === '/' } ]"
       )
       chevron-left-icon(class="h-5")
       span(class="mr-2") Back
@@ -21,7 +21,7 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 overflow-y-auto 
       @click="currentNavigationLevel = navLevel"
       :class="['flex justify-between p-3 cursor-pointer text-sm hover:bg-gray-300 active:bg-gray-400', { 'bg-gray-200': navLevel.allFilesUnused }]"
       )
-      dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ lastFolderFromPath(navLevel.name) }} #[span(v-if="navLevel.allFilesUnused" class="text-xs font-light text-gray-500") un-used]
+      dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ lastFolderFromPath(navLevel.name) }} #[span(v-if="navLevel.allFilesUnused" class="text-xs font-light text-gray-500") unused]
       chevron-right-icon(class="h-5")
 
     //- Files
@@ -37,10 +37,10 @@ aside(class="shrink-0 border-r border-gray-200 bg-gray-100 w-72 overflow-y-auto 
       :class="['flex justify-between p-3 cursor-pointer text-sm hover:no-underline', getBackgroundClass(file)]"
       )
       // dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name }} #[exclamation-circle-icon(v-if="file.problem" class="h-4 inline text-red-400 align-text-top")]
-      dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name.split('.')[0] }} #[span(v-if="isUnused(file)" class="text-xs font-light text-gray-500") un-used]
+      dt(class="font-medium text-gray-900 whitespace-nowrap basis-2/3 truncate") {{ file.name.split('.')[0] }} #[span(v-if="isUnused(file)" class="text-xs font-light text-gray-500") unused] #[span(v-if="isOutsideAssetFolders(file)" class="text-xs font-light text-amber-700" title="Outside asset folders (SONGS, SYNTHS, KITS)") outside]
       dd(class="text-gray-500 mt-0 col-span-2")
         // play-button(:id="Number(file.url.split('/').pop())")
-        | {{ DateTime.fromMillis(file.lastModified).toFormat('yyyy-MM-dd') }}
+        | {{ fileDate(file) }}
 
 div(v-if="props.listItems.length === 0 || (currentNavigationLevel.files?.length === 0 && currentNavigationLevel.folders?.length === 0)")
   h1(class="text-center text-gray-500 font-bold p-4") No items
@@ -48,8 +48,10 @@ div(v-if="props.listItems.length === 0 || (currentNavigationLevel.files?.length 
 
 <script lang="ts" setup>
 import type { SampleFile, ParsedAssetFile } from '../composables/useFileStore'
+import { isPresetInAnySong } from '../deluge/usage'
 import { DateTime } from 'luxon'
 import { ref, watch, computed } from 'vue'
+import { loadSampleMeta, sampleMeta } from '../composables/useSampleMeta'
 import { useRoute } from 'vue-router'
 import { ChevronLeftIcon, ExclamationCircleIcon, MusicalNoteIcon, ArchiveBoxIcon, AdjustmentsVerticalIcon, MicrophoneIcon, ChevronRightIcon, FolderIcon } from '@heroicons/vue/20/solid'
 // import PlayButton from './PlayButton.vue'
@@ -72,6 +74,19 @@ const root = computed(() => buildNavigationLevelForPath('/'))
 const firstFolderWithContent = computed(() => getFirstFolderWithContent(root.value))
 const currentNavigationLevel = ref(firstFolderWithContent.value)
 
+// Sample dates aren't read during the scan: load them for the samples in the folder shown.
+watch(
+  () => currentNavigationLevel.value.files,
+  files => loadSampleMeta(files.filter((file): file is SampleFile => !('type' in file))),
+  { immediate: true },
+)
+
+/** Last modified date, or empty while a sample's date is still loading. */
+function fileDate(file: ParsedAssetFile | SampleFile | any): string {
+  const lastModified = 'type' in file ? file.lastModified : sampleMeta(file)?.lastModified
+  return lastModified === undefined ? '' : DateTime.fromMillis(lastModified).toFormat('yyyy-MM-dd')
+}
+
 function buildNavigationLevelForPath(path: string): NavigationLevel {
   const files = props.listItems.filter(item => item.path.split('/').slice(0, -1).join('/') + '/' === path)
   const folders = props.listItems
@@ -93,10 +108,7 @@ function buildNavigationLevelForPath(path: string): NavigationLevel {
 }
 
 function isNavigationLevelUnused(files: (ParsedAssetFile | SampleFile)[], folders: NavigationLevel[]): boolean {
-  const filesUnused = files.every(file => {
-    if ('usage' in file) return file.usage.getTotal() === 0
-    else return false // Songs can't be un-used
-  })
+  const filesUnused = files.every(isUnused)
   const foldersUnused = folders.every(folder => isNavigationLevelUnused(folder.files, folder.folders))
   return filesUnused && foldersUnused
 
@@ -171,17 +183,17 @@ watch(
 )
 
 /**
- * Figure out if an item should be flagged as un-used.
+ * Figure out if an item should be flagged as unused: an Unused sample, or a Preset that is Not in any song.
  * @param item Item to check.
  */
-const isUnused = (item: ParsedAssetFile | SampleFile | any): boolean => {
-  // Non-samples have a type.
-  if ('type' in item) {
-    // Songs can't be un-used
-    if (item.type === 'song') return false
-  }
-  if (item.usage.getTotal() === 0) return true
-  return false
+function isUnused(item: ParsedAssetFile | SampleFile | any): boolean {
+  if (!('type' in item)) return item.usage.length === 0
+  if (item.type === 'song') return false // Songs can't be unused
+  return !isPresetInAnySong(item)
+}
+
+function isOutsideAssetFolders(item: ParsedAssetFile | SampleFile | any): boolean {
+  return 'outsideAssetFolders' in item && item.outsideAssetFolders
 }
 
 function isItemActive(item: ParsedAssetFile | SampleFile | any) {

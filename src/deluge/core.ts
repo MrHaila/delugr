@@ -1,3 +1,4 @@
+import type { XmlElement } from './xml'
 import type { FixPos50 } from "./dataTypes"
 
 // Types ---------------------------------------------------------------------
@@ -5,7 +6,19 @@ import type { FixPos50 } from "./dataTypes"
 export interface Song {
     name: string,
     // TODO: the rest of the owl
-    instruments: Array<Sound | Kit | AudioTrack | MidiChannel>,
+    instruments: Array<Sound | Kit | AudioTrack | MidiChannel | CvChannel>,
+    recordings: Recording[],
+}
+
+/**
+ * An audio clip in a Song's audio track (`<audioClip>`), wherever it sits in the song.
+ */
+export type Recording = {
+  trackName: string,
+  /** Sample reference. `null` for an armed clip with nothing recorded (empty `filePath`). */
+  filePath: string | null,
+  startSamplePos: number,
+  endSamplePos: number,
 }
 
 export interface Sound {
@@ -96,15 +109,37 @@ export type AudioTrack = {
   instrumentType: 'audio track'
 }
 
+/**
+ * A song's MIDI track: `<midiChannel>` (official firmware) or `<midi>` (community firmware).
+ */
 export type MidiChannel = {
-  channel: number,
-  suffix: string,
-  defaultVelocity: number,
-  isArmedForRecording: number,
-  activeModFunction: number,
+  /** 0-based. Absent when the track goes to an internal destination instead. */
+  channel?: number,
+  /** Community: internal destination instead of a MIDI channel, e.g. `transpose`. */
+  internalDest?: string,
+  suffix?: string,
+  defaultVelocity?: number,
+  isArmedForRecording?: number,
+  activeModFunction?: number,
 
   // Not part of the spec
   instrumentType: 'midi track'
+}
+
+/**
+ * A song's CV/gate track (`<cvChannel>`).
+ */
+export type CvChannel = {
+  /** 0-based CV output. */
+  channel?: number,
+  defaultVelocity?: number,
+  isArmedForRecording?: number,
+  activeModFunction?: number,
+  /** Community: what drives CV output 2. */
+  cv2Source?: number,
+
+  // Not part of the spec
+  instrumentType: 'cv track'
 }
 
 export type Modulator = {
@@ -214,7 +249,67 @@ export type ModKnob = {
 
 // Core Functions ---------------------------------------------------------------------
 
-export function getFirmwareVersion(xml: Element): string {
+/**
+ * Read every `<audioClip>` in a song (session clips and arrangement-only clips alike).
+ * @param xml The song's root element.
+ */
+export function parseRecordings(xml: XmlElement): Recording[] {
+  return Array.from(xml.getElementsByTagName('audioClip')).map(clip => ({
+    trackName: clip.getAttribute('trackName') ?? '',
+    filePath: clip.getAttribute('filePath') || null,
+    startSamplePos: Number(clip.getAttribute('startSamplePos') ?? 0),
+    endSamplePos: Number(clip.getAttribute('endSamplePos') ?? 0),
+  }))
+}
+
+/** Song instrument tags for MIDI tracks: official firmware writes `midiChannel`, community firmware `midi`. */
+export const MIDI_TRACK_TAGS = ['midiChannel', 'midi']
+export const CV_TRACK_TAGS = ['cvChannel']
+
+/** Numeric attribute, or undefined when absent. */
+function numberAttribute(xml: XmlElement, name: string): number | undefined {
+  const value = xml.getAttribute(name)
+  return value === null || value === '' ? undefined : Number(value)
+}
+
+/**
+ * Parse a song's MIDI track. Every attribute is optional: the firmware falls back to defaults, and community firmware
+ * writes `internalDest` instead of `channel` for internal destinations.
+ */
+export function parseMidiChannel(xml: XmlElement): MidiChannel {
+  const track: MidiChannel = { instrumentType: 'midi track' }
+  const channel = numberAttribute(xml, 'channel')
+  if (channel !== undefined) track.channel = channel
+  const internalDest = xml.getAttribute('internalDest')
+  if (internalDest) track.internalDest = internalDest
+  const suffix = xml.getAttribute('suffix')
+  if (suffix !== null) track.suffix = suffix
+  const defaultVelocity = numberAttribute(xml, 'defaultVelocity')
+  if (defaultVelocity !== undefined) track.defaultVelocity = defaultVelocity
+  const isArmedForRecording = numberAttribute(xml, 'isArmedForRecording')
+  if (isArmedForRecording !== undefined) track.isArmedForRecording = isArmedForRecording
+  const activeModFunction = numberAttribute(xml, 'activeModFunction')
+  if (activeModFunction !== undefined) track.activeModFunction = activeModFunction
+  return track
+}
+
+/** Parse a song's CV/gate track. Every attribute is optional, see `parseMidiChannel`. */
+export function parseCvChannel(xml: XmlElement): CvChannel {
+  const track: CvChannel = { instrumentType: 'cv track' }
+  const channel = numberAttribute(xml, 'channel')
+  if (channel !== undefined) track.channel = channel
+  const defaultVelocity = numberAttribute(xml, 'defaultVelocity')
+  if (defaultVelocity !== undefined) track.defaultVelocity = defaultVelocity
+  const isArmedForRecording = numberAttribute(xml, 'isArmedForRecording')
+  if (isArmedForRecording !== undefined) track.isArmedForRecording = isArmedForRecording
+  const activeModFunction = numberAttribute(xml, 'activeModFunction')
+  if (activeModFunction !== undefined) track.activeModFunction = activeModFunction
+  const cv2Source = numberAttribute(xml, 'cv2Source')
+  if (cv2Source !== undefined) track.cv2Source = cv2Source
+  return track
+}
+
+export function getFirmwareVersion(xml: XmlElement): string {
   let version: string = '1'
   if (xml.hasAttribute('firmwareVersion')) {
     // v3 or v4 file
@@ -233,7 +328,7 @@ export function getFirmwareVersion(xml: Element): string {
  * A helper to get a display name for a sound or a kit of any firmware version.
  * @param xml The instrument's root element.
  */
-export function getInstrumentName(xml: Element): string | null {
+export function getInstrumentName(xml: XmlElement): string | null {
   // Newer instruments have a presetName attribute
   let presetName = xml.getAttribute('presetName') || null
 
@@ -266,8 +361,12 @@ export function getInstrumentName(xml: Element): string | null {
  * @param tagName Name of the child element to find.
  * @returns The child element, or null if not found.
  */
-export function findDirectChildNodeByTagName (xml: Element, tagName: string): Element | null {
-  return Array.from(xml.children).find(child => child.tagName === tagName) || null
+export function findDirectChildNodeByTagName (xml: XmlElement, tagName: string): XmlElement | null {
+  const children = xml.children
+  for (let i = 0; i < children.length; i++) {
+    if (children[i].tagName === tagName) return children[i]
+  }
+  return null
 }
 
 /**

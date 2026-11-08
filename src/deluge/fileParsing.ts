@@ -1,8 +1,9 @@
 import { useFileStore, type ParsedKitFile, type ParsedSongFile, type ParsedSoundFile, type SampleFile, type SkippedFile } from "../composables/useFileStore"
-import type { Sound } from "./core"
+import { computeIncompleteUsage, computeUsage, isInAssetFolder } from "./usage"
 import { parseKitv1, parseSoundv1 } from "./v1-2"
 import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3-4"
 import { parseKitvCommunity, parseSongvCommunity, parseSoundvCommunity } from "./vCommunity"
+import { parseXml, type XmlElement } from "./xml"
 
 /**
  * One-stop-shop for parsing a folder of files. Intended for the root folder of a Deluge SD card.
@@ -16,7 +17,6 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
   const kits: ParsedKitFile[] = []
   const samples: SampleFile[] = []
   const skippedFiles: SkippedFile[] = []
-  const missingSamples: string[] = []
   let id = 0
 
   const { fileStore } = useFileStore()
@@ -25,59 +25,47 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
   if (fileStore.isParsed) fileStore.isParsed = false
   fileStore.isParsing = true
   
-  // For each XML or wav/aiff file in the folder structure, process it and add it to the store
-  async function scanFolder(folder: FileSystemDirectoryHandle, path: string) {
-    // Iterate over the folder contents
-    for await (const entry of folder.values()) {
-      // Recurse into directories
-      if (entry.kind === 'directory') {
-        const folder = entry as FileSystemDirectoryHandle
-        await scanFolder(folder, path + entry.name + '/')
+  // Walk first (directories recursed concurrently), then read/parse files through a bounded pool.
+  // Results are collected in walk order, so ids and array order match a sequential scan.
+  fileStore.parsingMessage = 'Finding files...'
+  const items = await walkFolder(folder, '/')
+  fileStore.parsingMessage = 'Parsing the folder contents...'
+  const results: ScanResult[] = new Array(items.length)
+  let nextItem = 0
+  let scanned = 0
+  async function worker() {
+    while (nextItem < items.length) {
+      const i = nextItem++
+      results[i] = await scanItem(items[i])
+      fileStore.filesScanned = ++scanned
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(SCAN_CONCURRENCY, items.length) }, worker))
 
-      // Parse files
-      } else if (entry.kind === 'file') {
-        const fileHandle = entry as FileSystemFileHandle
-
-         // Skip all dot files
-        if (fileHandle.name.startsWith('.')) continue
-
-        const name = fileHandle.name
-        const fullPath = path + fileHandle.name
-
-        // Parse XML
-        if (fileHandle.name.toLowerCase().endsWith('.xml')) {
-          // TODO: add support for special config files
-          if (name.toLowerCase() === 'communityfeatures.xml') continue
-          if (name.toLowerCase() === 'midifollow.xml') continue
-
-          await parseAssetXml(fileHandle, fullPath)
-
-        // Parse WAV and AIFF
-        } else if (fileHandle.name.toLowerCase().endsWith('.wav') || fileHandle.name.toLowerCase().endsWith('.aiff')) {
-          await processAudioFile(fileHandle, fullPath)
-
-        // Skip unsupported file types
-        } else {
-          skippedFiles.push({
-            name,
-            path: fullPath,
-            reason: 'Not a supported file type.',
-            fileHandle,
-          })
-        }
-
-        fileStore.filesScanned++
-      }
+  for (let i = 0; i < items.length; i++) {
+    const { fileHandle, path } = items[i]
+    const r = results[i]
+    if (r.kind === 'song') songs.push(r.file)
+    else if (r.kind === 'sound') sounds.push(r.file)
+    else if (r.kind === 'kit') kits.push(r.file)
+    else if (r.kind === 'skipped') skippedFiles.push({ name: fileHandle.name, path, reason: r.reason, fileHandle })
+    else {
+      samples.push({
+        name: fileHandle.name,
+        path,
+        fileHandle,
+        id,
+        url: encodeURI(`/samples/${id}`),
+        usage: [],
+      })
+      id++
     }
   }
 
-  // Scan the selected folder
-  fileStore.parsingMessage = 'Parsing the folder contents...'
-  await scanFolder(folder, '/')
-  
   // Compute usage
   fileStore.parsingMessage = 'Computing usage stats...'
-  computeUsageStats()
+  const missingSamples = computeUsage({ songs, sounds, kits, samples })
+  const incompleteUsage = computeIncompleteUsage([...songs, ...sounds, ...kits], skippedFiles)
 
   // Save results to the store
   fileStore.parsingMessage = 'Saving...'
@@ -87,207 +75,76 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
   fileStore.kits = kits.sort((a, b) => a.name.localeCompare(b.name))
   fileStore.samples = samples.sort((a, b) => a.name.localeCompare(b.name))
   fileStore.skippedFiles = skippedFiles
-  fileStore.missingSamples = missingSamples.sort((a, b) => a.localeCompare(b))
+  fileStore.missingSamples = missingSamples
+  fileStore.incompleteUsage = incompleteUsage
 
   fileStore.parsingMessage = 'Done!'
   fileStore.isParsed = true
   fileStore.isParsing = false
+}
 
-  // Processing utilities ---------------------------------------------------------------------------------------------
+/**
+ * Files read and parsed at once. Overlaps I/O waits (every file is a separate File System Access call).
+ * Benchmarked on OPFS: gains level off at 8–16. See docs/research/parse-performance.md.
+ */
+const SCAN_CONCURRENCY = 16
 
-  function computeUsageStats() {
-    // For every song...
-    for (const song of songs) {
-      const songName = song.name.split('.')[0] // Drop .xml from the name
+type ScanItem = { kind: 'xml' | 'audio' | 'other', fileHandle: FileSystemFileHandle, path: string }
+type ScanResult =
+  | { kind: 'song', file: ParsedSongFile }
+  | { kind: 'sound', file: ParsedSoundFile }
+  | { kind: 'kit', file: ParsedKitFile }
+  | { kind: 'sample' }
+  | { kind: 'skipped', reason: string }
 
-      // For every instrument in the song...
-      for (const instrument of song.data.instruments) {
-        // Sounds
-        if (instrument.instrumentType === 'sound') {
-          const sound = sounds.find(sound => sound.data.presetName === instrument.presetName)
-          if (sound) {
-            // Count sound/synth usage in the song if not already counted
-            if (!sound.usage.songs.includes(songName)) {
-              sound.usage.songs.push(songName)
-            }
-
-            computeSampleUsageInSound(sound.data, undefined, songName)
-          }
-
-          // Kits
-        } else if (instrument.instrumentType === 'kit') {
-          // TODO: consider kit instances vs presets
-          const kit = kits.find(kit => kit.data.presetName === instrument.presetName)
-          if (kit) {
-            // Count kit usage in the song if not already counted
-            if (!kit.usage.songs.includes(songName)) {
-              kit.usage.songs.push(songName)
-            }
-
-            // Sounds inside kits
-            for (const soundSource of Object.values(kit.data.soundSources)) {
-              // Each kit sound is an instance that may or may not relate to a preset
-              const sound = sounds.find(sound => sound.data.presetName === soundSource.presetName)
-              if (sound) {
-                // Found a preset with the same name. Let's assume it's the same sound.
-                // Count sound usage in the kit if not already counted
-                if (!sound.usage.kits.includes(kit.data.presetName)) {
-                  sound.usage.kits.push(kit.data.presetName)
-                }
-              }
-
-              // Count sample usage regardless of whether we found a preset or not
-              computeSampleUsageInSound(soundSource, kit.data.presetName, songName)
-            }
-          }
-          // Audio tracks
-        } else if (instrument.instrumentType === 'audio track') {
-          // console.log('TODO: audio track usage for', instrument.presetName)
-          // const sample = samples.find(sample => sample.name === instrument.presetName)
-          // if (sample) {
-          //   sample.usage.songs[song.name] = true
-          // }
-        }
-      }
+/** Lists every relevant file under a folder in iteration order. Subfolders are listed concurrently. */
+async function walkFolder(folder: FileSystemDirectoryHandle, path: string): Promise<ScanItem[]> {
+  const parts: (ScanItem | Promise<ScanItem[]>)[] = []
+  for await (const entry of folder.values()) {
+    if (entry.kind === 'directory') {
+      // Firmware settings (favourites, MIDI follow, community features): not assets
+      if (path === '/' && entry.name.toLowerCase() === 'settings') continue
+      parts.push(walkFolder(entry as FileSystemDirectoryHandle, path + entry.name + '/'))
+    } else if (entry.kind === 'file') {
+      const name = entry.name
+      // Skip all dot files
+      if (name.startsWith('.')) continue
+      const lower = name.toLowerCase()
+      let kind: ScanItem['kind'] = 'other'
+      if (lower.endsWith('.xml')) {
+        // TODO: add support for special config files
+        if (lower === 'communityfeatures.xml' || lower === 'midifollow.xml') continue
+        kind = 'xml'
+      } else if (lower.endsWith('.wav') || lower.endsWith('.aiff')) kind = 'audio'
+      parts.push({ kind, fileHandle: entry as FileSystemFileHandle, path: path + name })
     }
   }
-
-  async function processAudioFile(fileHandle: FileSystemFileHandle, fullPath: string) {
-    const file = await fileHandle.getFile()
-    const size = file.size
-    const lastModified = file.lastModified
-    samples.push({
-      name: fileHandle.name,
-      path: fullPath,
-      fileHandle,
-      size,
-      id,
-      lastModified,
-      url: encodeURI(`/samples/${id}`),
-      usage: {
-        songs: {},
-        sounds: {},
-        kits: {},
-        getTotal() {
-          return Object.keys(this.songs).length + Object.keys(this.sounds).length + Object.keys(this.kits).length
-        },
-      }
-    })
-    id++
+  const out: ScanItem[] = []
+  for (const part of await Promise.all(parts)) {
+    if (Array.isArray(part)) for (const item of part) out.push(item)
+    else out.push(part)
   }
+  return out
+}
 
-  async function parseAssetXml(fileHandle: FileSystemFileHandle, fullPath: string) {
-    try {
-      const parsedFile = await parseAssetFile(fileHandle, fullPath)
-
-      // Store results into arrays
-      if (typeof parsedFile !== 'string') {
-        if ('type' in parsedFile) {
-          if (parsedFile.type === 'song') {
-            songs.push(parsedFile)
-          } else if (parsedFile.type === 'sound') {
-            sounds.push(parsedFile)
-          } else if (parsedFile.type === 'kit') {
-            kits.push(parsedFile)
-          }
-        } else skippedFiles.push({
-          name: fileHandle.name,
-          path: fullPath,
-          reason: 'Unknown file type. Was expecting a song, sound, or kit.',
-          fileHandle,
-        })
-      } else skippedFiles.push({
-        name: fileHandle.name,
-        path: fullPath,
-        reason: parsedFile,
-        fileHandle,
-      })
-    } catch (e) {
-      // Failed to parse the file. Add it to the skipped files.
-      skippedFiles.push({
-        name: fileHandle.name,
-        path: fullPath,
-        reason: String(e),
-        fileHandle,
-      })
-    }
+async function scanItem({ kind, fileHandle, path }: ScanItem): Promise<ScanResult> {
+  if (kind === 'audio') {
+    // No getFile() here: size and date load lazily in the views (useSampleMeta).
+    return { kind: 'sample' }
   }
-
-  function computeSampleUsageInSound(sound: Sound, kitName?: string, songName?: string) {
-    const fileNames = []
-    
-    // Individual samples
-    if (sound.osc1.fileName) fileNames.push(sound.osc1.fileName)
-    if (sound.osc2.fileName) fileNames.push(sound.osc2.fileName)
-
-    // Multi samples
-    if (sound.osc1.sampleRanges) {
-      for (const sampleRange of sound.osc1.sampleRanges) {
-        fileNames.push(sampleRange.fileName)
-      }
+  if (kind === 'other') return { kind: 'skipped', reason: 'Not a supported file type.' }
+  try {
+    const parsedFile = await parseAssetFile(fileHandle, path)
+    if (typeof parsedFile === 'string') return { kind: 'skipped', reason: parsedFile }
+    if ('type' in parsedFile) {
+      if (parsedFile.type === 'song') return { kind: 'song', file: parsedFile }
+      if (parsedFile.type === 'sound') return { kind: 'sound', file: parsedFile }
+      if (parsedFile.type === 'kit') return { kind: 'kit', file: parsedFile }
     }
-    if (sound.osc2.sampleRanges) {
-      for (const sampleRange of sound.osc2.sampleRanges) {
-        fileNames.push(sampleRange.fileName)
-      }
-    }
-
-    // Find the samples in the store and count usage
-    for (const fileName of fileNames) {
-      const sample = samples.find(sample => sample.path.toLowerCase() === '/' + fileName.toLowerCase())
-
-      // If sample is found in the store, count usage.
-      // This is complex because we keep track of attribution for UI purposes.
-      if (sample) {
-        // Always count usage in the sound (synth)
-        countSampleUsageInSound(sample, sound.presetName, sound.presetName, 'synth')
-
-        // If this was in a kit that was in a song, count usage in the kit and song
-        if (kitName && songName) {
-          // TODO: how to check if the the specific sound was actually used in the song?
-          countSampleUsageInKit(sample, kitName, sound.presetName, 'synth')
-          countSampleUsageInSong(sample, songName, kitName, 'kit')
-        }
-        // If this was in a song, but not in a kit, count usage in the song in addition to the sound
-        else if (!kitName && songName) {
-          countSampleUsageInSong(sample, songName, sound.presetName, 'synth')
-        }
-        // If this was in a kit, but not in a song, count usage in the kit in addition to the sound
-        else if (kitName && !songName) {
-          countSampleUsageInKit(sample, kitName, sound.presetName, 'synth')
-        }
-      }
-
-      // Count missing samples
-      else if (!missingSamples.includes(fileName)) missingSamples.push(fileName)
-    }
-  }
-
-  function countSampleUsageInSong(sample: SampleFile, name: string, instrumentName: string, instrumentType: string) {
-    if (!sample.usage.songs[name]) {
-      sample.usage.songs[name] = {
-        instrumentName,
-        instrumentType,
-      }
-    }
-  }
-
-  function countSampleUsageInKit(sample: SampleFile, name: string, instrumentName: string, instrumentType: string) {
-    if (!sample.usage.kits[name]) {
-      sample.usage.kits[name] = {
-        instrumentName,
-        instrumentType,
-      }
-    }
-  }
-  
-  function countSampleUsageInSound(sample: SampleFile, name: string, instrumentName: string, instrumentType: string) {
-    if (!sample.usage.sounds[name]) {
-      sample.usage.sounds[name] = {
-        instrumentName,
-        instrumentType,
-      }
-    }
+    return { kind: 'skipped', reason: 'Unknown file type. Was expecting a song, sound, or kit.' }
+  } catch (e) {
+    // Failed to parse the file. Add it to the skipped files.
+    return { kind: 'skipped', reason: String(e) }
   }
 }
 
@@ -305,44 +162,80 @@ async function verifyFolderPermission(folderHandle: FileSystemDirectoryHandle, w
 const parser = new DOMParser()
 
 /**
+ * Detect the firmware version from raw file text, and return the text to parse: 2.x files have extra top-level
+ * nodes that are dropped so the parsing copy has a single root element. Returns null if undecidable.
+ */
+export function detectFirmware(xml: string): { firmware: string, parseableXml: string } | null {
+  // Old firmware versions don't have the firmware version in the XML file
+  if (!xml.includes('firmwareVersion')) return { firmware: '1', parseableXml: xml }
+
+  // 2.x has a firmwareVersion node with the value as a payload
+  if (xml.includes('<firmwareVersion>')) {
+    const from = xml.indexOf('<firmwareVersion>')
+    const firmware = xml.substring(from + 17, xml.indexOf('</firmwareVersion>'))
+    const to = xml.indexOf('</earliestCompatibleFirmware>') + 30
+    return { firmware, parseableXml: xml.substring(0, from) + xml.substring(to) }
+  }
+
+  // 3.x and 4.x have a firmwareVersion attribute on the root node
+  if (xml.includes('firmwareVersion="')) {
+    const from = xml.indexOf('firmwareVersion="')
+    return { firmware: xml.substring(from + 17, xml.indexOf('"', from + 17)), parseableXml: xml }
+  }
+  return null
+}
+
+/**
  * Parse any Deluge XML file into data. Returns an error message if the file is not valid.
  * @param fileHandle The file to parse.
  * @param path Full path to the file.
  * @returns The parsed file, or an error message.
  */
-async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): Promise<ParsedSongFile | ParsedSoundFile | ParsedKitFile | SampleFile | string> {
+export async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): Promise<ParsedSongFile | ParsedSoundFile | ParsedKitFile | SampleFile | string> {
   const file = await fileHandle.getFile()
   const lastModified = file.lastModified
-  let xml = await file.text()
-  let firmware
-
-  // Old firmware versions don't have the firmware version in the XML file
-  if (!xml.includes('firmwareVersion')) {
-    firmware = '1'
-  }
-  // 2.x has a firmwareVersion node with the value as a payload
-  else if (xml.includes('<firmwareVersion>')) {
-    const from = xml.indexOf('<firmwareVersion>')
-    let to = xml.indexOf('</firmwareVersion>')
-    firmware = xml.substring(from + 17, to)
-
-    // Fix the XML to make it valid
-    to = xml.indexOf('</earliestCompatibleFirmware>') + 30
-    xml = xml.substring(0, from) + xml.substring(to)
-  }
-  // 3.x and 4.x have a firmwareVersion attribute on the root node
-  else if (xml.includes('firmwareVersion="')) {
-    const from = xml.indexOf('firmwareVersion="')
-    const to = xml.indexOf('"', from + 17)
-    firmware = xml.substring(from + 17, to)
-  } else throw Error(`Failed to decide what firmware version to use for file ${fileHandle.name}`)
-  
-  // Parse the file
-  const xmlDoc = parser.parseFromString(xml, 'text/xml')
-  //console.log(xmlDoc)
-  const root = xmlDoc.documentElement as Element
+  // Keep the original text for writes; parse from a copy that may be fixed up below.
+  const xml = await file.text()
+  const detected = detectFirmware(xml)
+  if (!detected) throw Error(`Failed to decide what firmware version to use for file ${fileHandle.name}`)
+  const { firmware, parseableXml } = detected
 
   const name = fileHandle.name
+  const meta = { name, path, fileHandle, lastModified, firmware, xml }
+
+  // Fast path: strict DOM-free parser. Malformed or unusual files return null and go through DOMParser, which keeps
+  // its partial-document behavior and error text. If a versioned parser throws, the DOMParser path re-runs it so the
+  // error message (which may embed outerHTML) is identical.
+  const fastRoot = parseXml(parseableXml)
+  if (fastRoot) {
+    try {
+      return interpretRoot(fastRoot, meta, null)
+    } catch {
+      // Fall through
+    }
+  }
+
+  // Parse the file
+  const xmlDoc = parser.parseFromString(parseableXml, 'text/xml')
+
+  // DOMParser does not throw on malformed XML. Instead it inserts a <parsererror> element (Chrome: inside the partial
+  // document, Firefox: as the root) and the document only contains what was parsed before the error.
+  // Keep the partial data but record the error, and hide the error element from the parsers.
+  let xmlError: string | null = null
+  const parserError = xmlDoc.getElementsByTagName('parsererror')[0]
+  if (parserError) {
+    const text = parserError.textContent ?? ''
+    xmlError = text.match(/error on line \d+ at column \d+:[^\n]*/)?.[0].trim() ?? (text.trim().split('\n')[0] || 'Malformed XML')
+    if (parserError !== xmlDoc.documentElement) parserError.remove()
+  }
+
+  return interpretRoot(xmlDoc.documentElement as Element, meta, xmlError)
+}
+
+type FileMeta = { name: string, path: string, fileHandle: FileSystemFileHandle, lastModified: number, firmware: string, xml: string }
+
+function interpretRoot(root: XmlElement, { name, path, fileHandle, lastModified, firmware, xml }: FileMeta, xmlError: string | null): ParsedSongFile | ParsedSoundFile | ParsedKitFile | string {
+  const outsideAssetFolders = !isInAssetFolder(path)
 
   if (['song', 'sound', 'kit'].includes(root.nodeName)) {
     let data
@@ -352,7 +245,7 @@ async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): P
       else return `Firmware version ${firmware} is not supported for songs.`
 
       return {
-        name, path, fileHandle, lastModified, firmware, data, xml,
+        name, path, fileHandle, lastModified, firmware, xmlError, data, xml, outsideAssetFolders,
         type: 'song',
         url: encodeURI(`/songs/${name.split('.')[0]}`)
       }
@@ -369,17 +262,13 @@ async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): P
         fileHandle,
         lastModified,
         firmware,
+        xmlError,
         data,
         xml,
         type: 'sound',
         url: encodeURI(`/synths/${name.split('.')[0]}`),
-        usage: {
-          songs: [],
-          kits: [],
-          getTotal() {
-            return Object.keys(this.songs).length + Object.keys(this.kits).length
-          },
-        },
+        outsideAssetFolders,
+        derivedInstances: [],
       }
     }
     else if (root.nodeName === 'kit') {
@@ -394,16 +283,13 @@ async function parseAssetFile(fileHandle: FileSystemFileHandle, path: string): P
         fileHandle,
         lastModified,
         firmware,
+        xmlError,
         data,
         xml,
         type: 'kit',
         url: encodeURI(`/kits/${name.split('.')[0]}`),
-        usage: {
-          songs: [],
-          getTotal() {
-            return Object.keys(this.songs).length
-          },
-        },
+        outsideAssetFolders,
+        derivedInstances: [],
       }
     }
     else throw new Error(`Unknown root node '${root.nodeName}' (was expecting 'song', 'sound', or 'kit')`)

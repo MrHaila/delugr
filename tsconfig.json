@@ -3,7 +3,8 @@
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],
   "compilerOptions": {
     "sourceMap": true,
-    "lib": ["ESNext", "DOM"]
+    "lib": ["ESNext", "DOM"],
+    "types": ["wicg-file-system-access"]
   },
   "vueCompilerOptions": {
     "plugins": [

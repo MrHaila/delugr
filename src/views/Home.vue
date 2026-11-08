@@ -4,6 +4,8 @@ div(class="space-y-5 p-3 overflow-y-auto w-full")
     h1(class="font-bold text-4xl") Overview
     p Alright, so we got the folder parsed. Here's what we know so far.
 
+    IncompleteUsageWarning
+
     div
       p Songs: {{ fileStore.songs.length }}
       p Synths: {{ fileStore.sounds.length }}
@@ -22,9 +24,9 @@ div(class="space-y-5 p-3 overflow-y-auto w-full")
       class="max-w-3xl flex-1"
       )
       div(class="space-y-3")
-        p The Deluge has three types of entities: songs, kits and synths (internally called 'sounds'). Synths and kits can be saved as presets, but when used, they are duplicated and saved as a part of the song or kit to allow for local modifications. This makes them a bit tricky to keep track of.
-        
-        p(class="text-gray-400") There are sure to be obvious bugs and missing stuff. Feel free to report them in the repo and maybe even help out by leaving a PR!
+        p The Deluge has three types of entities: songs, kits and synths (internally called 'sounds'). Synths and kits can be saved as presets, but a song and kits keep their own copies of each instrument. That means they can diverge. I do my best to count actual usage across all presets and in-use copies.
+
+        p(class="text-gray-400") There are sure to be bugs and missing stuff. Feel free to report them in the repo and maybe even help out by leaving a PR!
         p(class="text-gray-400") P.S. I don't have any firmware v1 or v2 songs to test with. Send me one if you have one!
 
     HListCard(
@@ -54,42 +56,42 @@ FileDeletionModal(
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted, ref } from 'vue'
-import { useFileStore } from '../composables/useFileStore'
-import { TrashIcon } from '@heroicons/vue/20/solid'
-import FileDeletionModal from '../components/FileDeletionModal.vue'
+import { nextTick, onMounted, ref } from "vue";
+import { useFileStore } from "../composables/useFileStore";
+import { TrashIcon } from "@heroicons/vue/20/solid";
+import FileDeletionModal from "../components/FileDeletionModal.vue";
+import IncompleteUsageWarning from "../components/IncompleteUsageWarning.vue";
 
-const { fileStore } = useFileStore()
+const { fileStore } = useFileStore();
 
 // Async function to list all folders in the folderHandle
 const listFolders = async () => {
-  if (!fileStore.folderHandle) return
+  if (!fileStore.folderHandle) return;
 
-  const entries = await fileStore.folderHandle.keys()
-  const folders: string[] = []
+  const entries = await fileStore.folderHandle.keys();
+  const folders: string[] = [];
 
   for await (const entry of entries) {
     // if (entry.kind === 'directory') {
     //   folders.push(entry.name)
     // }
-    folders.push(entry)
+    folders.push(entry);
   }
 
-  return folders
-}
+  return folders;
+};
 
-const folders = ref<string[]>()
+const folders = ref<string[]>();
 onMounted(async () => {
-  folders.value = await listFolders()
-})
+  folders.value = await listFolders();
+});
 
-const selectedFileForDeletion = ref<FileSystemFileHandle>()
-const fileDeletionModal = ref<typeof FileDeletionModal>()
+const selectedFileForDeletion = ref<FileSystemFileHandle>();
+const fileDeletionModal = ref<typeof FileDeletionModal>();
 
-async function openFileDeletionModal (fileHandle: FileSystemFileHandle) {
-  selectedFileForDeletion.value = fileHandle
-  if (!fileDeletionModal.value) await nextTick() // Await for the next tick to make sure the modal is mounted before opening it.
-  fileDeletionModal.value?.openModal()
+async function openFileDeletionModal(fileHandle: FileSystemFileHandle) {
+  selectedFileForDeletion.value = fileHandle;
+  if (!fileDeletionModal.value) await nextTick(); // Await for the next tick to make sure the modal is mounted before opening it.
+  fileDeletionModal.value?.openModal();
 }
-
 </script>

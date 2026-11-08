@@ -1,7 +1,7 @@
 <template lang="pug">
 dialog(
   ref="dialogElement"
-  class="rounded-lg px-4 pt-5 pb-4 overflow-hidden shadow-xl sm:my-8 sm:max-w-lg sm:w-full sm:p-6 transition-transform"
+  class="m-auto rounded-lg px-4 pt-5 pb-4 overflow-hidden shadow-xl sm:my-8 sm:max-w-lg sm:w-full sm:p-6 transition-transform"
   )
   //- Ok pressed -> waiting...
   div(v-if="okPromisePending")
@@ -20,12 +20,12 @@ dialog(
     div(class="sm:flex sm:items-start")
       div(
         v-if="variant === 'warning'"
-        class="mb-3 hidden mx-auto flex-shrink-0 sm:flex items-center justify-center h-12 w-12 rounded-full bg-yellow-200 sm:mx-0 sm:h-10 sm:w-10"
+        class="mb-3 hidden mx-auto shrink-0 sm:flex items-center justify-center h-12 w-12 rounded-full bg-yellow-200 sm:mx-0 sm:h-10 sm:w-10"
         )
         ExclamationTriangleIcon(class="h-6 w-6 text-yellow-600" aria-hidden="true")
       div(
         v-else-if="variant === 'danger'"
-        class="mb-3 hidden mx-auto flex-shrink-0 sm:flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"
+        class="mb-3 hidden mx-auto shrink-0 sm:flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"
         )
         ExclamationTriangleIcon(class="h-6 w-6 text-red-600" aria-hidden="true")
 
@@ -85,7 +85,8 @@ defineExpose({
 })
 
 // Events
-const emit = defineEmits(['ok', 'cancel', 'show', 'hide'])
+// No 'ok' event: the `onOk` prop would double as its listener and run twice.
+const emit = defineEmits(['cancel', 'show', 'hide'])
 onBeforeMount(() => {
   emit('show')
 })
@@ -97,7 +98,6 @@ onBeforeUnmount(() => {
 const okPromisePending = ref(false)
 const okPromiseError = ref<Error>()
 async function ok() {
-  emit('ok')
   if (props.onOk) {
     okPromisePending.value = true
     try {

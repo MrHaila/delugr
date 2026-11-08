@@ -1,0 +1,254 @@
+{
+  "name": "Synth 002.XML",
+  "path": "/SYNTHS/Synth 002.XML",
+  "lastModified": 1704067200000,
+  "firmware": "4.0.1",
+  "xmlError": null,
+  "data": {
+    "presetName": "Synth 002",
+    "polyphonic": "poly",
+    "voicePriority": 1,
+    "mode": "subtractive",
+    "lpfMode": "24dB",
+    "modFXType": "none",
+    "osc1": {
+      "type": "square",
+      "transpose": 21,
+      "cents": 24,
+      "retrigPhase": -1
+    },
+    "osc2": {
+      "type": "square",
+      "transpose": -5,
+      "cents": -35,
+      "retrigPhase": -1
+    },
+    "lfo1": {
+      "type": "triangle",
+      "syncLevel": 9
+    },
+    "lfo2": {
+      "type": "triangle"
+    },
+    "unison": {
+      "num": 7,
+      "detune": 34
+    },
+    "delay": {
+      "pingPong": 0,
+      "analog": 1,
+      "syncLevel": 0
+    },
+    "compressor": {
+      "syncLevel": 6,
+      "attack": 274752386,
+      "release": 974387077
+    },
+    "defaultParams": {
+      "arpeggiatorGate": {
+        "_fixh": "0xD4D2CCC5",
+        "_decimal": 17
+      },
+      "portamento": {
+        "_fixh": "0xA77CBB5D",
+        "_decimal": 8
+      },
+      "compressorShape": {
+        "_fixh": "0x64322AB4",
+        "_decimal": 45
+      },
+      "oscAVolume": {
+        "_fixh": "0x746B355B",
+        "_decimal": 48
+      },
+      "oscAPulseWidth": {
+        "_fixh": "0x468DC0B2",
+        "_decimal": 39
+      },
+      "oscAWavetablePosition": {
+        "_fixh": "0x00000000",
+        "_decimal": 25
+      },
+      "oscBVolume": {
+        "_fixh": "0xE3A8F68E",
+        "_decimal": 19
+      },
+      "oscBPulseWidth": {
+        "_fixh": "0x40EE8D68",
+        "_decimal": 38
+      },
+      "oscBWavetablePosition": {
+        "_fixh": "0x00000000",
+        "_decimal": 25
+      },
+      "noiseVolume": {
+        "_fixh": "0x17EB0BD4",
+        "_decimal": 30
+      },
+      "volume": {
+        "_fixh": "0x2F5C1E86",
+        "_decimal": 34
+      },
+      "pan": {
+        "_fixh": "0xFBC19FDE",
+        "_decimal": 24
+      },
+      "lpfFrequency": {
+        "_fixh": "0xBAE11F7D",
+        "_decimal": 11
+      },
+      "lpfResonance": {
+        "_fixh": "0x16E5B961",
+        "_decimal": 29
+      },
+      "hpfFrequency": {
+        "_fixh": "0x4332E4CA",
+        "_decimal": 38
+      },
+      "hpfResonance": {
+        "_fixh": "0xC0623384",
+        "_decimal": 13
+      },
+      "lfo1Rate": {
+        "_fixh": "0xD4049C4C",
+        "_decimal": 16
+      },
+      "lfo2Rate": {
+        "_fixh": "0x5D71D5A1",
+        "_decimal": 43
+      },
+      "modulator1Amount": {
+        "_fixh": "0x89414AE7",
+        "_decimal": 2
+      },
+      "modulator1Feedback": {
+        "_fixh": "0x89EBDC41",
+        "_decimal": 2
+      },
+      "modulator2Amount": {
+        "_fixh": "0xC77920B4",
+        "_decimal": 14
+      },
+      "modulator2Feedback": {
+        "_fixh": "0xC563DE04",
+        "_decimal": 14
+      },
+      "carrier1Feedback": {
+        "_fixh": "0x1E898CC0",
+        "_decimal": 31
+      },
+      "carrier2Feedback": {
+        "_fixh": "0xEF977ADB",
+        "_decimal": 22
+      },
+      "modFXRate": {
+        "_fixh": "0x6DE1BCF7",
+        "_decimal": 46
+      },
+      "modFXDepth": {
+        "_fixh": "0x8DC37BC4",
+        "_decimal": 3
+      },
+      "delayRate": {
+        "_fixh": "0x4F8E2C23",
+        "_decimal": 41
+      },
+      "delayFeedback": {
+        "_fixh": "0x8C71CEF5",
+        "_decimal": 2
+      },
+      "reverbAmount": {
+        "_fixh": "0x5D976859",
+        "_decimal": 43
+      },
+      "arpeggiatorRate": {
+        "_fixh": "0x42831CBC",
+        "_decimal": 38
+      },
+      "stutterRate": {
+        "_fixh": "0x79C54B99",
+        "_decimal": 49
+      },
+      "sampleRateReduction": {
+        "_fixh": "0xC28C7B2D",
+        "_decimal": 13
+      },
+      "bitCrush": {
+        "_fixh": "0xC3E615F3",
+        "_decimal": 13
+      },
+      "modFXOffset": {
+        "_fixh": "0xC5907F33",
+        "_decimal": 14
+      },
+      "modFXFeedback": {
+        "_fixh": "0x06256BEB",
+        "_decimal": 26
+      }
+    },
+    "arpeggiator": {
+      "mode": "off",
+      "numOctaves": 4,
+      "syncLevel": 8
+    },
+    "modKnobs": [
+      {
+        "controlsParam": "pan"
+      },
+      {
+        "controlsParam": "volumePostFX"
+      },
+      {
+        "controlsParam": "lpfResonance"
+      },
+      {
+        "controlsParam": "lpfFrequency"
+      },
+      {
+        "controlsParam": "env1Release"
+      },
+      {
+        "controlsParam": "env1Attack"
+      },
+      {
+        "controlsParam": "delayFeedback"
+      },
+      {
+        "controlsParam": "delayRate"
+      },
+      {
+        "controlsParam": "reverbAmount"
+      },
+      {
+        "controlsParam": "volumePostReverbSend",
+        "patchAmountFromSource": "compressor"
+      },
+      {
+        "controlsParam": "pitch",
+        "patchAmountFromSource": "lfo1"
+      },
+      {
+        "controlsParam": "lfo1Rate"
+      },
+      {
+        "controlsParam": "portamento"
+      },
+      {
+        "controlsParam": "stutterRate"
+      },
+      {
+        "controlsParam": "bitcrushAmount"
+      },
+      {
+        "controlsParam": "sampleRateReduction"
+      }
+    ],
+    "instrumentType": "sound",
+    "problem": false,
+    "isInstance": true
+  },
+  "type": "sound",
+  "url": "/synths/Synth%20002",
+  "outsideAssetFolders": false,
+  "derivedInstances": []
+}
