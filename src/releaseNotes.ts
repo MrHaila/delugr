@@ -22,6 +22,7 @@ export const releaseNotes: ReleaseNote[] = [
       'If some files can\'t be fully read, you get a warning that usage numbers may be off.',
       'Synth and kit presets list the song instruments that share their name.',
       'Files outside SONGS, SYNTHS and KITS are marked, but still counted.',
+      'Opening a card is about 4 times faster.',
     ],
   },
 ]
