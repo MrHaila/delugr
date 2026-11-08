@@ -3,6 +3,7 @@ import { computeIncompleteUsage, computeUsage, isInAssetFolder } from "./usage"
 import { parseKitv1, parseSoundv1 } from "./v1-2"
 import { parseKitv3, parseSongv3, parseSoundv3 } from "./v3-4"
 import { parseKitvCommunity, parseSongvCommunity, parseSoundvCommunity } from "./vCommunity"
+import { parseXml, type XmlElement } from "./xml"
 
 /**
  * One-stop-shop for parsing a folder of files. Intended for the root folder of a Deluge SD card.
@@ -24,56 +25,45 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
   if (fileStore.isParsed) fileStore.isParsed = false
   fileStore.isParsing = true
   
-  // For each XML or wav/aiff file in the folder structure, process it and add it to the store
-  async function scanFolder(folder: FileSystemDirectoryHandle, path: string) {
-    // Iterate over the folder contents
-    for await (const entry of folder.values()) {
-      // Recurse into directories
-      if (entry.kind === 'directory') {
-        const folder = entry as FileSystemDirectoryHandle
-        await scanFolder(folder, path + entry.name + '/')
+  // Walk first (directories recursed concurrently), then read/parse files through a bounded pool.
+  // Results are collected in walk order, so ids and array order match a sequential scan.
+  fileStore.parsingMessage = 'Finding files...'
+  const items = await walkFolder(folder, '/')
+  fileStore.parsingMessage = 'Parsing the folder contents...'
+  const results: ScanResult[] = new Array(items.length)
+  let nextItem = 0
+  let scanned = 0
+  async function worker() {
+    while (nextItem < items.length) {
+      const i = nextItem++
+      results[i] = await scanItem(items[i])
+      fileStore.filesScanned = ++scanned
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(SCAN_CONCURRENCY, items.length) }, worker))
 
-      // Parse files
-      } else if (entry.kind === 'file') {
-        const fileHandle = entry as FileSystemFileHandle
-
-         // Skip all dot files
-        if (fileHandle.name.startsWith('.')) continue
-
-        const name = fileHandle.name
-        const fullPath = path + fileHandle.name
-
-        // Parse XML
-        if (fileHandle.name.toLowerCase().endsWith('.xml')) {
-          // TODO: add support for special config files
-          if (name.toLowerCase() === 'communityfeatures.xml') continue
-          if (name.toLowerCase() === 'midifollow.xml') continue
-
-          await parseAssetXml(fileHandle, fullPath)
-
-        // Parse WAV and AIFF
-        } else if (fileHandle.name.toLowerCase().endsWith('.wav') || fileHandle.name.toLowerCase().endsWith('.aiff')) {
-          await processAudioFile(fileHandle, fullPath)
-
-        // Skip unsupported file types
-        } else {
-          skippedFiles.push({
-            name,
-            path: fullPath,
-            reason: 'Not a supported file type.',
-            fileHandle,
-          })
-        }
-
-        fileStore.filesScanned++
-      }
+  for (let i = 0; i < items.length; i++) {
+    const { fileHandle, path } = items[i]
+    const r = results[i]
+    if (r.kind === 'song') songs.push(r.file)
+    else if (r.kind === 'sound') sounds.push(r.file)
+    else if (r.kind === 'kit') kits.push(r.file)
+    else if (r.kind === 'skipped') skippedFiles.push({ name: fileHandle.name, path, reason: r.reason, fileHandle })
+    else {
+      samples.push({
+        name: fileHandle.name,
+        path,
+        fileHandle,
+        size: r.size,
+        id,
+        lastModified: r.lastModified,
+        url: encodeURI(`/samples/${id}`),
+        usage: [],
+      })
+      id++
     }
   }
 
-  // Scan the selected folder
-  fileStore.parsingMessage = 'Parsing the folder contents...'
-  await scanFolder(folder, '/')
-  
   // Compute usage
   fileStore.parsingMessage = 'Computing usage stats...'
   const missingSamples = computeUsage({ songs, sounds, kits, samples })
@@ -93,61 +83,68 @@ export async function parseFolderIntoFileStore(folder: FileSystemDirectoryHandle
   fileStore.parsingMessage = 'Done!'
   fileStore.isParsed = true
   fileStore.isParsing = false
+}
 
-  // Processing utilities ---------------------------------------------------------------------------------------------
+/**
+ * Files read and parsed at once. Overlaps I/O waits (every file is a separate File System Access call).
+ * Benchmarked on OPFS: gains level off at 8–16. See docs/research/parse-performance.md.
+ */
+const SCAN_CONCURRENCY = 16
 
-  async function processAudioFile(fileHandle: FileSystemFileHandle, fullPath: string) {
-    const file = await fileHandle.getFile()
-    const size = file.size
-    const lastModified = file.lastModified
-    samples.push({
-      name: fileHandle.name,
-      path: fullPath,
-      fileHandle,
-      size,
-      id,
-      lastModified,
-      url: encodeURI(`/samples/${id}`),
-      usage: [],
-    })
-    id++
-  }
+type ScanItem = { kind: 'xml' | 'audio' | 'other', fileHandle: FileSystemFileHandle, path: string }
+type ScanResult =
+  | { kind: 'song', file: ParsedSongFile }
+  | { kind: 'sound', file: ParsedSoundFile }
+  | { kind: 'kit', file: ParsedKitFile }
+  | { kind: 'sample', size: number, lastModified: number }
+  | { kind: 'skipped', reason: string }
 
-  async function parseAssetXml(fileHandle: FileSystemFileHandle, fullPath: string) {
-    try {
-      const parsedFile = await parseAssetFile(fileHandle, fullPath)
-
-      // Store results into arrays
-      if (typeof parsedFile !== 'string') {
-        if ('type' in parsedFile) {
-          if (parsedFile.type === 'song') {
-            songs.push(parsedFile)
-          } else if (parsedFile.type === 'sound') {
-            sounds.push(parsedFile)
-          } else if (parsedFile.type === 'kit') {
-            kits.push(parsedFile)
-          }
-        } else skippedFiles.push({
-          name: fileHandle.name,
-          path: fullPath,
-          reason: 'Unknown file type. Was expecting a song, sound, or kit.',
-          fileHandle,
-        })
-      } else skippedFiles.push({
-        name: fileHandle.name,
-        path: fullPath,
-        reason: parsedFile,
-        fileHandle,
-      })
-    } catch (e) {
-      // Failed to parse the file. Add it to the skipped files.
-      skippedFiles.push({
-        name: fileHandle.name,
-        path: fullPath,
-        reason: String(e),
-        fileHandle,
-      })
+/** Lists every relevant file under a folder in iteration order. Subfolders are listed concurrently. */
+async function walkFolder(folder: FileSystemDirectoryHandle, path: string): Promise<ScanItem[]> {
+  const parts: (ScanItem | Promise<ScanItem[]>)[] = []
+  for await (const entry of folder.values()) {
+    if (entry.kind === 'directory') {
+      parts.push(walkFolder(entry as FileSystemDirectoryHandle, path + entry.name + '/'))
+    } else if (entry.kind === 'file') {
+      const name = entry.name
+      // Skip all dot files
+      if (name.startsWith('.')) continue
+      const lower = name.toLowerCase()
+      let kind: ScanItem['kind'] = 'other'
+      if (lower.endsWith('.xml')) {
+        // TODO: add support for special config files
+        if (lower === 'communityfeatures.xml' || lower === 'midifollow.xml') continue
+        kind = 'xml'
+      } else if (lower.endsWith('.wav') || lower.endsWith('.aiff')) kind = 'audio'
+      parts.push({ kind, fileHandle: entry as FileSystemFileHandle, path: path + name })
     }
+  }
+  const out: ScanItem[] = []
+  for (const part of await Promise.all(parts)) {
+    if (Array.isArray(part)) for (const item of part) out.push(item)
+    else out.push(part)
+  }
+  return out
+}
+
+async function scanItem({ kind, fileHandle, path }: ScanItem): Promise<ScanResult> {
+  if (kind === 'audio') {
+    const file = await fileHandle.getFile()
+    return { kind: 'sample', size: file.size, lastModified: file.lastModified }
+  }
+  if (kind === 'other') return { kind: 'skipped', reason: 'Not a supported file type.' }
+  try {
+    const parsedFile = await parseAssetFile(fileHandle, path)
+    if (typeof parsedFile === 'string') return { kind: 'skipped', reason: parsedFile }
+    if ('type' in parsedFile) {
+      if (parsedFile.type === 'song') return { kind: 'song', file: parsedFile }
+      if (parsedFile.type === 'sound') return { kind: 'sound', file: parsedFile }
+      if (parsedFile.type === 'kit') return { kind: 'kit', file: parsedFile }
+    }
+    return { kind: 'skipped', reason: 'Unknown file type. Was expecting a song, sound, or kit.' }
+  } catch (e) {
+    // Failed to parse the file. Add it to the skipped files.
+    return { kind: 'skipped', reason: String(e) }
   }
 }
 
@@ -165,6 +162,30 @@ async function verifyFolderPermission(folderHandle: FileSystemDirectoryHandle, w
 const parser = new DOMParser()
 
 /**
+ * Detect the firmware version from raw file text, and return the text to parse: 2.x files have extra top-level
+ * nodes that are dropped so the parsing copy has a single root element. Returns null if undecidable.
+ */
+export function detectFirmware(xml: string): { firmware: string, parseableXml: string } | null {
+  // Old firmware versions don't have the firmware version in the XML file
+  if (!xml.includes('firmwareVersion')) return { firmware: '1', parseableXml: xml }
+
+  // 2.x has a firmwareVersion node with the value as a payload
+  if (xml.includes('<firmwareVersion>')) {
+    const from = xml.indexOf('<firmwareVersion>')
+    const firmware = xml.substring(from + 17, xml.indexOf('</firmwareVersion>'))
+    const to = xml.indexOf('</earliestCompatibleFirmware>') + 30
+    return { firmware, parseableXml: xml.substring(0, from) + xml.substring(to) }
+  }
+
+  // 3.x and 4.x have a firmwareVersion attribute on the root node
+  if (xml.includes('firmwareVersion="')) {
+    const from = xml.indexOf('firmwareVersion="')
+    return { firmware: xml.substring(from + 17, xml.indexOf('"', from + 17)), parseableXml: xml }
+  }
+  return null
+}
+
+/**
  * Parse any Deluge XML file into data. Returns an error message if the file is not valid.
  * @param fileHandle The file to parse.
  * @param path Full path to the file.
@@ -175,30 +196,25 @@ export async function parseAssetFile(fileHandle: FileSystemFileHandle, path: str
   const lastModified = file.lastModified
   // Keep the original text for writes; parse from a copy that may be fixed up below.
   const xml = await file.text()
-  let parseableXml = xml
-  let firmware
+  const detected = detectFirmware(xml)
+  if (!detected) throw Error(`Failed to decide what firmware version to use for file ${fileHandle.name}`)
+  const { firmware, parseableXml } = detected
 
-  // Old firmware versions don't have the firmware version in the XML file
-  if (!xml.includes('firmwareVersion')) {
-    firmware = '1'
-  }
-  // 2.x has a firmwareVersion node with the value as a payload
-  else if (xml.includes('<firmwareVersion>')) {
-    const from = xml.indexOf('<firmwareVersion>')
-    let to = xml.indexOf('</firmwareVersion>')
-    firmware = xml.substring(from + 17, to)
+  const name = fileHandle.name
+  const meta = { name, path, fileHandle, lastModified, firmware, xml }
 
-    // Drop the extra top-level nodes so the parsing copy has a single root element
-    to = xml.indexOf('</earliestCompatibleFirmware>') + 30
-    parseableXml = xml.substring(0, from) + xml.substring(to)
+  // Fast path: strict DOM-free parser. Malformed or unusual files return null and go through DOMParser, which keeps
+  // its partial-document behavior and error text. If a versioned parser throws, the DOMParser path re-runs it so the
+  // error message (which may embed outerHTML) is identical.
+  const fastRoot = parseXml(parseableXml)
+  if (fastRoot) {
+    try {
+      return interpretRoot(fastRoot, meta, null)
+    } catch {
+      // Fall through
+    }
   }
-  // 3.x and 4.x have a firmwareVersion attribute on the root node
-  else if (xml.includes('firmwareVersion="')) {
-    const from = xml.indexOf('firmwareVersion="')
-    const to = xml.indexOf('"', from + 17)
-    firmware = xml.substring(from + 17, to)
-  } else throw Error(`Failed to decide what firmware version to use for file ${fileHandle.name}`)
-  
+
   // Parse the file
   const xmlDoc = parser.parseFromString(parseableXml, 'text/xml')
 
@@ -213,9 +229,12 @@ export async function parseAssetFile(fileHandle: FileSystemFileHandle, path: str
     if (parserError !== xmlDoc.documentElement) parserError.remove()
   }
 
-  const root = xmlDoc.documentElement as Element
+  return interpretRoot(xmlDoc.documentElement as Element, meta, xmlError)
+}
 
-  const name = fileHandle.name
+type FileMeta = { name: string, path: string, fileHandle: FileSystemFileHandle, lastModified: number, firmware: string, xml: string }
+
+function interpretRoot(root: XmlElement, { name, path, fileHandle, lastModified, firmware, xml }: FileMeta, xmlError: string | null): ParsedSongFile | ParsedSoundFile | ParsedKitFile | string {
   const outsideAssetFolders = !isInAssetFolder(path)
 
   if (['song', 'sound', 'kit'].includes(root.nodeName)) {

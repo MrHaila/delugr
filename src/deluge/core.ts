@@ -1,3 +1,4 @@
+import type { XmlElement } from './xml'
 import type { FixPos50 } from "./dataTypes"
 
 // Types ---------------------------------------------------------------------
@@ -230,7 +231,7 @@ export type ModKnob = {
  * Read every `<audioClip>` in a song (session clips and arrangement-only clips alike).
  * @param xml The song's root element.
  */
-export function parseRecordings(xml: Element): Recording[] {
+export function parseRecordings(xml: XmlElement): Recording[] {
   return Array.from(xml.getElementsByTagName('audioClip')).map(clip => ({
     trackName: clip.getAttribute('trackName') ?? '',
     filePath: clip.getAttribute('filePath') || null,
@@ -239,7 +240,7 @@ export function parseRecordings(xml: Element): Recording[] {
   }))
 }
 
-export function getFirmwareVersion(xml: Element): string {
+export function getFirmwareVersion(xml: XmlElement): string {
   let version: string = '1'
   if (xml.hasAttribute('firmwareVersion')) {
     // v3 or v4 file
@@ -258,7 +259,7 @@ export function getFirmwareVersion(xml: Element): string {
  * A helper to get a display name for a sound or a kit of any firmware version.
  * @param xml The instrument's root element.
  */
-export function getInstrumentName(xml: Element): string | null {
+export function getInstrumentName(xml: XmlElement): string | null {
   // Newer instruments have a presetName attribute
   let presetName = xml.getAttribute('presetName') || null
 
@@ -291,8 +292,12 @@ export function getInstrumentName(xml: Element): string | null {
  * @param tagName Name of the child element to find.
  * @returns The child element, or null if not found.
  */
-export function findDirectChildNodeByTagName (xml: Element, tagName: string): Element | null {
-  return Array.from(xml.children).find(child => child.tagName === tagName) || null
+export function findDirectChildNodeByTagName (xml: XmlElement, tagName: string): XmlElement | null {
+  const children = xml.children
+  for (let i = 0; i < children.length; i++) {
+    if (children[i].tagName === tagName) return children[i]
+  }
+  return null
 }
 
 /**
