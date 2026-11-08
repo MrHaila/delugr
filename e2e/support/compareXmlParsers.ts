@@ -4,6 +4,7 @@
  *
  * Rule: for each input, the fast parser either returns null (the app then falls back to DOMParser), or builds the same
  * tree as DOMParser (tag names, attributes in order, textContent, children), and DOMParser reports no error.
+ * Exception: the Deluge firmware quirks the fast parser tolerates on purpose (see xml.ts) are not compared here.
  */
 import { detectFirmware } from '/src/deluge/fileParsing.ts'
 import { parseXml, type XmlElement } from '/src/deluge/xml.ts'

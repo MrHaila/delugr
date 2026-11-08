@@ -102,6 +102,8 @@ async function walkFolder(folder: FileSystemDirectoryHandle, path: string): Prom
   const parts: (ScanItem | Promise<ScanItem[]>)[] = []
   for await (const entry of folder.values()) {
     if (entry.kind === 'directory') {
+      // Firmware settings (favourites, MIDI follow, community features): not assets
+      if (path === '/' && entry.name.toLowerCase() === 'settings') continue
       parts.push(walkFolder(entry as FileSystemDirectoryHandle, path + entry.name + '/'))
     } else if (entry.kind === 'file') {
       const name = entry.name

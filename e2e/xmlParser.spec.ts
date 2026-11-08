@@ -2,7 +2,8 @@ import { test, expect } from '@playwright/test'
 import type { Comparison } from './support/compareXmlParsers'
 
 // The fast XML parser must build the same tree as Chromium's DOMParser, or decline (null → DOMParser fallback).
-// Never accept input that DOMParser rejects. See src/deluge/xml.ts.
+// Never accept input that DOMParser rejects, except the Deluge firmware quirks listed in src/deluge/xml.ts
+// (duplicate attributes, digit-first element names), unit tested in test/xml.test.ts.
 
 const helper = '/e2e/support/compareXmlParsers.ts'
 
@@ -26,7 +27,6 @@ const edgeCases = [
   '<a x="a\tb\nc\r\nd\re">a\r\nb\rc\td</a>',
   '<a x="&#9;&#10;&#13;"/>',
   '<a><!-- c --><b>1</b>  mid <![CDATA[<raw>&amp;\r\n]]><?pi data?><c x=">"/>tail</a>',
-  '<a x="1" x="2"/>',
   '<a x="1"y="2"/>',
   '<a x=1/>',
   '<a>&foo;</a>',
@@ -55,7 +55,6 @@ const edgeCases = [
   '<a>&#xD800;</a>',
   '<?xml version="1.0"?>\n<!-- pre --><?pi x?>\n<a/>',
   '<a>x &amp y</a>',
-  '<1a/>',
   '<a.b-c_d/>',
   '<a></a >\n\n',
   '<a x="1" />',

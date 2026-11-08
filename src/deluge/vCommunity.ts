@@ -1,5 +1,9 @@
 import type { XmlElement } from './xml'
 import {
+  MIDI_TRACK_TAGS,
+  CV_TRACK_TAGS,
+  parseMidiChannel,
+  parseCvChannel,
   findDirectChildNodeByTagName,
   getInstrumentName,
   parseRecordings,
@@ -17,7 +21,6 @@ import {
   type Song,
   type Sound,
   type Unison,
-  type MidiChannel,
   type Zone, 
   type AudioCompressor,
   type Sidechain} from "./core"
@@ -44,8 +47,10 @@ export function parseSongvCommunity(xml: XmlElement, songName: string): Song {
       return parseKitvCommunity(i, undefined, songName)
     } else if (i.tagName === 'audioTrack') {
       return parseAudioTrackvCommunity(i, songName)
-    } else if (i.tagName === 'midiChannel') {
-      return parseMidiChannel(i, songName)
+    } else if (MIDI_TRACK_TAGS.includes(i.tagName)) {
+      return parseMidiChannel(i)
+    } else if (CV_TRACK_TAGS.includes(i.tagName)) {
+      return parseCvChannel(i)
     } else {
       throw new Error(`Unknown instrument type '${i.tagName}' in instrument '${presetName}' of '${songName}'`)
     }
@@ -246,29 +251,6 @@ function parseAudioTrackvCommunity (xml: XmlElement, songName: string): AudioTra
   return audioTrack
 }
 
-function parseMidiChannel(xml: XmlElement, songName: string): MidiChannel {
-  // Attributes
-  const channel = xml.getAttribute('channel')
-  const suffix = xml.getAttribute('suffix')
-  const defaultVelocity = xml.getAttribute('defaultVelocity')
-  const isArmedForRecording = xml.getAttribute('isArmedForRecording')
-  const activeModFunction = xml.getAttribute('activeModFunction')
-
-  if (!channel) throw new Error(`Missing 'channel' attribute on midi channel of song '${songName}'`)
-  if (!suffix) throw new Error(`Missing 'suffix' attribute on midi channel of song '${songName}'`)
-  if (!defaultVelocity) throw new Error(`Missing 'defaultVelocity' attribute on midi channel of song '${songName}'`)
-  if (!isArmedForRecording) throw new Error(`Missing 'isArmedForRecording' attribute on midi channel of song '${songName}'`)
-  if (!activeModFunction) throw new Error(`Missing 'activeModFunction' attribute on midi channel of song '${songName}'`)
-
-  return {
-    channel: Number(channel),
-    suffix: String(suffix),
-    defaultVelocity: Number(defaultVelocity),
-    isArmedForRecording: Number(isArmedForRecording),
-    activeModFunction: Number(activeModFunction),
-    instrumentType: 'midi track',
-  }
-}
 
 
 // TODO: remove the rest

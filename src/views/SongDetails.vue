@@ -28,15 +28,17 @@ div(v-else class="min-w-0 flex-1 h-full flex flex-col overflow-y-auto p-5 bg-sla
             AdjustmentsVerticalIcon(v-if="item.instrumentType === 'sound'" class="h-3 inline mb-1")
             ArchiveBoxIcon(v-else-if="item.instrumentType === 'kit'" class="h-3 inline mb-1")
             MicrophoneIcon(v-else-if="item.instrumentType === 'audio track'" class="h-3 inline mb-1")
-            EllipsisHorizontalIcon(v-else-if="item.instrumentType === 'midi track'" class="h-3 inline mb-1")
+            EllipsisHorizontalIcon(v-else-if="item.instrumentType === 'midi track' || item.instrumentType === 'cv track'" class="h-3 inline mb-1")
 
             span(v-if="item.instrumentType === 'midi track'") MIDI Track
+            span(v-else-if="item.instrumentType === 'cv track'") CV Track
             span(v-else) {{ item.presetName }}
 
             span(class="grow text-right text-xs")
               RouterLink(v-if="derivedFrom(item)" :to="derivedFrom(item)?.url ?? ''" title="A preset with the same name. The song keeps its own copy, which may differ.") Derived from preset
               span(v-else-if="item.instrumentType === 'audio track'") Input channel: {{ item.inputChannel }}
-              span(v-else-if="item.instrumentType !== 'midi track'" class="text-gray-400") No preset with this name
+              span(v-else-if="item.instrumentType === 'midi track' || item.instrumentType === 'cv track'") {{ trackDestination(item) }}
+              span(v-else class="text-gray-400") No preset with this name
 
             // exclamation-circle-icon(v-if="item.problem" class="h-4 text-red-400")
       
@@ -86,6 +88,13 @@ function derivedFrom(instrument: { instrumentType: string, presetName?: string }
   if (instrument.instrumentType === 'sound') return presetDerivedBy(fileStore.sounds, song.value, instrument.presetName)
   if (instrument.instrumentType === 'kit') return presetDerivedBy(fileStore.kits, song.value, instrument.presetName)
   return undefined
+}
+
+/** Where a MIDI or CV track sends notes. Channels are 0-based in the file, 1-based on the Deluge. */
+function trackDestination(track: { channel?: number, internalDest?: string }) {
+  if (track.internalDest) return `Internal: ${track.internalDest}`
+  if (track.channel === undefined) return ''
+  return `Channel: ${track.channel + 1}`
 }
 
 const props = defineProps([

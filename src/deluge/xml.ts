@@ -8,6 +8,10 @@
  * non-ASCII names, non UTF-8 declaration...) returns `null`, and the caller falls back to DOMParser. That keeps
  * DOMParser's partial-document and error-message behavior for broken files without reimplementing libxml2.
  *
+ * Two exceptions, because Deluge firmware writes them and reads them back fine (DOMParser would cut the document):
+ * - duplicate attributes (community firmware writes `isPlaying` twice on audio clips): last one wins, like the firmware
+ * - element names starting with a digit (community `<performanceView>` writes `<8>128</8>`)
+ *
  * Worker-safe: uses no DOM APIs.
  */
 
@@ -202,9 +206,10 @@ export function parseXml(src: string): XElement | null {
   }
 }
 
-function readName(src: string, i: number): number {
+/** @param digitStart Allow a leading digit (element names only, see file comment). */
+function readName(src: string, i: number, digitStart = false): number {
   const c = src.charCodeAt(i)
-  if (!(c < 128 && NAME_START[c])) fail()
+  if (!(c < 128 && (NAME_START[c] || (digitStart && c >= 48 && c <= 57)))) fail()
   i++
   for (;;) {
     const d = src.charCodeAt(i)
@@ -287,7 +292,7 @@ function parse(src: string): XElement {
     const c = src.charCodeAt(i + 1)
 
     if (c === 47) { // '</'
-      const nameEnd = readName(src, i + 2)
+      const nameEnd = readName(src, i + 2, true)
       const el = cur!
       if (src.slice(i + 2, nameEnd) !== el.tagName) fail()
       const gt = skipWs(src, nameEnd)
@@ -313,7 +318,7 @@ function parse(src: string): XElement {
     if (c === 63) { i = skipMisc(src, i); continue }
 
     // Start tag
-    const nameEnd = readName(src, i + 1)
+    const nameEnd = readName(src, i + 1, true)
     const el = new XElement(src.slice(i + 1, nameEnd), src, i)
     let j = nameEnd
     let attrs: string[] | null = null
@@ -344,8 +349,10 @@ function parse(src: string): XElement {
         value = decodeAttr(value)
       }
       if (attrs) {
-        for (let a = 0; a < attrs.length; a += 2) if (attrs[a] === aName) fail()
-        attrs.push(aName, value)
+        let a = 0
+        while (a < attrs.length && attrs[a] !== aName) a += 2
+        if (a < attrs.length) attrs[a + 1] = value // Duplicate: last wins (see file comment)
+        else attrs.push(aName, value)
       } else attrs = [aName, value]
       j = vEnd + 1
     }

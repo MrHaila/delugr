@@ -6,7 +6,7 @@ import type { FixPos50 } from "./dataTypes"
 export interface Song {
     name: string,
     // TODO: the rest of the owl
-    instruments: Array<Sound | Kit | AudioTrack | MidiChannel>,
+    instruments: Array<Sound | Kit | AudioTrack | MidiChannel | CvChannel>,
     recordings: Recording[],
 }
 
@@ -109,15 +109,37 @@ export type AudioTrack = {
   instrumentType: 'audio track'
 }
 
+/**
+ * A song's MIDI track: `<midiChannel>` (official firmware) or `<midi>` (community firmware).
+ */
 export type MidiChannel = {
-  channel: number,
-  suffix: string,
-  defaultVelocity: number,
-  isArmedForRecording: number,
-  activeModFunction: number,
+  /** 0-based. Absent when the track goes to an internal destination instead. */
+  channel?: number,
+  /** Community: internal destination instead of a MIDI channel, e.g. `transpose`. */
+  internalDest?: string,
+  suffix?: string,
+  defaultVelocity?: number,
+  isArmedForRecording?: number,
+  activeModFunction?: number,
 
   // Not part of the spec
   instrumentType: 'midi track'
+}
+
+/**
+ * A song's CV/gate track (`<cvChannel>`).
+ */
+export type CvChannel = {
+  /** 0-based CV output. */
+  channel?: number,
+  defaultVelocity?: number,
+  isArmedForRecording?: number,
+  activeModFunction?: number,
+  /** Community: what drives CV output 2. */
+  cv2Source?: number,
+
+  // Not part of the spec
+  instrumentType: 'cv track'
 }
 
 export type Modulator = {
@@ -238,6 +260,53 @@ export function parseRecordings(xml: XmlElement): Recording[] {
     startSamplePos: Number(clip.getAttribute('startSamplePos') ?? 0),
     endSamplePos: Number(clip.getAttribute('endSamplePos') ?? 0),
   }))
+}
+
+/** Song instrument tags for MIDI tracks: official firmware writes `midiChannel`, community firmware `midi`. */
+export const MIDI_TRACK_TAGS = ['midiChannel', 'midi']
+export const CV_TRACK_TAGS = ['cvChannel']
+
+/** Numeric attribute, or undefined when absent. */
+function numberAttribute(xml: XmlElement, name: string): number | undefined {
+  const value = xml.getAttribute(name)
+  return value === null || value === '' ? undefined : Number(value)
+}
+
+/**
+ * Parse a song's MIDI track. Every attribute is optional: the firmware falls back to defaults, and community firmware
+ * writes `internalDest` instead of `channel` for internal destinations.
+ */
+export function parseMidiChannel(xml: XmlElement): MidiChannel {
+  const track: MidiChannel = { instrumentType: 'midi track' }
+  const channel = numberAttribute(xml, 'channel')
+  if (channel !== undefined) track.channel = channel
+  const internalDest = xml.getAttribute('internalDest')
+  if (internalDest) track.internalDest = internalDest
+  const suffix = xml.getAttribute('suffix')
+  if (suffix !== null) track.suffix = suffix
+  const defaultVelocity = numberAttribute(xml, 'defaultVelocity')
+  if (defaultVelocity !== undefined) track.defaultVelocity = defaultVelocity
+  const isArmedForRecording = numberAttribute(xml, 'isArmedForRecording')
+  if (isArmedForRecording !== undefined) track.isArmedForRecording = isArmedForRecording
+  const activeModFunction = numberAttribute(xml, 'activeModFunction')
+  if (activeModFunction !== undefined) track.activeModFunction = activeModFunction
+  return track
+}
+
+/** Parse a song's CV/gate track. Every attribute is optional, see `parseMidiChannel`. */
+export function parseCvChannel(xml: XmlElement): CvChannel {
+  const track: CvChannel = { instrumentType: 'cv track' }
+  const channel = numberAttribute(xml, 'channel')
+  if (channel !== undefined) track.channel = channel
+  const defaultVelocity = numberAttribute(xml, 'defaultVelocity')
+  if (defaultVelocity !== undefined) track.defaultVelocity = defaultVelocity
+  const isArmedForRecording = numberAttribute(xml, 'isArmedForRecording')
+  if (isArmedForRecording !== undefined) track.isArmedForRecording = isArmedForRecording
+  const activeModFunction = numberAttribute(xml, 'activeModFunction')
+  if (activeModFunction !== undefined) track.activeModFunction = activeModFunction
+  const cv2Source = numberAttribute(xml, 'cv2Source')
+  if (cv2Source !== undefined) track.cv2Source = cv2Source
+  return track
 }
 
 export function getFirmwareVersion(xml: XmlElement): string {
