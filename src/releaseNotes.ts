@@ -16,7 +16,7 @@ export const releaseNotes: ReleaseNote[] = [
     title: "Sample renaming and smarter usage",
     bullets: [
       "Sample renaming! Finally.",
-      "Missing samples suggest likely matches incase you moved the files around manually.",
+      "Missing samples suggest likely matches in case you moved the files around manually.",
       "More accurate sample usage stats.",
       "Reading a deluge folder is about 4 times faster than before.",
     ],

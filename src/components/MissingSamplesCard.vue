@@ -1,7 +1,7 @@
 <template lang="pug">
 HListCard(
   title="Missing Samples"
-  subtitle="Sample references whole files could not be found. Maybe broken after manual changes?"
+  subtitle="Sample references whose files could not be found. Maybe broken after manual changes?"
   :items="missingSamples"
   emptyLabel="No missing samples."
   )
