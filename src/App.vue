@@ -45,12 +45,13 @@ div(v-if="fileStore.parseError || !fileStore.isParsed" class="pt-20 space-y-20 h
             h-button(@click="askAndParseFolder") Select folder
 
   //- App description
-  div(class="flex justify-center pb-20")
+  div(class="flex flex-col items-center gap-5 pb-20")
     div(class="shadow-sm rounded-sm p-5 space-y-3 backdrop-blur-md bg-white/30" style="width: 42rem")
       h3(class="font-bold") 👋 Greetings, stranger!
       p Delugr is a web-app that lets you browse the contents of your Deluge memory card.
-      p It uses the new #[a(href="https://web.dev/file-system-access/" target="blank") File System Access API] to read the contents of your memory card, so there's no need to install anything! As of December 2024, the API is not yet supported by #[a(href="https://caniuse.com/native-filesystem-api" target="blank") Firefox, Safari or any of the mobile browsers].
+      p It uses the new #[a(href="https://web.dev/file-system-access/" target="blank") File System Access API] to read the contents of your memory card, so there's no need to install anything! As of November 2026, the API is not yet supported by #[a(href="https://caniuse.com/native-filesystem-api" target="blank") Firefox, Safari or any of the mobile browsers].
       p Made with ❤️ by #[a(href="https://haila.fi" target="blank") Teemu Haila] as #[a(href="https://github.com/MrHaila/delugr" target="blank") open source]. Contributions welcome!
+    WhatsNew(style="width: 42rem")
 
 //- Actual thing
 div(v-else class="flex h-screen")
@@ -79,6 +80,7 @@ div(v-else class="flex h-screen")
 <script lang="ts" setup>
 import HLogo from './components/HLogo.vue'
 import SidebarLink from './components/SidebarLink.vue'
+import WhatsNew from './components/WhatsNew.vue'
 import { ref } from 'vue'
 import { get, set } from 'idb-keyval'
 import { useDragAndDrop } from './composables/useDragAndDrop'

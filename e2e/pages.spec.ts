@@ -43,3 +43,10 @@ test('missing samples list their owner', async ({ card }) => {
   const missing = card.getByText('SAMPLES/MISSING/S9999.wav').locator('..')
   await expect(missing.getByRole('link', { name: 'Edge missing sample' })).toBeVisible()
 })
+
+test('landing page shows what is new in the latest release', async ({ page, consoleErrors: _ }) => {
+  await page.goto('/')
+  const whatsNew = page.getByTestId('whats-new')
+  await expect(whatsNew).toContainText("What's new")
+  await expect(whatsNew.locator('li').first()).toBeVisible()
+})
